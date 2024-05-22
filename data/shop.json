@@ -1,0 +1,147 @@
+[
+    {
+       "name":"Apple inc.",
+       "shop_avatar":1,
+       "ratings":4.2
+    },
+    {
+       "name":"Amazon Ltd",
+       "shop_avatar":2,
+       "ratings":4.2
+    },
+    {
+       "name":"Amazon Ltd",
+       "shop_avatar":3,
+       "ratings":4.2
+    },
+    {
+       "name":"Louis Vuitton",
+       "shop_avatar":4,
+       "ratings":4.2
+    },
+    {
+       "name":"Shodagor Ltd",
+       "shop_avatar":5,
+       "ratings":4.2
+    },
+    {
+       "name":"Amazon Ltd",
+       "shop_avatar":6,
+       "ratings":5.2
+    },
+    {
+       "name":"Asus Ltd",
+       "shop_avatar":7,
+       "ratings":4.2
+    },
+    {
+       "name":"Acer Ltd",
+       "shop_avatar":8,
+       "ratings":3.2
+    },
+    {
+       "name":"Dove Inc.",
+       "shop_avatar":9,
+       "ratings":4.2
+    },
+    {
+       "name":"Dove Inc.",
+       "shop_avatar":10,
+       "ratings":4.2,
+       "category":2
+    },
+    {
+       "name":"3W CLINIC",
+       "shop_avatar":11,
+       "ratings":5.2,
+       "category":2
+    },
+    {
+       "name":"Vaseline Inc.",
+       "shop_avatar":12,
+       "ratings":5.2,
+       "category":2
+    },
+    {
+       "name":"Tiaa Ltd",
+       "shop_avatar":13,
+       "ratings":5.2,
+       "category":2
+    },
+    {
+       "name":"SAMSUNG",
+       "shop_avatar":14,
+       "ratings":4.2
+    },
+    {
+       "name":"SAMSUNG",
+       "shop_avatar":15,
+       "ratings":4.2
+    },
+    {
+       "name":"Energy System",
+       "shop_avatar":16,
+       "ratings":5.2
+    },
+    {
+       "name":"Unbranded",
+       "shop_avatar":17,
+       "ratings":5.0
+    },
+    {
+       "name":"Unik",
+       "shop_avatar":18,
+       "ratings":4.0
+    },
+    {
+       "name":"Oppo Ltd",
+       "shop_avatar":19,
+       "ratings":5.0
+    },
+    {
+       "name":"Lenovo Ltd",
+       "shop_avatar":20,
+       "ratings":5.2
+    },
+    {
+       "name":"Unik",
+       "shop_avatar":21,
+       "ratings":4.0
+    },
+    {
+       "name":"Apple inc.",
+       "shop_avatar":22,
+       "ratings":4.2
+    },
+    {
+       "name":"Shahriar Watch House",
+       "shop_avatar":23,
+       "ratings":4.2,
+       "category":10
+    },
+    {
+       "name":"Alisha Shoes Mart",
+       "shop_avatar":24,
+       "ratings":4.2
+    },
+    {
+       "name":"Shahriar Watch House",
+       "shop_avatar":25,
+       "ratings":4.2
+    },
+    {
+       "name":"Amazon Ltd",
+       "shop_avatar":26,
+       "ratings":4.2
+    },
+    {
+       "name":"Asus Ltd",
+       "shop_avatar":27,
+       "ratings":4.2
+    },
+    {
+       "name":"Amazon Ltd",
+       "shop_avatar":28,
+       "ratings":4.2
+    }
+ ]
