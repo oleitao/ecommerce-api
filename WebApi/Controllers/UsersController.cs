@@ -1,7 +1,9 @@
 ﻿namespace WebApi.Controllers;
 
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using WebApi.Models.Users;
 using WebApi.Services;
 
@@ -11,19 +13,30 @@ public class UsersController : ControllerBase
 {
     private IUserService _userService;
     private IMapper _mapper;
+    private ILoggerManager _logger;
 
     public UsersController(
         IUserService userService,
-        IMapper mapper)
+        IMapper mapper,
+        ILoggerManager logger)
     {
         _userService = userService;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(IEnumerable<Entities.User>), StatusCodes.Status200OK)]
     public IActionResult GetAll()
     {
         var users = _userService.GetAll();
+
+        _logger.LogInfo("Here is info message from our values controller.");
+        _logger.LogDebug("Here is debug message from our values controller.");
+        _logger.LogWarn("Here is warn message from our values controller.");
+        _logger.LogError("Here is an error message from our values controller.");
+
         return Ok(users);
     }
 

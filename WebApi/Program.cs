@@ -6,6 +6,8 @@ using System.Text.Json.Serialization;
 using WebApi.Helpers;
 using WebApi.Services;
 using WebApi.Extensions;
+using NLog;
+using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,8 +19,11 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddDbContext<DataContext>();
     services.AddCors();
 
+    LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "\\nlog.config"));
+
     services.ConfigureCors();
     services.ConfigureIISIntegration();
+    services.ConfigureLoggerService();
 
     services.AddControllers().AddJsonOptions(x =>
     {

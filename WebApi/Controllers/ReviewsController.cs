@@ -12,27 +12,36 @@ public class ReviewsController : ControllerBase
 {
     private IReviewService _reviewService;
     private IMapper _mapper;
+    private ILoggerManager _logger;
 
     public ReviewsController(
         IReviewService reviewService,
-        IMapper mapper)
+        IMapper mapper,
+        ILoggerManager logger)
     {
         _reviewService = reviewService;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet]
     public IActionResult GetAll()
     {
-        var users = _reviewService.GetAll();
-        return Ok(users);
+        var reviews = _reviewService.GetAll();
+
+        _logger.LogInfo("Here is info message from our values controller.");
+        _logger.LogDebug("Here is debug message from our values controller.");
+        _logger.LogWarn("Here is warn message from our values controller.");
+        _logger.LogError("Here is an error message from our values controller.");
+
+        return Ok(reviews);
     }
 
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
-        var user = _reviewService.GetById(id);
-        return Ok(user);
+        var review = _reviewService.GetById(id);
+        return Ok(review);
     }
 
     [HttpPost]
