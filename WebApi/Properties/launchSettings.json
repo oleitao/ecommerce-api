@@ -2,12 +2,13 @@
   "profiles": {
     "WebApi": {
       "commandName": "Project",
+      "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "webapi",
+      "applicationUrl": "https://localhost:64403;http://localhost:64404",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "https://localhost:64403;http://localhost:64404"
+      }
     }
   },
   "IIS Express": {
