@@ -13,13 +13,16 @@ public class CategoriesController : ControllerBase
 {
     private ICategoryService _categoryService;
     private IMapper _mapper;
+    private ILoggerManager _logger;
 
     public CategoriesController(
         ICategoryService categoryService,
-        IMapper mapper)
+        IMapper mapper,
+        ILoggerManager logger)
     {
         _categoryService = categoryService;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -27,8 +30,14 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<Entities.Category>), StatusCodes.Status200OK)]
     public IActionResult GetAll()
     {
-        var users = _categoryService.GetAll();
-        return Ok(users);
+        var categories = _categoryService.GetAll();
+
+        _logger.LogInfo("Here is info message from our values controller.");
+        _logger.LogDebug("Here is debug message from our values controller.");
+        _logger.LogWarn("Here is warn message from our values controller.");
+        _logger.LogError("Here is an error message from our values controller.");
+
+        return Ok(categories);
     }
 
     [HttpGet("{id}")]
@@ -37,8 +46,8 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(typeof(Entities.Category), StatusCodes.Status404NotFound)]
     public IActionResult GetById(int id)
     {
-        var user = _categoryService.GetById(id);
-        return Ok(user);
+        var category = _categoryService.GetById(id);
+        return Ok(category);
     }
 
     [HttpPost]

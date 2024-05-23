@@ -1,7 +1,9 @@
 ﻿namespace WebApi.Controllers;
 
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using WebApi.Models.Users;
 using WebApi.Services;
 
@@ -11,27 +13,38 @@ public class ImageUrlsController : ControllerBase
 {
     private IImageUrlService _imageUrlService;
     private IMapper _mapper;
+    private ILoggerManager _logger;
 
     public ImageUrlsController(
         IImageUrlService imageUrlService,
-        IMapper mapper)
+        IMapper mapper,
+        ILoggerManager logger)
     {
         _imageUrlService = imageUrlService;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(IEnumerable<Entities.ImageUrl>), StatusCodes.Status200OK)]
     public IActionResult GetAll()
     {
-        var users = _imageUrlService.GetAll();
-        return Ok(users);
+        var imageUrls = _imageUrlService.GetAll();
+
+        _logger.LogInfo("Here is info message from our values controller.");
+        _logger.LogDebug("Here is debug message from our values controller.");
+        _logger.LogWarn("Here is warn message from our values controller.");
+        _logger.LogError("Here is an error message from our values controller.");
+
+        return Ok(imageUrls);
     }
 
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
-        var user = _imageUrlService.GetById(id);
-        return Ok(user);
+        var imageUrl = _imageUrlService.GetById(id);
+        return Ok(imageUrl);
     }
 
     [HttpPost]

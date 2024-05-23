@@ -6,6 +6,9 @@
     <DockerfileContext>..\..</DockerfileContext>
     <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
 	</PropertyGroup>
+	<ItemGroup>
+	  <Content Remove="nlog.config" />
+	</ItemGroup>
 
 	<ItemGroup>
     <None Remove="Properties\launchSettings.json" />
@@ -34,5 +37,15 @@
 	<ItemGroup>
     <Folder Include="Migrations\" />
   </ItemGroup>
+
+	<ItemGroup>
+	  <None Include="nlog.config" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\WebApi.Models\WebApi.Models.csproj" />
+	  <ProjectReference Include="..\WebApi.Repository\WebApi.Repository.csproj" />
+	  <ProjectReference Include="..\WebApi.Services\WebApi.Services.csproj" />
+	</ItemGroup>
 	
 </Project>
