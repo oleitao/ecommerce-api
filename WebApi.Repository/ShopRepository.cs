@@ -13,5 +13,9 @@ namespace WebApi.Repository
 
         public IEnumerable<Shop> GetAllShops(bool trackChanges) =>
             FindAll(trackChanges).ToList();
+
+        public Shop GetShop(Guid shopId, bool trackChanges) =>
+            FindByCondition(c => c.Id.Equals(shopId), trackChanges)
+            .SingleOrDefault();
     }
 }

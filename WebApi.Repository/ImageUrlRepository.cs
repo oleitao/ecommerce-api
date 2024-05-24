@@ -11,6 +11,10 @@ namespace WebApi.Repository
             
         }
 
+        public ImageUrl GetImageUrl(Guid imageUrlId, bool trackChanges) =>
+            FindByCondition(c => c.Id.Equals(imageUrlId), trackChanges)
+            .SingleOrDefault();
+
         public IEnumerable<ImageUrl> GetImageUrls(bool trackChnages) =>
             FindAll(trackChnages).ToList();
     }

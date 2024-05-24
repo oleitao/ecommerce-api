@@ -28,5 +28,19 @@ namespace WebApi.Service
                 throw;
             }
         }
+
+        public Category GetCategory(Guid id, bool trackChanges)
+        {
+            try
+            {
+                var categorie = _repository.Category.GetCategory(id, trackChanges);
+                return categorie;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetCategory)} service method {ex}");
+                throw;
+            }
+        }
     }
 }

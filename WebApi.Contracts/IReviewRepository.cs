@@ -5,5 +5,6 @@ namespace WebApi.Contracts
     public interface IReviewRepository
     {
         IEnumerable<Review> GetAllReviews(bool trackChanges);
+        Review GetReview(Guid reviewId, bool trackChanges);
     }
 }

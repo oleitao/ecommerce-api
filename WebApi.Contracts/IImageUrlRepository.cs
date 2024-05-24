@@ -5,5 +5,6 @@ namespace WebApi.Contracts
     public interface IImageUrlRepository
     {
         IEnumerable<ImageUrl> GetImageUrls(bool trackChanges);
+        ImageUrl GetImageUrl(Guid imageUrlId, bool trackChanges);
     }
 }

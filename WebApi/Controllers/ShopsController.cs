@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
@@ -34,15 +35,18 @@ public class ShopsController : ControllerBase
             return StatusCode(500, "Internal server error");
         }
     }
-    
-    /*
-    [HttpGet("{id}")]
-    public IActionResult GetById(int id)
+
+
+    [HttpGet("{id:guid}")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(Shop), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Shop), StatusCodes.Status404NotFound)]
+    public IActionResult GetById(Guid id)
     {
-        var shop = _shopService.GetById(id);
+        var shop = _service.ShopAvatarService.GetShopAvatar(id, trackChanges: false);
         return Ok(shop);
     }
-
+/*
     [HttpPost]
     public IActionResult Create(CreateShopRequest model)
     {
