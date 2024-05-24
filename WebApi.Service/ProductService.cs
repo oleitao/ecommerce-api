@@ -46,5 +46,19 @@ namespace WebApi.Service
                 throw;
             }
         }
+
+        public IEnumerable<Product> GetProductsByCategory(Guid categoryId, bool trackChanges)
+        {
+            try
+            {
+                var products = _repository.Product.GetProductsByCategory(categoryId, trackChanges);
+                return products;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetProductsByCategory)} service method {ex}");
+                throw;
+            }
+        }
     }
 }

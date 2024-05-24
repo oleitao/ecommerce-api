@@ -1,0 +1,18 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/WebApi/.vs/WebApi/FileContentIndex
+/WebApi.Services/obj
+/WebApi.Service.Contracts/obj
+/WebApi.Service/obj
+/WebApi.Repository/obj
+/WebApi.Models/obj
+/WebApi.Contracts/obj
+/WebApi/obj
+/WebApi.Service.Contracts/bin/Debug/net7.0
+/WebApi.Service/bin/Debug/net7.0
+/WebApi.Repository/bin/Debug/net7.0
+/WebApi.Contracts/bin/Debug/net7.0
+/WebApi/bin/Debug/net7.0
+/WebApi/.vs/WebApi

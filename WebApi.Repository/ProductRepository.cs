@@ -18,5 +18,8 @@ namespace WebApi.Repository
             FindByCondition(c => c.Id.Equals(productId), trackChanges)
             .SingleOrDefault();
 
+        public IEnumerable<Product> GetProductsByCategory(Guid categoryId, bool trackChanges) => 
+            FindByCondition(p => p.CategoryId.Equals(categoryId), trackChanges)
+            .OrderBy(p => p.Name).ToList();
     }
 }
