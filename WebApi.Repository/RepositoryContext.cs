@@ -17,10 +17,10 @@ public class RepositoryContext : DbContext
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new CategoryConfiguration());
         modelBuilder.ApplyConfiguration(new ReviewConfiguration());
-        //modelBuilder.ApplyConfiguration(new ProductConfiguration());
-        //modelBuilder.ApplyConfiguration(new ImageUrlConfiguration());
-        //modelBuilder.ApplyConfiguration(new ShopAvatarConfiguration());
-        //modelBuilder.ApplyConfiguration(new ShopConfiguration());
+        modelBuilder.ApplyConfiguration(new ShopAvatarConfiguration());
+        modelBuilder.ApplyConfiguration(new ImageUrlConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductConfiguration());
+        modelBuilder.ApplyConfiguration(new ShopConfiguration());
     }
 
     public DbSet<Category> Categories { get; set; }

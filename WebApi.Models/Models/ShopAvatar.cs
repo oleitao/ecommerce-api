@@ -13,7 +13,7 @@
         public string? PublicId { get; set; }
 
         [Required(ErrorMessage = "Url name is a required field.")]
-        [MaxLength(1000, ErrorMessage = "Maximum length for the Url is 1000 characters.")]
+        [MaxLength(5000, ErrorMessage = "Maximum length for the Url is 1000 characters.")]
         public string? Url { get; set; }
     }
 }
