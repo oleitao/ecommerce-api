@@ -1,4 +1,5 @@
 ﻿using WebApi.Contracts;
+using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 
@@ -34,6 +35,9 @@ namespace WebApi.Service
             try
             {
                 var user = _repository.User.GetUser(id, trackChanges);
+                if (user == null)
+                    throw new UserNotFoundException(id);
+
                 return user;
             }
             catch (Exception ex)
