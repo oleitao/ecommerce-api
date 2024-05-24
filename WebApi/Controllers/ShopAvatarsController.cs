@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
@@ -35,15 +36,17 @@ public class ShopAvatarsController : ControllerBase
             return StatusCode(500, "Internal server error");
         }
     }
-    
-    /*
-    [HttpGet("{id}")]
-    public IActionResult GetById(int id)
+
+    [HttpGet("{id:guid}")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(ShopAvatar), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ShopAvatar), StatusCodes.Status404NotFound)]
+    public IActionResult GetById(Guid id)
     {
-        var shopAvatar = _shopAvatarService.GetById(id);
+        var shopAvatar = _service.ShopAvatarService.GetShopAvatar(id, trackChanges: false);
         return Ok(shopAvatar);
     }
-
+ /*
     [HttpPost]
     public IActionResult Create(CreateShopAvatarRequest model)
     {

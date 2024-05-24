@@ -1,6 +1,10 @@
 ﻿namespace WebApi.Controllers;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 
 [ApiController]
@@ -14,8 +18,10 @@ public class ReviewsController : ControllerBase
     {
         _service = service;
     }
-    
+
     [HttpGet]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(IEnumerable<Review>), StatusCodes.Status200OK)]
     public IActionResult GetAll()
     {
         try
@@ -29,15 +35,18 @@ public class ReviewsController : ControllerBase
             return StatusCode(500, "Internal server error");
         }
     }
-    
-    /*
-    [HttpGet("{id}")]
-    public IActionResult GetById(int id)
+
+
+    [HttpGet("{id:guid}")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(Review), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Review), StatusCodes.Status404NotFound)]
+    public IActionResult GetById(Guid id)
     {
-        var review = _reviewService.GetById(id);
+        var review = _service.ReviewService.GetReview(id, trackChanges: false);
         return Ok(review);
     }
-
+/*
     [HttpPost]
     public IActionResult Create(CreateReviewRequest model)
     {

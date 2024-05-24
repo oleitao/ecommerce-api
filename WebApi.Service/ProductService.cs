@@ -28,5 +28,19 @@ namespace WebApi.Service
                 throw;
             }
         }
+
+        public Product GetProduct(Guid id, bool trackChanges)
+        {
+            try
+            {
+                var product = _repository.Product.GetProduct(id, trackChanges);
+                return product;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetProduct)} service method {ex}");
+                throw;
+            }
+        }
     }
 }

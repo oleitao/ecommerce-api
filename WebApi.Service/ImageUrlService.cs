@@ -28,5 +28,19 @@ namespace WebApi.Service
                 throw;
             }
         }
+
+        public ImageUrl GetImageUrl(Guid id, bool trackChanges)
+        {
+            try
+            {
+                var image = _repository.ImageUrl.GetImageUrl(id, trackChanges);
+                return image;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetImageUrl)} service method {ex}");
+                throw;
+            }
+        }
     }
 }

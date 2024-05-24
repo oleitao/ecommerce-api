@@ -28,5 +28,19 @@ namespace WebApi.Service
                 throw;
             }
         }
+
+        public User GetUser(Guid id, bool trackChanges)
+        {
+            try
+            {
+                var user = _repository.User.GetUser(id, trackChanges);
+                return user;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetUser)} service method {ex}");
+                throw;
+            }
+        }
     }
 }

@@ -5,5 +5,6 @@ namespace WebApi.Service.Contracts
     public interface IProductService
     {
         IEnumerable<Product> GetAllProducts(bool trackChanges);
+        Product GetProduct(Guid id, bool trackChanges);
     }
 }

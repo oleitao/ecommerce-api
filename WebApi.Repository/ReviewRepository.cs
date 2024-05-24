@@ -13,5 +13,9 @@ namespace WebApi.Repository
 
         public IEnumerable<Review> GetAllReviews(bool trackChanges) =>
             FindAll(trackChanges).ToList();
+
+        public Review GetReview(Guid reviewId, bool trackChanges) =>
+            FindByCondition(c => c.Id.Equals(reviewId), trackChanges)
+            .SingleOrDefault();
     }
 }

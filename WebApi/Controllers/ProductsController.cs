@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
@@ -35,14 +36,17 @@ public class ProductsController : ControllerBase
         }
     }
 
-    /*
-    [HttpGet("{id}")]
-    public IActionResult GetById(int id)
+    [HttpGet("{id:guid}")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Product), StatusCodes.Status404NotFound)]
+    public IActionResult GetById(Guid id)
     {
-        var product = _productService.GetById(id);
+        var product = _service.ProductService.GetProduct(id, trackChanges: false);
         return Ok(product);
     }
 
+/*
     [HttpPost]
     public IActionResult Create(CreateProductRequest model)
     {
