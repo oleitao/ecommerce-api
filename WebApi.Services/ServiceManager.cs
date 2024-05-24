@@ -1,7 +1,7 @@
 ﻿using WebApi.Contracts;
 using WebApi.Service.Contracts;
 
-namespace WebApi.Service
+namespace WebApi.Services
 {
     public class ServiceManager : IServiceManager
     {
@@ -12,7 +12,7 @@ namespace WebApi.Service
         private readonly Lazy<IShopAvatarService> _shopAvatarService;
         private readonly Lazy<IShopService> _shopService;
         private readonly Lazy<IUserService> _userService;
-        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger) 
+        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger)
         {
             _categoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager, logger));
             _imageUrlService = new Lazy<IImageUrlService>(() => new ImageUrlService(repositoryManager, logger));
@@ -29,6 +29,6 @@ namespace WebApi.Service
         public IReviewService ReviewService => _reviewService.Value;
         public IShopAvatarService ShopAvatarService => _shopAvatarService.Value;
         public IShopService ShopService => _shopService.Value;
-        public IUserService UserService => _userService.Value;        
+        public IUserService UserService => _userService.Value;
     }
 }

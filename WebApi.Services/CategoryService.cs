@@ -3,7 +3,7 @@ using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 
-namespace WebApi.Service
+namespace WebApi.Services
 {
     internal sealed class CategoryService : ICategoryService
     {
