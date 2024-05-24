@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using NLog;
 using System.IO;
 using System.Text.Json.Serialization;
+using WebApi.Contracts;
 using WebApi.Extensions;
 using WebApi.Helpers;
 
@@ -41,6 +42,9 @@ var builder = WebApplication.CreateBuilder(args);
 }
 
 var app = builder.Build();
+
+var logger = app.Services.GetRequiredService<ILoggerManager>();
+app.ConfigureExceptionHandler(logger);
 
 // configure HTTP request pipeline
 {
