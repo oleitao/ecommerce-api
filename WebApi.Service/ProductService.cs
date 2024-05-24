@@ -1,4 +1,5 @@
 ﻿using WebApi.Contracts;
+using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 
 namespace WebApi.Service
@@ -12,6 +13,20 @@ namespace WebApi.Service
         {
             _repository = repository;
             _logger = logger;
+        }
+
+        public IEnumerable<Product> GetAllProducts(bool trackChanges)
+        {
+            try
+            {
+                var products = _repository.Product.GetAllProducts(trackChanges);
+                return products;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetAllProducts)} service method {ex}");
+                throw;
+            }
         }
     }
 }

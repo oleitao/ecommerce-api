@@ -1,6 +1,9 @@
 ﻿namespace WebApi.Controllers;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 
 [ApiController]
@@ -15,22 +18,25 @@ public class ShopAvatarsController : ControllerBase
         _service = service;
     }
 
-    /*
+    
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<ShopAvatar>), StatusCodes.Status200OK)]
     public IActionResult GetAll()
     {
-        var shopAvatars = _shopAvatarService.GetAll();
+        try
+        {
+            var shopAvatars = _service.ShopAvatarService.GetAllShopAvatars(trackChanges: false);
 
-        _logger.LogInfo("Here is info message from our values controller.");
-        _logger.LogDebug("Here is debug message from our values controller.");
-        _logger.LogWarn("Here is warn message from our values controller.");
-        _logger.LogError("Here is an error message from our values controller.");
-
-        return Ok(shopAvatars);
+            return Ok(shopAvatars);
+        }
+        catch
+        {
+            return StatusCode(500, "Internal server error");
+        }
     }
-
+    
+    /*
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {

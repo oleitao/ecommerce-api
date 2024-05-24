@@ -10,5 +10,8 @@ namespace WebApi.Repository
         {
             
         }
+
+        public IEnumerable<Review> GetAllReviews(bool trackChanges) =>
+            FindAll(trackChanges).ToList();
     }
 }
