@@ -1,4 +1,5 @@
 ﻿using WebApi.Contracts;
+using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 
@@ -34,6 +35,9 @@ namespace WebApi.Service
             try
             {
                 var shopAvatar = _repository.ShopAvatar.GetShopAvatar(id, trackChanges);
+                if (shopAvatar == null)
+                    throw new ShopAvatarNotFoundException(id);
+
                 return shopAvatar;
             }
             catch (Exception ex)

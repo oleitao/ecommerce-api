@@ -1,4 +1,5 @@
 ﻿using WebApi.Contracts;
+using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 
@@ -34,6 +35,9 @@ namespace WebApi.Service
             try
             {
                 var image = _repository.ImageUrl.GetImageUrl(id, trackChanges);
+                if (image == null)
+                    throw new ImageUrlNotFoundException(id);
+
                 return image;
             }
             catch (Exception ex)

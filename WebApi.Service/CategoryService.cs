@@ -1,4 +1,5 @@
 ﻿using WebApi.Contracts;
+using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 
@@ -34,6 +35,9 @@ namespace WebApi.Service
             try
             {
                 var categorie = _repository.Category.GetCategory(id, trackChanges);
+                if (categorie == null)
+                    throw new CategoryNotFoundException(id);
+
                 return categorie;
             }
             catch (Exception ex)

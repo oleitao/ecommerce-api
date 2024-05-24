@@ -1,4 +1,5 @@
 ﻿using WebApi.Contracts;
+using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 
@@ -34,6 +35,9 @@ namespace WebApi.Service
             try
             {
                 var review = _repository.Review.GetReview(id, trackChanges);
+                if (review == null)
+                    throw new ReviewNotFoundException(id);
+
                 return review;
             }
             catch (Exception ex)

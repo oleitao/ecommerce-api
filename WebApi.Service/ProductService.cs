@@ -1,4 +1,5 @@
 ﻿using WebApi.Contracts;
+using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 
@@ -34,6 +35,9 @@ namespace WebApi.Service
             try
             {
                 var product = _repository.Product.GetProduct(id, trackChanges);
+                if (product == null)
+                    throw new ProductNotFoundException(id);
+
                 return product;
             }
             catch (Exception ex)
