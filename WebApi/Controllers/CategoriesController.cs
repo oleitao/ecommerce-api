@@ -3,6 +3,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
@@ -38,17 +39,17 @@ public class CategoriesController : ControllerBase
             return StatusCode(500, "Internal server error");
         }
     }
-    /*
-    [HttpGet("{id}")]
+    
+    [HttpGet("{id:guid}")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Category), StatusCodes.Status404NotFound)]
-    public IActionResult GetById(int id)
+    public IActionResult GetById(Guid id)
     {
-        var category = _categoryService.GetById(id);
+        var category = _service.CategoryService.GetCategory(id, trackChanges: false);
         return Ok(category);
     }
-
+/*
     [HttpPost]
     [Consumes(typeof(CreateCategoryRequest), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]

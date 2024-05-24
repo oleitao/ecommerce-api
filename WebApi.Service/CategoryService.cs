@@ -1,4 +1,5 @@
 ﻿using WebApi.Contracts;
+using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 
@@ -25,6 +26,23 @@ namespace WebApi.Service
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong in the {nameof(GetAllCategories)} service method {ex}");
+                throw;
+            }
+        }
+
+        public Category GetCategory(Guid id, bool trackChanges)
+        {
+            try
+            {
+                var categorie = _repository.Category.GetCategory(id, trackChanges);
+                if (categorie == null)
+                    throw new CategoryNotFoundException(id);
+
+                return categorie;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetCategory)} service method {ex}");
                 throw;
             }
         }

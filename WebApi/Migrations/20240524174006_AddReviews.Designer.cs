@@ -12,8 +12,8 @@ using WebApi.Repository;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240524122503_AddUser")]
-    partial class AddUser
+    [Migration("20240524174006_AddReviews")]
+    partial class AddReviews
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -91,8 +91,8 @@ namespace WebApi.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasMaxLength(5000)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Discount_Price")
                         .IsRequired()
@@ -155,6 +155,15 @@ namespace WebApi.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("2293b56b-e4d7-493c-b6cc-6359b1031322"),
+                            Comment = "comment",
+                            Rating = 5,
+                            UserId = new Guid("f3d2300a-c9cf-49b4-b137-aca949bf3b6a")
+                        });
                 });
 
             modelBuilder.Entity("WebApi.Entities.Models.Shop", b =>
@@ -202,8 +211,8 @@ namespace WebApi.Migrations
 
                     b.Property<string>("Url")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasMaxLength(5000)
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -247,18 +256,6 @@ namespace WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("86cb5da1-cef9-44d1-944c-0c67b9b9d2dd"),
-                            Age = 36,
-                            Birthday = new DateTime(2024, 5, 24, 13, 25, 2, 796, DateTimeKind.Local).AddTicks(7827),
-                            Email = "oleitao@gmail.com",
-                            FullName = "",
-                            Hobby = "swiming",
-                            Sex = "M"
-                        });
                 });
 
             modelBuilder.Entity("WebApi.Entities.Models.ImageUrl", b =>

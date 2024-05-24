@@ -1,4 +1,5 @@
 ﻿using WebApi.Contracts;
+using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 
@@ -25,6 +26,23 @@ namespace WebApi.Service
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong in the {nameof(GetAllImageUrls)} service method {ex}");
+                throw;
+            }
+        }
+
+        public ImageUrl GetImageUrl(Guid id, bool trackChanges)
+        {
+            try
+            {
+                var image = _repository.ImageUrl.GetImageUrl(id, trackChanges);
+                if (image == null)
+                    throw new ImageUrlNotFoundException(id);
+
+                return image;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetImageUrl)} service method {ex}");
                 throw;
             }
         }

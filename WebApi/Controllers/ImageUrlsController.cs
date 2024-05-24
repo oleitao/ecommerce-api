@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
@@ -29,14 +30,16 @@ public class ImageUrlsController : ControllerBase
         return Ok(imageUrls);
     }
 
-    /*
-    [HttpGet("{id}")]
-    public IActionResult GetById(int id)
+    [HttpGet("{id:guid}")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(ImageUrl), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ImageUrl), StatusCodes.Status404NotFound)]
+    public IActionResult GetById(Guid id)
     {
-        var imageUrl = _imageUrlService.GetById(id);
+        var imageUrl = _service.ImageUrlService.GetImageUrl(id, trackChanges: false);
         return Ok(imageUrl);
     }
-
+/*
     [HttpPost]
     public IActionResult Create(CreateImageURLRequest model)
     {

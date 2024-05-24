@@ -1,4 +1,5 @@
 ﻿using WebApi.Contracts;
+using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 
@@ -25,6 +26,23 @@ namespace WebApi.Service
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong in the {nameof(GetAllReviews)} service method {ex}");
+                throw;
+            }
+        }
+
+        public Review GetReview(Guid id, bool trackChanges)
+        {
+            try
+            {
+                var review = _repository.Review.GetReview(id, trackChanges);
+                if (review == null)
+                    throw new ReviewNotFoundException(id);
+
+                return review;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetReview)} service method {ex}");
                 throw;
             }
         }
