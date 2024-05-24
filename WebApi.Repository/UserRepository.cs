@@ -10,5 +10,8 @@ namespace WebApi.Repository
         {
             
         }
+
+        public IEnumerable<User> GetAllUsers(bool trackChanges) =>
+            FindAll(trackChanges).ToList();
     }
 }
