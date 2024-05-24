@@ -10,5 +10,8 @@ namespace WebApi.Repository
         {
             
         }
+
+        public IEnumerable<ShopAvatar> GetAllShopAvatars(bool trackChanges) =>
+            FindAll(trackChanges).ToList();
     }
 }

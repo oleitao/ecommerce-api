@@ -1,6 +1,9 @@
-﻿namespace WebApi.Service.Contracts
+﻿using WebApi.Entities.Models;
+
+namespace WebApi.Service.Contracts
 {
     public interface IImageUrlService
     {
+        IEnumerable<ImageUrl> GetAllImageUrls(bool trackChanges);
     }
 }

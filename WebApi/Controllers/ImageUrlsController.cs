@@ -1,6 +1,9 @@
 ﻿namespace WebApi.Controllers;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 
 [ApiController]
@@ -15,23 +18,18 @@ public class ImageUrlsController : ControllerBase
         _service = service;
     }
 
-    /*
+    
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<ImageUrl>), StatusCodes.Status200OK)]
     public IActionResult GetAll()
     {
-        var imageUrls = _imageUrlService.GetAll();
-
-        _logger.LogInfo("Here is info message from our values controller.");
-        _logger.LogDebug("Here is debug message from our values controller.");
-        _logger.LogWarn("Here is warn message from our values controller.");
-        _logger.LogError("Here is an error message from our values controller.");
+        var imageUrls = _service.ImageUrlService.GetAllImageUrls(trackChanges: false);
 
         return Ok(imageUrls);
     }
 
-    
+    /*
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {

@@ -10,5 +10,8 @@ namespace WebApi.Repository
         {
             
         }
+
+        public IEnumerable<ImageUrl> GetImageUrls(bool trackChnages) =>
+            FindAll(trackChnages).ToList();
     }
 }
