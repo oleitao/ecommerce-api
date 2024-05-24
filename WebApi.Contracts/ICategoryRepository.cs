@@ -1,8 +1,8 @@
 ﻿using WebApi.Entities.Models;
 
-namespace WebApi.Service.Contracts
+namespace WebApi.Contracts
 {
-    public interface ICategoryService
+    public interface ICategoryRepository
     {
         IEnumerable<Category> GetAllCategories(bool trackChanges);
     }

@@ -1,32 +1,20 @@
 ﻿namespace WebApi.Controllers;
 
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using WebApi.Contracts;
-using WebApi.Entities.Models;
-using WebApi.Models.Users;
-using WebApi.Services;
+using WebApi.Service.Contracts;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/[controller]")]
 public class UsersController : ControllerBase
 {
-    private IUserService _userService;
-    private IMapper _mapper;
-    private ILoggerManager _logger;
+    private readonly IServiceManager _service;
 
     public UsersController(
-        IUserService userService,
-        IMapper mapper,
-        ILoggerManager logger)
+            IServiceManager service)
     {
-        _userService = userService;
-        _mapper = mapper;
-        _logger = logger;
+        _service = service;
     }
-
+    /*
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<User>), StatusCodes.Status200OK)]
@@ -69,4 +57,5 @@ public class UsersController : ControllerBase
         _userService.Delete(id);
         return Ok(new { message = "User deleted" });
     }
+    */
 }

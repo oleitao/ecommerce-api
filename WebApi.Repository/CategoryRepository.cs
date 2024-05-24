@@ -1,6 +1,5 @@
 ﻿using WebApi.Contracts;
 using WebApi.Entities.Models;
-using WebApi.Services;
 
 namespace WebApi.Repository
 {
@@ -11,5 +10,8 @@ namespace WebApi.Repository
         {
             
         }
+
+        public IEnumerable<Category> GetAllCategories(bool trackChanges) =>
+            FindAll(trackChanges).ToList();
     }
 }

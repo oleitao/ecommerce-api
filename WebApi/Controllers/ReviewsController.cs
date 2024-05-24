@@ -1,28 +1,20 @@
 ﻿namespace WebApi.Controllers;
 
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Contracts;
-using WebApi.Services;
+using WebApi.Service.Contracts;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/[controller]")]
 public class ReviewsController : ControllerBase
 {
-    private IReviewService _reviewService;
-    private IMapper _mapper;
-    private ILoggerManager _logger;
+    private readonly IServiceManager _service;
 
     public ReviewsController(
-        IReviewService reviewService,
-        IMapper mapper,
-        ILoggerManager logger)
+        IServiceManager service)
     {
-        _reviewService = reviewService;
-        _mapper = mapper;
-        _logger = logger;
+        _service = service;
     }
-
+    /*
     [HttpGet]
     public IActionResult GetAll()
     {
@@ -63,4 +55,5 @@ public class ReviewsController : ControllerBase
         _reviewService.Delete(id);
         return Ok(new { message = "Category deleted" });
     }
+    */
 }

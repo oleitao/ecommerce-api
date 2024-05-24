@@ -1,32 +1,21 @@
 ﻿namespace WebApi.Controllers;
 
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using WebApi.Contracts;
-using WebApi.Entities.Models;
-using WebApi.Models.Users;
-using WebApi.Services;
+using WebApi.Service.Contracts;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/[controller]")]
 public class ImageUrlsController : ControllerBase
 {
-    private IImageUrlService _imageUrlService;
-    private IMapper _mapper;
-    private ILoggerManager _logger;
+    private readonly IServiceManager _service;
 
     public ImageUrlsController(
-        IImageUrlService imageUrlService,
-        IMapper mapper,
-        ILoggerManager logger)
+            IServiceManager service)
     {
-        _imageUrlService = imageUrlService;
-        _mapper = mapper;
-        _logger = logger;
+        _service = service;
     }
 
+    /*
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<ImageUrl>), StatusCodes.Status200OK)]
@@ -42,6 +31,7 @@ public class ImageUrlsController : ControllerBase
         return Ok(imageUrls);
     }
 
+    
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
@@ -69,4 +59,5 @@ public class ImageUrlsController : ControllerBase
         _imageUrlService.Delete(id);
         return Ok(new { message = "ImageUrl deleted" });
     }
+    */
 }

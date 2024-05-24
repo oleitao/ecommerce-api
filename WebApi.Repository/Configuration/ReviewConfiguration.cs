@@ -12,7 +12,8 @@ namespace WebApi.Repository.Configuration
             (
                 new Review
                 {
-                    UserId = Guid.NewGuid(),
+                    Id = Guid.NewGuid(),
+                    UserId = Guid.Parse("1C416A29-298E-4C21-A3EB-A8D1FEBEA78B"),
                     Comment ="comment",
                     Rating=5
                 }

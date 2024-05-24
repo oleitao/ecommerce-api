@@ -1,14 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Text.Json.Serialization;
-using WebApi.Helpers;
-using WebApi.Services;
-using WebApi.Extensions;
 using NLog;
 using System.IO;
-using Microsoft.AspNetCore.Http;
+using System.Text.Json.Serialization;
+using WebApi.Extensions;
+using WebApi.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +26,7 @@ var builder = WebApplication.CreateBuilder(args);
     services.ConfigureServiceManager();
     services.ConfigureSqlContext(builder.Configuration);
 
+    services.AddControllers().AddApplicationPart(typeof(WebApi.AssemblyReference).Assembly);
     services.AddControllers().AddJsonOptions(x =>
     {
         // serialize enums as strings in api responses (e.g. Role)
@@ -37,16 +35,6 @@ var builder = WebApplication.CreateBuilder(args);
         // ignore omitted parameters on models to enable optional params (e.g. User update)
         x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     });
-    //services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-    // configure DI for application services
-    //services.AddScoped<ICategoryService, CategoryService>();
-    //services.AddScoped<IImageUrlService, ImageUrlService>();
-    //services.AddScoped<IProductService, ProductService>();
-    //services.AddScoped<IReviewService, ReviewService>();
-    //services.AddScoped<IShopAvatarService, ShopAvatarService>();
-    //services.AddScoped<IShopService, ShopService>();
-    //services.AddScoped<IUserService, UserService>();
 
     services.AddEndpointsApiExplorer();
     services.AddSwaggerGen();
@@ -94,6 +82,7 @@ var app = builder.Build();
 
     app.UseAuthorization();
 
+    /*
     app.Use(async (context, next) => 
     { 
         Console.WriteLine($"Logic before executing the next delegate in the Use method"); 
@@ -121,6 +110,7 @@ var app = builder.Build();
         context.Response.StatusCode = 200; 
         await context.Response.WriteAsync("Hello from the middleware component.");
     });
+    */
 
     app.MapControllers();
 }
