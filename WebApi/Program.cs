@@ -8,6 +8,7 @@ using WebApi.Services;
 using WebApi.Extensions;
 using NLog;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
     var services = builder.Services;
     var env = builder.Environment;
  
-    services.AddDbContext<DataContext>();
+    //services.AddDbContext<RepositoryContext>();
     services.AddCors();
 
     LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "\\nlog.config"));
@@ -24,6 +25,9 @@ var builder = WebApplication.CreateBuilder(args);
     services.ConfigureCors();
     services.ConfigureIISIntegration();
     services.ConfigureLoggerService();
+    services.ConfigureRepositoryManager();
+    services.ConfigureServiceManager();
+    services.ConfigureSqlContext(builder.Configuration);
 
     services.AddControllers().AddJsonOptions(x =>
     {
@@ -33,16 +37,16 @@ var builder = WebApplication.CreateBuilder(args);
         // ignore omitted parameters on models to enable optional params (e.g. User update)
         x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     });
-    services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+    //services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
     // configure DI for application services
-    services.AddScoped<ICategoryService, CategoryService>();
-    services.AddScoped<IImageUrlService, ImageUrlService>();
-    services.AddScoped<IProductService, ProductService>();
-    services.AddScoped<IReviewService, ReviewService>();
-    services.AddScoped<IShopAvatarService, ShopAvatarService>();
-    services.AddScoped<IShopService, ShopService>();
-    services.AddScoped<IUserService, UserService>();
+    //services.AddScoped<ICategoryService, CategoryService>();
+    //services.AddScoped<IImageUrlService, ImageUrlService>();
+    //services.AddScoped<IProductService, ProductService>();
+    //services.AddScoped<IReviewService, ReviewService>();
+    //services.AddScoped<IShopAvatarService, ShopAvatarService>();
+    //services.AddScoped<IShopService, ShopService>();
+    //services.AddScoped<IUserService, UserService>();
 
     services.AddEndpointsApiExplorer();
     services.AddSwaggerGen();

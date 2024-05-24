@@ -1,4 +1,5 @@
 ﻿using NLog;
+using WebApi.Contracts;
 
 namespace WebApi.Services
 {

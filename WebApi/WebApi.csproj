@@ -31,6 +31,10 @@
 		  <PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
 	</ItemGroup>
 
@@ -43,9 +47,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\WebApi.Models\WebApi.Models.csproj" />
+	  <ProjectReference Include="..\Contracts\Contracts.csproj" />
+	  <ProjectReference Include="..\WebApi.Models\WebApi.Entities.csproj" />
 	  <ProjectReference Include="..\WebApi.Repository\WebApi.Repository.csproj" />
-	  <ProjectReference Include="..\WebApi.Services\WebApi.Services.csproj" />
+	  <ProjectReference Include="..\WebApi.Services\WebApi.LoggerServices.csproj" />
+	  <ProjectReference Include="..\WebApi.Service\WebApi.Service.csproj" />
 	</ItemGroup>
 	
 </Project>

@@ -4,6 +4,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using WebApi.Contracts;
+using WebApi.Entities.Models;
 using WebApi.Models.Users;
 using WebApi.Services;
 
@@ -27,7 +29,7 @@ public class ImageUrlsController : ControllerBase
 
     [HttpGet]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(IEnumerable<Entities.ImageUrl>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<ImageUrl>), StatusCodes.Status200OK)]
     public IActionResult GetAll()
     {
         var imageUrls = _imageUrlService.GetAll();
@@ -51,20 +53,20 @@ public class ImageUrlsController : ControllerBase
     public IActionResult Create(CreateImageURLRequest model)
     {
         _imageUrlService.Create(model);
-        return Ok(new { message = "Category created" });
+        return Ok(new { message = "ImageUrl created" });
     }
 
     [HttpPut("{id}")]
     public IActionResult Update(int id, UpdateImageURLRequest model)
     {
         _imageUrlService.Update(id, model);
-        return Ok(new { message = "Category updated" });
+        return Ok(new { message = "ImageUrl updated" });
     }
 
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
         _imageUrlService.Delete(id);
-        return Ok(new { message = "Category deleted" });
+        return Ok(new { message = "ImageUrl deleted" });
     }
 }

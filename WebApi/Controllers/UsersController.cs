@@ -4,6 +4,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using WebApi.Contracts;
+using WebApi.Entities.Models;
 using WebApi.Models.Users;
 using WebApi.Services;
 
@@ -27,7 +29,7 @@ public class UsersController : ControllerBase
 
     [HttpGet]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(IEnumerable<Entities.User>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<User>), StatusCodes.Status200OK)]
     public IActionResult GetAll()
     {
         var users = _userService.GetAll();
@@ -51,20 +53,20 @@ public class UsersController : ControllerBase
     public IActionResult Create(CreateUserRequest model)
     {
         _userService.Create(model);
-        return Ok(new { message = "Category created" });
+        return Ok(new { message = "User created" });
     }
 
     [HttpPut("{id}")]
     public IActionResult Update(int id, UpdateUserRequest model)
     {
         _userService.Update(id, model);
-        return Ok(new { message = "Category updated" });
+        return Ok(new { message = "User updated" });
     }
 
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
         _userService.Delete(id);
-        return Ok(new { message = "Category deleted" });
+        return Ok(new { message = "User deleted" });
     }
 }

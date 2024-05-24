@@ -4,6 +4,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using WebApi.Contracts;
+using WebApi.Entities.Models;
 using WebApi.Models.Users;
 using WebApi.Services;
 
@@ -27,7 +29,7 @@ public class ShopsController : ControllerBase
 
     [HttpGet]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(IEnumerable<Entities.Shop>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<Shop>), StatusCodes.Status200OK)]
     public IActionResult GetAll()
     {
         var shops = _shopService.GetAll();
@@ -51,20 +53,20 @@ public class ShopsController : ControllerBase
     public IActionResult Create(CreateShopRequest model)
     {
         _shopService.Create(model);
-        return Ok(new { message = "Category created" });
+        return Ok(new { message = "Shop created" });
     }
 
     [HttpPut("{id}")]
     public IActionResult Update(int id, UpdateShopRequest model)
     {
         _shopService.Update(id, model);
-        return Ok(new { message = "Category updated" });
+        return Ok(new { message = "Shop updated" });
     }
 
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
         _shopService.Delete(id);
-        return Ok(new { message = "Category deleted" });
+        return Ok(new { message = "Shop deleted" });
     }
 }
