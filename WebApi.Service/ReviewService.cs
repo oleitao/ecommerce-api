@@ -28,5 +28,19 @@ namespace WebApi.Service
                 throw;
             }
         }
+
+        public Review GetReview(Guid id, bool trackChanges)
+        {
+            try
+            {
+                var review = _repository.Review.GetReview(id, trackChanges);
+                return review;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetReview)} service method {ex}");
+                throw;
+            }
+        }
     }
 }

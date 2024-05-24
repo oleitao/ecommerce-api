@@ -43,8 +43,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 
-var logger = app.Services.GetRequiredService<ILoggerManager>();
-app.ConfigureExceptionHandler(logger);
+//var logger = app.Services.GetRequiredService<ILoggerManager>();
+//app.ConfigureExceptionHandler(logger);
 
 // configure HTTP request pipeline
 {

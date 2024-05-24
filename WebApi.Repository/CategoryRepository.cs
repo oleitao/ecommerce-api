@@ -13,5 +13,9 @@ namespace WebApi.Repository
 
         public IEnumerable<Category> GetAllCategories(bool trackChanges) =>
             FindAll(trackChanges).ToList();
+
+        public Category GetCategory(Guid categoryId, bool trackChanges) =>
+            FindByCondition(c => c.Id.Equals(categoryId), trackChanges)
+            .SingleOrDefault();
     }
 }

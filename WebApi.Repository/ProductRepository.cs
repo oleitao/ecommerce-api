@@ -13,5 +13,10 @@ namespace WebApi.Repository
 
         public IEnumerable<Product> GetAllProducts(bool trackChanges) =>
             FindAll(trackChanges).ToList();
+
+        public Product GetProduct(Guid productId, bool trackChanges) =>
+            FindByCondition(c => c.Id.Equals(productId), trackChanges)
+            .SingleOrDefault();
+
     }
 }

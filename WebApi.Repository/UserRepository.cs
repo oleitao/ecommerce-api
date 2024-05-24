@@ -13,5 +13,10 @@ namespace WebApi.Repository
 
         public IEnumerable<User> GetAllUsers(bool trackChanges) =>
             FindAll(trackChanges).ToList();
+
+        public User GetUser(Guid userId, bool trackChanges) =>
+            FindByCondition(c => c.Id.Equals(userId), trackChanges)
+            .SingleOrDefault();
+
     }
 }
