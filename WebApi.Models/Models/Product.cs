@@ -18,7 +18,7 @@
         public string? Name { get; set; }
 
         [Required(ErrorMessage = "Description name is a required field.")]
-        [MaxLength(1000, ErrorMessage = "Maximum length for the Description is 60 characters.")]
+        [MaxLength(5000, ErrorMessage = "Maximum length for the Description is 60 characters.")]
         public string? Description { get; set; }
 
         public ICollection<ImageUrl>? ImageURLs { get; set; }

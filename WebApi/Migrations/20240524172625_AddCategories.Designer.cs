@@ -12,8 +12,8 @@ using WebApi.Repository;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240523211206_InitialData")]
-    partial class InitialData
+    [Migration("20240524172625_AddCategories")]
+    partial class AddCategories
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace WebApi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("WebApi.Models.Entities.Category", b =>
+            modelBuilder.Entity("WebApi.Entities.Models.Category", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -54,77 +54,77 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a1535bd6-2977-484a-b4e8-d703d3c33f3a"),
+                            Id = new Guid("69018be2-e569-40c2-bcbb-5a85de5a369f"),
                             ImageUrl = "https://cdn.shopify.com/s/files/1/1706/9177/products/NEWAppleMacbookProwithM1ProChip14InchLaptop2021ModelMKGQ3LL_A_16GB_1TBSSD_custommacbd.jpg?v=1659592838",
                             SubTitle = "",
                             Title = "Computers and Laptops"
                         },
                         new
                         {
-                            Id = new Guid("69f5d3d3-6e3e-49b0-8505-d9d6d8557ae5"),
+                            Id = new Guid("5737cb06-f21d-489b-add1-e49993005152"),
                             ImageUrl = "https://indian-retailer.s3.ap-south-1.amazonaws.com/s3fs-public/2021-07/kosme1.png",
                             SubTitle = "",
                             Title = "cosmetics and body care"
                         },
                         new
                         {
-                            Id = new Guid("a7feb922-4881-4e48-87b0-6662555b1983"),
+                            Id = new Guid("bd62cefa-ffcd-44b4-8109-59f8a6f643b5"),
                             ImageUrl = "https://img.freepik.com/free-vector/ordering-goods-online-internet-store-online-shopping-niche-e-commerce-website-mother-buying-babies-clothes-footwear-toys-infant-accessories_335657-2345.jpg?w=2000",
                             SubTitle = "",
                             Title = "Accesories"
                         },
                         new
                         {
-                            Id = new Guid("e7fa5c39-e1f2-4a99-8c83-447f2961227d"),
+                            Id = new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"),
                             ImageUrl = "https://www.shift4shop.com/2015/images/industries/clothing/clothing-apparel.png",
                             SubTitle = "",
                             Title = "Cloths"
                         },
                         new
                         {
-                            Id = new Guid("d7a5780c-0bfd-4c0f-aad3-cfd11405666e"),
+                            Id = new Guid("418a55c2-6254-4bc7-9593-4a41665fd396"),
                             ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvBQPQMVNRd6TtDkGs2dCri0Y-rxKkFOiEWw&usqp=CAU",
                             SubTitle = "",
                             Title = "Shoes"
                         },
                         new
                         {
-                            Id = new Guid("ead4c6ec-fbdd-4953-b418-1d67562b81fa"),
+                            Id = new Guid("f9da526c-a651-4b98-81e0-240d29ffe55d"),
                             ImageUrl = "https://searchspring.com/wp-content/uploads/2022/10/Hero-Image-Platform-Others-2.png",
                             SubTitle = "",
                             Title = "Gifts"
                         },
                         new
                         {
-                            Id = new Guid("c393b801-baaf-4dec-b7c0-2a8113f58e55"),
+                            Id = new Guid("fc7f2981-1031-4d10-8565-9cf93f211799"),
                             ImageUrl = "https://cdn.openpr.com/T/c/Tc15444071_g.jpg",
                             SubTitle = "",
                             Title = "Pet Care"
                         },
                         new
                         {
-                            Id = new Guid("c61436e8-d9b2-40a8-bdb7-0e85a0a94a90"),
+                            Id = new Guid("7475cdd9-3303-40bf-9cdf-61669a1f49f4"),
                             ImageUrl = "https://st-troy.mncdn.com/mnresize/1500/1500/Content/media/ProductImg/original/mpwp3tua-apple-iphone-14-256gb-mavi-mpwp3tua-637986832343472449.jpg",
                             SubTitle = "",
                             Title = "Mobile and Tablets"
                         },
                         new
                         {
-                            Id = new Guid("a827f960-6f06-436d-9d8e-9ef5b11e696d"),
+                            Id = new Guid("8e1f3278-b97e-45a6-ab0f-4a373a6c264d"),
                             ImageUrl = "https://static.vecteezy.com/system/resources/previews/011/996/555/original/3d-black-headphone-illustration-ecommerce-icon-png.png",
                             SubTitle = "",
                             Title = "Music and Gaming"
                         },
                         new
                         {
-                            Id = new Guid("74c59c62-4e45-4c6d-af88-c1cff0560aa7"),
+                            Id = new Guid("fe58ddc2-61ee-4e1a-9402-a0c9ebfb8e5c"),
                             ImageUrl = "",
                             SubTitle = "",
                             Title = "Others"
                         });
                 });
 
-            modelBuilder.Entity("WebApi.Models.Entities.ImageUrl", b =>
+            modelBuilder.Entity("WebApi.Entities.Models.ImageUrl", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -151,7 +151,7 @@ namespace WebApi.Migrations
                     b.ToTable("ImageUrls");
                 });
 
-            modelBuilder.Entity("WebApi.Models.Entities.Product", b =>
+            modelBuilder.Entity("WebApi.Entities.Models.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -163,8 +163,8 @@ namespace WebApi.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasMaxLength(5000)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Discount_Price")
                         .IsRequired()
@@ -198,7 +198,7 @@ namespace WebApi.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("WebApi.Models.Entities.Review", b =>
+            modelBuilder.Entity("WebApi.Entities.Models.Review", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -229,7 +229,7 @@ namespace WebApi.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("WebApi.Models.Entities.Shop", b =>
+            modelBuilder.Entity("WebApi.Entities.Models.Shop", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -260,7 +260,7 @@ namespace WebApi.Migrations
                     b.ToTable("Shops");
                 });
 
-            modelBuilder.Entity("WebApi.Models.Entities.ShopAvatar", b =>
+            modelBuilder.Entity("WebApi.Entities.Models.ShopAvatar", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -274,15 +274,15 @@ namespace WebApi.Migrations
 
                     b.Property<string>("Url")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasMaxLength(5000)
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("ShopAvatars");
                 });
 
-            modelBuilder.Entity("WebApi.Models.Entities.User", b =>
+            modelBuilder.Entity("WebApi.Entities.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -319,18 +319,30 @@ namespace WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("f3d2300a-c9cf-49b4-b137-aca949bf3b6a"),
+                            Age = 36,
+                            Birthday = new DateTime(2024, 5, 24, 18, 26, 25, 207, DateTimeKind.Local).AddTicks(4553),
+                            Email = "oleitao@gmail.com",
+                            FullName = "",
+                            Hobby = "swiming",
+                            Sex = "M"
+                        });
                 });
 
-            modelBuilder.Entity("WebApi.Models.Entities.ImageUrl", b =>
+            modelBuilder.Entity("WebApi.Entities.Models.ImageUrl", b =>
                 {
-                    b.HasOne("WebApi.Models.Entities.Product", null)
+                    b.HasOne("WebApi.Entities.Models.Product", null)
                         .WithMany("ImageURLs")
                         .HasForeignKey("ProductId");
                 });
 
-            modelBuilder.Entity("WebApi.Models.Entities.Product", b =>
+            modelBuilder.Entity("WebApi.Entities.Models.Product", b =>
                 {
-                    b.HasOne("WebApi.Models.Entities.Category", "Category")
+                    b.HasOne("WebApi.Entities.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -339,13 +351,13 @@ namespace WebApi.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("WebApi.Models.Entities.Review", b =>
+            modelBuilder.Entity("WebApi.Entities.Models.Review", b =>
                 {
-                    b.HasOne("WebApi.Models.Entities.Product", null)
+                    b.HasOne("WebApi.Entities.Models.Product", null)
                         .WithMany("Reviews")
                         .HasForeignKey("ProductId");
 
-                    b.HasOne("WebApi.Models.Entities.User", "User")
+                    b.HasOne("WebApi.Entities.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -354,15 +366,15 @@ namespace WebApi.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WebApi.Models.Entities.Shop", b =>
+            modelBuilder.Entity("WebApi.Entities.Models.Shop", b =>
                 {
-                    b.HasOne("WebApi.Models.Entities.Product", "Product")
+                    b.HasOne("WebApi.Entities.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApi.Models.Entities.ShopAvatar", "ShopAvatars")
+                    b.HasOne("WebApi.Entities.Models.ShopAvatar", "ShopAvatars")
                         .WithMany()
                         .HasForeignKey("ShopAvatarsId");
 
@@ -371,7 +383,7 @@ namespace WebApi.Migrations
                     b.Navigation("ShopAvatars");
                 });
 
-            modelBuilder.Entity("WebApi.Models.Entities.Product", b =>
+            modelBuilder.Entity("WebApi.Entities.Models.Product", b =>
                 {
                     b.Navigation("ImageURLs");
 

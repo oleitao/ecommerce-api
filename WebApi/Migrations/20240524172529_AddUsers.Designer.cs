@@ -12,8 +12,8 @@ using WebApi.Repository;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240524122629_AddCategories")]
-    partial class AddCategories
+    [Migration("20240524172529_AddUsers")]
+    partial class AddUsers
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,78 +50,6 @@ namespace WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("e54edb2a-c4f9-4d9f-bffe-d0d03d63c5bd"),
-                            ImageUrl = "https://cdn.shopify.com/s/files/1/1706/9177/products/NEWAppleMacbookProwithM1ProChip14InchLaptop2021ModelMKGQ3LL_A_16GB_1TBSSD_custommacbd.jpg?v=1659592838",
-                            SubTitle = "",
-                            Title = "Computers and Laptops"
-                        },
-                        new
-                        {
-                            Id = new Guid("920c22f2-8941-4981-b33e-9f1b11c6525e"),
-                            ImageUrl = "https://indian-retailer.s3.ap-south-1.amazonaws.com/s3fs-public/2021-07/kosme1.png",
-                            SubTitle = "",
-                            Title = "cosmetics and body care"
-                        },
-                        new
-                        {
-                            Id = new Guid("614b64bc-6e63-4714-a251-34128ffcec52"),
-                            ImageUrl = "https://img.freepik.com/free-vector/ordering-goods-online-internet-store-online-shopping-niche-e-commerce-website-mother-buying-babies-clothes-footwear-toys-infant-accessories_335657-2345.jpg?w=2000",
-                            SubTitle = "",
-                            Title = "Accesories"
-                        },
-                        new
-                        {
-                            Id = new Guid("ac535629-bd36-4084-86e1-b2fa05d68360"),
-                            ImageUrl = "https://www.shift4shop.com/2015/images/industries/clothing/clothing-apparel.png",
-                            SubTitle = "",
-                            Title = "Cloths"
-                        },
-                        new
-                        {
-                            Id = new Guid("86ddb7ae-86ea-49fc-800a-4a4170da4ca0"),
-                            ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvBQPQMVNRd6TtDkGs2dCri0Y-rxKkFOiEWw&usqp=CAU",
-                            SubTitle = "",
-                            Title = "Shoes"
-                        },
-                        new
-                        {
-                            Id = new Guid("2b83894b-d0d4-409d-958c-5086f685a7d3"),
-                            ImageUrl = "https://searchspring.com/wp-content/uploads/2022/10/Hero-Image-Platform-Others-2.png",
-                            SubTitle = "",
-                            Title = "Gifts"
-                        },
-                        new
-                        {
-                            Id = new Guid("59370ccf-bb31-4b4c-b62e-bfea78e4b22b"),
-                            ImageUrl = "https://cdn.openpr.com/T/c/Tc15444071_g.jpg",
-                            SubTitle = "",
-                            Title = "Pet Care"
-                        },
-                        new
-                        {
-                            Id = new Guid("d71b7fae-814b-4204-bc14-7bec93d84764"),
-                            ImageUrl = "https://st-troy.mncdn.com/mnresize/1500/1500/Content/media/ProductImg/original/mpwp3tua-apple-iphone-14-256gb-mavi-mpwp3tua-637986832343472449.jpg",
-                            SubTitle = "",
-                            Title = "Mobile and Tablets"
-                        },
-                        new
-                        {
-                            Id = new Guid("a8974ba1-5b62-4e41-8744-7f533fa81f4e"),
-                            ImageUrl = "https://static.vecteezy.com/system/resources/previews/011/996/555/original/3d-black-headphone-illustration-ecommerce-icon-png.png",
-                            SubTitle = "",
-                            Title = "Music and Gaming"
-                        },
-                        new
-                        {
-                            Id = new Guid("693e8c88-571b-41e9-9ad1-cd21fc8ff9b4"),
-                            ImageUrl = "",
-                            SubTitle = "",
-                            Title = "Others"
-                        });
                 });
 
             modelBuilder.Entity("WebApi.Entities.Models.ImageUrl", b =>
@@ -163,8 +91,8 @@ namespace WebApi.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasMaxLength(5000)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Discount_Price")
                         .IsRequired()
@@ -274,8 +202,8 @@ namespace WebApi.Migrations
 
                     b.Property<string>("Url")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasMaxLength(5000)
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -323,9 +251,9 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1c416a29-298e-4c21-a3eb-a8d1febea78b"),
+                            Id = new Guid("9cccc7e2-22f1-46a0-8b7f-faa915555ba0"),
                             Age = 36,
-                            Birthday = new DateTime(2024, 5, 24, 13, 26, 28, 967, DateTimeKind.Local).AddTicks(1592),
+                            Birthday = new DateTime(2024, 5, 24, 18, 25, 29, 97, DateTimeKind.Local).AddTicks(1893),
                             Email = "oleitao@gmail.com",
                             FullName = "",
                             Hobby = "swiming",

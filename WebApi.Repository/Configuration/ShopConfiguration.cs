@@ -8,181 +8,205 @@ namespace WebApi.Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<Shop> builder) 
         {
-            /*
-
             builder.HasData
             (
                 new Shop
                 {
                     Name = "Apple inc",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Amazon Ltd",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Amazon Ltd",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Louis Vuitton",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Shodagor Ltd",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Amazon Ltd",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Asus Ltd",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Acer Ltd",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Dove Inc",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Dove Inc",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "3W CLINIC",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Vaseline Inc.",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Tiaa Ltd",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "SAMSUNG",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "SAMSUNG",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Energy System",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Unbranded",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Unik",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Oppo Ltd",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Lenovo Ltd",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Unik",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Apple inc.",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Shahriar Watch House",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Alisha Shoes Mart",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Shahriar Watch House",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Amazon Ltd",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Asus Ltd",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 },
                 new Shop
                 {
                     Name = "Amazon Ltd",
-                    ProductId = new Guid(""),
+                    Id = Guid.NewGuid(),
+                    ProductId = Guid.Parse("E6F56553-8663-4DD3-A4F0-8E21FBC2C16A"),
                     Ratings = 4
                 }
             );
-
-            */
         }    
     }
 }
