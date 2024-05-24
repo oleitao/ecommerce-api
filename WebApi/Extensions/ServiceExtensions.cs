@@ -1,5 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebApi.Contracts;
+using WebApi.Repository;
+using WebApi.Service;
+using WebApi.Service.Contracts;
 using WebApi.Services;
 
 namespace WebApi.Extensions
@@ -21,5 +27,16 @@ namespace WebApi.Extensions
 
         public static void ConfigureLoggerService(this IServiceCollection services) =>
             services.AddSingleton<ILoggerManager, LoggerManager>();
+
+        public static void ConfigureRepositoryManager(this IServiceCollection services) => 
+            services.AddScoped<IRepositoryManager, RepositoryManager>();
+
+        public static void ConfigureServiceManager(this IServiceCollection services) => 
+            services.AddScoped<IServiceManager, ServiceManager>();
+
+        public static void ConfigureSqlContext(this IServiceCollection services, 
+            IConfiguration configuration) => 
+            services.AddDbContext<RepositoryContext>(opts => 
+                opts.UseSqlServer(configuration.GetConnectionString("ApiDatabase")));
     }
 }

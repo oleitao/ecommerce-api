@@ -2,8 +2,7 @@
 
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Models.Categories;
-using WebApi.Models.Users;
+using WebApi.Contracts;
 using WebApi.Services;
 
 [ApiController]

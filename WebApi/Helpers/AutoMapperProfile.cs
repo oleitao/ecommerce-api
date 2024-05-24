@@ -1,10 +1,10 @@
 namespace WebApi.Helpers;
 
 using AutoMapper;
-using WebApi.Entities;
 using WebApi.Models.Categories;
 using WebApi.Models.Products;
 using WebApi.Models.Users;
+using WebApi.Entities.Models;
 
 public class AutoMapperProfile : Profile
 {

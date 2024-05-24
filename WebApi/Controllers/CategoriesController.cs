@@ -4,6 +4,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using WebApi.Contracts;
+using WebApi.Entities.Models;
 using WebApi.Models.Categories;
 using WebApi.Services;
 
@@ -27,7 +29,7 @@ public class CategoriesController : ControllerBase
 
     [HttpGet]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(IEnumerable<Entities.Category>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<Category>), StatusCodes.Status200OK)]
     public IActionResult GetAll()
     {
         var categories = _categoryService.GetAll();
@@ -42,8 +44,8 @@ public class CategoriesController : ControllerBase
 
     [HttpGet("{id}")]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(Entities.Category), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Entities.Category), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Category), StatusCodes.Status404NotFound)]
     public IActionResult GetById(int id)
     {
         var category = _categoryService.GetById(id);
