@@ -1,32 +1,20 @@
 ﻿namespace WebApi.Controllers;
 
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using WebApi.Contracts;
-using WebApi.Entities.Models;
-using WebApi.Models.Users;
-using WebApi.Services;
+using WebApi.Service.Contracts;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/[controller]")]
 public class ShopsController : ControllerBase
 {
-    private IShopService _shopService;
-    private IMapper _mapper;
-    private ILoggerManager _logger;
+    private readonly IServiceManager _service;
 
     public ShopsController(
-        IShopService shopService,
-        IMapper mapper,
-        ILoggerManager logger)
+            IServiceManager service)
     {
-        _shopService = shopService;
-        _mapper = mapper;
-        _logger = logger;
+        _service = service;
     }
-
+    /*
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Shop>), StatusCodes.Status200OK)]
@@ -69,4 +57,5 @@ public class ShopsController : ControllerBase
         _shopService.Delete(id);
         return Ok(new { message = "Shop deleted" });
     }
+    */
 }

@@ -4,27 +4,22 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using WebApi.Contracts;
 using WebApi.Entities.Models;
-using WebApi.Models.Categories;
+using WebApi.Service.Contracts;
 using WebApi.Services;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/[controller]")]
 public class CategoriesController : ControllerBase
 {
-    private ICategoryService _categoryService;
+    private readonly IServiceManager _service;
     private IMapper _mapper;
-    private ILoggerManager _logger;
+    private LoggerManager _logger;
 
     public CategoriesController(
-        ICategoryService categoryService,
-        IMapper mapper,
-        ILoggerManager logger)
+            IServiceManager service)
     {
-        _categoryService = categoryService;
-        _mapper = mapper;
-        _logger = logger;
+        _service = service;
     }
 
     [HttpGet]
@@ -32,16 +27,18 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<Category>), StatusCodes.Status200OK)]
     public IActionResult GetAll()
     {
-        var categories = _categoryService.GetAll();
+        try
+        {
+            var categories = _service.CategoryService.GetAllCategories(trackChanges: false);
 
-        _logger.LogInfo("Here is info message from our values controller.");
-        _logger.LogDebug("Here is debug message from our values controller.");
-        _logger.LogWarn("Here is warn message from our values controller.");
-        _logger.LogError("Here is an error message from our values controller.");
-
-        return Ok(categories);
+            return Ok(categories);
+        }
+        catch
+        {
+            return StatusCode(500, "Internal server error");
+        }
     }
-
+    /*
     [HttpGet("{id}")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
@@ -80,4 +77,5 @@ public class CategoriesController : ControllerBase
         _categoryService.Delete(id);
         return Ok(new { message = "Category deleted" });
     }
+    */
 }
