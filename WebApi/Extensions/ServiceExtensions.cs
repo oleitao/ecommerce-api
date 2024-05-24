@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebApi.Contracts;
 using WebApi.Repository;
-using WebApi.Service;
 using WebApi.Service.Contracts;
 using WebApi.Services;
 

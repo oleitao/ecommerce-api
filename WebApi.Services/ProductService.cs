@@ -3,7 +3,7 @@ using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 
-namespace WebApi.Service
+namespace WebApi.Services
 {
     internal sealed class ProductService : IProductService
     {
@@ -43,6 +43,20 @@ namespace WebApi.Service
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong in the {nameof(GetProduct)} service method {ex}");
+                throw;
+            }
+        }
+
+        public IEnumerable<Product> GetProductsByCategory(Guid categoryId, bool trackChanges)
+        {
+            try
+            {
+                var products = _repository.Product.GetProductsByCategory(categoryId, trackChanges);
+                return products;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetProductsByCategory)} service method {ex}");
                 throw;
             }
         }
