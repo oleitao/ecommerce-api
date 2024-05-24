@@ -19,6 +19,7 @@ https://www.convertcsv.com/json-to-csv.htm?utm_content=cmp-true
 
 
 https://localhost:64403/api/v1/categories
+https://localhost:64403/api/categories/6e27b4b8-e66c-450a-bf41-58344b208512/products
 
 
 https://learn.microsoft.com/pt-pt/aspnet/core/tutorials/first-web-api?view=aspnetcore-8.0&tabs=visual-studio

@@ -6,5 +6,6 @@ namespace WebApi.Service.Contracts
     {
         IEnumerable<Product> GetAllProducts(bool trackChanges);
         Product GetProduct(Guid id, bool trackChanges);
+        IEnumerable<Product> GetProductsByCategory(Guid categoryId, bool trackChanges);
     }
 }
