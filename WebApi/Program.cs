@@ -4,7 +4,6 @@ using Microsoft.Extensions.Hosting;
 using NLog;
 using System.IO;
 using System.Text.Json.Serialization;
-using WebApi.Contracts;
 using WebApi.Extensions;
 using WebApi.Helpers;
 
@@ -35,7 +34,10 @@ var builder = WebApplication.CreateBuilder(args);
 
         // ignore omitted parameters on models to enable optional params (e.g. User update)
         x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-    });
+    }).AddXmlDataContractSerializerFormatters()
+      .AddCustomCSVFormatter();
+
+    services.AddAutoMapper(typeof(Program));
 
     services.AddEndpointsApiExplorer();
     services.AddSwaggerGen();

@@ -18,8 +18,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WebApi.Contracts\WebApi.Contracts.csproj" />
+    <ProjectReference Include="..\WebApi.LoggerServices\WebApi.LoggerServices.csproj" />
     <ProjectReference Include="..\WebApi.Models\WebApi.Entities.csproj" />
-    <ProjectReference Include="..\WebApi.Services\WebApi.LoggerServices.csproj" />
   </ItemGroup>
 
 </Project>

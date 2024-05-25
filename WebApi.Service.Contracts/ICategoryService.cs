@@ -1,10 +1,11 @@
 ﻿using WebApi.Entities.Models;
+using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Service.Contracts
 {
     public interface ICategoryService
     {
-        IEnumerable<Category> GetAllCategories(bool trackChanges);
-        Category GetCategory(Guid id, bool trackChanges);
+        IEnumerable<CategoryDto> GetAllCategories(bool trackChanges);
+        CategoryDto GetCategory(Guid id, bool trackChanges);
     }
 }

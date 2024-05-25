@@ -1,4 +1,5 @@
-﻿using WebApi.Contracts;
+﻿using AutoMapper;
+using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
@@ -9,11 +10,12 @@ namespace WebApi.Services
     {
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
-
-        public ProductService(IRepositoryManager repository, ILoggerManager logger)
+        private readonly IMapper _mapper;
+        public ProductService(IRepositoryManager repository, ILoggerManager logger, AutoMapper.IMapper mapper)
         {
             _repository = repository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         public IEnumerable<Product> GetAllProducts(bool trackChanges)
