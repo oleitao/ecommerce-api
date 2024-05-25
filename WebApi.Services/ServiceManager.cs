@@ -1,4 +1,5 @@
-﻿using WebApi.Contracts;
+﻿using AutoMapper;
+using WebApi.Contracts;
 using WebApi.Service.Contracts;
 
 namespace WebApi.Services
@@ -12,15 +13,15 @@ namespace WebApi.Services
         private readonly Lazy<IShopAvatarService> _shopAvatarService;
         private readonly Lazy<IShopService> _shopService;
         private readonly Lazy<IUserService> _userService;
-        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger)
+        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger, IMapper mapper)
         {
-            _categoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager, logger));
-            _imageUrlService = new Lazy<IImageUrlService>(() => new ImageUrlService(repositoryManager, logger));
-            _productService = new Lazy<IProductService>(() => new ProductService(repositoryManager, logger));
-            _reviewService = new Lazy<IReviewService>(() => new ReviewService(repositoryManager, logger));
-            _shopService = new Lazy<IShopService>(() => new ShopService(repositoryManager, logger));
-            _shopAvatarService = new Lazy<IShopAvatarService>(() => new ShopAvatarService(repositoryManager, logger));
-            _userService = new Lazy<IUserService>(() => new UserService(repositoryManager, logger));
+            _categoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager, logger, mapper));
+            _imageUrlService = new Lazy<IImageUrlService>(() => new ImageUrlService(repositoryManager, logger, mapper));
+            _productService = new Lazy<IProductService>(() => new ProductService(repositoryManager, logger, mapper));
+            _reviewService = new Lazy<IReviewService>(() => new ReviewService(repositoryManager, logger, mapper));
+            _shopService = new Lazy<IShopService>(() => new ShopService(repositoryManager, logger, mapper));
+            _shopAvatarService = new Lazy<IShopAvatarService>(() => new ShopAvatarService(repositoryManager, logger, mapper));
+            _userService = new Lazy<IUserService>(() => new UserService(repositoryManager, logger, mapper));
         }
 
         public ICategoryService CategoryService => _categoryService.Value;

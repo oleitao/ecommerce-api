@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
+using WebApi.Shared.DataTransferObjects;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -36,7 +37,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("{id:guid}", Name = "ProductById")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Product), StatusCodes.Status404NotFound)]
@@ -46,14 +47,21 @@ public class ProductsController : ControllerBase
         return Ok(product);
     }
 
-/*
-    [HttpPost]
-    public IActionResult Create(CreateProductRequest model)
-    {
-        _productService.Create(model);
-        return Ok(new { message = "Product created" });
-    }
 
+    [HttpPost]
+    [Consumes(typeof(ProductForCreationDto), "application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public IActionResult Create([FromBody] ProductForCreationDto product)
+    {
+        if (product is null)
+            return BadRequest("ProductForCreationDto is null");
+
+        var createdProduct = _service.ProductService.CreateProduct(product);
+
+        return CreatedAtRoute("ProductById", new { id = createdProduct.Id }, createdProduct);
+    }
+/*
     [HttpPut("{id}")]
     public IActionResult Update(int id, UpdateProductRequest model)
     {

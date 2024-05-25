@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
+using WebApi.Shared.DataTransferObjects;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -36,7 +37,7 @@ public class UsersController : ControllerBase
         }
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("{id:guid}", Name = "UserById")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(User), StatusCodes.Status404NotFound)]
@@ -46,26 +47,33 @@ public class UsersController : ControllerBase
         return Ok(user);
     }
 
-/*
     [HttpPost]
-    public IActionResult Create(CreateUserRequest model)
+    [Consumes(typeof(UserForCreationDto), "application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public IActionResult Create([FromBody] UserForCreationDto user)
     {
-        _userService.Create(model);
-        return Ok(new { message = "User created" });
+        if (user is null)
+            return BadRequest("UserForCreationDto is null");
+
+        var createdUser = _service.UserService.CreateUser(user);
+
+        return CreatedAtRoute("UserById", new { id = createdUser.Id }, createdUser);
     }
 
-    [HttpPut("{id}")]
-    public IActionResult Update(int id, UpdateUserRequest model)
-    {
-        _userService.Update(id, model);
-        return Ok(new { message = "User updated" });
-    }
+    /*
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, UpdateUserRequest model)
+        {
+            _userService.Update(id, model);
+            return Ok(new { message = "User updated" });
+        }
 
-    [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
-    {
-        _userService.Delete(id);
-        return Ok(new { message = "User deleted" });
-    }
-    */
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _userService.Delete(id);
+            return Ok(new { message = "User deleted" });
+        }
+        */
 }

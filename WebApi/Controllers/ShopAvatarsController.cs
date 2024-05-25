@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
+using WebApi.Shared.DataTransferObjects;
 
 [ApiController]
 [Route("api/v1/[controller]")]
@@ -37,7 +38,7 @@ public class ShopAvatarsController : ControllerBase
         }
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("{id:guid}", Name = "ShopAvatarById")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(ShopAvatar), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ShopAvatar), StatusCodes.Status404NotFound)]
@@ -46,26 +47,33 @@ public class ShopAvatarsController : ControllerBase
         var shopAvatar = _service.ShopAvatarService.GetShopAvatar(id, trackChanges: false);
         return Ok(shopAvatar);
     }
- /*
+
     [HttpPost]
-    public IActionResult Create(CreateShopAvatarRequest model)
+    [Consumes(typeof(ShopAvatarForCreationDto), "application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public IActionResult Create([FromBody] ShopAvatarForCreationDto shopAvatar)
     {
-        _shopAvatarService.Create(model);
-        return Ok(new { message = "ShopAvatar created" });
-    }
+        if (shopAvatar is null)
+            return BadRequest("ShopAvatarForCreationDto is null");
 
-    [HttpPut("{id}")]
-    public IActionResult Update(int id, UpdateShopAvatarRequest model)
-    {
-        _shopAvatarService.Update(id, model);
-        return Ok(new { message = "ShopAvatar updated" });
-    }
+        var createdShopAvatar = _service.ShopAvatarService.CreateShopAvatar(shopAvatar);
 
-    [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
-    {
-        _shopAvatarService.Delete(id);
-        return Ok(new { message = "ShopAvatar deleted" });
+        return CreatedAtRoute("ShopAvatarById", new { id = createdShopAvatar.Id }, createdShopAvatar);
     }
-    */
+    /*
+       [HttpPut("{id}")]
+       public IActionResult Update(int id, UpdateShopAvatarRequest model)
+       {
+           _shopAvatarService.Update(id, model);
+           return Ok(new { message = "ShopAvatar updated" });
+       }
+
+       [HttpDelete("{id}")]
+       public IActionResult Delete(int id)
+       {
+           _shopAvatarService.Delete(id);
+           return Ok(new { message = "ShopAvatar deleted" });
+       }
+       */
 }

@@ -1,7 +1,9 @@
-﻿using WebApi.Contracts;
+﻿using AutoMapper;
+using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
+using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Services
 {
@@ -9,11 +11,12 @@ namespace WebApi.Services
     {
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
-
-        public ProductService(IRepositoryManager repository, ILoggerManager logger)
+        private readonly IMapper _mapper;
+        public ProductService(IRepositoryManager repository, ILoggerManager logger, AutoMapper.IMapper mapper)
         {
             _repository = repository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         public IEnumerable<Product> GetAllProducts(bool trackChanges)
@@ -59,6 +62,18 @@ namespace WebApi.Services
                 _logger.LogError($"Something went wrong in the {nameof(GetProductsByCategory)} service method {ex}");
                 throw;
             }
+        }
+
+        public ProductDto CreateProduct(ProductForCreationDto product)
+        {
+            var productEntity = _mapper.Map<Product>(product);
+
+            _repository.Product.CreateProduct(productEntity);
+            _repository.Save();
+
+            var productReturn = _mapper.Map<ProductDto>(productEntity);
+
+            return productReturn;
         }
     }
 }

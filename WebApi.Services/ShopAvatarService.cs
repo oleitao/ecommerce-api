@@ -1,7 +1,9 @@
-﻿using WebApi.Contracts;
+﻿using AutoMapper;
+using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
+using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Services
 {
@@ -9,11 +11,12 @@ namespace WebApi.Services
     {
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
-
-        public ShopAvatarService(IRepositoryManager repository, ILoggerManager logger)
+        private readonly IMapper _mapper;
+        public ShopAvatarService(IRepositoryManager repository, ILoggerManager logger, AutoMapper.IMapper mapper)
         {
             _repository = repository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         public IEnumerable<ShopAvatar> GetAllShopAvatars(bool trackChanges)
@@ -45,6 +48,18 @@ namespace WebApi.Services
                 _logger.LogError($"Something went wrong in the {nameof(GetShopAvatar)} service method {ex}");
                 throw;
             }
+        }
+
+        public ShopAvatarDto CreateShopAvatar(ShopAvatarForCreationDto shopAvatar)
+        {
+            var shopAvatarEntity = _mapper.Map<ShopAvatar>(shopAvatar);
+
+            _repository.ShopAvatar.CreateShopAvatar(shopAvatarEntity);
+            _repository.Save();
+
+            var shopAvatarReturn = _mapper.Map<ShopAvatarDto>(shopAvatarEntity);
+
+            return shopAvatarReturn;
         }
     }
 }

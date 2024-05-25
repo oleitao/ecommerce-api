@@ -1,7 +1,9 @@
-﻿using WebApi.Contracts;
+﻿using AutoMapper;
+using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
+using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Services
 {
@@ -9,11 +11,12 @@ namespace WebApi.Services
     {
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
-
-        public UserService(IRepositoryManager repository, ILoggerManager logger)
+        private readonly IMapper _mapper;
+        public UserService(IRepositoryManager repository, ILoggerManager logger, AutoMapper.IMapper mapper)
         {
             _repository = repository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         public IEnumerable<User> GetAllUsers(bool trackChanges)
@@ -45,6 +48,18 @@ namespace WebApi.Services
                 _logger.LogError($"Something went wrong in the {nameof(GetUser)} service method {ex}");
                 throw;
             }
+        }
+
+        public UserDto CreateUser(UserForCreationDto user)
+        {
+            var userEntity = _mapper.Map<User>(user);
+
+            _repository.User.CreateUser(userEntity);
+            _repository.Save();
+
+            var userReturn = _mapper.Map<UserDto>(userEntity);
+
+            return userReturn;
         }
     }
 }

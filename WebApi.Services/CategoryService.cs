@@ -1,7 +1,9 @@
-﻿using WebApi.Contracts;
+﻿using AutoMapper;
+using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
+using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Services
 {
@@ -9,19 +11,23 @@ namespace WebApi.Services
     {
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
-
-        public CategoryService(IRepositoryManager repository, ILoggerManager logger)
+        private readonly IMapper _mapper;
+        public CategoryService(IRepositoryManager repository, ILoggerManager logger, AutoMapper.IMapper mapper)
         {
             _repository = repository;
             _logger = logger;
+            _mapper = mapper;
         }
 
-        public IEnumerable<Category> GetAllCategories(bool trackChanges)
+        public IEnumerable<CategoryDto> GetAllCategories(bool trackChanges)
         {
             try
             {
                 var categories = _repository.Category.GetAllCategories(trackChanges);
-                return categories;
+
+                var categotiesDto = categories.Select(c => new CategoryDto(c.Id, c.Title ?? "", c.SubTitle ?? "", c.ImageUrl ?? "")).ToList();
+
+                return categotiesDto;
             }
             catch (Exception ex)
             {
@@ -30,7 +36,7 @@ namespace WebApi.Services
             }
         }
 
-        public Category GetCategory(Guid id, bool trackChanges)
+        public CategoryDto GetCategory(Guid id, bool trackChanges)
         {
             try
             {
@@ -38,13 +44,27 @@ namespace WebApi.Services
                 if (categorie == null)
                     throw new CategoryNotFoundException(id);
 
-                return categorie;
+
+                var categoryDto = _mapper.Map<CategoryDto>(categorie);
+                return categoryDto;
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong in the {nameof(GetCategory)} service method {ex}");
                 throw;
             }
+        }
+
+        public CategoryDto CreateCategory(CategoryForCreationDto category)
+        {
+            var categoryEntity = _mapper.Map<Category>(category);
+
+            _repository.Category.CreateCategory(categoryEntity);
+            _repository.Save();
+
+            var categoryReturn = _mapper.Map<CategoryDto>(categoryEntity);
+
+            return categoryReturn;
         }
     }
 }

@@ -17,5 +17,10 @@ namespace WebApi.Repository
 
         public IEnumerable<ImageUrl> GetImageUrls(bool trackChnages) =>
             FindAll(trackChnages).ToList();
+
+        public void CreateImageUrl(ImageUrl imageUrl)
+        {
+            Create(imageUrl);
+        }
     }
 }

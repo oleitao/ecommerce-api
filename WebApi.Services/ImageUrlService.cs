@@ -1,7 +1,9 @@
-﻿using WebApi.Contracts;
+﻿using AutoMapper;
+using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
+using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Services
 {
@@ -9,11 +11,12 @@ namespace WebApi.Services
     {
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
-
-        public ImageUrlService(IRepositoryManager repository, ILoggerManager logger)
+        private readonly IMapper _mapper;
+        public ImageUrlService(IRepositoryManager repository, ILoggerManager logger, AutoMapper.IMapper mapper)
         {
             _repository = repository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         public IEnumerable<ImageUrl> GetAllImageUrls(bool trackChanges)
@@ -45,6 +48,18 @@ namespace WebApi.Services
                 _logger.LogError($"Something went wrong in the {nameof(GetImageUrl)} service method {ex}");
                 throw;
             }
+        }
+
+        public ImageUrlDto CreateImageUrl(ImageUrlForCreationDto imageUrl)
+        {
+            var imageUrlEntity = _mapper.Map<ImageUrl>(imageUrl);
+
+            _repository.ImageUrl.CreateImageUrl(imageUrlEntity);
+            _repository.Save();
+
+            var imageUrlReturn = _mapper.Map<ImageUrlDto>(imageUrlEntity);
+
+            return imageUrlReturn;
         }
     }
 }

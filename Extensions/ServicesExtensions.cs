@@ -9,7 +9,7 @@ using WebApi.Services;
 
 namespace WebApi.Extensions
 {
-    public static class ServiceExtensions
+    public static class ServicesExtensions
     {
 
         public static void ConfigureIISIntegration(this IServiceCollection services) =>
@@ -37,5 +37,8 @@ namespace WebApi.Extensions
             IConfiguration configuration) => 
             services.AddDbContext<RepositoryContext>(opts => 
                 opts.UseSqlServer(configuration.GetConnectionString("ApiDatabase")));
+
+        public static IMvcBuilder AddCustomCSVFormatter(this IMvcBuilder builder) =>
+            builder.AddMvcOptions(config => config.OutputFormatters.Add(new CsvOutputFormatter()));
     }
 }

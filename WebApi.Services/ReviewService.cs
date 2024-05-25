@@ -1,7 +1,9 @@
-﻿using WebApi.Contracts;
+﻿using AutoMapper;
+using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
+using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Services
 {
@@ -9,11 +11,12 @@ namespace WebApi.Services
     {
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
-
-        public ReviewService(IRepositoryManager repository, ILoggerManager logger)
+        private readonly IMapper _mapper;
+        public ReviewService(IRepositoryManager repository, ILoggerManager logger, AutoMapper.IMapper mapper)
         {
             _repository = repository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         public IEnumerable<Review> GetAllReviews(bool trackChanges)
@@ -45,6 +48,18 @@ namespace WebApi.Services
                 _logger.LogError($"Something went wrong in the {nameof(GetReview)} service method {ex}");
                 throw;
             }
+        }
+
+        public ReviewDto CreateReview(ReviewForCreationDto review)
+        {
+            var reviewEntity = _mapper.Map<Review>(review);
+
+            _repository.Review.CreateReview(reviewEntity);
+            _repository.Save();
+
+            var reviewReturn = _mapper.Map<ReviewDto>(reviewEntity);
+
+            return reviewReturn;
         }
     }
 }

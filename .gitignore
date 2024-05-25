@@ -18,3 +18,11 @@
 /WebApi/.vs/WebApi
 /WebApi.LoggerServices/obj
 /WebApi.LoggerServices/bin/Debug/net7.0
+<<<<<<< HEAD
+=======
+/WebApi.Shared/obj
+/WebApi/.vs/ProjectEvaluation
+/WebApi.Services/bin/Debug/net7.0
+/WebApi.Models/bin/Debug/net7.0
+/WebApi.Shared/bin/Debug/net7.0
+>>>>>>> formatter-json-to-csv

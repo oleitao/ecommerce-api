@@ -1,4 +1,5 @@
 ﻿using WebApi.Entities.Models;
+using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Service.Contracts
 {
@@ -6,5 +7,6 @@ namespace WebApi.Service.Contracts
     {
         IEnumerable<ImageUrl> GetAllImageUrls(bool trackChanges);
         ImageUrl GetImageUrl(Guid id, bool trackChanges);
+        ImageUrlDto CreateImageUrl(ImageUrlForCreationDto imageUrlDto);
     }
 }

@@ -17,5 +17,10 @@ namespace WebApi.Repository
         public Category GetCategory(Guid categoryId, bool trackChanges) =>
             FindByCondition(c => c.Id.Equals(categoryId), trackChanges)
             .SingleOrDefault();
+
+        public void CreateCategory(Category category)
+        {
+            Create(category);
+        }
     }
 }

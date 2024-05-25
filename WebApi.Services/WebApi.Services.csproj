@@ -7,9 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\WebApi.Contracts\WebApi.Contracts.csproj" />
     <ProjectReference Include="..\WebApi.Models\WebApi.Entities.csproj" />
     <ProjectReference Include="..\WebApi.Service.Contracts\WebApi.Service.Contracts.csproj" />
+    <ProjectReference Include="..\WebApi.Shared\WebApi.Shared.csproj" />
   </ItemGroup>
 
 </Project>
