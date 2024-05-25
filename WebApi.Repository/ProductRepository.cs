@@ -26,5 +26,11 @@ namespace WebApi.Repository
         {
             Create(product);
         }
+
+        public void CreateGetProductsByCategory(Guid categoryId, Product product)
+        {
+            product.CategoryId = categoryId;
+            Create(product);
+        }
     }
 }

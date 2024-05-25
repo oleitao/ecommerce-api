@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
@@ -47,7 +48,6 @@ public class ProductsController : ControllerBase
         return Ok(product);
     }
 
-
     [HttpPost]
     [Consumes(typeof(ProductForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -61,19 +61,21 @@ public class ProductsController : ControllerBase
 
         return CreatedAtRoute("ProductById", new { id = createdProduct.Id }, createdProduct);
     }
-/*
-    [HttpPut("{id}")]
-    public IActionResult Update(int id, UpdateProductRequest model)
-    {
-        _productService.Update(id, model);
-        return Ok(new { message = "Product updated" });
-    }
 
-    [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
-    {
-        _productService.Delete(id);
-        return Ok(new { message = "Product deleted" });
-    }
-    */
+
+    /*
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, UpdateProductRequest model)
+        {
+            _productService.Update(id, model);
+            return Ok(new { message = "Product updated" });
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _productService.Delete(id);
+            return Ok(new { message = "Product deleted" });
+        }
+        */
 }

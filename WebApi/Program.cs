@@ -1,5 +1,6 @@
 ﻿using AutoMapper.Internal;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NLog;
@@ -26,6 +27,11 @@ var builder = WebApplication.CreateBuilder(args);
     services.ConfigureRepositoryManager();
     services.ConfigureServiceManager();
     services.ConfigureSqlContext(builder.Configuration);
+
+    services.Configure<ApiBehaviorOptions>(options => 
+    { 
+        options.SuppressModelStateInvalidFilter = true;
+    });
 
     services.AddControllers().AddApplicationPart(typeof(WebApi.AssemblyReference).Assembly);
     services.AddControllers().AddJsonOptions(x =>
