@@ -17,5 +17,10 @@ namespace WebApi.Repository
         public ShopAvatar GetShopAvatar(Guid shopAvatarId, bool trackChanges) =>
             FindByCondition(c => c.Id.Equals(shopAvatarId), trackChanges)
             .SingleOrDefault();
+
+        public void CreateShopAvatar(ShopAvatar shopAvatar)
+        {
+            Create(shopAvatar);
+        }
     }
 }

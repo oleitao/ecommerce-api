@@ -7,5 +7,6 @@ namespace WebApi.Contracts
         IEnumerable<Shop> GetAllShops(bool trackChanges);
 
         Shop GetShop(Guid shopId, bool trackChanges);
+        void CreateShop(Shop shop);
     }
 }

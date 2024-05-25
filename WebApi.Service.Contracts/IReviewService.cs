@@ -1,4 +1,5 @@
 ﻿using WebApi.Entities.Models;
+using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Service.Contracts
 {
@@ -6,5 +7,6 @@ namespace WebApi.Service.Contracts
     {
         IEnumerable<Review> GetAllReviews(bool trackChanges);
         Review GetReview(Guid id, bool trackChanges);
+        ReviewDto CreateReview(ReviewForCreationDto review);
     }
 }

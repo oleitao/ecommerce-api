@@ -21,5 +21,10 @@ namespace WebApi.Repository
         public IEnumerable<Product> GetProductsByCategory(Guid categoryId, bool trackChanges) => 
             FindByCondition(p => p.CategoryId.Equals(categoryId), trackChanges)
             .OrderBy(p => p.Name).ToList();
+
+        public void CreateProduct(Product product)
+        {
+            Create(product);
+        }
     }
 }

@@ -3,6 +3,7 @@ using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
+using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Services
 {
@@ -47,6 +48,18 @@ namespace WebApi.Services
                 _logger.LogError($"Something went wrong in the {nameof(GetReview)} service method {ex}");
                 throw;
             }
+        }
+
+        public ReviewDto CreateReview(ReviewForCreationDto review)
+        {
+            var reviewEntity = _mapper.Map<Review>(review);
+
+            _repository.Review.CreateReview(reviewEntity);
+            _repository.Save();
+
+            var reviewReturn = _mapper.Map<ReviewDto>(reviewEntity);
+
+            return reviewReturn;
         }
     }
 }

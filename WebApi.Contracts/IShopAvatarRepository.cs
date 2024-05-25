@@ -6,5 +6,6 @@ namespace WebApi.Contracts
     {
         IEnumerable<ShopAvatar> GetAllShopAvatars(bool trackChanges);
         ShopAvatar GetShopAvatar(Guid shopAvatarId, bool trackChanges);
+        void CreateShopAvatar(ShopAvatar shopAvatar);
     }
 }

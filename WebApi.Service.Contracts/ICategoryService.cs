@@ -1,5 +1,4 @@
-﻿using WebApi.Entities.Models;
-using WebApi.Shared.DataTransferObjects;
+﻿using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Service.Contracts
 {
@@ -7,5 +6,6 @@ namespace WebApi.Service.Contracts
     {
         IEnumerable<CategoryDto> GetAllCategories(bool trackChanges);
         CategoryDto GetCategory(Guid id, bool trackChanges);
+        CategoryDto CreateCategory(CategoryForCreationDto category);
     }
 }

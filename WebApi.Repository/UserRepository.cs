@@ -18,5 +18,9 @@ namespace WebApi.Repository
             FindByCondition(c => c.Id.Equals(userId), trackChanges)
             .SingleOrDefault();
 
+        public void CreateUser(User user)
+        {
+            Create(user);
+        }
     }
 }

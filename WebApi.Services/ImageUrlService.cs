@@ -3,6 +3,7 @@ using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
+using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Services
 {
@@ -47,6 +48,18 @@ namespace WebApi.Services
                 _logger.LogError($"Something went wrong in the {nameof(GetImageUrl)} service method {ex}");
                 throw;
             }
+        }
+
+        public ImageUrlDto CreateImageUrl(ImageUrlForCreationDto imageUrl)
+        {
+            var imageUrlEntity = _mapper.Map<ImageUrl>(imageUrl);
+
+            _repository.ImageUrl.CreateImageUrl(imageUrlEntity);
+            _repository.Save();
+
+            var imageUrlReturn = _mapper.Map<ImageUrlDto>(imageUrlEntity);
+
+            return imageUrlReturn;
         }
     }
 }

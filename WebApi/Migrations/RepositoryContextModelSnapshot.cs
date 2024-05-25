@@ -152,6 +152,15 @@ namespace WebApi.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("6f6205b9-6d84-44cc-ab27-fde3156ef95c"),
+                            Comment = "comment",
+                            Rating = 5,
+                            UserId = new Guid("f3d2300a-c9cf-49b4-b137-aca949bf3b6a")
+                        });
                 });
 
             modelBuilder.Entity("WebApi.Entities.Models.Shop", b =>
@@ -183,204 +192,6 @@ namespace WebApi.Migrations
                     b.HasIndex("ShopAvatarsId");
 
                     b.ToTable("Shops");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("6c7264cd-d740-4f17-b2e1-707063cb0fd8"),
-                            Name = "Apple inc",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("35361e25-8490-4947-b34b-4721539cebe6"),
-                            Name = "Amazon Ltd",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("c5a142da-c649-4eb6-b802-a550f03f6816"),
-                            Name = "Amazon Ltd",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("bd6769c0-a2a6-4aa1-9201-a4be836e8d3b"),
-                            Name = "Louis Vuitton",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("b8016369-bcf0-4049-a50b-573c6e282156"),
-                            Name = "Shodagor Ltd",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("ad67c0be-4a72-4b05-912b-9352c8704d0a"),
-                            Name = "Amazon Ltd",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("284cefab-c75a-4fa9-bc32-a3db0e87cb85"),
-                            Name = "Asus Ltd",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("904bcb66-14d0-4c87-a881-951d2572a83a"),
-                            Name = "Acer Ltd",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("78d531fd-7903-40a7-b455-faadb3c7973d"),
-                            Name = "Dove Inc",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("a28d9b40-9308-4c6c-b58c-7941691aea5c"),
-                            Name = "Dove Inc",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("299920c5-5e59-46f0-a3fa-bb36f2927731"),
-                            Name = "3W CLINIC",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("e368e196-c4a1-4f9b-b6f6-b3c040da473b"),
-                            Name = "Vaseline Inc.",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("6f91d4ac-71eb-466c-a578-e6c24757923c"),
-                            Name = "Tiaa Ltd",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("0591edd5-52ad-467e-a512-85cbead188f1"),
-                            Name = "SAMSUNG",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("ddb6b5ff-3433-4a66-97c5-af2ca1787bb5"),
-                            Name = "SAMSUNG",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("834a1b85-7920-4fe7-b47d-2a76ab3aed22"),
-                            Name = "Energy System",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("939e2aab-65f1-4c58-9700-b57f3d99218a"),
-                            Name = "Unbranded",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("3ec4529b-3f33-4380-9512-d63937ce73e7"),
-                            Name = "Unik",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("41a85e06-ec28-4928-b05d-61835f2576c2"),
-                            Name = "Oppo Ltd",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("46a81f1d-76a7-47d0-853f-fe1505cf5fc0"),
-                            Name = "Lenovo Ltd",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("fafa573f-b375-4fc7-a0b1-31a2666fad13"),
-                            Name = "Unik",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("4c03a054-0ec5-4e21-9a9f-070da8780665"),
-                            Name = "Apple inc.",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("1f4937f9-c38d-4833-8588-b5eb53a02f15"),
-                            Name = "Shahriar Watch House",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("99ad672c-abd2-4e0f-921b-455fe7722907"),
-                            Name = "Alisha Shoes Mart",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("197bf979-98b1-46c6-b8a6-cfa14e33e1cd"),
-                            Name = "Shahriar Watch House",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("426b9186-cfe4-4855-9a92-836bce465676"),
-                            Name = "Amazon Ltd",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("dd860f0d-d41e-48d8-886a-635bbef9d4e1"),
-                            Name = "Asus Ltd",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("d4d869c0-b05a-43e4-898e-3947f96e9456"),
-                            Name = "Amazon Ltd",
-                            ProductId = new Guid("e6f56553-8663-4dd3-a4f0-8e21fbc2c16a"),
-                            Ratings = 4
-                        });
                 });
 
             modelBuilder.Entity("WebApi.Entities.Models.ShopAvatar", b =>

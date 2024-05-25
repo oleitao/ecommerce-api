@@ -21,6 +21,11 @@ namespace WebApi.Helpers
                         return true;
                     }
                 ));
+
+            CreateMap<Category, CategoryDto>();
+
+            CreateMap<CategoryForCreationDto, Category>();
+
             #endregion
 
             #region ImageUrl
@@ -28,15 +33,19 @@ namespace WebApi.Helpers
             // UpdateImageURLRequest -> ImageURL
             CreateMap<ImageUrl, ImageUrlDto>()
                 .ForAllMembers(x => x.Condition(
-                    (src, dest, prop) =>
-                    {
-                // ignore both null & empty string properties
-                if (prop == null) return false;
-                if (prop.GetType() == typeof(string) && string.IsNullOrEmpty((string)prop)) return false;
+                (src, dest, prop) =>
+                {
+                    // ignore both null & empty string properties
+                    if (prop == null) return false;
+                    if (prop.GetType() == typeof(string) && string.IsNullOrEmpty((string)prop)) return false;
 
-                return true;
-            }
-                ));
+                    return true;
+                }
+            ));
+
+            CreateMap<ImageUrl, ImageUrlDto>();
+
+            CreateMap<ImageUrlForCreationDto, ImageUrl>();
             #endregion
 
             #region Product
@@ -45,13 +54,18 @@ namespace WebApi.Helpers
                 .ForAllMembers(x => x.Condition(
                     (src, dest, prop) =>
                     {
-                // ignore both null & empty string properties
-                if (prop == null) return false;
-                if (prop.GetType() == typeof(string) && string.IsNullOrEmpty((string)prop)) return false;
+                        // ignore both null & empty string properties
+                        if (prop == null) return false;
+                        if (prop.GetType() == typeof(string) && string.IsNullOrEmpty((string)prop)) return false;
 
-                return true;
-            }
+                        return true;
+                    }
                 ));
+
+            CreateMap<Product, ProductDto>();
+
+            CreateMap<ProductForCreationDto, Product>();
+
             #endregion
 
             #region Review
@@ -60,43 +74,55 @@ namespace WebApi.Helpers
                 .ForAllMembers(x => x.Condition(
                     (src, dest, prop) =>
                     {
-                // ignore both null & empty string properties
-                if (prop == null) return false;
-                if (prop.GetType() == typeof(string) && string.IsNullOrEmpty((string)prop)) return false;
+                        // ignore both null & empty string properties
+                        if (prop == null) return false;
+                        if (prop.GetType() == typeof(string) && string.IsNullOrEmpty((string)prop)) return false;
 
-                return true;
-            }
+                        return true;
+                    }
                 ));
+
+            CreateMap<Review, ReviewDto>();
+
+            CreateMap<ReviewForCreationDto, Review>();
             #endregion
 
             #region ShopAvatar
-            
+
             CreateMap<ShopAvatar, ShopAvatarDto>()
                 .ForAllMembers(x => x.Condition(
                     (src, dest, prop) =>
                     {
-                // ignore both null & empty string properties
-                if (prop == null) return false;
-                if (prop.GetType() == typeof(string) && string.IsNullOrEmpty((string)prop)) return false;
+                        // ignore both null & empty string properties
+                        if (prop == null) return false;
+                        if (prop.GetType() == typeof(string) && string.IsNullOrEmpty((string)prop)) return false;
 
-                return true;
-            }
+                        return true;
+                    }
                 ));
+
+            CreateMap<ShopAvatar, ShopAvatarDto>();
+
+            CreateMap<ShopAvatarForCreationDto, ShopAvatar>();
             #endregion
 
             #region Shop
-            
+
             CreateMap<Shop, ShopDto>()
                 .ForAllMembers(x => x.Condition(
                     (src, dest, prop) =>
                     {
-                // ignore both null & empty string properties
-                if (prop == null) return false;
-                if (prop.GetType() == typeof(string) && string.IsNullOrEmpty((string)prop)) return false;
+                        // ignore both null & empty string properties
+                        if (prop == null) return false;
+                        if (prop.GetType() == typeof(string) && string.IsNullOrEmpty((string)prop)) return false;
 
-                return true;
-            }
+                        return true;
+                    }
                 ));
+
+            CreateMap<Shop, ShopDto>();
+
+            CreateMap<ShopForCreationDto, Shop>();
             #endregion
 
             #region User
@@ -105,13 +131,17 @@ namespace WebApi.Helpers
                 .ForAllMembers(x => x.Condition(
                     (src, dest, prop) =>
                     {
-                // ignore both null & empty string properties
-                if (prop == null) return false;
-                if (prop.GetType() == typeof(string) && string.IsNullOrEmpty((string)prop)) return false;
+                        // ignore both null & empty string properties
+                        if (prop == null) return false;
+                        if (prop.GetType() == typeof(string) && string.IsNullOrEmpty((string)prop)) return false;
 
-                return true;
-            }
+                        return true;
+                    }
                 ));
+
+            CreateMap<User, UserDto>();
+
+            CreateMap<UserForCreationDto, User>();
             #endregion
         }
     }
