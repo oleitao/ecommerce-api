@@ -26,17 +26,22 @@ https://learn.microsoft.com/pt-pt/aspnet/core/tutorials/first-web-api?view=aspne
 
 
 ------------------------------------------------------------------------------------------------------------------------------------
-POST(https://localhost:64403/api/products)
+POST(https://localhost:64403/api/categories/FE58DDC2-61EE-4E1A-9402-A0C9EBFB8E5C/products)
 {
     "Category": {
-        "id": "afaf0968-4d52-4c91-cbaf-08dc7ce3e375",
-        "title": "N/A",
-        "subTitle": "test",
-        "imageUrl": "https://searchspring.com"
+        "id": "fe58ddc2-61ee-4e1a-9402-a0c9ebfb8e5c",
+        "title": "Others",
+        "subTitle": "",
+        "imageUrl": ""
     },
     "ImageURLs": [
         {
-            "id": "2b36c506-8a20-41e8-8faf-02b1df746104",
+            "id": "2b36c506-8a20-41e8-8faf-0661df746104",
+            "publicUrl": "test",
+            "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg7XWy1cmt1D3uUjF29eo2q4HgqJaGEu9XDg&usqp=CAU"
+        },
+        {
+            "id": "2b36c506-8a20-41e8-8faf-02b11f746104",
             "publicUrl": "test",
             "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg7XWy1cmt1D3uUjF29eo2q4HgqJaGEu9XDg&usqp=CAU"
         }

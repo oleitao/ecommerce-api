@@ -9,9 +9,10 @@
         [Column("ProductId")]
         public Guid Id { get; set; }
 
-        [ForeignKey(nameof(Category))]
+
+        [Column("CategoryId")]
         public Guid CategoryId { get; set; }
-        public Category? Category { get; set; }
+        
 
         [Required(ErrorMessage = "Name name is a required field.")]
         [MaxLength(500, ErrorMessage = "Maximum length for the Name is 60 characters.")]

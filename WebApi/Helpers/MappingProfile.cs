@@ -143,6 +143,12 @@ namespace WebApi.Helpers
 
             CreateMap<UserForCreationDto, User>();
             #endregion
+
+            #region ProductsByCategory
+
+            CreateMap<ProductForCreationDto, Product>();
+
+            #endregion
         }
     }
 }

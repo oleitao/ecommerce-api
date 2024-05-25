@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System.Linq;
 using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
@@ -74,6 +75,41 @@ namespace WebApi.Services
             var productReturn = _mapper.Map<ProductDto>(productEntity);
 
             return productReturn;
+        }
+
+        public ProductDto CreateProductForCategory(Guid categoryId, ProductForCreationDto productForCreationDto, bool trackChanges)
+        {
+            var category = _repository.Category.GetCategory(categoryId, trackChanges);
+            if(category == null)
+                throw new ProductNotFoundException(categoryId);
+
+            var productEntity = _mapper.Map<Product>(productForCreationDto);
+            productEntity.CategoryId = categoryId;
+
+            var images = _repository.ImageUrl.GetImageUrls(false).ToList();
+            List<ImageUrl> onlyNewImages = new List<ImageUrl>();
+            if (productEntity.ImageURLs is not null)
+            {
+                foreach (var image in images)
+                {
+                    if (productEntity.ImageURLs.Where(c => c.Id == image.Id).FirstOrDefault() != null)
+                        onlyNewImages.Add(image);
+                }
+                
+                if (onlyNewImages is not null && onlyNewImages.Count > 0)
+                {
+                    productEntity.ImageURLs.Clear();
+                    productEntity.ImageURLs.Add(new ImageUrl() { Url = string.Empty, PublicUrl = string.Empty });
+                }
+            }
+
+
+            _repository.Product.CreateGetProductsByCategory(categoryId, productEntity);
+            _repository.Save();
+
+            var productToReturn = _mapper.Map<ProductDto>(productEntity);
+
+            return productToReturn;
         }
     }
 }
