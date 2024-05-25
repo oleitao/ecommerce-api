@@ -9,5 +9,6 @@ namespace WebApi.Service.Contracts
         Product GetProduct(Guid id, bool trackChanges);
         IEnumerable<Product> GetProductsByCategory(Guid categoryId, bool trackChanges);
         ProductDto CreateProduct(ProductForCreationDto product);
+        ProductDto CreateProductForCategory(Guid categoryId, ProductForCreationDto productForCreationDto, bool trackChanges);
     }
 }
