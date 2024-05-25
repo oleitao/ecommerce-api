@@ -6,5 +6,6 @@ namespace WebApi.Contracts
     {
         IEnumerable<ImageUrl> GetImageUrls(bool trackChanges);
         ImageUrl GetImageUrl(Guid imageUrlId, bool trackChanges);
+        void CreateImageUrl(ImageUrl imageUrl);
     }
 }

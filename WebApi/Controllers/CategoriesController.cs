@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 using WebApi.Services;
+using WebApi.Shared.DataTransferObjects;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -40,7 +41,7 @@ public class CategoriesController : ControllerBase
         }
     }
     
-    [HttpGet("{id:guid}")]
+    [HttpGet("{id:guid}", Name = "CategoryById")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Category), StatusCodes.Status404NotFound)]
@@ -49,17 +50,21 @@ public class CategoriesController : ControllerBase
         var category = _service.CategoryService.GetCategory(id, trackChanges: false);
         return Ok(category);
     }
-/*
+
     [HttpPost]
-    [Consumes(typeof(CreateCategoryRequest), "application/json")]
+    [Consumes(typeof(CategoryForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public IActionResult Create(CreateCategoryRequest model)
+    public IActionResult Create([FromBody] CategoryForCreationDto category)
     {
-        _categoryService.Create(model);
-        return Ok(new { message = "Category created" });
-    }
+        if (category is null)
+            return BadRequest("CategoryForCreationDto is null");
 
+        var createdCategory = _service.CategoryService.CreateCategory(category);
+
+        return CreatedAtRoute("CategoryById", new { id = createdCategory.Id }, createdCategory);
+    }
+/*
     [HttpPut("{id}")]
     [Consumes(typeof(UpdateCategoryRequest), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]

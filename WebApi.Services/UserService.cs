@@ -3,6 +3,7 @@ using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
+using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Services
 {
@@ -47,6 +48,18 @@ namespace WebApi.Services
                 _logger.LogError($"Something went wrong in the {nameof(GetUser)} service method {ex}");
                 throw;
             }
+        }
+
+        public UserDto CreateUser(UserForCreationDto user)
+        {
+            var userEntity = _mapper.Map<User>(user);
+
+            _repository.User.CreateUser(userEntity);
+            _repository.Save();
+
+            var userReturn = _mapper.Map<UserDto>(userEntity);
+
+            return userReturn;
         }
     }
 }

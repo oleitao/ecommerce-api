@@ -17,5 +17,11 @@ namespace WebApi.Repository
         public Review GetReview(Guid reviewId, bool trackChanges) =>
             FindByCondition(c => c.Id.Equals(reviewId), trackChanges)
             .SingleOrDefault();
+
+
+        public void CreateReview(Review review)
+        {
+            Create(review);
+        }
     }
 }

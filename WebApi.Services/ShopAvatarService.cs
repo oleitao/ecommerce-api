@@ -3,6 +3,7 @@ using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
+using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Services
 {
@@ -47,6 +48,18 @@ namespace WebApi.Services
                 _logger.LogError($"Something went wrong in the {nameof(GetShopAvatar)} service method {ex}");
                 throw;
             }
+        }
+
+        public ShopAvatarDto CreateShopAvatar(ShopAvatarForCreationDto shopAvatar)
+        {
+            var shopAvatarEntity = _mapper.Map<ShopAvatar>(shopAvatar);
+
+            _repository.ShopAvatar.CreateShopAvatar(shopAvatarEntity);
+            _repository.Save();
+
+            var shopAvatarReturn = _mapper.Map<ShopAvatarDto>(shopAvatarEntity);
+
+            return shopAvatarReturn;
         }
     }
 }

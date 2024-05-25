@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
+using WebApi.Shared.DataTransferObjects;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -37,7 +38,7 @@ public class ShopsController : ControllerBase
     }
 
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("{id:guid}", Name = "ShopById")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(Shop), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Shop), StatusCodes.Status404NotFound)]
@@ -46,26 +47,33 @@ public class ShopsController : ControllerBase
         var shop = _service.ShopAvatarService.GetShopAvatar(id, trackChanges: false);
         return Ok(shop);
     }
-/*
+
     [HttpPost]
-    public IActionResult Create(CreateShopRequest model)
+    [Consumes(typeof(ShopForCreationDto), "application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public IActionResult Create([FromBody] ShopForCreationDto shop)
     {
-        _shopService.Create(model);
-        return Ok(new { message = "Shop created" });
-    }
+        if (shop is null)
+            return BadRequest("ShopForCreationDto is null");
 
-    [HttpPut("{id}")]
-    public IActionResult Update(int id, UpdateShopRequest model)
-    {
-        _shopService.Update(id, model);
-        return Ok(new { message = "Shop updated" });
-    }
+        var createdShop = _service.ShopService.CreateShop(shop);
 
-    [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
-    {
-        _shopService.Delete(id);
-        return Ok(new { message = "Shop deleted" });
+        return CreatedAtRoute("ShopById", new { id = createdShop.Id }, createdShop);
     }
-    */
+    /*
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, UpdateShopRequest model)
+        {
+            _shopService.Update(id, model);
+            return Ok(new { message = "Shop updated" });
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _shopService.Delete(id);
+            return Ok(new { message = "Shop deleted" });
+        }
+        */
 }

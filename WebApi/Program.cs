@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper.Internal;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NLog;
@@ -37,7 +38,7 @@ var builder = WebApplication.CreateBuilder(args);
     }).AddXmlDataContractSerializerFormatters()
       .AddCustomCSVFormatter();
 
-    services.AddAutoMapper(typeof(Program));
+    services.AddAutoMapper(cfg => cfg.Internal().MethodMappingEnabled = false, typeof(MappingProfile).Assembly);
 
     services.AddEndpointsApiExplorer();
     services.AddSwaggerGen();

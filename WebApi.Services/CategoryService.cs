@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
+using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
@@ -52,6 +53,18 @@ namespace WebApi.Services
                 _logger.LogError($"Something went wrong in the {nameof(GetCategory)} service method {ex}");
                 throw;
             }
+        }
+
+        public CategoryDto CreateCategory(CategoryForCreationDto category)
+        {
+            var categoryEntity = _mapper.Map<Category>(category);
+
+            _repository.Category.CreateCategory(categoryEntity);
+            _repository.Save();
+
+            var categoryReturn = _mapper.Map<CategoryDto>(categoryEntity);
+
+            return categoryReturn;
         }
     }
 }

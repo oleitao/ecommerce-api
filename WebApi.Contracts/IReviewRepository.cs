@@ -6,5 +6,6 @@ namespace WebApi.Contracts
     {
         IEnumerable<Review> GetAllReviews(bool trackChanges);
         Review GetReview(Guid reviewId, bool trackChanges);
+        void CreateReview(Review review);
     }
 }

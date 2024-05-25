@@ -12,7 +12,7 @@ using WebApi.Repository;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240524174006_AddReviews")]
+    [Migration("20240525185657_AddReviews")]
     partial class AddReviews
     {
         /// <inheritdoc />
@@ -159,7 +159,7 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("2293b56b-e4d7-493c-b6cc-6359b1031322"),
+                            Id = new Guid("6f6205b9-6d84-44cc-ab27-fde3156ef95c"),
                             Comment = "comment",
                             Rating = 5,
                             UserId = new Guid("f3d2300a-c9cf-49b4-b137-aca949bf3b6a")

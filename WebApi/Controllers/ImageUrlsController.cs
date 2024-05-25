@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
+using WebApi.Shared.DataTransferObjects;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -30,7 +31,7 @@ public class ImageUrlsController : ControllerBase
         return Ok(imageUrls);
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("{id:guid}", Name = "ImageUrlById")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(ImageUrl), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ImageUrl), StatusCodes.Status404NotFound)]
@@ -39,14 +40,21 @@ public class ImageUrlsController : ControllerBase
         var imageUrl = _service.ImageUrlService.GetImageUrl(id, trackChanges: false);
         return Ok(imageUrl);
     }
-/*
-    [HttpPost]
-    public IActionResult Create(CreateImageURLRequest model)
-    {
-        _imageUrlService.Create(model);
-        return Ok(new { message = "ImageUrl created" });
-    }
 
+    [HttpPost]
+    [Consumes(typeof(ImageUrlForCreationDto), "application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public IActionResult Create(ImageUrlForCreationDto imageUrl)
+    {
+        if (imageUrl is null)
+            return BadRequest("ImageUrlForCreationDto is null");
+
+        var createdImageUrl = _service.ImageUrlService.CreateImageUrl(imageUrl);
+
+        return CreatedAtRoute("ImageUrlById", new { id = createdImageUrl.Id }, createdImageUrl);
+    }
+/*
     [HttpPut("{id}")]
     public IActionResult Update(int id, UpdateImageURLRequest model)
     {
