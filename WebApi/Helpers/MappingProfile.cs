@@ -72,6 +72,8 @@ namespace WebApi.Helpers
 
             CreateMap<ProductForUpdateDto, Product>();
 
+            CreateMap<ProductForUpdateDto, Product>().ReverseMap();
+
             #endregion
 
             #region Review
