@@ -26,6 +26,7 @@ https://learn.microsoft.com/pt-pt/aspnet/core/tutorials/first-web-api?view=aspne
 
 
 ------------------------------------------------------------------------------------------------------------------------------------
+CreateProductForCategory
 POST(https://localhost:64403/api/categories/FE58DDC2-61EE-4E1A-9402-A0C9EBFB8E5C/products)
 {
     "Category": {
@@ -62,8 +63,26 @@ POST(https://localhost:64403/api/categories/FE58DDC2-61EE-4E1A-9402-A0C9EBFB8E5C
     "stock": 0
 }
 ------------------------------------------------------------------------------------------------------------------------------------
-
-
+GetCategoryCollection
+GET(https://localhost:64403/api/categories/collection)
+[
+    {
+        "id": "4d9ea93c-1b54-4576-9821-0822f8c32aa0",
+        "title": "TEST1",
+        "subTitle": "",
+        "imageUrl": "https://static.vecteezy.com/system/resources/previews/011/996/555/original/3d-black-headphone-illustration-ecommerce-icon-png.png"
+    },
+    {
+        "id": "4d9ea93c-1b54-4576-9821-0822f8c32UU0",
+        "title": "TEST2",
+        "subTitle": "",
+        "imageUrl": "https://static.vecteezy.com/system/resources/previews/011/996/555/original/3d-black-headphone-illustration-ecommerce-icon-png.png"
+    }
+]
+------------------------------------------------------------------------------------------------------------------------------------
+GetCategoryCollection
+GET(https://localhost:64403/api/categories/collection/(4D9EA93C-1B54-4576-9821-0822F8C32EE0,418A55C2-6254-4BC7-9593-4A41665FD396))
+------------------------------------------------------------------------------------------------------------------------------------
 
 TESTS
 https://github.com/kashifsoofi/blog-code-samples/tree/main/integration-test-sqlserver-dotnet
