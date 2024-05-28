@@ -83,6 +83,14 @@ GET(https://localhost:64403/api/categories/collection)
 GetCategoryCollection
 GET(https://localhost:64403/api/categories/collection/(4D9EA93C-1B54-4576-9821-0822F8C32EE0,418A55C2-6254-4BC7-9593-4A41665FD396))
 ------------------------------------------------------------------------------------------------------------------------------------
+UpdateCategory
+PUT(https://localhost:64403/api/categories/418A55C2-6254-4BC7-9593-4A41665FD396)
+{
+    "title": "TEST3",
+    "subTitle": "test put",
+    "imageUrl": "https://static.vecteezy.com/system/resources/previews/011/996/555/original/3d-black-headphone-illustration-ecommerce-icon-png.png"
+}
+------------------------------------------------------------------------------------------------------------------------------------
 
 TESTS
 https://github.com/kashifsoofi/blog-code-samples/tree/main/integration-test-sqlserver-dotnet

@@ -26,6 +26,8 @@ namespace WebApi.Helpers
 
             CreateMap<CategoryForCreationDto, Category>();
 
+            CreateMap<CategoryForUpdateDto, Category>();
+
             #endregion
 
             #region ImageUrl
@@ -46,6 +48,8 @@ namespace WebApi.Helpers
             CreateMap<ImageUrl, ImageUrlDto>();
 
             CreateMap<ImageUrlForCreationDto, ImageUrl>();
+
+            CreateMap<ImageUrlForUpdateDto, ImageUrl>();
             #endregion
 
             #region Product
@@ -66,6 +70,8 @@ namespace WebApi.Helpers
 
             CreateMap<ProductForCreationDto, Product>();
 
+            CreateMap<ProductForUpdateDto, Product>();
+
             #endregion
 
             #region Review
@@ -85,6 +91,8 @@ namespace WebApi.Helpers
             CreateMap<Review, ReviewDto>();
 
             CreateMap<ReviewForCreationDto, Review>();
+
+            CreateMap<ReviewForUpdateDto, Review>();
             #endregion
 
             #region ShopAvatar
@@ -104,6 +112,8 @@ namespace WebApi.Helpers
             CreateMap<ShopAvatar, ShopAvatarDto>();
 
             CreateMap<ShopAvatarForCreationDto, ShopAvatar>();
+
+            CreateMap<ShopAvatarForUpdateDto, ShopAvatar>();
             #endregion
 
             #region Shop
@@ -123,6 +133,8 @@ namespace WebApi.Helpers
             CreateMap<Shop, ShopDto>();
 
             CreateMap<ShopForCreationDto, Shop>();
+
+            CreateMap<ShopForUpdateDto, Shop>();
             #endregion
 
             #region User
@@ -142,6 +154,9 @@ namespace WebApi.Helpers
             CreateMap<User, UserDto>();
 
             CreateMap<UserForCreationDto, User>();
+
+
+            CreateMap<UserForUpdateDto, User>();
             #endregion
 
             #region ProductsByCategory

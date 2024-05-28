@@ -84,17 +84,22 @@ public class CategoriesController : ControllerBase
         return CreatedAtRoute("CategoryById", new { id = createdCategory.Id }, createdCategory);
     }
 
+    [HttpPut("{id:guid}")]
+    [Consumes(typeof(CategoryForUpdateDto), "application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public IActionResult UpdateCategory(Guid id, [FromBody]CategoryForUpdateDto categry)
+    {
+        if (categry is null)
+            return BadRequest("CategoryForUpdateDto object is null");
+
+        _service.CategoryService.UpdateCategory(id, categry, trackChanges: true);
+        
+        return NoContent();
+    }
 
     /*
-        [HttpPut("{id}")]
-        [Consumes(typeof(UpdateCategoryRequest), "application/json")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Update(int id, UpdateCategoryRequest model)
-        {
-            _categoryService.Update(id, model);
-            return Ok(new { message = "Category updated" });
-        }
+
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

@@ -100,5 +100,16 @@ namespace WebApi.Services
             return (category: categoryCollectionToReturn, ids: ids);
 
         }
+
+        public void UpdateCategory(Guid id, CategoryForUpdateDto categoryForUpdate, bool trackChanges)
+        {
+            var categoryEntities = _repository.Category.GetCategory(id, trackChanges);
+            if (categoryEntities is null)
+                throw new CategoryNotFoundException(id);
+
+
+            _mapper.Map(categoryForUpdate, categoryEntities);
+            _repository.Save();
+        }
     }
 }

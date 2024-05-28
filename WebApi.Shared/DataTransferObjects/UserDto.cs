@@ -5,4 +5,6 @@
 
 
     public record UserForCreationDto(string FullName, char Sex, int Age, DateTime Birthday, string Hobby, string Email);
+
+    public record UserForUpdateDto(string FullName, char Sex, int Age, DateTime Birthday, string Hobby, string Email);
 }

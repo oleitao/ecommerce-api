@@ -7,4 +7,6 @@ namespace WebApi.Shared.DataTransferObjects
 
 
     public record ShopForCreationDto(Product Product, string Name, ShopAvatar ShopAvatars, int Ratings);
+
+    public record ShopForUpdateDto(Product Product, string Name, ShopAvatar ShopAvatars, int Ratings);
 }
