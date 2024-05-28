@@ -51,6 +51,24 @@ public class CategoriesController : ControllerBase
         return Ok(category);
     }
 
+    [HttpPost("collection/({ids})", Name = "CategoryCollection")]
+    [Consumes(typeof(CategoryForCreationDto), "application/json")]
+    public IActionResult GetCategoryCollection(IEnumerable<Guid> ids)
+    {
+        var category = _service.CategoryService.GetByIds(ids, trackChanges: false);
+
+        return Ok(category);
+    }
+
+    [HttpPost("collection")]    
+    public IActionResult CreateCategoryCollection([FromBody] IEnumerable<CategoryForCreationDto> categoryCollection)
+    {
+        var resut = _service.CategoryService.CreateCategoryCollection(categoryCollection);
+
+        return Ok(resut);
+        //return CreatedAtRoute("GetCategoryCollection", new { resut.ids }, resut.categories);
+    }
+
     [HttpPost]
     [Consumes(typeof(CategoryForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -64,24 +82,26 @@ public class CategoriesController : ControllerBase
 
         return CreatedAtRoute("CategoryById", new { id = createdCategory.Id }, createdCategory);
     }
-/*
-    [HttpPut("{id}")]
-    [Consumes(typeof(UpdateCategoryRequest), "application/json")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public IActionResult Update(int id, UpdateCategoryRequest model)
-    {
-        _categoryService.Update(id, model);
-        return Ok(new { message = "Category updated" });
-    }
 
-    [HttpDelete("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public IActionResult Delete(int id)
-    {
-        _categoryService.Delete(id);
-        return Ok(new { message = "Category deleted" });
-    }
-    */
+
+    /*
+        [HttpPut("{id}")]
+        [Consumes(typeof(UpdateCategoryRequest), "application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult Update(int id, UpdateCategoryRequest model)
+        {
+            _categoryService.Update(id, model);
+            return Ok(new { message = "Category updated" });
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult Delete(int id)
+        {
+            _categoryService.Delete(id);
+            return Ok(new { message = "Category deleted" });
+        }
+        */
 }

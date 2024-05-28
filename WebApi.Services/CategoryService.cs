@@ -66,5 +66,39 @@ namespace WebApi.Services
 
             return categoryReturn;
         }
+
+        public IEnumerable<CategoryDto> GetByIds(IEnumerable<Guid> ids, bool trackChanges)
+        {
+            if (ids is null)
+                throw new IdParametersBadException();
+
+            var categoryEntities = _repository.Category.GetByIds(ids, trackChanges);
+            if(ids.Count() != categoryEntities.Count())
+                throw new CollectionByIdsBadRequestException();
+
+            var categoriesToReturn = _mapper.Map<IEnumerable<CategoryDto>>(categoryEntities);
+
+            return categoriesToReturn;
+        }
+
+        public (IEnumerable<CategoryDto> categories, string ids) CreateCategoryCollection(IEnumerable<CategoryForCreationDto> categoriesCollection)
+        {
+            if(categoriesCollection is null)
+                throw new CategoryCollectionBadRequest();
+
+            var categoriyEntities = _mapper.Map<IEnumerable<Category>>(categoriesCollection);
+            foreach (var category in categoriyEntities)
+            {
+                _repository.Category.CreateCategory(category);
+            }
+
+            _repository.Save();
+
+            var categoryCollectionToReturn = _mapper.Map<IEnumerable<CategoryDto>>(categoriyEntities);
+            var ids = string.Join(",", categoryCollectionToReturn.Select(c => c.Id));
+
+            return (category: categoryCollectionToReturn, ids: ids);
+
+        }
     }
 }
