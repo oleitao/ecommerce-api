@@ -83,6 +83,10 @@ GET(https://localhost:64403/api/categories/collection)
 GetCategoryCollection
 GET(https://localhost:64403/api/categories/collection/(4D9EA93C-1B54-4576-9821-0822F8C32EE0,418A55C2-6254-4BC7-9593-4A41665FD396))
 ------------------------------------------------------------------------------------------------------------------------------------
+DeleteImageUrl
+DELETE(https://localhost:64403/api/imageurls/2B36C506-8A20-41E8-8FAF-02B1DF746104)
+
+------------------------------------------------------------------------------------------------------------------------------------
 
 TESTS
 https://github.com/kashifsoofi/blog-code-samples/tree/main/integration-test-sqlserver-dotnet

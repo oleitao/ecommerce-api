@@ -61,5 +61,15 @@ namespace WebApi.Services
 
             return imageUrlReturn;
         }
+
+        public void DeleteImageUrl(Guid id, bool trackChanges)
+        {
+            var imageUrl = _repository.ImageUrl.GetImageUrl(id, trackChanges: false);
+            if (imageUrl is null)
+                throw new Exception();
+
+            _repository.ImageUrl.DeleteImageUrl(imageUrl);
+            _repository.Save();
+        }
     }
 }

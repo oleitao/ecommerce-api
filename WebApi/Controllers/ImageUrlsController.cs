@@ -54,19 +54,23 @@ public class ImageUrlsController : ControllerBase
 
         return CreatedAtRoute("ImageUrlById", new { id = createdImageUrl.Id }, createdImageUrl);
     }
-/*
-    [HttpPut("{id}")]
-    public IActionResult Update(int id, UpdateImageURLRequest model)
+
+    [HttpDelete("{id:guid}")]
+    public IActionResult DeleteImageUrl(Guid id)
     {
-        _imageUrlService.Update(id, model);
-        return Ok(new { message = "ImageUrl updated" });
+        _service.ImageUrlService.DeleteImageUrl(id, trackChanges: false);
+
+        return NoContent();
     }
 
-    [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
-    {
-        _imageUrlService.Delete(id);
-        return Ok(new { message = "ImageUrl deleted" });
-    }
-    */
+    /*
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, UpdateImageURLRequest model)
+        {
+            _imageUrlService.Update(id, model);
+            return Ok(new { message = "ImageUrl updated" });
+        }
+
+
+        */
 }
