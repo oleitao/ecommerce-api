@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using WebApi.Entities.Models;
+using WebApi.ModelBinders;
 using WebApi.Service.Contracts;
 using WebApi.Services;
 using WebApi.Shared.DataTransferObjects;
@@ -51,9 +52,9 @@ public class CategoriesController : ControllerBase
         return Ok(category);
     }
 
-    [HttpPost("collection/({ids})", Name = "CategoryCollection")]
+    [HttpGet("collection/({ids})", Name = "CategoryCollection")]
     [Consumes(typeof(CategoryForCreationDto), "application/json")]
-    public IActionResult GetCategoryCollection(IEnumerable<Guid> ids)
+    public IActionResult GetCategoryCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))]IEnumerable<Guid> ids)
     {
         var category = _service.CategoryService.GetByIds(ids, trackChanges: false);
 
