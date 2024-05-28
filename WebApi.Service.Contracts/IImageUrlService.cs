@@ -8,5 +8,6 @@ namespace WebApi.Service.Contracts
         IEnumerable<ImageUrl> GetAllImageUrls(bool trackChanges);
         ImageUrl GetImageUrl(Guid id, bool trackChanges);
         ImageUrlDto CreateImageUrl(ImageUrlForCreationDto imageUrlDto);
+        void DeleteImageUrl(Guid id, bool trackChanges);
     }
 }

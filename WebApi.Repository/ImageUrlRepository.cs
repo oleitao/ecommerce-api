@@ -22,5 +22,10 @@ namespace WebApi.Repository
         {
             Create(imageUrl);
         }
+
+        public void DeleteImageUrl(ImageUrl imageUrl)
+        {
+            Delete(imageUrl);
+        }
     }
 }

@@ -6,4 +6,6 @@ namespace WebApi.Shared.DataTransferObjects
     public record ReviewDto(Guid Id,User User,string Comment,int Rating);
 
     public record ReviewForCreationDto(User User, string Comment, int Rating);
+
+    public record ReviewForUpdateDto(User User, string Comment, int Rating);
 }

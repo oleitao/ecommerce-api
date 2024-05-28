@@ -5,4 +5,6 @@
 
 
     public record CategoryForCreationDto(string Title, string SubTitle, string ImageUrl);
+
+    public record CategoryForUpdateDto(string Title, string SubTitle, string ImageUrl);
 }
