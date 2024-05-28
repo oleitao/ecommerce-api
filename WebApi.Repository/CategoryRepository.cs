@@ -22,5 +22,10 @@ namespace WebApi.Repository
         {
             Create(category);
         }
+
+        public IEnumerable<Category> GetByIds(IEnumerable<Guid> ids, bool trackChanges)
+        {
+            return FindByCondition(x => ids.Contains(x.Id), trackChanges).ToList();
+        }
     }
 }

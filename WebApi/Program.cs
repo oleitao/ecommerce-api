@@ -46,6 +46,11 @@ var builder = WebApplication.CreateBuilder(args);
 
     services.AddAutoMapper(cfg => cfg.Internal().MethodMappingEnabled = false, typeof(MappingProfile).Assembly);
 
+    services.AddMvc(options =>
+    {
+        options.SuppressAsyncSuffixInActionNames = false;
+    });
+
     services.AddEndpointsApiExplorer();
     services.AddSwaggerGen();
 }
