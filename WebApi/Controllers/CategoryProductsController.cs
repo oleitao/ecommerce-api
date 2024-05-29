@@ -41,6 +41,9 @@ namespace WebApi.Controllers
             if (product is null)
                 return BadRequest("ProductForCreationDto is null");
 
+            if (!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+
             var productToReturn = _service.ProductService.CreateProductForCategory(categoryId, product, trackChanges: false);
             
             return Ok(productToReturn);

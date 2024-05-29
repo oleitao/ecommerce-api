@@ -1,6 +1,7 @@
 ﻿namespace WebApi.Controllers;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -55,6 +56,9 @@ public class UsersController : ControllerBase
     {
         if (user is null)
             return BadRequest("UserForCreationDto is null");
+
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
 
         var createdUser = _service.UserService.CreateUser(user);
 

@@ -31,6 +31,7 @@
         public int? Discount_Price { get; set; }
 
         [Required(ErrorMessage = "Rating is a required field.")]
+        [Range(1, 5)]
         public int? Rating { get; set; }
 
         public ICollection<Review>? Reviews { get; set; }
@@ -39,6 +40,7 @@
         public int? Total_Sell { get; set; }
 
         [Required(ErrorMessage = "Stock is a required field.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than {1}")]
         public int? Stock { get; set; }
     }
 }
