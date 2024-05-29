@@ -26,3 +26,7 @@
 /WebApi.Models/bin/Debug/net7.0
 /WebApi.Shared/bin/Debug/net7.0
 >>>>>>> formatter-json-to-csv
+/WebApi.Tests/obj
+/WebApi.Tests/bin/Debug/net7.0
+/WebApi.Repository.Contracts/bin/Debug/net7.0
+/WebApi.Repository.Contracts/obj
