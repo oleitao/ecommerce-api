@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+
     public class User
     {
         [Column("UserId")]
@@ -13,10 +14,10 @@
         public string? FullName { get; set; }
 
         [Required(ErrorMessage = "Sex name is a required field.")]
-        [MaxLength(80, ErrorMessage = "Maximum length for the Sex is 60 characters.")]
+        [MaxLength(1, ErrorMessage = "Maximum length for the Sex is 1 characters.")]
         public char? Sex { get; set; }
 
-        [Required(ErrorMessage = "Age is a required field.")]
+        [Required(ErrorMessage = "Age is a required field.")]        
         public int? Age { get; set; }
 
         public DateTime? Birthday { get; set; }
@@ -25,8 +26,9 @@
         [MaxLength(80, ErrorMessage = "Maximum length for the Hobby is 60 characters.")]
         public string? Hobby { get; set; }
 
-        [Required(ErrorMessage = "Email name is a required field.")]
-        [MaxLength(80, ErrorMessage = "Maximum length for the Email is 60 characters.")]
+        [Display(Name = "Email address")]
+        [Required(ErrorMessage = "The email address is required")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string? Email { get; set; }
     }
 }

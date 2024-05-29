@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NLog;
 using System.IO;
-using System.Text.Json.Serialization;
 using WebApi.Extensions;
 using WebApi.Helpers;
 
@@ -34,6 +33,14 @@ var builder = WebApplication.CreateBuilder(args);
     });
 
     services.AddControllers().AddApplicationPart(typeof(WebApi.AssemblyReference).Assembly);
+    services.AddControllers(config =>
+    {
+        config.RespectBrowserAcceptHeader = true;
+        config.ReturnHttpNotAcceptable = true;
+        config.InputFormatters.Insert(0, JsonPatch.GetJsonPatchInputFormatter());
+    }).AddXmlDataContractSerializerFormatters();
+
+    /*
     services.AddControllers().AddJsonOptions(x =>
     {
         // serialize enums as strings in api responses (e.g. Role)
@@ -43,6 +50,7 @@ var builder = WebApplication.CreateBuilder(args);
         x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     }).AddXmlDataContractSerializerFormatters()
       .AddCustomCSVFormatter();
+    */
 
     services.AddAutoMapper(cfg => cfg.Internal().MethodMappingEnabled = false, typeof(MappingProfile).Assembly);
 

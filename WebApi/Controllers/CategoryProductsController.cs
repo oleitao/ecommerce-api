@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using WebApi.Entities.Models;
@@ -40,9 +41,28 @@ namespace WebApi.Controllers
             if (product is null)
                 return BadRequest("ProductForCreationDto is null");
 
+            if (!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+
             var productToReturn = _service.ProductService.CreateProductForCategory(categoryId, product, trackChanges: false);
             
             return Ok(productToReturn);
+        }
+
+        [HttpPatch("{id:guid}")]
+        public IActionResult PartiallyUpdateProductForCompany(Guid categoryId, Guid Id, 
+            [FromBody] JsonPatchDocument<ProductForUpdateDto> patchDoc)
+        {
+            if (patchDoc is null)
+                return BadRequest("patchDoc object sent from client is null");
+
+            var result = _service.ProductService.GetProductForPatch(categoryId, Id, catTrackChanges: false, prodTrackChanges: true);
+
+            patchDoc.ApplyTo(result.productToPatch);
+
+            _service.ProductService.SaveChangesForPatch(result.productToPatch, result.productEntity);
+
+            return NoContent();
         }
     }
 }
