@@ -1,4 +1,5 @@
-﻿using WebApi.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using WebApi.Contracts;
 using WebApi.Entities.Models;
 
 namespace WebApi.Repository
@@ -11,6 +12,8 @@ namespace WebApi.Repository
             
         }
 
+        #region Sync
+
         public IEnumerable<User> GetAllUsers(bool trackChanges) =>
             FindAll(trackChanges).ToList();
 
@@ -22,5 +25,21 @@ namespace WebApi.Repository
         {
             Create(user);
         }
+
+        #endregion
+
+        #region Async
+        
+        public async Task<IEnumerable<User>> GetAllUsersAsync(bool trackChanges)
+        {
+            return FindAll(trackChanges);
+        }
+
+        public async Task<User> GetUserAsync(Guid userId, bool trackChanges)
+        {
+            return await FindByCondition(c => c.Id.Equals(userId), trackChanges).SingleOrDefaultAsync();
+        }
+
+        #endregion
     }
 }

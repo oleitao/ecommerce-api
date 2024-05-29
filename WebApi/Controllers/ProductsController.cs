@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
+using System.Threading.Tasks;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
@@ -24,11 +24,11 @@ public class ProductsController : ControllerBase
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Product>), StatusCodes.Status200OK)]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAllProducts()
     {
         try
         {
-            var products = _service.ProductService.GetAllProducts(trackChanges: false);
+            var products = await _service.ProductService.GetAllProductsAsync(trackChanges: false);
 
             return Ok(products);
         }
@@ -38,13 +38,13 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet("{id:guid}", Name = "ProductById")]
+    [HttpGet("{id:guid}", Name = "GetProductById")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Product), StatusCodes.Status404NotFound)]
-    public IActionResult GetById(Guid id)
+    public async Task<IActionResult> GetProductById(Guid id)
     {
-        var product = _service.ProductService.GetProduct(id, trackChanges: false);
+        var product = await _service.ProductService.GetProductAsync(id, trackChanges: false);
         return Ok(product);
     }
 
@@ -52,30 +52,36 @@ public class ProductsController : ControllerBase
     [Consumes(typeof(ProductForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public IActionResult Create([FromBody] ProductForCreationDto product)
+    public async Task<IActionResult> CreateProduct([FromBody] ProductForCreationDto product)
     {
         if (product is null)
             return BadRequest("ProductForCreationDto is null");
 
-        var createdProduct = _service.ProductService.CreateProduct(product);
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
 
-        return CreatedAtRoute("ProductById", new { id = createdProduct.Id }, createdProduct);
+        var createdProduct = await _service.ProductService.CreateProductAsync(product);
+
+        return CreatedAtRoute("GetProductById", new { id = createdProduct.Id }, createdProduct);
     }
 
 
-    /*
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, UpdateProductRequest model)
-        {
-            _productService.Update(id, model);
-            return Ok(new { message = "Product updated" });
-        }
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> UpdateProduct(Guid id, ProductForUpdateDto product)
+    {
+        if (product is null)
+            return BadRequest("ProductForUpdateDto object is null");
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            _productService.Delete(id);
-            return Ok(new { message = "Product deleted" });
-        }
-        */
+        await _service.ProductService.UpdateProductAsync(id, product, trackChanges: true);
+
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteProduct(Guid id)
+    {
+        await _service.ProductService.DeleteProductAsync(id, trackChanges: false);
+
+        return NoContent();
+    }
 }

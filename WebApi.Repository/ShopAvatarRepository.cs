@@ -1,4 +1,5 @@
-﻿using WebApi.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using WebApi.Contracts;
 using WebApi.Entities.Models;
 
 namespace WebApi.Repository
@@ -11,6 +12,7 @@ namespace WebApi.Repository
             
         }
 
+        #region Sync
         public IEnumerable<ShopAvatar> GetAllShopAvatars(bool trackChanges) =>
             FindAll(trackChanges).ToList();
 
@@ -22,5 +24,21 @@ namespace WebApi.Repository
         {
             Create(shopAvatar);
         }
+
+        #endregion
+
+        #region Async
+
+        public async Task<IEnumerable<ShopAvatar>> GetAllShopAvatarsAsync(bool trackChanges)
+        {
+            return FindAll(trackChanges).ToList();
+        }
+
+        public Task<ShopAvatar> GetShopAvatarAsync(Guid shopAvatarId, bool trackChanges)
+        {
+            return FindByCondition(c => c.Id.Equals(shopAvatarId), trackChanges).SingleOrDefaultAsync();
+        }
+
+        #endregion
     }
 }

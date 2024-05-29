@@ -1,10 +1,10 @@
 ﻿namespace WebApi.Controllers;
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
@@ -24,11 +24,11 @@ public class UsersController : ControllerBase
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<User>), StatusCodes.Status200OK)]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAllUsers()
     {
         try
         {
-            var users = _service.UserService.GetAllUsers(trackChanges: false);
+            var users = await _service.UserService.GetAllUsersAsync(trackChanges: false);
 
             return Ok(users);
         }
@@ -42,9 +42,9 @@ public class UsersController : ControllerBase
     [Produces("application/json")]
     [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(User), StatusCodes.Status404NotFound)]
-    public IActionResult GetById(Guid id)
+    public async Task<IActionResult> GetByUserId(Guid id)
     {
-        var user = _service.UserService.GetUser(id, trackChanges: false);
+        var user = await _service.UserService.GetUserAsync(id, trackChanges: false);
         return Ok(user);
     }
 
@@ -52,7 +52,7 @@ public class UsersController : ControllerBase
     [Consumes(typeof(UserForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public IActionResult Create([FromBody] UserForCreationDto user)
+    public async Task<IActionResult> CreateUser([FromBody] UserForCreationDto user)
     {
         if (user is null)
             return BadRequest("UserForCreationDto is null");
@@ -60,24 +60,30 @@ public class UsersController : ControllerBase
         if (!ModelState.IsValid)
             return UnprocessableEntity(ModelState);
 
-        var createdUser = _service.UserService.CreateUser(user);
+        var createdUser = await _service.UserService.CreateUserAsync(user);
 
-        return CreatedAtRoute("UserById", new { id = createdUser.Id }, createdUser);
+        return CreatedAtRoute("GetByUserId", new { id = createdUser.Id }, createdUser);
     }
 
-    /*
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, UpdateUserRequest model)
-        {
-            _userService.Update(id, model);
-            return Ok(new { message = "User updated" });
-        }
+    [HttpPut("{id:guid}")]
+    [Consumes(typeof(UserForUpdateDto), "application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateUser(Guid id, UserForUpdateDto category)
+    {
+        if (category is null)
+            return BadRequest("UserForUpdateDto object is null");
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            _userService.Delete(id);
-            return Ok(new { message = "User deleted" });
-        }
-        */
+        await _service.UserService.UpdateUserAsync(id, category, trackChanges: true);
+        
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteUser(Guid id)
+    {
+        await _service.UserService.DeleteUserAsync(id, trackChanges: false);
+
+        return NoContent();
+    }
 }
