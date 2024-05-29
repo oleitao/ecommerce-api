@@ -111,5 +111,26 @@ namespace WebApi.Services
 
             return productToReturn;
         }
+
+        public void SaveChangesForPatch(ProductForUpdateDto productToPatch, Product productEntity)
+        {
+            _mapper.Map(productToPatch, productEntity);
+            _repository.Save();
+        }
+
+        public (ProductForUpdateDto productToPatch, Product productEntity) GetProductForPatch(Guid categoryId, Guid id, bool catTrackChanges, bool prodTrackChanges)
+        {
+            var category = _repository.Category.GetCategory(categoryId, catTrackChanges);
+            if (category == null)
+                throw new CategoryNotFoundException(categoryId);
+
+            var productEntity = _repository.Product.GetProduct(categoryId, prodTrackChanges);
+            if (productEntity is null)
+                throw new ProductNotFoundException(categoryId);
+
+            var productToPatch = _mapper.Map<ProductForUpdateDto>(productEntity);
+
+            return (productToPatch, productEntity);
+        }
     }
 }
