@@ -1,4 +1,6 @@
-﻿using WebApi.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Immutable;
+using WebApi.Contracts;
 using WebApi.Entities.Models;
 
 namespace WebApi.Repository
@@ -11,6 +13,7 @@ namespace WebApi.Repository
             
         }
 
+        #region Sync
         public IEnumerable<Product> GetAllProducts(bool trackChanges) =>
             FindAll(trackChanges).ToList();
 
@@ -32,5 +35,27 @@ namespace WebApi.Repository
             product.CategoryId = categoryId;
             Create(product);
         }
+
+        #endregion
+
+        #region Async
+
+        public async Task<IEnumerable<Product>> GetAllProductsAsync(bool trackChanges)
+        {
+            return FindAll(trackChanges).ToList();
+        }
+
+        public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(Guid categoryId, bool trackChanges)
+        {
+            return FindByCondition(p => p.CategoryId.Equals(categoryId), trackChanges)
+            .OrderBy(p => p.Name).ToImmutableList<Product>();
+        }
+
+        public Task<Product> GetProductAsync(Guid productId, bool trackChanges)
+        {
+            return FindByCondition(c => c.Id.Equals(productId), trackChanges).SingleOrDefaultAsync();
+        }
+
+        #endregion
     }
 }

@@ -18,7 +18,7 @@ namespace WebApi.Services
             _logger = logger;
             _mapper = mapper;
         }
-
+        #region Sync
         public IEnumerable<Review> GetAllReviews(bool trackChanges)
         {
             try
@@ -61,5 +61,64 @@ namespace WebApi.Services
 
             return reviewReturn;
         }
+
+        #endregion
+
+        #region Async
+
+        public async Task<IEnumerable<Review>> GetAllReviewsAsync(bool trackChanges)
+        {
+            try
+            {
+                var reviews = await _repository.Review.GetAllReviewsAsync(trackChanges);
+                return reviews;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetAllReviews)} service method {ex}");
+                throw;
+            }
+        }
+
+        public async Task<Review> GetReviewAsync(Guid id, bool trackChanges)
+        {
+            try
+            {
+                var review = await _repository.Review.GetReviewAsync(id, trackChanges);
+                if (review == null)
+                    throw new ReviewNotFoundException(id);
+
+                return review;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetReviewAsync)} service method {ex}");
+                throw;
+            }
+        }
+
+        public async Task<ReviewDto> CreateReviewAsync(ReviewForCreationDto review)
+        {
+            var reviewEntity = _mapper.Map<Review>(review);
+
+            _repository.Review.CreateReview(reviewEntity);
+            await _repository.SaveAsync();
+
+            var reviewReturn = _mapper.Map<ReviewDto>(reviewEntity);
+
+            return reviewReturn;
+        }
+
+        public Task UpdateReviewAsync(Guid id, ReviewForUpdateDto review, bool trackChanges)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteReviewAsync(Guid id, bool trackChanges)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

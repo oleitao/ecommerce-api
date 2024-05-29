@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using System.Linq;
 using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
@@ -19,6 +18,8 @@ namespace WebApi.Services
             _logger = logger;
             _mapper = mapper;
         }
+
+        #region Sync
 
         public IEnumerable<Product> GetAllProducts(bool trackChanges)
         {
@@ -132,5 +133,135 @@ namespace WebApi.Services
 
             return (productToPatch, productEntity);
         }
+
+
+        #endregion
+
+        #region Async
+
+        public async Task<IEnumerable<Product>> GetAllProductsAsync(bool trackChanges)
+        {
+            try
+            {
+                var products = await _repository.Product.GetAllProductsAsync(trackChanges);
+                return products;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetAllProducts)} service method {ex}");
+                throw;
+            }
+        }
+
+        public async Task<Product> GetProductAsync(Guid id, bool trackChanges)
+        {
+            try
+            {
+                var product = await _repository.Product.GetProductAsync(id, trackChanges);
+                if (product == null)
+                    throw new ProductNotFoundException(id);
+
+                return product;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetProduct)} service method {ex}");
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(Guid categoryId, bool trackChanges)
+        {
+            try
+            {
+                var products = await _repository.Product.GetProductsByCategoryAsync(categoryId, trackChanges);
+                return products;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetProductsByCategory)} service method {ex}");
+                throw;
+            }
+        }
+
+        public async Task<ProductDto> CreateProductAsync(ProductForCreationDto product)
+        {
+            var productEntity = _mapper.Map<Product>(product);
+
+            _repository.Product.CreateProduct(productEntity);
+            await _repository.SaveAsync();
+
+            var productReturn = _mapper.Map<ProductDto>(productEntity);
+
+            return productReturn;
+        }
+
+        public async Task<ProductDto> CreateProductForCategoryAsync(Guid categoryId, ProductForCreationDto productForCreationDto, bool trackChanges)
+        {
+            var category = await _repository.Category.GetCategoryAsync(categoryId, trackChanges);
+            if (category == null)
+                throw new ProductNotFoundException(categoryId);
+
+            var productEntity = _mapper.Map<Product>(productForCreationDto);
+            productEntity.CategoryId = categoryId;
+
+            var images = await _repository.ImageUrl.GetImageUrlsAsync(false);
+            List<ImageUrl> onlyNewImages = new List<ImageUrl>();
+            if (productEntity.ImageURLs is not null)
+            {
+                foreach (var image in images)
+                {
+                    if (productEntity.ImageURLs.Where(c => c.Id == image.Id).FirstOrDefault() != null)
+                        onlyNewImages.Add(image);
+                }
+
+                if (onlyNewImages is not null && onlyNewImages.Count > 0)
+                {
+                    productEntity.ImageURLs.Clear();
+                    productEntity.ImageURLs.Add(new ImageUrl() { Url = string.Empty, PublicUrl = string.Empty });
+                }
+            }
+
+
+            _repository.Product.CreateGetProductsByCategory(categoryId, productEntity);
+            await _repository.SaveAsync();
+
+            var productToReturn = _mapper.Map<ProductDto>(productEntity);
+
+            return productToReturn;
+        }
+
+        public async Task<(ProductForUpdateDto productToPatch, Product productEntity)> GetProductForPatchAsync(Guid categoryId, Guid id, bool catTrackChanges, bool prodTrackChanges)
+        {
+            var category = await _repository.Category.GetCategoryAsync(categoryId, catTrackChanges);
+            if (category == null)
+                throw new CategoryNotFoundException(categoryId);
+
+            var productEntity = await _repository.Product.GetProductAsync(categoryId, prodTrackChanges);
+            if (productEntity is null)
+                throw new ProductNotFoundException(categoryId);
+
+            var productToPatch = _mapper.Map<ProductForUpdateDto>(productEntity);
+
+            return (productToPatch, productEntity);
+        }
+
+        public async Task SaveChangesForPatchAsync(ProductForUpdateDto productToPatch, Product productEntity)
+        {
+            _mapper.Map(productToPatch, productEntity);
+            await _repository.SaveAsync();
+        }
+
+        public async Task UpdateProductAsync(Guid id, ProductForUpdateDto product, bool trackChanges)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task DeleteProductAsync(Guid id, bool trackChanges)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

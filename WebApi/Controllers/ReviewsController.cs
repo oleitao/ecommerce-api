@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
@@ -23,11 +24,11 @@ public class ReviewsController : ControllerBase
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Review>), StatusCodes.Status200OK)]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAllReviews()
     {
         try
         {
-            var reviews = _service.ReviewService.GetAllReviews(trackChanges: false);
+            var reviews = await _service.ReviewService.GetAllReviewsAsync(trackChanges: false);
 
             return Ok(reviews);
         }
@@ -38,13 +39,13 @@ public class ReviewsController : ControllerBase
     }
 
 
-    [HttpGet("{id:guid}", Name = "ReviewById")]
+    [HttpGet("{id:guid}", Name = "GetReviewById")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(Review), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Review), StatusCodes.Status404NotFound)]
-    public IActionResult GetById(Guid id)
+    public async Task<IActionResult> GetReviewById(Guid id)
     {
-        var review = _service.ReviewService.GetReview(id, trackChanges: false);
+        var review = await _service.ReviewService.GetReviewAsync(id, trackChanges: false);
         return Ok(review);
     }
 
@@ -52,28 +53,35 @@ public class ReviewsController : ControllerBase
     [Consumes(typeof(ReviewForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public IActionResult Create([FromBody] ReviewForCreationDto review)
+    public async Task<IActionResult> CreateReview([FromBody] ReviewForCreationDto review)
     {
         if (review is null)
             return BadRequest("ReviewForCreationDto is null");
 
-        var createdReview = _service.ReviewService.CreateReview(review);
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
 
-        return CreatedAtRoute("ReviewById", new { id = createdReview.Id }, createdReview);
+        var createdReview = await _service.ReviewService.CreateReviewAsync(review);
+
+        return CreatedAtRoute("GetReviewById", new { id = createdReview.Id }, createdReview);
     }
-    /*
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, UpdateReviewRequest model)
-        {
-            _reviewService.Update(id, model);
-            return Ok(new { message = "Category updated" });
-        }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            _reviewService.Delete(id);
-            return Ok(new { message = "Category deleted" });
-        }
-        */
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> UpdateReview(Guid id, [FromBody]ReviewForUpdateDto review)
+    {
+        if (review is null)
+            return BadRequest("ReviewForUpdateDto object is null");
+
+        await _service.ReviewService.UpdateReviewAsync(id, review, trackChanges: false);
+
+        return NoContent();
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteReview(Guid id)
+    {
+        await _service.ReviewService.DeleteReviewAsync(id, trackChanges: false);
+
+        return NoContent();
+    }
 }

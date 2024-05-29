@@ -1,4 +1,5 @@
-﻿using WebApi.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using WebApi.Contracts;
 using WebApi.Entities.Models;
 
 namespace WebApi.Repository
@@ -11,6 +12,7 @@ namespace WebApi.Repository
             
         }
 
+        #region Sync
         public IEnumerable<Review> GetAllReviews(bool trackChanges) =>
             FindAll(trackChanges).ToList();
 
@@ -23,5 +25,21 @@ namespace WebApi.Repository
         {
             Create(review);
         }
+
+        #endregion
+
+        #region Async
+
+        public async Task<IEnumerable<Review>> GetAllReviewsAsync(bool trackChanges)
+        {
+            return FindAll(trackChanges).ToList();
+        }
+
+        public Task<Review> GetReviewAsync(Guid reviewId, bool trackChanges)
+        {
+            return FindByCondition(c => c.Id.Equals(reviewId), trackChanges).SingleOrDefaultAsync();            
+        }
+
+        #endregion
     }
 }

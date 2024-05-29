@@ -19,6 +19,8 @@ namespace WebApi.Services
             _mapper = mapper;
         }
 
+        #region Sync
+
         public IEnumerable<ImageUrl> GetAllImageUrls(bool trackChanges)
         {
             try
@@ -71,5 +73,69 @@ namespace WebApi.Services
             _repository.ImageUrl.DeleteImageUrl(imageUrl);
             _repository.Save();
         }
+
+        #endregion
+
+        #region Async
+
+        public async Task<IEnumerable<ImageUrl>> GetAllImageUrlsAsync(bool trackChanges)
+        {
+            try
+            {
+                var images = await _repository.ImageUrl.GetImageUrlsAsync(trackChanges);
+                return images;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetAllImageUrlsAsync)} service method {ex}");
+                throw;
+            }
+        }
+
+        public async Task<ImageUrl> GetImageUrlAsync(Guid id, bool trackChanges)
+        {
+            try
+            {
+                var image = await _repository.ImageUrl.GetImageUrlAsync(id, trackChanges);
+                if (image == null)
+                    throw new ImageUrlNotFoundException(id);
+
+                return image;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetImageUrlAsync)} service method {ex}");
+                throw;
+            }
+        }
+
+        public async Task<ImageUrlDto> CreateImageUrlAsync(ImageUrlForCreationDto imageUrlDto)
+        {
+            var imageUrlEntity = _mapper.Map<ImageUrl>(imageUrlDto);
+
+            _repository.ImageUrl.CreateImageUrl(imageUrlEntity);
+            await _repository.SaveAsync();
+
+            var imageUrlReturn = _mapper.Map<ImageUrlDto>(imageUrlEntity);
+
+            return imageUrlReturn;
+        }
+
+        public async Task DeleteImageUrlAsync(Guid id, bool trackChanges)
+        {
+            var imageUrl = await _repository.ImageUrl.GetImageUrlAsync(id, trackChanges: false);
+            if (imageUrl is null)
+                throw new Exception();
+
+            _repository.ImageUrl.DeleteImageUrl(imageUrl);
+            await _repository.SaveAsync();
+        }
+
+        public Task UpdateImageUrlAsync(int id, ImageUrlForUpdateDto imageUrl, bool trackChanges)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

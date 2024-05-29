@@ -19,5 +19,6 @@ namespace WebApi.Contracts
         IUserRepository User { get; }
 
         void Save();
+        Task SaveAsync();
     }
 }

@@ -1,4 +1,5 @@
-﻿using WebApi.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using WebApi.Contracts;
 using WebApi.Entities.Models;
 
 namespace WebApi.Repository
@@ -11,6 +12,7 @@ namespace WebApi.Repository
             
         }
 
+        #region Sync
         public ImageUrl GetImageUrl(Guid imageUrlId, bool trackChanges) =>
             FindByCondition(c => c.Id.Equals(imageUrlId), trackChanges)
             .SingleOrDefault();
@@ -27,5 +29,21 @@ namespace WebApi.Repository
         {
             Delete(imageUrl);
         }
+
+        #endregion
+
+        #region Async
+
+        public async Task<IEnumerable<ImageUrl>> GetImageUrlsAsync(bool trackChanges)
+        {
+            return FindAll(trackChanges).ToList();
+        }
+
+        public Task<ImageUrl> GetImageUrlAsync(Guid imageUrlId, bool trackChanges)
+        {
+            return FindByCondition(c => c.Id.Equals(imageUrlId), trackChanges).SingleOrDefaultAsync();
+        }
+
+        #endregion
     }
 }
