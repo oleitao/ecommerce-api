@@ -25,6 +25,9 @@ https://localhost:64403/api/categories/6e27b4b8-e66c-450a-bf41-58344b208512/prod
 https://learn.microsoft.com/pt-pt/aspnet/core/tutorials/first-web-api?view=aspnetcore-8.0&tabs=visual-studio
 
 
+TESTS
+https://docs.specflow.org/projects/getting-started/en/latest/GettingStarted/Step6.html
+
 ------------------------------------------------------------------------------------------------------------------------------------
 CreateProductForCategory
 POST(https://localhost:64403/api/categories/FE58DDC2-61EE-4E1A-9402-A0C9EBFB8E5C/products)

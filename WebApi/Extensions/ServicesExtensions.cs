@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebApi.Contracts;
+using WebApi.Formaters;
 using WebApi.Repository;
 using WebApi.Service.Contracts;
 using WebApi.Services;
