@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
@@ -24,11 +25,11 @@ public class ShopAvatarsController : ControllerBase
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<ShopAvatar>), StatusCodes.Status200OK)]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAllShopAvatars()
     {
         try
         {
-            var shopAvatars = _service.ShopAvatarService.GetAllShopAvatars(trackChanges: false);
+            var shopAvatars = await _service.ShopAvatarService.GetAllShopAvatarsAsync(trackChanges: false);
 
             return Ok(shopAvatars);
         }
@@ -38,13 +39,13 @@ public class ShopAvatarsController : ControllerBase
         }
     }
 
-    [HttpGet("{id:guid}", Name = "ShopAvatarById")]
+    [HttpGet("{id:guid}", Name = "GetShopAvatarById")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(ShopAvatar), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ShopAvatar), StatusCodes.Status404NotFound)]
-    public IActionResult GetById(Guid id)
+    public async Task<IActionResult> GetShopAvatarById(Guid id)
     {
-        var shopAvatar = _service.ShopAvatarService.GetShopAvatar(id, trackChanges: false);
+        var shopAvatar = await _service.ShopAvatarService.GetShopAvatarAsync(id, trackChanges: false);
         return Ok(shopAvatar);
     }
 
@@ -52,28 +53,35 @@ public class ShopAvatarsController : ControllerBase
     [Consumes(typeof(ShopAvatarForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public IActionResult Create([FromBody] ShopAvatarForCreationDto shopAvatar)
+    public async Task<IActionResult> CreateShoAvatar([FromBody] ShopAvatarForCreationDto shopAvatar)
     {
         if (shopAvatar is null)
             return BadRequest("ShopAvatarForCreationDto is null");
 
-        var createdShopAvatar = _service.ShopAvatarService.CreateShopAvatar(shopAvatar);
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
 
-        return CreatedAtRoute("ShopAvatarById", new { id = createdShopAvatar.Id }, createdShopAvatar);
+        var createdShopAvatar = await _service.ShopAvatarService.CreateShopAvatarAsync(shopAvatar);
+
+        return CreatedAtRoute("GetShopAvatarById", new { id = createdShopAvatar.Id }, createdShopAvatar);
     }
-    /*
-       [HttpPut("{id}")]
-       public IActionResult Update(int id, UpdateShopAvatarRequest model)
-       {
-           _shopAvatarService.Update(id, model);
-           return Ok(new { message = "ShopAvatar updated" });
-       }
 
-       [HttpDelete("{id}")]
-       public IActionResult Delete(int id)
-       {
-           _shopAvatarService.Delete(id);
-           return Ok(new { message = "ShopAvatar deleted" });
-       }
-       */
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateShopAvatar(Guid id, ShopAvatarForUpdateDto shopAvatar)
+    {
+        if (shopAvatar is null)
+            return BadRequest("ShopAvatarForUpdateDto object is null");
+
+        await _service.ShopAvatarService.UpdateShopAvatar(id, shopAvatar, trackChanges: true);
+
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteShopAvatar(Guid id)
+    {
+        await _service.ShopAvatarService.DeleteShopAvatar(id, trackChanges: false);
+
+        return NoContent();
+    }
 }

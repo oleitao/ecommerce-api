@@ -19,6 +19,8 @@ namespace WebApi.Services
             _mapper = mapper;
         }
 
+        #region Sync
+
         public IEnumerable<Shop> GetAllShops(bool trackChanges)
         {
             try
@@ -61,5 +63,64 @@ namespace WebApi.Services
 
             return shopReturn;
         }
+
+        #endregion
+
+        #region Async
+
+        public async Task<IEnumerable<Shop>> GetAllShopsAsync(bool trackChanges)
+        {
+            try
+            {
+                var shops = await _repository.Shop.GetAllShopsAsync(trackChanges);
+                return shops;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetAllShopsAsync)} service method {ex}");
+                throw;
+            }
+        }
+
+        public async Task<Shop> GetShopAsync(Guid id, bool trackChanges)
+        {
+            try
+            {
+                var shop = await _repository.Shop.GetShopAsync(id, trackChanges);
+                if (shop == null)
+                    throw new ShopNotFoundException(id);
+
+                return shop;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetShopAsync)} service method {ex}");
+                throw;
+            }
+        }
+
+        public async Task<ShopDto> CreateShopAsync(ShopForCreationDto shop)
+        {
+            var shopEntity = _mapper.Map<Shop>(shop);
+
+            _repository.Shop.CreateShop(shopEntity);
+            await _repository.SaveAsync();
+
+            var shopReturn = _mapper.Map<ShopDto>(shopEntity);
+
+            return shopReturn;
+        }
+
+        public Task UpdateShopAsync(Guid id, ShopForUpdateDto model, bool trackChanges)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteShopAsync(Guid id, bool trackChanges)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }
