@@ -11,13 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Repository", "..\Web
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Service.Contracts", "..\WebApi.Service.Contracts\WebApi.Service.Contracts.csproj", "{2043E3DD-0B07-4E04-8AA9-A9CB5C6F0286}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Contracts", "..\WebApi.Contracts\WebApi.Contracts.csproj", "{A3D76DFC-9298-4251-BE38-70279103EDD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Repository.Contracts", "..\WebApi.Contracts\WebApi.Repository.Contracts.csproj", "{A3D76DFC-9298-4251-BE38-70279103EDD9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.LoggerServices", "..\WebApi.LoggerServices\WebApi.LoggerServices.csproj", "{C563BC95-33A2-405A-99E7-5B2ACC36021F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Services", "..\WebApi.Services\WebApi.Services.csproj", "{C49BD8A4-51A8-4D10-8CBB-569F9A5EF242}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Shared", "..\WebApi.Shared\WebApi.Shared.csproj", "{978A0F14-A63C-48CF-8BDA-4C2B61C0ADB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Shared", "..\WebApi.Shared\WebApi.Shared.csproj", "{978A0F14-A63C-48CF-8BDA-4C2B61C0ADB0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

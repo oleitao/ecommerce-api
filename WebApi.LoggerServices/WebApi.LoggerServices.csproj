@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebApi.Contracts\WebApi.Contracts.csproj" />
+    <ProjectReference Include="..\WebApi.Contracts\WebApi.Repository.Contracts.csproj" />
   </ItemGroup>
 
 </Project>
