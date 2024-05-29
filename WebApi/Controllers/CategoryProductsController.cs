@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using WebApi.Entities.Models;
@@ -39,6 +40,9 @@ namespace WebApi.Controllers
         {
             if (product is null)
                 return BadRequest("ProductForCreationDto is null");
+
+            if (!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
 
             var productToReturn = _service.ProductService.CreateProductForCategory(categoryId, product, trackChanges: false);
             
