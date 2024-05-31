@@ -1,4 +1,5 @@
 ﻿using WebApi.Entities.Models;
+using WebApi.Entities.RequestFeatures;
 using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Service.Contracts
@@ -25,6 +26,8 @@ namespace WebApi.Service.Contracts
         public Task SaveChangesForPatchAsync(ProductForUpdateDto productToPatch, Product productEntity);
         Task UpdateProductAsync(Guid id, ProductForUpdateDto product, bool trackChanges);
         Task DeleteProductAsync(Guid id, bool trackChanges);
+        Task<IEnumerable<ProductDto>> GetPagingProductsAsync(Guid categoryId, ProductParameters productParameters, bool trackChanges);
+        Task<(IEnumerable<ProductDto> products, MetaData metaData)> GetPagedProductsAsync(Guid categoryId, ProductParameters productParameters, bool trackChanges);
 
         #endregion
     }
