@@ -1,6 +1,5 @@
 ﻿namespace WebApi.Controllers;
 
-using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,7 +8,6 @@ using System.Threading.Tasks;
 using WebApi.Entities.Models;
 using WebApi.ModelBinders;
 using WebApi.Service.Contracts;
-using WebApi.Services;
 using WebApi.Shared.DataTransferObjects;
 
 [ApiController]
@@ -17,17 +15,11 @@ using WebApi.Shared.DataTransferObjects;
 public class CategoriesController : ControllerBase
 {
     private readonly IServiceManager _service;
-    private IMapper _mapper;
-    private LoggerManager _logger;
 
     public CategoriesController(
-            IServiceManager service,
-            IMapper mapper,
-            LoggerManager logger)
+            IServiceManager service)
     {
         _service = service;
-        _mapper = mapper;
-        _logger = logger;
     }
 
     [HttpGet]
