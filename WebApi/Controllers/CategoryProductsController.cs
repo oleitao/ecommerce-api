@@ -1,12 +1,9 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
-using WebApi.Services;
 using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Controllers
@@ -16,8 +13,6 @@ namespace WebApi.Controllers
     public class CategoryProductsController : ControllerBase
     {
         private readonly IServiceManager _service;
-        private IMapper _mapper;
-        private LoggerManager _logger;
 
         public CategoryProductsController(
             IServiceManager service)
@@ -25,7 +20,7 @@ namespace WebApi.Controllers
             _service = service;
         }
 
-        [HttpGet("{id:guid}", Name = "GetProductByCategory")]
+        [HttpGet(Name = "GetProductsByCategory")]
         public async Task<IActionResult> GetProductsByCategory(Guid categoryId)
         {
             var products = await _service.ProductService.GetProductsByCategoryAsync(categoryId, trackChanges: false);

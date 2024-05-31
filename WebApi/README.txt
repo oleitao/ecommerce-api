@@ -66,7 +66,7 @@ POST(https://localhost:64403/api/categories/FE58DDC2-61EE-4E1A-9402-A0C9EBFB8E5C
     "stock": 0
 }
 ------------------------------------------------------------------------------------------------------------------------------------
-GetCategoryCollection
+CreateCategoryCollection
 GET(https://localhost:64403/api/categories/collection)
 [
     {
@@ -82,6 +82,9 @@ GET(https://localhost:64403/api/categories/collection)
         "imageUrl": "https://static.vecteezy.com/system/resources/previews/011/996/555/original/3d-black-headphone-illustration-ecommerce-icon-png.png"
     }
 ]
+------------------------------------------------------------------------------------------------------------------------------------
+GetProductsByCategory
+GET(https://localhost:64403/api/categories/6E27B4B8-E66C-450A-BF41-58344B208512/products)
 ------------------------------------------------------------------------------------------------------------------------------------
 GetCategoryCollection
 GET(https://localhost:64403/api/categories/collection/(4D9EA93C-1B54-4576-9821-0822F8C32EE0,418A55C2-6254-4BC7-9593-4A41665FD396))
