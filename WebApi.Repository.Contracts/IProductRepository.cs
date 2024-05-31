@@ -1,4 +1,5 @@
 ﻿using WebApi.Entities.Models;
+using WebApi.Entities.RequestFeatures;
 
 namespace WebApi.Contracts
 {
@@ -16,6 +17,8 @@ namespace WebApi.Contracts
         Task<IEnumerable<Product>> GetAllProductsAsync(bool trackChanges);
         Task<IEnumerable<Product>> GetProductsByCategoryAsync(Guid categoryId, bool trackChanges);
         Task<Product> GetProductAsync(Guid productId, bool trackChanges);
+        Task<IEnumerable<Product>> GetPagingProductsAsync(Guid companyId, ProductParameters productParameters, bool trackChanges);
+        Task<PagedList<Product>> GetPagedProductsAsync(Guid companyId, ProductParameters productParameters, bool trackChanges);
 
         #endregion
     }

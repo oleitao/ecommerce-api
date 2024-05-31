@@ -2,6 +2,7 @@
 using System.Collections.Immutable;
 using WebApi.Contracts;
 using WebApi.Entities.Models;
+using WebApi.Entities.RequestFeatures;
 
 namespace WebApi.Repository
 {
@@ -54,6 +55,30 @@ namespace WebApi.Repository
         public Task<Product> GetProductAsync(Guid productId, bool trackChanges)
         {
             return FindByCondition(c => c.Id.Equals(productId), trackChanges).SingleOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetPagingProductsAsync(Guid categoryId, ProductParameters productParameters, bool trackChanges)
+        {
+            return await FindByCondition(e => e.CategoryId.Equals(categoryId), trackChanges)
+                .OrderBy(e => e.Name)
+                .Skip((productParameters.PageNumber - 1) * productParameters.PageSize)
+                .Take(productParameters.PageSize)
+                .ToListAsync();
+        }
+
+        public async Task<PagedList<Product>> GetPagedProductsAsync(Guid categoryId, ProductParameters productParameters, bool trackChanges)
+        {
+            var products = await FindByCondition(e => e.CategoryId.Equals(categoryId), trackChanges)
+                .OrderBy(e => e.Name)
+                .Skip((productParameters.PageNumber - 1) * productParameters.PageSize)
+                .Take(productParameters.PageSize)
+                .ToListAsync();
+
+            var count = await FindByCondition(e => e.CategoryId.Equals(categoryId), trackChanges).CountAsync();
+
+            return PagedList<Product>
+                .ToPagedList(products, count, productParameters.PageNumber, productParameters.PageSize);
+
         }
 
         #endregion

@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Text.Json;
 using System.Threading.Tasks;
+using WebApi.Entities.RequestFeatures;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
@@ -20,12 +22,50 @@ namespace WebApi.Controllers
             _service = service;
         }
 
+        /*
         [HttpGet(Name = "GetProductsByCategory")]
         public async Task<IActionResult> GetProductsByCategory(Guid categoryId)
         {
             var products = await _service.ProductService.GetProductsByCategoryAsync(categoryId, trackChanges: false);
 
             return Ok(products);
+        }
+        */
+
+
+        /*
+        [HttpGet]
+        [HttpGet(Name="GetPagingProductsForCategory")]
+        public async Task<IActionResult> GetPagingProductsForCategory(Guid categoryId, [FromQuery]ProductParameters productParameters)
+        {
+            try
+            {
+                var products = await _service.ProductService.GetPagingProductsAsync(categoryId, productParameters, trackChanges: false);
+
+                return Ok(products);
+            }
+            catch
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+        */
+
+        [HttpGet(Name="GetPagedProductsForCategory")]
+        public async Task<IActionResult> GetPagedProductsForCategory(Guid categoryId, [FromQuery]ProductParameters productParameters)
+        {
+            try
+            {
+                var pagedResult = await _service.ProductService.GetPagedProductsAsync(categoryId, productParameters, trackChanges: false);
+
+                Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
+
+                return Ok(pagedResult.products);
+            }
+            catch
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPost]

@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NLog;
 using System.IO;
+using System.Text.Json.Serialization;
 using WebApi.Extensions;
 using WebApi.Helpers;
 
@@ -16,7 +17,13 @@ var builder = WebApplication.CreateBuilder(args);
     var env = builder.Environment;
  
     //services.AddDbContext<RepositoryContext>();
-    services.AddCors();
+    services.AddCors(options => { 
+        options.AddPolicy("CorsPolicy", builder => 
+        builder.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .WithExposedHeaders("X-Pagination"));
+    });
 
     LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "\\nlog.config"));
 
@@ -31,7 +38,7 @@ var builder = WebApplication.CreateBuilder(args);
     { 
         options.SuppressModelStateInvalidFilter = true;
     });
-
+    /*
     services.AddControllers().AddApplicationPart(typeof(WebApi.AssemblyReference).Assembly);
     services.AddControllers(config =>
     {
@@ -39,8 +46,8 @@ var builder = WebApplication.CreateBuilder(args);
         config.ReturnHttpNotAcceptable = true;
         config.InputFormatters.Insert(0, JsonPatch.GetJsonPatchInputFormatter());
     }).AddXmlDataContractSerializerFormatters();
-
-    /*
+    */
+    
     services.AddControllers().AddJsonOptions(x =>
     {
         // serialize enums as strings in api responses (e.g. Role)
@@ -50,7 +57,7 @@ var builder = WebApplication.CreateBuilder(args);
         x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     }).AddXmlDataContractSerializerFormatters()
       .AddCustomCSVFormatter();
-    */
+    
 
     services.AddAutoMapper(cfg => cfg.Internal().MethodMappingEnabled = false, typeof(MappingProfile).Assembly);
 
