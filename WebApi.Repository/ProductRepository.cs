@@ -68,7 +68,8 @@ namespace WebApi.Repository
 
         public async Task<PagedList<Product>> GetPagedProductsAsync(Guid categoryId, ProductParameters productParameters, bool trackChanges)
         {
-            var products = await FindByCondition(e => e.CategoryId.Equals(categoryId), trackChanges)
+            var products = await FindByCondition(e => e.CategoryId.Equals(categoryId) && (e.Name.Length >= productParameters.MinName) &&
+                (e.Name.Length <= productParameters.MaxName), trackChanges)
                 .OrderBy(e => e.Name)
                 .Skip((productParameters.PageNumber - 1) * productParameters.PageSize)
                 .Take(productParameters.PageSize)
