@@ -265,6 +265,9 @@ namespace WebApi.Services
 
         public async Task<IEnumerable<ProductDto>> GetPagingProductsAsync(Guid categoryId, ProductParameters productParameters, bool trackChanges)
         {
+            if (!productParameters.ValidNameRange)
+                throw new MaxNameRangeBadRequestException();
+
             await CheckIfCategoryExists(categoryId, trackChanges);
 
             var productFromDb = await _repository.Product.GetPagingProductsAsync(categoryId, productParameters, trackChanges: false);

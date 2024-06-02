@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 using WebApi.Entities.Models;
+using WebApi.Entities.RequestFeatures;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
@@ -46,6 +48,22 @@ public class UsersController : ControllerBase
     {
         var user = await _service.UserService.GetUserAsync(id, trackChanges: false);
         return Ok(user);
+    }
+
+    [HttpGet(Name = "FilterUserMinAge")]
+    [Route("filter/")]
+    public async Task<IActionResult> FilterUserMinAge([FromQuery]UserParameters userParameters)
+    {
+        try
+        {
+            var result = await _service.UserService.GetAllUsersAsync(userParameters, trackChanges: false);
+
+            return Ok(result);
+        }
+        catch
+        {
+            return StatusCode(500, "Internal server error");
+        }
     }
 
     [HttpPost]

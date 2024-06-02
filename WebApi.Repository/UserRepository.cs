@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Immutable;
 using WebApi.Contracts;
 using WebApi.Entities.Models;
+using WebApi.Entities.RequestFeatures;
 
 namespace WebApi.Repository
 {
@@ -39,6 +41,14 @@ namespace WebApi.Repository
         {
             return await FindByCondition(c => c.Id.Equals(userId), trackChanges).SingleOrDefaultAsync();
         }
+
+        public async Task<IEnumerable<User>> GetAllUsersAsync(UserParameters userParameters, bool trackChanges)
+        {
+            return FindByCondition(c => c.Age >= userParameters.MinAge && c.Age <= userParameters.MaxAge, trackChanges)
+                .ToList();
+
+        }
+
 
         #endregion
     }

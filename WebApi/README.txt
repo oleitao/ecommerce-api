@@ -32,6 +32,17 @@ https://code-maze.com/aspnetcore-pass-parameters-to-http-get-action/
 TESTS
 https://docs.specflow.org/projects/getting-started/en/latest/GettingStarted/Step6.html
 
+
+------------------------------------------------------------------------------------------------------------------------------------
+FilterUserMinAge
+GET(https://localhost:64403/api/users/filter?minAge=37)
+GET(https://localhost:64403/api/users/filter?maxAge=37)
+------------------------------------------------------------------------------------------------------------------------------------
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+GetPagedProductsForCategory
+GET(https://localhost:64403/api/categories/6E27B4B8-E66C-450A-BF41-58344B208512/products?minName=10)
 ------------------------------------------------------------------------------------------------------------------------------------
 GetPagedProductsForCategory
 GET(https://localhost:64403/api/categories/6E27B4B8-E66C-450A-BF41-58344B208512/products?pageNumber=2&pageSize=5)
