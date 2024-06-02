@@ -2,6 +2,7 @@
 using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
+using WebApi.Entities.RequestFeatures;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
@@ -125,6 +126,20 @@ namespace WebApi.Services
         public Task DeleteUserAsync(Guid id, bool trackChanges)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<User>> GetAllUsersAsync(UserParameters userParameters, bool trackChanges)
+        {
+            try
+            {
+                var users = await _repository.User.GetAllUsersAsync(userParameters, trackChanges);
+                return users;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetAllUsersAsync)} service method {ex}");
+                throw;
+            }
         }
 
         #endregion

@@ -25,9 +25,30 @@ https://localhost:64403/api/categories/6e27b4b8-e66c-450a-bf41-58344b208512/prod
 https://learn.microsoft.com/pt-pt/aspnet/core/tutorials/first-web-api?view=aspnetcore-8.0&tabs=visual-studio
 
 
+ROUTE
+https://code-maze.com/aspnetcore-pass-parameters-to-http-get-action/
+
+
 TESTS
 https://docs.specflow.org/projects/getting-started/en/latest/GettingStarted/Step6.html
 
+
+------------------------------------------------------------------------------------------------------------------------------------
+FilterUserMinAge
+GET(https://localhost:64403/api/users/filter?minAge=37)
+GET(https://localhost:64403/api/users/filter?maxAge=37)
+------------------------------------------------------------------------------------------------------------------------------------
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+GetPagedProductsForCategory
+GET(https://localhost:64403/api/categories/6E27B4B8-E66C-450A-BF41-58344B208512/products?minName=10)
+------------------------------------------------------------------------------------------------------------------------------------
+GetPagedProductsForCategory
+GET(https://localhost:64403/api/categories/6E27B4B8-E66C-450A-BF41-58344B208512/products?pageNumber=2&pageSize=5)
+------------------------------------------------------------------------------------------------------------------------------------
+GetPagingProductsForCategory
+GET(https://localhost:64403/api/categories/6E27B4B8-E66C-450A-BF41-58344B208512/products?pageNumber=2&pageSize=5)
 ------------------------------------------------------------------------------------------------------------------------------------
 CreateProductForCategory
 POST(https://localhost:64403/api/categories/FE58DDC2-61EE-4E1A-9402-A0C9EBFB8E5C/products)

@@ -2,6 +2,7 @@
 using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
 using WebApi.Entities.Models;
+using WebApi.Entities.RequestFeatures;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
@@ -262,6 +263,35 @@ namespace WebApi.Services
             throw new NotImplementedException();
         }
 
+        public async Task<IEnumerable<ProductDto>> GetPagingProductsAsync(Guid categoryId, ProductParameters productParameters, bool trackChanges)
+        {
+            if (!productParameters.ValidNameRange)
+                throw new MaxNameRangeBadRequestException();
+
+            await CheckIfCategoryExists(categoryId, trackChanges);
+
+            var productFromDb = await _repository.Product.GetPagingProductsAsync(categoryId, productParameters, trackChanges: false);
+            var productDto = _mapper.Map<IEnumerable<ProductDto>>(productFromDb);
+
+            return productDto;
+        }
+
+
+        public async Task<(IEnumerable<ProductDto> products, MetaData metaData)> GetPagedProductsAsync(Guid categoryId, ProductParameters productParameters, bool trackChanges)
+        {
+            await CheckIfCategoryExists(categoryId, trackChanges);
+            
+            var productsWithMetaData = await _repository.Product.GetPagedProductsAsync(categoryId, productParameters, trackChanges: false);
+            var productDto = _mapper.Map<IEnumerable<ProductDto>>(productsWithMetaData);
+
+            return (products: productDto, metaData: productsWithMetaData.MetaData);
+        }
+
         #endregion
+
+        private async Task CheckIfCategoryExists(Guid categoryId, bool trackChanges)
+        {
+            var result = await _repository.Category.GetCategoryAsync(categoryId, trackChanges);
+        }
     }
 }
