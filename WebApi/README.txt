@@ -38,8 +38,9 @@ FilterUserMinAge
 GET(https://localhost:64403/api/users/filter?minAge=37)
 GET(https://localhost:64403/api/users/filter?maxAge=37)
 ------------------------------------------------------------------------------------------------------------------------------------
-
-
+FilterUserMinAge
+GET(https://localhost:64403/api/users/filter?searchTerm=M)
+GET(https://localhost:64403/api/users/filter?minAge=36&searchTerm=P)
 ------------------------------------------------------------------------------------------------------------------------------------
 GetPagedProductsForCategory
 GET(https://localhost:64403/api/categories/6E27B4B8-E66C-450A-BF41-58344B208512/products?minName=10)
