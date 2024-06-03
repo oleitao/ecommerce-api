@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Entities.Models;
+using WebApi.Entities.RequestFeatures;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
@@ -29,6 +30,24 @@ public class ProductsController : ControllerBase
         try
         {
             var products = await _service.ProductService.GetAllProductsAsync(trackChanges: false);
+
+            return Ok(products);
+        }
+        catch
+        {
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    [HttpGet]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(IEnumerable<Product>), StatusCodes.Status200OK)]
+    [Route("filter/")]
+    public async Task<IActionResult> FilterProductsSorted([FromQuery]ProductParameters productParameters)
+    {
+        try
+        {
+            var products = await _service.ProductService.FilterProductsSortedAsync(productParameters, trackChanges: false);
 
             return Ok(products);
         }

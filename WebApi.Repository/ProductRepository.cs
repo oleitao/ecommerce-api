@@ -3,6 +3,7 @@ using System.Collections.Immutable;
 using WebApi.Contracts;
 using WebApi.Entities.Models;
 using WebApi.Entities.RequestFeatures;
+using WebApi.Repository.Extensions;
 
 namespace WebApi.Repository
 {
@@ -80,6 +81,14 @@ namespace WebApi.Repository
             return PagedList<Product>
                 .ToPagedList(products, count, productParameters.PageNumber, productParameters.PageSize);
 
+        }
+
+        public async Task<IEnumerable<Product>> FilterProductsSortedAsync(ProductParameters productParameters, bool trackChanges)
+        {
+            return FindAll(trackChanges)
+                .Sort(productParameters.OrderBy)
+                .Search(productParameters.SearchTerm)
+                .ToList();
         }
 
         #endregion

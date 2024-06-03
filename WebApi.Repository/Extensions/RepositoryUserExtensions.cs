@@ -1,4 +1,6 @@
-﻿using WebApi.Entities.Models;
+﻿using System.Linq.Dynamic.Core;
+using WebApi.Entities.Models;
+using WebApi.Repository.Extensions.Utility;
 
 namespace WebApi.Repository.Extensions
 {
@@ -16,6 +18,20 @@ namespace WebApi.Repository.Extensions
             var lowCaseTerm = searchTerm.Trim().ToLower();
 
             return users.Where(e => e.FullName.ToLower().Contains(lowCaseTerm));
+        }
+
+
+        public static IQueryable<User> Sort(this IQueryable<User> users, string orderByQueryString)
+        {
+            if (string.IsNullOrWhiteSpace(orderByQueryString)) 
+                return users.OrderBy(e => e.FullName); 
+            
+            var orderQuery = OrderQueryBuilder.CreateOrderQuery<User>(orderByQueryString); 
+            
+            if (string.IsNullOrWhiteSpace(orderQuery)) 
+                return users.OrderBy(e => e.FullName); 
+            
+            return users.OrderBy(orderQuery);
         }
     }
 }

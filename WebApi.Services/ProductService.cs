@@ -276,7 +276,6 @@ namespace WebApi.Services
             return productDto;
         }
 
-
         public async Task<(IEnumerable<ProductDto> products, MetaData metaData)> GetPagedProductsAsync(Guid categoryId, ProductParameters productParameters, bool trackChanges)
         {
             await CheckIfCategoryExists(categoryId, trackChanges);
@@ -287,6 +286,19 @@ namespace WebApi.Services
             return (products: productDto, metaData: productsWithMetaData.MetaData);
         }
 
+        public async Task<IEnumerable<Product>> FilterProductsSortedAsync(ProductParameters productParameters, bool trackChanges)
+        {
+            try
+            {
+                var products = await _repository.Product.FilterProductsSortedAsync(productParameters, trackChanges);
+                return products;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(FilterProductsSortedAsync)} service method {ex}");
+                throw;
+            }
+        }
         #endregion
 
         private async Task CheckIfCategoryExists(Guid categoryId, bool trackChanges)

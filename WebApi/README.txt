@@ -34,6 +34,11 @@ https://docs.specflow.org/projects/getting-started/en/latest/GettingStarted/Step
 
 
 ------------------------------------------------------------------------------------------------------------------------------------
+FilterUserMinAgeSort
+GET(https://localhost:64403/api/users/filter?orderBy=FullName asc)
+FilterProductsSorted
+GET(https://localhost:64403/api/products/filter?orderBy=Name desc)
+------------------------------------------------------------------------------------------------------------------------------------
 FilterUserMinAge
 GET(https://localhost:64403/api/users/filter?minAge=37)
 GET(https://localhost:64403/api/users/filter?maxAge=37)
