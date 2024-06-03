@@ -50,9 +50,9 @@ public class UsersController : ControllerBase
         return Ok(user);
     }
 
-    [HttpGet(Name = "FilterUserMinAge")]
+    [HttpGet(Name = "FilterUserMinAgeSort")]
     [Route("filter/")]
-    public async Task<IActionResult> FilterUserMinAge([FromQuery]UserParameters userParameters)
+    public async Task<IActionResult> FilterUserMinAgeSort([FromQuery]UserParameters userParameters)
     {
         try
         {

@@ -47,8 +47,8 @@ namespace WebApi.Repository
             return FindByCondition(c => c.Age >= userParameters.MinAge && c.Age <= userParameters.MaxAge, trackChanges)
                 .FilterUsers(userParameters.MinAge, userParameters.MaxAge)
                 .Search(userParameters.SearchTerm)
+                .Sort(userParameters.OrderBy)
                 .ToList();
-
         }
 
 

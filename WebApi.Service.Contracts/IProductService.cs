@@ -18,6 +18,7 @@ namespace WebApi.Service.Contracts
 
         #region Async
         public Task<IEnumerable<Product>> GetAllProductsAsync(bool trackChanges);
+        public Task<IEnumerable<Product>> FilterProductsSortedAsync(ProductParameters productParameters, bool trackChanges);
         public Task<Product> GetProductAsync(Guid id, bool trackChanges);
         public Task<IEnumerable<Product>> GetProductsByCategoryAsync(Guid categoryId, bool trackChanges);
         public Task<ProductDto> CreateProductAsync(ProductForCreationDto product);
