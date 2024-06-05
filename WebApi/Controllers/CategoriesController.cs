@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Entities.Models;
+using WebApi.Entities.RequestFeatures;
 using WebApi.ModelBinders;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
@@ -23,6 +24,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpGet]
+    [ApiVersion("1.0")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Category>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllCategories()
@@ -38,8 +40,28 @@ public class CategoriesController : ControllerBase
             return StatusCode(500, "Internal server error");
         }
     }
-    
+
+    [HttpGet]
+    [ApiVersion("1.0")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(IEnumerable<Category>), StatusCodes.Status200OK)]
+    [Route("filter/")]
+    public async Task<IActionResult> GetAllCategoriesAsync([FromQuery] CategoryParameters categoryParameters)
+    {
+        try
+        {
+            var categories = await _service.CategoryService.GetAllCategoriesAsync(categoryParameters, false);
+
+            return Ok(categories);
+        }
+        catch
+        {
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
     [HttpGet("{id:guid}", Name = "CategoryById")]
+    [ApiVersion("1.0")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Category), StatusCodes.Status404NotFound)]
@@ -51,6 +73,7 @@ public class CategoriesController : ControllerBase
 
     [HttpGet("collection/({ids})", Name = "CategoryCollection")]
     [Consumes(typeof(CategoryForCreationDto), "application/json")]
+    [ApiVersion("1.0")]
     public async Task<IActionResult> GetCategoryCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))]IEnumerable<Guid> ids)
     {
         var category = await _service.CategoryService.GetByIdsAsync(ids, trackChanges: false);
@@ -58,7 +81,17 @@ public class CategoriesController : ControllerBase
         return Ok(category);
     }
 
-    [HttpPost("collection")]    
+    [HttpOptions]
+    [ApiVersion("1.0")]
+    public IActionResult GetCategoriesOptions()
+    {
+        Response.Headers.Add("Allow", "GET, OPTIONS, POST");
+
+        return Ok();
+    }
+
+    [HttpPost("collection")]
+    [ApiVersion("1.0")]
     public async Task<IActionResult> CreateCategoryCollection([FromBody] IEnumerable<CategoryForCreationDto> categoryCollection)
     {
         var resut = await _service.CategoryService.CreateCategoryCollectionAsync(categoryCollection);
@@ -67,6 +100,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPost]
+    [ApiVersion("1.0")]
     [Consumes(typeof(CategoryForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -84,6 +118,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    [ApiVersion("1.0")]
     [Consumes(typeof(CategoryForUpdateDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -99,6 +134,7 @@ public class CategoriesController : ControllerBase
 
     
     [HttpDelete("{id:guid}")]
+    [ApiVersion("1.0")]
     public async Task<IActionResult> DeleteCategory(Guid id)
     {
         await _service.CategoryService.DeleteCategoryAsync(id, trackChanges: false);

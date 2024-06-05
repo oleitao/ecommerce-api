@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using WebApi.Contracts;
 using WebApi.Service.Contracts;
+using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Services
 {

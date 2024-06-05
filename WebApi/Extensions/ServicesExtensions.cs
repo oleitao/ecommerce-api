@@ -41,5 +41,8 @@ namespace WebApi.Extensions
 
         public static IMvcBuilder AddCustomCSVFormatter(this IMvcBuilder builder) =>
             builder.AddMvcOptions(config => config.OutputFormatters.Add(new CsvOutputFormatter()));
+
+        //public static void ConfigureDataShaperService(this IServiceCollection services) =>
+        //    services.AddScoped<IDataShaper<CategoryDto>, IDataShaper<CategoryDto>>();
     }
 }

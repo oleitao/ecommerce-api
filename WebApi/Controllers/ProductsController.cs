@@ -23,6 +23,8 @@ public class ProductsController : ControllerBase
     }
     
     [HttpGet]
+    [HttpHead]
+    [ApiVersion("1.0")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Product>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllProducts()
@@ -40,6 +42,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
+    [ApiVersion("1.0")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Product>), StatusCodes.Status200OK)]
     [Route("filter/")]
@@ -58,6 +61,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet("{id:guid}", Name = "GetProductById")]
+    [ApiVersion("1.0")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Product), StatusCodes.Status404NotFound)]
@@ -68,6 +72,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
+    [ApiVersion("1.0")]
     [Consumes(typeof(ProductForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -86,6 +91,7 @@ public class ProductsController : ControllerBase
 
 
     [HttpPut("{id:guid}")]
+    [ApiVersion("1.0")]
     public async Task<IActionResult> UpdateProduct(Guid id, ProductForUpdateDto product)
     {
         if (product is null)
@@ -97,6 +103,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [ApiVersion("1.0")]
     public async Task<IActionResult> DeleteProduct(Guid id)
     {
         await _service.ProductService.DeleteProductAsync(id, trackChanges: false);

@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApi.Contracts;
 using WebApi.Entities.Models;
+using WebApi.Entities.RequestFeatures;
+using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Repository
 {
@@ -48,6 +50,16 @@ namespace WebApi.Repository
         public async Task<IEnumerable<Category>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges)
         {
             return FindByCondition(x => ids.Contains(x.Id), trackChanges).ToList();
+        }
+
+        public async Task<PagedList<Category>> GetPagedListCategoriesAsync(CategoryParameters categoryParameters, bool trackChanges)
+        {
+            var categories = await FindAll(trackChanges)
+                .Skip((categoryParameters.PageNumber - 1) * categoryParameters.PageSize)
+                .Take(categoryParameters.PageSize)
+                .ToListAsync();
+
+            return PagedList<Category>.ToPagedList(categories, categoryParameters.PageNumber, categoryParameters.PageSize);
         }
 
         #endregion
