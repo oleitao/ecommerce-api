@@ -7,8 +7,6 @@ using WebApi.Formaters;
 using WebApi.Repository;
 using WebApi.Service.Contracts;
 using WebApi.Services;
-using WebApi.Services.DataShaping;
-using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Extensions
 {

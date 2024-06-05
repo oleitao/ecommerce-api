@@ -23,6 +23,7 @@ public class ImageUrlsController : ControllerBase
 
     
     [HttpGet]
+    [ApiVersion("1.0")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<ImageUrl>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllImageUrls()
@@ -33,6 +34,7 @@ public class ImageUrlsController : ControllerBase
     }
 
     [HttpGet("{id:guid}", Name = "GetImageUrlById")]
+    [ApiVersion("1.0")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(ImageUrl), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ImageUrl), StatusCodes.Status404NotFound)]
@@ -43,6 +45,7 @@ public class ImageUrlsController : ControllerBase
     }
 
     [HttpPost]
+    [ApiVersion("1.0")]
     [Consumes(typeof(ImageUrlForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -60,6 +63,7 @@ public class ImageUrlsController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [ApiVersion("1.0")]
     public async Task<IActionResult> DeleteImageUrl(Guid id)
     {
         await _service.ImageUrlService.DeleteImageUrlAsync(id, trackChanges: false);
@@ -68,6 +72,7 @@ public class ImageUrlsController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [ApiVersion("1.0")]
     public async Task<IActionResult> UpdateImageUrl(int id, ImageUrlForUpdateDto imageUrl)
     {
         if (imageUrl is null)

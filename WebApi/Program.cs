@@ -63,7 +63,11 @@ var builder = WebApplication.CreateBuilder(args);
 
     services.AddAutoMapper(cfg => cfg.Internal().MethodMappingEnabled = false, typeof(MappingProfile).Assembly);
 
-    
+    services.AddApiVersioning(opt => {
+        opt.ReportApiVersions = true;
+        opt.AssumeDefaultVersionWhenUnspecified= true;
+        opt.DefaultApiVersion = new ApiVersion(1, 0);
+    });
 
     services.AddMvc(options =>
     {

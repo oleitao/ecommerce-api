@@ -22,6 +22,7 @@ public class ShopsController : ControllerBase
     }
     
     [HttpGet]
+    [ApiVersion("1.0")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Shop>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllShops()
@@ -40,6 +41,7 @@ public class ShopsController : ControllerBase
 
 
     [HttpGet("{id:guid}", Name = "GetShopById")]
+    [ApiVersion("1.0")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(Shop), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Shop), StatusCodes.Status404NotFound)]
@@ -50,6 +52,7 @@ public class ShopsController : ControllerBase
     }
 
     [HttpPost]
+    [ApiVersion("1.0")]
     [Consumes(typeof(ShopForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -67,6 +70,7 @@ public class ShopsController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    [ApiVersion("1.0")]
     public async Task<IActionResult> UpdateShop(Guid id, ShopForUpdateDto model)
     {
         if (model is null)
@@ -78,6 +82,7 @@ public class ShopsController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [ApiVersion("1.0")]
     public async Task<IActionResult> DeleteShop(Guid id)
     {
         await _service.ShopService.DeleteShopAsync(id, trackChanges: false);
