@@ -8,6 +8,8 @@ using System.IO;
 using System.Text.Json.Serialization;
 using WebApi.Extensions;
 using WebApi.Helpers;
+using WebApi.Service.Contracts;
+using WebApi.Shared.DataTransferObjects;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 {
     var services = builder.Services;
     var env = builder.Environment;
- 
+
     //services.AddDbContext<RepositoryContext>();
     services.AddCors(options => { 
         options.AddPolicy("CorsPolicy", builder => 
@@ -60,6 +62,8 @@ var builder = WebApplication.CreateBuilder(args);
     
 
     services.AddAutoMapper(cfg => cfg.Internal().MethodMappingEnabled = false, typeof(MappingProfile).Assembly);
+
+    
 
     services.AddMvc(options =>
     {

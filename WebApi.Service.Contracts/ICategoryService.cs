@@ -1,4 +1,6 @@
-﻿using WebApi.Shared.DataTransferObjects;
+﻿using System.Dynamic;
+using WebApi.Entities.RequestFeatures;
+using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Service.Contracts
 {
@@ -23,6 +25,7 @@ namespace WebApi.Service.Contracts
         public Task<(IEnumerable<CategoryDto> categories, string ids)> CreateCategoryCollectionAsync(IEnumerable<CategoryForCreationDto> categories);
         public Task DeleteCategoryAsync(Guid id, bool trackChanges);
         public Task UpdateCategoryAsync(Guid id, CategoryForUpdateDto category, bool trackChanges);
+        public Task<(IEnumerable<ExpandoObject> categories, MetaData metadata)> GetAllCategoriesAsync(CategoryParameters categoryParameters, bool trackChanges);
 
         #endregion
     }
