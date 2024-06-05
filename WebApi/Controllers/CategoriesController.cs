@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Entities.Models;
+using WebApi.Entities.RequestFeatures;
 using WebApi.ModelBinders;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
@@ -38,7 +39,25 @@ public class CategoriesController : ControllerBase
             return StatusCode(500, "Internal server error");
         }
     }
-    
+
+    [HttpGet]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(IEnumerable<Category>), StatusCodes.Status200OK)]
+    [Route("filter/")]
+    public async Task<IActionResult> GetAllCategoriesAsync([FromQuery] CategoryParameters categoryParameters)
+    {
+        try
+        {
+            var categories = await _service.CategoryService.GetAllCategoriesAsync(categoryParameters, false);
+
+            return Ok(categories);
+        }
+        catch
+        {
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
     [HttpGet("{id:guid}", Name = "CategoryById")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]

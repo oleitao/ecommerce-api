@@ -7,6 +7,8 @@ using WebApi.Formaters;
 using WebApi.Repository;
 using WebApi.Service.Contracts;
 using WebApi.Services;
+using WebApi.Services.DataShaping;
+using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Extensions
 {
@@ -41,5 +43,8 @@ namespace WebApi.Extensions
 
         public static IMvcBuilder AddCustomCSVFormatter(this IMvcBuilder builder) =>
             builder.AddMvcOptions(config => config.OutputFormatters.Add(new CsvOutputFormatter()));
+
+        //public static void ConfigureDataShaperService(this IServiceCollection services) =>
+        //    services.AddScoped<IDataShaper<CategoryDto>, IDataShaper<CategoryDto>>();
     }
 }
