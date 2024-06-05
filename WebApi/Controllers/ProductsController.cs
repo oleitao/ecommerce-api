@@ -23,6 +23,7 @@ public class ProductsController : ControllerBase
     }
     
     [HttpGet]
+    [HttpHead]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Product>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllProducts()

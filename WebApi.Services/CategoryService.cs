@@ -23,6 +23,13 @@ namespace WebApi.Services
             _dataShaper = dataShaper;
         }
 
+        public CategoryService(IRepositoryManager repository, ILoggerManager logger, AutoMapper.IMapper mapper)
+        {
+            _repository = repository;
+            _logger = logger;
+            _mapper = mapper;
+        }
+
         #region Sync
 
         public IEnumerable<CategoryDto> GetAllCategories(bool trackChanges)

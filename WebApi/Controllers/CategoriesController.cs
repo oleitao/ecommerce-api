@@ -77,6 +77,14 @@ public class CategoriesController : ControllerBase
         return Ok(category);
     }
 
+    [HttpOptions]
+    public IActionResult GetCategoriesOptions()
+    {
+        Response.Headers.Add("Allow", "GET, OPTIONS, POST");
+
+        return Ok();
+    }
+
     [HttpPost("collection")]    
     public async Task<IActionResult> CreateCategoryCollection([FromBody] IEnumerable<CategoryForCreationDto> categoryCollection)
     {
