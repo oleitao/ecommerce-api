@@ -14,9 +14,9 @@ namespace WebApi.Services
         private readonly Lazy<IShopAvatarService> _shopAvatarService;
         private readonly Lazy<IShopService> _shopService;
         private readonly Lazy<IUserService> _userService;
-        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger, IMapper mapper, IDataShaper<CategoryDto> dataShaper)
+        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger, IMapper mapper)
         {
-            _categoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager, logger, mapper, dataShaper));
+            _categoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager, logger, mapper));
             _imageUrlService = new Lazy<IImageUrlService>(() => new ImageUrlService(repositoryManager, logger, mapper));
             _productService = new Lazy<IProductService>(() => new ProductService(repositoryManager, logger, mapper));
             _reviewService = new Lazy<IReviewService>(() => new ReviewService(repositoryManager, logger, mapper));
