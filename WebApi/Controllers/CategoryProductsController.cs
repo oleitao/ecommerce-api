@@ -24,6 +24,7 @@ namespace WebApi.Controllers
 
         /*
         [HttpGet(Name = "GetProductsByCategory")]
+        [ApiVersion("1.0")]
         public async Task<IActionResult> GetProductsByCategory(Guid categoryId)
         {
             var products = await _service.ProductService.GetProductsByCategoryAsync(categoryId, trackChanges: false);
@@ -35,6 +36,7 @@ namespace WebApi.Controllers
 
         /*
         [HttpGet]
+        [ApiVersion("1.0")]
         [HttpGet(Name="GetPagingProductsForCategory")]
         public async Task<IActionResult> GetPagingProductsForCategory(Guid categoryId, [FromQuery]ProductParameters productParameters)
         {
@@ -52,6 +54,7 @@ namespace WebApi.Controllers
         */
 
         [HttpGet(Name="GetPagedProductsForCategory")]
+        [ApiVersion("1.0")]
         public async Task<IActionResult> GetPagedProductsForCategory(Guid categoryId, [FromQuery]ProductParameters productParameters)
         {
             try
@@ -69,6 +72,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
+        [ApiVersion("1.0")]
         [Consumes(typeof(ProductForCreationDto), "application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -86,6 +90,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPatch("{id:guid}")]
+        [ApiVersion("1.0")]
         public async Task<IActionResult> PartiallyUpdateProductForCompany(Guid categoryId, Guid Id, 
             [FromBody] JsonPatchDocument<ProductForUpdateDto> patchDoc)
         {

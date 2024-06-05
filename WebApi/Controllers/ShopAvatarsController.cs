@@ -23,6 +23,7 @@ public class ShopAvatarsController : ControllerBase
 
     
     [HttpGet]
+    [ApiVersion("1.0")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<ShopAvatar>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllShopAvatars()
@@ -40,6 +41,7 @@ public class ShopAvatarsController : ControllerBase
     }
 
     [HttpGet("{id:guid}", Name = "GetShopAvatarById")]
+    [ApiVersion("1.0")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(ShopAvatar), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ShopAvatar), StatusCodes.Status404NotFound)]
@@ -50,6 +52,7 @@ public class ShopAvatarsController : ControllerBase
     }
 
     [HttpPost]
+    [ApiVersion("1.0")]
     [Consumes(typeof(ShopAvatarForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -67,6 +70,7 @@ public class ShopAvatarsController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [ApiVersion("1.0")]
     public async Task<IActionResult> UpdateShopAvatar(Guid id, ShopAvatarForUpdateDto shopAvatar)
     {
         if (shopAvatar is null)
@@ -78,6 +82,7 @@ public class ShopAvatarsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [ApiVersion("1.0")]
     public async Task<IActionResult> DeleteShopAvatar(Guid id)
     {
         await _service.ShopAvatarService.DeleteShopAvatar(id, trackChanges: false);
