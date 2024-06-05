@@ -21,6 +21,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Tests", "..\WebApi.T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Repository.Contracts", "..\WebApi.Repository.Contracts\WebApi.Repository.Contracts.csproj", "{3ED577EF-9756-4E2C-898F-951BB2D1FEAF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{431CDC93-DCDD-491D-BADE-08673618504B}"
+	ProjectSection(SolutionItems) = preProject
+		..\docker-compose.yml = ..\docker-compose.yml
+		..\start-docker-compose.bat = ..\start-docker-compose.bat
+		..\stop-docker-compose.bat = ..\stop-docker-compose.bat
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

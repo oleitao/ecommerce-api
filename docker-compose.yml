@@ -1,0 +1,11 @@
+version: '3.7'
+
+# Set up all services
+services:
+  # The Redis Service, this label is required for the "Links" and Connection string
+  redis_image:
+    # Pull the image from Docker Hub
+    image: redis
+
+    # Give the container a name (any name you want)
+    container_name: redis.web-api.cache    
