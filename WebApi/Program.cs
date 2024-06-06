@@ -1,4 +1,5 @@
-﻿using AutoMapper.Internal;
+﻿using AspNetCoreRateLimit;
+using AutoMapper.Internal;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,6 +36,10 @@ var builder = WebApplication.CreateBuilder(args);
     services.ConfigureRepositoryManager();
     services.ConfigureServiceManager();
     services.ConfigureSqlContext(builder.Configuration);
+
+    services.AddMemoryCache();
+    services.ConfigureRateLimitingOptions();
+    services.AddHttpContextAccessor();
 
     services.Configure<ApiBehaviorOptions>(options => 
     { 
@@ -119,6 +124,8 @@ var app = builder.Build();
     { 
         ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.All
     });
+
+    app.UseIpRateLimiting();
     app.UseCors("CorsPolicy");
 
     app.UseAuthorization();

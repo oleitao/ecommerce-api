@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AspNetCoreRateLimit;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
 using WebApi.Contracts;
 using WebApi.Formaters;
 using WebApi.Repository;
@@ -44,5 +46,25 @@ namespace WebApi.Extensions
 
         //public static void ConfigureDataShaperService(this IServiceCollection services) =>
         //    services.AddScoped<IDataShaper<CategoryDto>, IDataShaper<CategoryDto>>();
+
+        public static void ConfigureRateLimitingOptions(this IServiceCollection services) 
+        { 
+            var rateLimitRules = new List<RateLimitRule> 
+            { 
+                new RateLimitRule 
+                { 
+                    Endpoint = "*", 
+                    Limit = 3000, 
+                    Period = "5m" 
+                } 
+            }; 
+            
+            services.Configure<IpRateLimitOptions>(opt => { opt.GeneralRules = rateLimitRules; }); 
+            
+            services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>(); 
+            services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>(); 
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>(); 
+            services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+        }
     }
 }
