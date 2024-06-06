@@ -12,9 +12,8 @@ namespace WebApi.Repository.Configuration
             (
                 new User
                 {
-                    Id=Guid.NewGuid(),
                     FullName ="",
-                    Sex ='M',
+                    GenderId=1,                  
                     Age=36,
                     Birthday= DateTime.Now,
                     Email="oleitao@gmail.com",

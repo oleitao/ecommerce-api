@@ -90,18 +90,18 @@ namespace WebApi.Services
 
             var images = _repository.ImageUrl.GetImageUrls(false).ToList();
             List<ImageUrl> onlyNewImages = new List<ImageUrl>();
-            if (productEntity.ImageURLs is not null)
+            if (productEntity.ImageUrls is not null)
             {
                 foreach (var image in images)
                 {
-                    if (productEntity.ImageURLs.Where(c => c.Id == image.Id).FirstOrDefault() != null)
+                    if (productEntity.ImageUrls.Where(c => c.Id == image.Id).FirstOrDefault() != null)
                         onlyNewImages.Add(image);
                 }
                 
                 if (onlyNewImages is not null && onlyNewImages.Count > 0)
                 {
-                    productEntity.ImageURLs.Clear();
-                    productEntity.ImageURLs.Add(new ImageUrl() { Url = string.Empty, PublicUrl = string.Empty });
+                    productEntity.ImageUrls.Clear();
+                    productEntity.ImageUrls.Add(new ImageUrl() { Url = string.Empty, PublicUrl = string.Empty });
                 }
             }
 
@@ -208,18 +208,18 @@ namespace WebApi.Services
 
             var images = await _repository.ImageUrl.GetImageUrlsAsync(false);
             List<ImageUrl> onlyNewImages = new List<ImageUrl>();
-            if (productEntity.ImageURLs is not null)
+            if (productEntity.ImageUrls is not null)
             {
                 foreach (var image in images)
                 {
-                    if (productEntity.ImageURLs.Where(c => c.Id == image.Id).FirstOrDefault() != null)
+                    if (productEntity.ImageUrls.Where(c => c.Id == image.Id).FirstOrDefault() != null)
                         onlyNewImages.Add(image);
                 }
 
                 if (onlyNewImages is not null && onlyNewImages.Count > 0)
                 {
-                    productEntity.ImageURLs.Clear();
-                    productEntity.ImageURLs.Add(new ImageUrl() { Url = string.Empty, PublicUrl = string.Empty });
+                    productEntity.ImageUrls.Clear();
+                    productEntity.ImageUrls.Add(new ImageUrl() { Url = string.Empty, PublicUrl = string.Empty });
                 }
             }
 

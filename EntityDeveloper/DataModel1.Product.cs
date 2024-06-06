@@ -16,7 +16,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace WebApi.Entities.Models
+namespace Model
 {
     public partial class Product {
 

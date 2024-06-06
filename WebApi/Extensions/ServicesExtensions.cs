@@ -1,10 +1,12 @@
 ﻿using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using WebApi.Contracts;
+using WebApi.Entities.Models;
 using WebApi.Formaters;
 using WebApi.Repository;
 using WebApi.Service.Contracts;
@@ -65,6 +67,20 @@ namespace WebApi.Extensions
             services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>(); 
             services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>(); 
             services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+        }
+
+        public static void ConfigureIdentity(this IServiceCollection services) 
+        { 
+            var builder = services.AddIdentity<User, IdentityRole>(o => 
+            { 
+                o.Password.RequireDigit = true; 
+                o.Password.RequireLowercase = false; 
+                o.Password.RequireUppercase = false; 
+                o.Password.RequireNonAlphanumeric = false; 
+                o.Password.RequiredLength = 10; 
+                o.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<RepositoryContext>()
+            .AddDefaultTokenProviders(); 
         }
     }
 }

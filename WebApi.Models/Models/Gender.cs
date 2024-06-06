@@ -18,40 +18,18 @@ using System.Linq.Expressions;
 
 namespace WebApi.Entities.Models
 {
-    public partial class Product {
+    public partial class Gender {
 
-        public Product()
+        public Gender()
         {
-            this.Reviews = new List<Review>();
-            this.ImageUrls = new List<ImageUrl>();
             OnCreated();
         }
 
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public string Description { get; set; }
-
-        public int Price { get; set; }
-
-        public int DiscountPrice { get; set; }
-
-        public int Rating { get; set; }
-
-        public int TotalSell { get; set; }
-
-        public int Stock { get; set; }
-
-        public Guid CategoryId { get; set; }
-
-        public virtual Category Category { get; set; }
-
-        public virtual IList<Review> Reviews { get; set; }
-
-        public virtual Shop Shop { get; set; }
-
-        public virtual IList<ImageUrl> ImageUrls { get; set; }
+        public virtual User User { get; set; }
 
         #region Extensibility Method Definitions
 

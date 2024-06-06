@@ -41,6 +41,9 @@ var builder = WebApplication.CreateBuilder(args);
     services.ConfigureRateLimitingOptions();
     services.AddHttpContextAccessor();
 
+    services.AddAuthentication();
+    services.ConfigureIdentity();
+
     services.Configure<ApiBehaviorOptions>(options => 
     { 
         options.SuppressModelStateInvalidFilter = true;
@@ -128,6 +131,7 @@ var app = builder.Build();
     app.UseIpRateLimiting();
     app.UseCors("CorsPolicy");
 
+    app.UseAuthentication();
     app.UseAuthorization();
 
     /*

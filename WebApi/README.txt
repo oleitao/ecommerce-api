@@ -76,7 +76,7 @@ POST(https://localhost:64403/api/categories/FE58DDC2-61EE-4E1A-9402-A0C9EBFB8E5C
         "subTitle": "",
         "imageUrl": ""
     },
-    "ImageURLs": [
+    "ImageUrls": [
         {
             "id": "2b36c506-8a20-41e8-8faf-0661df746104",
             "publicUrl": "test",
