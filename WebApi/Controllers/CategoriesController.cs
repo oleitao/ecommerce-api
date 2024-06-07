@@ -1,11 +1,12 @@
 ﻿namespace WebApi.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebApi.Entities.Models;
 using WebApi.Entities.RequestFeatures;
 using WebApi.ModelBinders;
 using WebApi.Service.Contracts;
@@ -26,6 +27,7 @@ public class CategoriesController : ControllerBase
     [HttpGet]
     [ApiVersion("1.0")]
     [Produces("application/json")]
+    [Authorize]
     [ProducesResponseType(typeof(IEnumerable<Category>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllCategories()
     {
@@ -46,6 +48,7 @@ public class CategoriesController : ControllerBase
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Category>), StatusCodes.Status200OK)]
     [Route("filter/")]
+    [Authorize]
     public async Task<IActionResult> GetAllCategoriesAsync([FromQuery] CategoryParameters categoryParameters)
     {
         try
@@ -65,6 +68,7 @@ public class CategoriesController : ControllerBase
     [Produces("application/json")]
     [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Category), StatusCodes.Status404NotFound)]
+    [Authorize]
     public async Task<IActionResult> GetById(Guid id)
     {
         var category = await _service.CategoryService.GetCategoryAsync(id, trackChanges: false);
@@ -74,6 +78,7 @@ public class CategoriesController : ControllerBase
     [HttpGet("collection/({ids})", Name = "CategoryCollection")]
     [Consumes(typeof(CategoryForCreationDto), "application/json")]
     [ApiVersion("1.0")]
+    [Authorize]
     public async Task<IActionResult> GetCategoryCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))]IEnumerable<Guid> ids)
     {
         var category = await _service.CategoryService.GetByIdsAsync(ids, trackChanges: false);
@@ -83,6 +88,7 @@ public class CategoriesController : ControllerBase
 
     [HttpOptions]
     [ApiVersion("1.0")]
+    [Authorize]
     public IActionResult GetCategoriesOptions()
     {
         Response.Headers.Add("Allow", "GET, OPTIONS, POST");
@@ -92,6 +98,7 @@ public class CategoriesController : ControllerBase
 
     [HttpPost("collection")]
     [ApiVersion("1.0")]
+    [Authorize]
     public async Task<IActionResult> CreateCategoryCollection([FromBody] IEnumerable<CategoryForCreationDto> categoryCollection)
     {
         var resut = await _service.CategoryService.CreateCategoryCollectionAsync(categoryCollection);
@@ -104,6 +111,7 @@ public class CategoriesController : ControllerBase
     [Consumes(typeof(CategoryForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [Authorize]
     public async Task<IActionResult> Create([FromBody] CategoryForCreationDto category)
     {
         if (category is null)
@@ -122,6 +130,7 @@ public class CategoriesController : ControllerBase
     [Consumes(typeof(CategoryForUpdateDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Authorize]
     public async Task<IActionResult> UpdateCategory(Guid id, [FromBody]CategoryForUpdateDto categry)
     {
         if (categry is null)
@@ -135,6 +144,7 @@ public class CategoriesController : ControllerBase
     
     [HttpDelete("{id:guid}")]
     [ApiVersion("1.0")]
+    [Authorize]
     public async Task<IActionResult> DeleteCategory(Guid id)
     {
         await _service.CategoryService.DeleteCategoryAsync(id, trackChanges: false);

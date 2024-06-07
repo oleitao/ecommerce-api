@@ -12,7 +12,6 @@
         <File Name="DataModel1.Review.cs" />
         <File Name="DataModel1.Shop.cs" />
         <File Name="DataModel1.ShopAvatar.cs" />
-        <File Name="DataModel1.Gender.cs" />
       </GeneratedFiles>
     </Generation>
     <DatabaseFirstNamingRules>

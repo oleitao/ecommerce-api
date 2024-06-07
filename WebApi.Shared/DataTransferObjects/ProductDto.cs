@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using WebApi.Entities.Models;
+﻿using Model;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApi.Shared.DataTransferObjects
 {

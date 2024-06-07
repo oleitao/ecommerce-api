@@ -56,6 +56,9 @@
     <property name="CategoryId" type="Guid" p1:ValidateRequired="true" p1:Guid="fca66ed9-aa46-4733-9e35-cd5ff67dcd77">
       <column name="" />
     </property>
+    <property name="ShopId" type="Guid" p1:ValidateRequired="true" p1:Guid="be5f68f9-fb3c-416d-9834-39854c3b7ea3">
+      <column name="" />
+    </property>
   </class>
   <class name="User" entity-set="Users" p1:Guid="5480db7b-dafd-4729-9403-2eca6b7fb7f3">
     <id name="Id" type="Guid" p1:ValidateRequired="true" p1:Guid="7d57796f-ae01-4f51-ba57-ed8122e18da1">
@@ -73,7 +76,7 @@
     <property name="Email" type="String" p1:ValidateRequired="true" p1:Guid="ed636165-fbc7-4ce6-804a-0d1873a72b29">
       <column name="" />
     </property>
-    <property name="GenderId" type="Int32" p1:ValidateRequired="true" p1:Guid="97dc9586-44a8-42cd-b6ed-cc5586eb7551">
+    <property name="Gender" type="String" p1:ValidateRequired="true" p1:Guid="97dc9586-44a8-42cd-b6ed-cc5586eb7551">
       <column name="" />
     </property>
     <property name="Age" type="Int32" p1:ValidateRequired="true" p1:Guid="a633c60c-f658-4e2f-9a3c-6375bddb113b">
@@ -107,7 +110,7 @@
     <property name="Ratings" type="Int32" p1:ValidateRequired="true" p1:Guid="65204958-d849-4cc3-a502-3d244a9cfb3f">
       <column name="" />
     </property>
-    <property name="ProductId" type="Guid" p1:ValidateRequired="true" p1:Guid="18707c96-1e20-433e-bba7-b646dba9fecf">
+    <property name="ShopAvatarId" type="Guid" p1:ValidateRequired="true" p1:Guid="07e4d928-e851-4f21-83e4-b876b9f4a957">
       <column name="" />
     </property>
   </class>
@@ -125,70 +128,4 @@
       <column name="" />
     </property>
   </class>
-  <class name="Gender" entity-set="Genders" p1:Guid="f892f4fe-a5bd-4b1d-9829-6f903bb01fb1">
-    <id name="Id" type="Int32" p1:ValidateRequired="true" p1:Guid="9b127635-1188-4403-b482-04ef372800fa">
-      <column name="" />
-    </id>
-    <property name="Name" type="String" p1:ValidateRequired="true" p1:Guid="b0edf3ef-1e36-4979-bb07-cd88763d4f72">
-      <column name="" />
-    </property>
-  </class>
-  <associations>
-    <association name="Category_Product" cardinality="OneToMany" on-delete="Cascade" p1:Guid="2c62df2b-bb61-49b9-8e9b-928e92a6e29d">
-      <end1 multiplicity="One" name="Category" class="Product" relation-class="Category" constrained="True" lazy="False" p1:Guid="810e2a8b-a275-40d5-a80f-8f46c5078330">
-        <property name="Id" />
-      </end1>
-      <end2 multiplicity="Many" name="Products" class="Category" relation-class="Product" lazy="False" p1:Guid="1b86f84f-299d-4503-ab85-11eed568ca05">
-        <property name="CategoryId" />
-      </end2>
-    </association>
-    <association name="User_Review" cardinality="OneToMany" on-delete="Cascade" p1:Guid="a34a8ad0-e7a5-4fbc-834b-b735954d4a56">
-      <end1 multiplicity="One" name="User" class="Review" relation-class="User" constrained="True" lazy="False" p1:Guid="24c401b8-d3a2-43f2-b62f-9bccb4a8a8bd">
-        <property name="Id" />
-      </end1>
-      <end2 multiplicity="Many" name="Reviews" class="User" relation-class="Review" lazy="False" p1:Guid="103c242d-b23a-4e58-af98-ba359f9e1f9f">
-        <property name="UserId" />
-      </end2>
-    </association>
-    <association name="Product_Review" cardinality="OneToMany" on-delete="Cascade" p1:Guid="851002ce-e69b-4165-ab6e-dd615f627185">
-      <end1 multiplicity="One" name="Product" class="Review" relation-class="Product" constrained="True" lazy="False" p1:Guid="4169c71d-9992-4740-9ed9-1622a6e3e755">
-        <property name="Id" />
-      </end1>
-      <end2 multiplicity="Many" name="Reviews" class="Product" relation-class="Review" lazy="False" p1:Guid="66224403-bdb0-4d12-8ab4-367f62125391">
-        <property name="ProductId" />
-      </end2>
-    </association>
-    <association name="Product_Shop" cardinality="OneToOne" on-delete="Cascade" p1:Guid="c760672d-4ac1-405f-b7f0-d9cc5d53b5d5">
-      <end1 multiplicity="One" name="Product" class="Shop" relation-class="Product" constrained="True" lazy="False" p1:Guid="9f7dcaf3-b674-475c-9770-ff1657d3280d">
-        <property name="Id" />
-      </end1>
-      <end2 multiplicity="One" name="Shop" class="Product" relation-class="Shop" constrained="False" lazy="False" p1:Guid="cbb7e752-8f69-4009-a335-e5f57383d8e6">
-        <property name="ProductId" />
-      </end2>
-    </association>
-    <association name="Shop_ShopAvatar" cardinality="OneToOne" on-delete="Cascade" p1:Guid="fbb557b2-d507-4b06-8f2e-74a6fe77808f">
-      <end1 multiplicity="One" name="Shop" class="ShopAvatar" relation-class="Shop" constrained="True" lazy="False" p1:Guid="5979640b-02b3-46cf-a96d-04f3b95bde56">
-        <property name="Id" />
-      </end1>
-      <end2 multiplicity="One" name="ShopAvatar" class="Shop" relation-class="ShopAvatar" constrained="False" lazy="False" p1:Guid="c2415d60-45a1-433c-a284-756b0a9c16e8">
-        <property name="ShopId" />
-      </end2>
-    </association>
-    <association name="Product_ImageUrl" cardinality="OneToMany" on-delete="Cascade" p1:Guid="db4475d6-7d76-40b8-978c-8df8e4c933d5">
-      <end1 multiplicity="One" name="Product" class="ImageUrl" relation-class="Product" constrained="True" lazy="False" p1:Guid="9c57937c-e8c3-4262-8d47-0372f43cfa12">
-        <property name="Id" />
-      </end1>
-      <end2 multiplicity="Many" name="ImageUrls" class="Product" relation-class="ImageUrl" lazy="False" p1:Guid="d322ee92-5a3b-482d-9a24-149bbf3fec00">
-        <property name="ProductId" />
-      </end2>
-    </association>
-    <association name="Gender_User" cardinality="OneToOne" on-delete="Cascade" p1:Guid="0277bd4c-6e74-4faf-ab86-b58aba851bcb">
-      <end1 multiplicity="ZeroOrOne" name="Gender" class="User" relation-class="Gender" constrained="True" lazy="False" p1:Guid="a65957a5-bce4-49c0-80d2-0c3d07acd4db">
-        <property name="Id" />
-      </end1>
-      <end2 multiplicity="One" name="User" class="Gender" relation-class="User" constrained="False" lazy="False" p1:Guid="fac7bf61-a5ac-4256-a974-1bc066c1c55d">
-        <property name="GenderId" />
-      </end2>
-    </association>
-  </associations>
 </efcore>

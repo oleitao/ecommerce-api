@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Model;
 using System.Collections.Immutable;
 using WebApi.Contracts;
-using WebApi.Entities.Models;
 using WebApi.Entities.RequestFeatures;
 using WebApi.Repository.Extensions;
 

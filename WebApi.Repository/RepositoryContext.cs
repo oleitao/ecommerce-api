@@ -2,7 +2,7 @@ namespace WebApi.Repository;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using WebApi.Entities.Models;
+using Model;
 using WebApi.Repository.Configuration;
 
 public class RepositoryContext : IdentityDbContext<User>
@@ -12,6 +12,48 @@ public class RepositoryContext : IdentityDbContext<User>
         : base(options)
     {
 
+    }
+
+    public virtual DbSet<Category> Categories
+    {
+        get;
+        set;
+    }
+
+    public virtual DbSet<ImageUrl> ImageUrls
+    {
+        get;
+        set;
+    }
+
+    public virtual DbSet<Product> Products
+    {
+        get;
+        set;
+    }
+
+    public virtual DbSet<User> Users
+    {
+        get;
+        set;
+    }
+
+    public virtual DbSet<Review> Reviews
+    {
+        get;
+        set;
+    }
+
+    public virtual DbSet<Shop> Shops
+    {
+        get;
+        set;
+    }
+
+    public virtual DbSet<ShopAvatar> ShopAvatars
+    {
+        get;
+        set;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -25,19 +67,17 @@ public class RepositoryContext : IdentityDbContext<User>
         this.ReviewMapping(modelBuilder);
         this.ShopMapping(modelBuilder);
         this.ShopAvatarMapping(modelBuilder);
-        this.GenderMapping(modelBuilder);
-
 
         RelationshipsMapping(modelBuilder);
 
-        //modelBuilder.ApplyConfiguration(new GenderConfiguration());
-        //modelBuilder.ApplyConfiguration(new UserConfiguration());
-        //modelBuilder.ApplyConfiguration(new ProductConfiguration());        
-        //modelBuilder.ApplyConfiguration(new CategoryConfiguration());
-        //modelBuilder.ApplyConfiguration(new ReviewConfiguration());
-        //modelBuilder.ApplyConfiguration(new ShopAvatarConfiguration());
-        //modelBuilder.ApplyConfiguration(new ImageUrlConfiguration());
-        //modelBuilder.ApplyConfiguration(new ShopConfiguration());
+        modelBuilder.ApplyConfiguration(new RoleConfiguration());
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+        modelBuilder.ApplyConfiguration(new ShopAvatarConfiguration());
+        modelBuilder.ApplyConfiguration(new ImageUrlConfiguration());
+        modelBuilder.ApplyConfiguration(new ShopConfiguration());
+        modelBuilder.ApplyConfiguration(new ReviewConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductConfiguration());
     }
 
     #region Category Mapping
@@ -82,6 +122,7 @@ public class RepositoryContext : IdentityDbContext<User>
         modelBuilder.Entity<Product>().Property(x => x.TotalSell).HasColumnName(@"TotalSell").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Product>().Property(x => x.Stock).HasColumnName(@"Stock").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Product>().Property(x => x.CategoryId).HasColumnName(@"CategoryId").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<Product>().Property(x => x.ShopId).HasColumnName(@"ShopId").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Product>().HasKey(@"Id");
     }
 
@@ -97,10 +138,11 @@ public class RepositoryContext : IdentityDbContext<User>
         modelBuilder.Entity<User>().Property(x => x.Birthday).HasColumnName(@"Birthday").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<User>().Property(x => x.Hobby).HasColumnName(@"Hobby").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<User>().Property(x => x.Email).HasColumnName(@"Email").IsRequired().ValueGeneratedNever();
-        modelBuilder.Entity<User>().Property(x => x.GenderId).HasColumnName(@"GenderId").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<User>().Property(x => x.Gender).HasColumnName(@"Gender").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<User>().Property(x => x.Age).HasColumnName(@"Age").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<User>().HasKey(@"Id");
     }
+
     #endregion
 
     #region Review Mapping
@@ -111,6 +153,7 @@ public class RepositoryContext : IdentityDbContext<User>
         modelBuilder.Entity<Review>().Property(x => x.Id).HasColumnName(@"Id").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Review>().Property(x => x.Comment).HasColumnName(@"Comment").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Review>().Property(x => x.Rating).HasColumnName(@"Rating").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<Review>().Property(x => x.UserId).HasColumnName(@"UserId").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Review>().Property(x => x.ProductId).HasColumnName(@"ProductId").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Review>().HasKey(@"Id");
     }
@@ -125,7 +168,7 @@ public class RepositoryContext : IdentityDbContext<User>
         modelBuilder.Entity<Shop>().Property(x => x.Id).HasColumnName(@"Id").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Shop>().Property(x => x.Name).HasColumnName(@"Name").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Shop>().Property(x => x.Ratings).HasColumnName(@"Ratings").IsRequired().ValueGeneratedNever();
-        modelBuilder.Entity<Shop>().Property(x => x.ProductId).HasColumnName(@"ProductId").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<Shop>().Property(x => x.ShopAvatarId).HasColumnName(@"ShopAvatarId").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Shop>().HasKey(@"Id");
     }
 
@@ -145,93 +188,13 @@ public class RepositoryContext : IdentityDbContext<User>
 
     #endregion
 
-    #region Gender Mapping
-
-    private void GenderMapping(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Gender>().ToTable(@"Genders");
-        modelBuilder.Entity<Gender>().Property(x => x.Id).HasColumnName(@"Id").IsRequired().ValueGeneratedNever();
-        modelBuilder.Entity<Gender>().Property(x => x.Name).HasColumnName(@"Name").IsRequired().ValueGeneratedNever();
-        modelBuilder.Entity<Gender>().HasKey(@"Id");
-    }
-
-    #endregion
-
     private void RelationshipsMapping(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Category>().HasMany(x => x.Products).WithOne(op => op.Category).OnDelete(DeleteBehavior.Cascade).HasForeignKey(@"CategoryId").IsRequired(true);
-
-        modelBuilder.Entity<ImageUrl>().HasOne(x => x.Product).WithMany(op => op.ImageUrls).OnDelete(DeleteBehavior.Cascade).HasForeignKey(@"ProductId").IsRequired(true);
-
-        modelBuilder.Entity<Product>().HasOne(x => x.Category).WithMany(op => op.Products).OnDelete(DeleteBehavior.Cascade).HasForeignKey(@"CategoryId").IsRequired(true);
-        modelBuilder.Entity<Product>().HasMany(x => x.Reviews).WithOne(op => op.Product).OnDelete(DeleteBehavior.Cascade).HasForeignKey(@"ProductId").IsRequired(true);
-        modelBuilder.Entity<Product>().HasOne(x => x.Shop).WithOne(op => op.Product).OnDelete(DeleteBehavior.Cascade).HasForeignKey(typeof(Shop), @"ProductId").IsRequired(false);
-        modelBuilder.Entity<Product>().HasMany(x => x.ImageUrls).WithOne(op => op.Product).OnDelete(DeleteBehavior.Cascade).HasForeignKey(@"ProductId").IsRequired(true);
-
-        modelBuilder.Entity<User>().HasMany(x => x.Reviews).WithOne(op => op.User).OnDelete(DeleteBehavior.Cascade).HasForeignKey(@"UserId").IsRequired(true);
-        modelBuilder.Entity<User>().HasOne(x => x.Gender).WithOne(op => op.User).OnDelete(DeleteBehavior.Cascade).HasForeignKey(typeof(User), @"GenderId").IsRequired(true);
-
-        modelBuilder.Entity<Review>().HasOne(x => x.User).WithMany(op => op.Reviews).OnDelete(DeleteBehavior.Cascade).HasForeignKey(@"UserId").IsRequired(true);
-        modelBuilder.Entity<Review>().HasOne(x => x.Product).WithMany(op => op.Reviews).OnDelete(DeleteBehavior.Cascade).HasForeignKey(@"ProductId").IsRequired(true);
-
-        modelBuilder.Entity<Shop>().HasOne(x => x.Product).WithOne(op => op.Shop).OnDelete(DeleteBehavior.Cascade).HasForeignKey(typeof(Shop), @"ProductId").IsRequired(true);
-        modelBuilder.Entity<Shop>().HasOne(x => x.ShopAvatar).WithOne(op => op.Shop).OnDelete(DeleteBehavior.Cascade).HasForeignKey(typeof(ShopAvatar), @"ShopId").IsRequired(false);
-
-        modelBuilder.Entity<ShopAvatar>().HasOne(x => x.Shop).WithOne(op => op.ShopAvatar).OnDelete(DeleteBehavior.Cascade).HasForeignKey(typeof(ShopAvatar), @"ShopId").IsRequired(true);
     }
-
 
     public bool HasChanges()
     {
         return ChangeTracker.Entries().Any(e => e.State == Microsoft.EntityFrameworkCore.EntityState.Added || e.State == Microsoft.EntityFrameworkCore.EntityState.Modified || e.State == Microsoft.EntityFrameworkCore.EntityState.Deleted);
     }
 
-
-    public virtual DbSet<Category> Categories
-    {
-        get;
-        set;
-    }
-
-    public virtual DbSet<ImageUrl> ImageUrls
-    {
-        get;
-        set;
-    }
-
-    public virtual DbSet<Product> Products
-    {
-        get;
-        set;
-    }
-
-    public virtual DbSet<User> Users
-    {
-        get;
-        set;
-    }
-
-    public virtual DbSet<Review> Reviews
-    {
-        get;
-        set;
-    }
-
-    public virtual DbSet<Shop> Shops
-    {
-        get;
-        set;
-    }
-
-    public virtual DbSet<ShopAvatar> ShopAvatars
-    {
-        get;
-        set;
-    }
-
-    public virtual DbSet<Gender> Genders
-    {
-        get;
-        set;
-    }
 }

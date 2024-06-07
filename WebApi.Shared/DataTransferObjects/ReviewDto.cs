@@ -1,4 +1,4 @@
-﻿using WebApi.Entities.Models;
+﻿using Model;
 
 namespace WebApi.Shared.DataTransferObjects
 {

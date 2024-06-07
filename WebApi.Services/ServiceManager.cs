@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Model;
 using WebApi.Contracts;
 using WebApi.Service.Contracts;
-using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Services
 {
@@ -14,7 +16,8 @@ namespace WebApi.Services
         private readonly Lazy<IShopAvatarService> _shopAvatarService;
         private readonly Lazy<IShopService> _shopService;
         private readonly Lazy<IUserService> _userService;
-        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger, IMapper mapper)
+        private readonly Lazy<IAuthenticationService> _authenticationService;
+        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger, IMapper mapper, UserManager<User> userManager, IConfiguration configuration)
         {
             _categoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager, logger, mapper));
             _imageUrlService = new Lazy<IImageUrlService>(() => new ImageUrlService(repositoryManager, logger, mapper));
@@ -23,6 +26,7 @@ namespace WebApi.Services
             _shopService = new Lazy<IShopService>(() => new ShopService(repositoryManager, logger, mapper));
             _shopAvatarService = new Lazy<IShopAvatarService>(() => new ShopAvatarService(repositoryManager, logger, mapper));
             _userService = new Lazy<IUserService>(() => new UserService(repositoryManager, logger, mapper));
+            _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration));
         }
 
         public ICategoryService CategoryService => _categoryService.Value;
@@ -32,5 +36,6 @@ namespace WebApi.Services
         public IShopAvatarService ShopAvatarService => _shopAvatarService.Value;
         public IShopService ShopService => _shopService.Value;
         public IUserService UserService => _userService.Value;
+        public IAuthenticationService AuthenticationService => _authenticationService.Value;
     }
 }
