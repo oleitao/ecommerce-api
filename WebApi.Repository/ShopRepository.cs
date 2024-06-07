@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Model;
 using WebApi.Contracts;
-using WebApi.Entities.Models;
 
 namespace WebApi.Repository
 {

@@ -1,5 +1,5 @@
-﻿using System.Linq.Dynamic.Core;
-using WebApi.Entities.Models;
+﻿using Model;
+using System.Linq.Dynamic.Core;
 using WebApi.Repository.Extensions.Utility;
 
 namespace WebApi.Repository.Extensions

@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using WebApi.Entities.Models;
+﻿using Model;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApi.Shared.DataTransferObjects
 {
@@ -17,13 +17,13 @@ namespace WebApi.Shared.DataTransferObjects
         [MaxLength(5000, ErrorMessage = "Maximum length for the Description is 60 characters.")]
         string Description, 
 
-        ICollection<ImageUrl> ImageURLs,
+        ICollection<ImageUrl> ImageUrls,
 
         [Required(ErrorMessage = "Price is a required field.")]
         int Price,
 
         [Required(ErrorMessage = "Discount Price is a required field.")]
-        int Discount_Price,
+        int DiscountPrice,
 
         [Required(ErrorMessage = "Rating is a required field.")]
         [Range(1, 5)]
@@ -32,7 +32,7 @@ namespace WebApi.Shared.DataTransferObjects
         ICollection<Review> Reviews,
 
         [Required(ErrorMessage = "Total Sell is a required field.")]
-        int Total_Sell,
+        int TotalSell,
 
         [Required(ErrorMessage = "Stock is a required field.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than {1}")]
@@ -40,7 +40,7 @@ namespace WebApi.Shared.DataTransferObjects
     );
 
 
-    public record ProductForCreationDto(Guid CategoryId, string Name, string Description, ICollection<ImageUrl> ImageURLs, int Price, int Discount_Price, int Rating, ICollection<Review> Reviews, int Total_Sell, int Stock);
+    public record ProductForCreationDto(Guid CategoryId, string Name, string Description, ICollection<ImageUrl> ImageUrls, int Price, int DiscountPrice, int Rating, ICollection<Review> Reviews, int TotalSell, int Stock);
 
-    public record ProductForUpdateDto(Guid CategoryId, string Name, string Description, ICollection<ImageUrl> ImageURLs, int Price, int Discount_Price, int Rating, ICollection<Review> Reviews, int Total_Sell, int Stock);
+    public record ProductForUpdateDto(Guid CategoryId, string Name, string Description, ICollection<ImageUrl> ImageUrls, int Price, int DiscountPrice, int Rating, ICollection<Review> Reviews, int TotalSell, int Stock);
 }

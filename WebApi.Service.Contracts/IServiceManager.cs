@@ -9,5 +9,6 @@
         IShopAvatarService ShopAvatarService { get; }
         IShopService ShopService { get; }
         IUserService UserService { get; }
+        IAuthenticationService AuthenticationService { get; }
     }
 }

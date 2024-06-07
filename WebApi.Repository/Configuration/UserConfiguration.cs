@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WebApi.Entities.Models;
+using Model;
 
 namespace WebApi.Repository.Configuration
 {
@@ -12,13 +12,12 @@ namespace WebApi.Repository.Configuration
             (
                 new User
                 {
-                    Id=Guid.NewGuid(),
-                    FullName ="",
-                    Sex ='M',
+                    FullName ="oliveira leitao",                
                     Age=36,
+                    Gender="M",
                     Birthday= DateTime.Now,
                     Email="oleitao@gmail.com",
-                    Hobby="swiming"
+                    Hobby="netflix"
                 }
             );
         }    

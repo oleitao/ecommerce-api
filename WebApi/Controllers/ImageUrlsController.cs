@@ -1,11 +1,12 @@
 ﻿namespace WebApi.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
@@ -25,6 +26,7 @@ public class ImageUrlsController : ControllerBase
     [HttpGet]
     [ApiVersion("1.0")]
     [Produces("application/json")]
+    [Authorize]
     [ProducesResponseType(typeof(IEnumerable<ImageUrl>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllImageUrls()
     {
@@ -36,6 +38,7 @@ public class ImageUrlsController : ControllerBase
     [HttpGet("{id:guid}", Name = "GetImageUrlById")]
     [ApiVersion("1.0")]
     [Produces("application/json")]
+    [Authorize]
     [ProducesResponseType(typeof(ImageUrl), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ImageUrl), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetImageUrlById(Guid id)
@@ -46,6 +49,7 @@ public class ImageUrlsController : ControllerBase
 
     [HttpPost]
     [ApiVersion("1.0")]
+    [Authorize]
     [Consumes(typeof(ImageUrlForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -64,6 +68,7 @@ public class ImageUrlsController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [ApiVersion("1.0")]
+    [Authorize]
     public async Task<IActionResult> DeleteImageUrl(Guid id)
     {
         await _service.ImageUrlService.DeleteImageUrlAsync(id, trackChanges: false);
@@ -73,6 +78,7 @@ public class ImageUrlsController : ControllerBase
 
     [HttpPut("{id}")]
     [ApiVersion("1.0")]
+    [Authorize]
     public async Task<IActionResult> UpdateImageUrl(int id, ImageUrlForUpdateDto imageUrl)
     {
         if (imageUrl is null)
