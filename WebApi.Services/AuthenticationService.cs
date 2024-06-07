@@ -83,19 +83,19 @@ namespace WebApi.Services
         {
             var user = _mapper.Map<User>(userForRegistration);
 
-            try
-            {
-                var result = await _userManager.CreateAsync(user, userForRegistration.Password);
+            user.FullName = userForRegistration.FullName;
+            user.UserName = userForRegistration.UserName;
+            user.Email = userForRegistration.Email;
+            user.PhoneNumber = userForRegistration.PhoneNumber;
+            user.Gender = userForRegistration.Gender;
+            user.Hobby = userForRegistration.Hobby;
 
-                if (result.Succeeded)
-                    await _userManager.AddToRolesAsync(user, userForRegistration.Roles);
+            var result = await _userManager.CreateAsync(user, userForRegistration.Password);
 
-                return result;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+            if (result.Succeeded)
+                await _userManager.AddToRolesAsync(user, userForRegistration.Roles);
+
+            return result;
         }
 
         public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)

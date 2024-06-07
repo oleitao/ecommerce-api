@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Model;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.ActionFilters;
 using WebApi.Service.Contracts;
@@ -16,6 +20,24 @@ namespace WebApi.Controllers
         {
             _service = service;
         }
+
+        [HttpGet]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(IEnumerable<User>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            try
+            {
+                var categories = await _service.UserService.GetAllUsersAsync(trackChanges: false);
+
+                return Ok(categories);
+            }
+            catch
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
 
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]

@@ -35,8 +35,6 @@ namespace Model
 
         public string Hobby { get; set; }
 
-        //public string Email { get; set; }
-
         public string Gender { get; set; }
 
         public int Age { get; set; }

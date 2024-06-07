@@ -49,19 +49,19 @@ HEAD(https://localhost:64403/api/products)
 RegisterUser
 POST(https://localhost:64403/api/authentication)
 {
-    "fullname": "oliveira leitao",
     "firstname": "oliveira",
     "lastname": "leitao",
-    "age": 37,
-    "hobby": "netflix",
+    "fullname": "oliveira leitao",
     "username": "oleitao",
     "password": "Password1000",
     "email": "oleitao@gmail.com",
     "phonenumber": "589-654",
+    "gender": "M",
+    "hobby": "netflix",
     "roles": [
         "Manager"
     ]
-}
+}}
 ------------------------------------------------------------------------------------------------------------------------------------
 Authenticate
 POST(https://localhost:64403/api/authentication/login)
