@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using Model;
 using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
-using WebApi.Entities.Models;
 using WebApi.Entities.RequestFeatures;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
@@ -79,40 +79,6 @@ namespace WebApi.Services
             return productReturn;
         }
 
-        public ProductDto CreateProductForCategory(Guid categoryId, ProductForCreationDto productForCreationDto, bool trackChanges)
-        {
-            var category = _repository.Category.GetCategory(categoryId, trackChanges);
-            if(category == null)
-                throw new ProductNotFoundException(categoryId);
-
-            var productEntity = _mapper.Map<Product>(productForCreationDto);
-            productEntity.CategoryId = categoryId;
-
-            var images = _repository.ImageUrl.GetImageUrls(false).ToList();
-            List<ImageUrl> onlyNewImages = new List<ImageUrl>();
-            if (productEntity.ImageURLs is not null)
-            {
-                foreach (var image in images)
-                {
-                    if (productEntity.ImageURLs.Where(c => c.Id == image.Id).FirstOrDefault() != null)
-                        onlyNewImages.Add(image);
-                }
-                
-                if (onlyNewImages is not null && onlyNewImages.Count > 0)
-                {
-                    productEntity.ImageURLs.Clear();
-                    productEntity.ImageURLs.Add(new ImageUrl() { Url = string.Empty, PublicUrl = string.Empty });
-                }
-            }
-
-
-            _repository.Product.CreateGetProductsByCategory(categoryId, productEntity);
-            _repository.Save();
-
-            var productToReturn = _mapper.Map<ProductDto>(productEntity);
-
-            return productToReturn;
-        }
 
         public void SaveChangesForPatch(ProductForUpdateDto productToPatch, Product productEntity)
         {
@@ -207,19 +173,36 @@ namespace WebApi.Services
             productEntity.CategoryId = categoryId;
 
             var images = await _repository.ImageUrl.GetImageUrlsAsync(false);
-            List<ImageUrl> onlyNewImages = new List<ImageUrl>();
-            if (productEntity.ImageURLs is not null)
-            {
-                foreach (var image in images)
-                {
-                    if (productEntity.ImageURLs.Where(c => c.Id == image.Id).FirstOrDefault() != null)
-                        onlyNewImages.Add(image);
-                }
+            var productImages = images.Where(x => x.ProductId == productEntity.Id).ToList();
 
-                if (onlyNewImages is not null && onlyNewImages.Count > 0)
+
+            if (productImages is null)
+            {
+                foreach (var image in productForCreationDto.ImageUrls)
                 {
-                    productEntity.ImageURLs.Clear();
-                    productEntity.ImageURLs.Add(new ImageUrl() { Url = string.Empty, PublicUrl = string.Empty });
+                    _repository.ImageUrl.CreateImageUrl(new ImageUrl()
+                    {
+                        Id = Guid.NewGuid(),
+                        PublicUrl = image.PublicUrl,
+                        Url = image.Url,
+                        ProductId = productEntity.Id
+                    });
+                }                
+            }
+            else
+            {
+                foreach (var image in productForCreationDto.ImageUrls)
+                {
+                    if (!images.Contains(image))
+                    {
+                        _repository.ImageUrl.CreateImageUrl(new ImageUrl()
+                        {
+                            Id = Guid.NewGuid(),
+                            PublicUrl = image.PublicUrl,
+                            Url = image.Url,
+                            ProductId = productEntity.Id
+                        });
+                    }
                 }
             }
 
@@ -304,6 +287,11 @@ namespace WebApi.Services
         private async Task CheckIfCategoryExists(Guid categoryId, bool trackChanges)
         {
             var result = await _repository.Category.GetCategoryAsync(categoryId, trackChanges);
+        }
+
+        public ProductDto CreateProductForCategory(Guid categoryId, ProductForCreationDto productForCreationDto, bool trackChanges)
+        {
+            throw new NotImplementedException();
         }
     }
 }

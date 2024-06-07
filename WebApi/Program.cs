@@ -1,4 +1,5 @@
-﻿using AutoMapper.Internal;
+﻿using AspNetCoreRateLimit;
+using AutoMapper.Internal;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,10 +7,9 @@ using Microsoft.Extensions.Hosting;
 using NLog;
 using System.IO;
 using System.Text.Json.Serialization;
+using WebApi.ActionFilters;
 using WebApi.Extensions;
 using WebApi.Helpers;
-using WebApi.Service.Contracts;
-using WebApi.Shared.DataTransferObjects;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +35,16 @@ var builder = WebApplication.CreateBuilder(args);
     services.ConfigureRepositoryManager();
     services.ConfigureServiceManager();
     services.ConfigureSqlContext(builder.Configuration);
+
+    services.AddScoped<ValidationFilterAttribute>();
+
+    services.AddMemoryCache();
+    services.ConfigureRateLimitingOptions();
+    services.AddHttpContextAccessor();
+
+    services.AddAuthentication();
+    services.ConfigureIdentity();
+    services.ConfigureJWT(builder.Configuration);
 
     services.Configure<ApiBehaviorOptions>(options => 
     { 
@@ -119,8 +129,11 @@ var app = builder.Build();
     { 
         ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.All
     });
+
+    app.UseIpRateLimiting();
     app.UseCors("CorsPolicy");
 
+    app.UseAuthentication();
     app.UseAuthorization();
 
     /*
