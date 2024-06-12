@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Model;
 using WebApi.Contracts;
+using WebApi.Entities.ConfigurationModels;
 using WebApi.Service.Contracts;
 
 namespace WebApi.Services
@@ -17,7 +19,7 @@ namespace WebApi.Services
         private readonly Lazy<IShopService> _shopService;
         private readonly Lazy<IUserService> _userService;
         private readonly Lazy<IAuthenticationService> _authenticationService;
-        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger, IMapper mapper, UserManager<User> userManager, IConfiguration configuration)
+        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger, IMapper mapper, UserManager<User> userManager, IOptions<JwtConfiguration> configuration)
         {
             _categoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager, logger, mapper));
             _imageUrlService = new Lazy<IImageUrlService>(() => new ImageUrlService(repositoryManager, logger, mapper));

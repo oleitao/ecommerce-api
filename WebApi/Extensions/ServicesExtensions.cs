@@ -5,18 +5,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Model;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using WebApi.Contracts;
+using WebApi.Entities.ConfigurationModels;
 using WebApi.Formaters;
 using WebApi.Repository;
 using WebApi.Service.Contracts;
 using WebApi.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace WebApi.Extensions
 {
@@ -90,10 +89,12 @@ namespace WebApi.Extensions
         }
 
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration) 
-        { 
-            var jwtSettings = configuration.GetSection("JwtSettings"); 
-            var secretKey = Environment.GetEnvironmentVariable("SECRET"); 
-            
+        {
+            var jwtConfiguration = new JwtConfiguration();
+            configuration.Bind(jwtConfiguration.Section, jwtConfiguration);
+
+            var secretKey = Environment.GetEnvironmentVariable("SECRET");
+
             services.AddAuthentication(opt => 
             { 
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; 
@@ -107,11 +108,16 @@ namespace WebApi.Extensions
                         ValidateAudience = true, 
                         ValidateLifetime = true, 
                         ValidateIssuerSigningKey = true, 
-                        ValidIssuer = jwtSettings["validIssuer"], 
-                        ValidAudience = jwtSettings["validAudience"], 
+
+                        ValidIssuer = jwtConfiguration.ValidIssuer,
+                        ValidAudience = jwtConfiguration.ValidAudience,
+
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)) 
                     }; 
                 }); 
         }
+
+        public static void AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration) =>
+            services.Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
     }
 }
