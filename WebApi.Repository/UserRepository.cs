@@ -37,7 +37,7 @@ namespace WebApi.Repository
             return FindAll(trackChanges);
         }
 
-        public async Task<User> GetUserAsync(Guid userId, bool trackChanges)
+        public async Task<User?> GetUserAsync(Guid userId, bool trackChanges)
         {
             return await FindByCondition(c => c.Id.Equals(userId), trackChanges).SingleOrDefaultAsync();
         }
@@ -49,6 +49,11 @@ namespace WebApi.Repository
                 .Search(userParameters.SearchTerm)
                 .Sort(userParameters.OrderBy)
                 .ToList();
+        }
+
+        public void DeleteUser(User user)
+        {
+            Delete(user);
         }
 
 

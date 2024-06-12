@@ -211,9 +211,14 @@ namespace WebApi.Services
             return (category: categoryCollectionToReturn, ids: ids);
         }
 
-        public Task DeleteCategoryAsync(Guid id, bool trackChanges)
+        public async Task DeleteCategoryAsync(Guid id, bool trackChanges)
         {
-            throw new NotImplementedException();
+            var category = await _repository.Category.GetCategoryAsync(id, trackChanges: trackChanges);
+            if (category is null)
+                throw new Exception();
+
+            _repository.Category.DeleteCategory(category);
+            await _repository.SaveAsync();
         }
 
         public async Task UpdateCategoryAsync(Guid id, CategoryForUpdateDto category, bool trackChanges)

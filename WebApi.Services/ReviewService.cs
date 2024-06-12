@@ -114,9 +114,22 @@ namespace WebApi.Services
             throw new NotImplementedException();
         }
 
-        public Task DeleteReviewAsync(Guid id, bool trackChanges)
+        public async Task DeleteReviewAsync(Guid id, bool trackChanges)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var review = await _repository.Review.GetReviewAsync(id, trackChanges);
+                if (review == null)
+                    throw new ReviewNotFoundException(id);
+
+                _repository.Review.DeleteAsync(review);
+                await _repository.SaveAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(DeleteReviewAsync)} service method {ex}");
+                throw;
+            }
         }
 
         #endregion

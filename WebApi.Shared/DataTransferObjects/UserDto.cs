@@ -32,4 +32,5 @@ namespace WebApi.Shared.DataTransferObjects
 
     public record UserForUpdateDto(string FullName, char Sex, int Age, DateTime Birthday, string Hobby, string Email);
 
+    public record UserForDeleteDto(Guid Id);
 }

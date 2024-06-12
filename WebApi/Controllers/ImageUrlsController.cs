@@ -69,17 +69,6 @@ public class ImageUrlsController : ControllerBase
         return CreatedAtRoute("GetImageUrlById", new { id = createdImageUrl.Id }, createdImageUrl);
     }
 
-    [HttpDelete("{id:guid}")]
-    [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
-    [Authorize]
-    public async Task<IActionResult> DeleteImageUrl(Guid id)
-    {
-        await _service.ImageUrlService.DeleteImageUrlAsync(id, trackChanges: false);
-
-        return NoContent();
-    }
-
     [HttpPut("{id}")]
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "v1")]
@@ -91,6 +80,16 @@ public class ImageUrlsController : ControllerBase
 
         await _service.ImageUrlService.UpdateImageUrlAsync(id, imageUrl, trackChanges: true);
         
+        return NoContent();
+    }
+
+    [HttpDelete("{id:guid}")]
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v2")]
+    public async Task<IActionResult> DeleteImageUrl(Guid id)
+    {
+        await _service.ImageUrlService.DeleteImageUrlAsync(id, trackChanges: false);
+
         return NoContent();
     }
 }

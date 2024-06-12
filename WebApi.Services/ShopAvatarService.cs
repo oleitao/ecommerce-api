@@ -116,9 +116,14 @@ namespace WebApi.Services
             throw new NotImplementedException();
         }
 
-        public Task DeleteShopAvatar(Guid id, bool trackChanges)
+        public async Task DeleteShopAvatarAsync(Guid id, bool trackChanges)
         {
-            throw new NotImplementedException();
+            var shopAvatar = await _repository.ShopAvatar.GetShopAvatarAsync(id, trackChanges: trackChanges);
+            if (shopAvatar is null)
+                throw new Exception();
+
+            _repository.ShopAvatar.DeleteShopAvatarAsync(shopAvatar);
+            await _repository.SaveAsync();
         }
 
         #endregion

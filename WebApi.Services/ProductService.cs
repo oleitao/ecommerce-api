@@ -243,7 +243,12 @@ namespace WebApi.Services
 
         public async Task DeleteProductAsync(Guid id, bool trackChanges)
         {
-            throw new NotImplementedException();
+            var product = await _repository.Product.GetProductAsync(id, trackChanges: trackChanges);
+            if (product is null)
+                throw new Exception();
+
+            _repository.Product.DeleteProduct(product);
+            await _repository.SaveAsync();
         }
 
         public async Task<IEnumerable<ProductDto>> GetPagingProductsAsync(Guid categoryId, ProductParameters productParameters, bool trackChanges)
@@ -292,6 +297,16 @@ namespace WebApi.Services
         public ProductDto CreateProductForCategory(Guid categoryId, ProductForCreationDto productForCreationDto, bool trackChanges)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task DeleteProductByCategoryAsync(Guid categoryId)
+        {
+            var productCatogory = await _repository.Product.GetProductsByCategoryAsync(categoryId, false);
+            if (productCatogory is null)
+                throw new Exception();
+
+            _repository.Product.DeleteCategoryProducts(productCatogory);
+            await _repository.SaveAsync();
         }
     }
 }
