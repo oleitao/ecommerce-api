@@ -123,9 +123,14 @@ namespace WebApi.Services
             await _repository.SaveAsync();
         }
 
-        public Task DeleteUserAsync(Guid id, bool trackChanges)
+        public async Task DeleteUserAsync(Guid id, bool trackChanges)
         {
-            throw new NotImplementedException();
+            var user = await _repository.User.GetUserAsync(id, trackChanges: false);
+            if (user is null)
+                throw new Exception();
+
+            _repository.User.DeleteUser(user);
+            await _repository.SaveAsync();
         }
 
         public async Task<IEnumerable<User>> GetAllUsersAsync(UserParameters userParameters, bool trackChanges)

@@ -61,6 +61,11 @@ namespace WebApi.Repository
             return PagedList<Category>.ToPagedList(categories, categoryParameters.PageNumber, categoryParameters.PageSize);
         }
 
+        public void DeleteCategory(Category category)
+        {
+            Delete(category);
+        }
+
         #endregion
     }
 }

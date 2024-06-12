@@ -91,6 +91,19 @@ namespace WebApi.Repository
                 .ToList();
         }
 
+        public async void DeleteCategoryProducts(IEnumerable<Product> productCatogory)
+        {
+            foreach (var item in productCatogory)
+            {
+                Delete(item);
+            }
+        }
+
+        public async void DeleteProduct(Product product)
+        {
+            Delete(product);
+        }
+
         #endregion
     }
 }

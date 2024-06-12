@@ -14,6 +14,7 @@ namespace WebApi.Contracts
 
         Task<IEnumerable<Review>> GetAllReviewsAsync(bool trackChanges);
         Task<Review> GetReviewAsync(Guid reviewId, bool trackChanges);
+        void DeleteAsync(Review review);
 
         #endregion
     }

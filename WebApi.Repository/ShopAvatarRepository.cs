@@ -39,6 +39,11 @@ namespace WebApi.Repository
             return FindByCondition(c => c.Id.Equals(shopAvatarId), trackChanges).SingleOrDefaultAsync();
         }
 
+        public void DeleteShopAvatarAsync(ShopAvatar shopAvatar)
+        {
+            Delete(shopAvatar);
+        }
+
         #endregion
     }
 }

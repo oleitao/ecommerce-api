@@ -113,10 +113,9 @@ public class ProductsController : ControllerBase
         return NoContent();
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:guid}")]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
-    [Authorize]
+    [ApiExplorerSettings(GroupName = "v2")]
     public async Task<IActionResult> DeleteProduct(Guid id)
     {
         await _service.ProductService.DeleteProductAsync(id, trackChanges: false);

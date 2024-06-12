@@ -112,5 +112,15 @@ namespace WebApi.Controllers
 
             return NoContent();
         }
+
+        [HttpDelete("{id:guid}")]
+        [ApiVersion("1.0")]
+        [ApiExplorerSettings(GroupName = "v1")]
+        public async Task<IActionResult> DeleteProductsByCategory(Guid categoryId)
+        {
+            await _service.ProductService.DeleteProductByCategoryAsync(categoryId);
+
+            return NoContent();
+        }
     }
 }

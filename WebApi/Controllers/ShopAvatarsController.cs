@@ -11,7 +11,7 @@ using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/[controller]")]
 public class ShopAvatarsController : ControllerBase
 {
     private readonly IServiceManager _service;
@@ -76,7 +76,7 @@ public class ShopAvatarsController : ControllerBase
         return CreatedAtRoute("GetShopAvatarById", new { id = createdShopAvatar.Id }, createdShopAvatar);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:guid}")]
     [Authorize]
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "v1")]
@@ -90,13 +90,12 @@ public class ShopAvatarsController : ControllerBase
         return NoContent();
     }
 
-    [HttpDelete("{id}")]
-    [Authorize]
+    [HttpDelete("{id:guid}")]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
+    [ApiExplorerSettings(GroupName = "v2")]
     public async Task<IActionResult> DeleteShopAvatar(Guid id)
     {
-        await _service.ShopAvatarService.DeleteShopAvatar(id, trackChanges: false);
+        await _service.ShopAvatarService.DeleteShopAvatarAsync(id, trackChanges: false);
 
         return NoContent();
     }

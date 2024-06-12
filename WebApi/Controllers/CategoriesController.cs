@@ -152,11 +152,11 @@ public class CategoriesController : ControllerBase
     
     [HttpDelete("{id:guid}")]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
-    [Authorize]
+    [ApiExplorerSettings(GroupName = "v2")]
     public async Task<IActionResult> DeleteCategory(Guid id)
     {
         await _service.CategoryService.DeleteCategoryAsync(id, trackChanges: false);
+
         return NoContent();
     }
 }
