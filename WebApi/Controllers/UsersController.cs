@@ -22,8 +22,10 @@ public class UsersController : ControllerBase
         _service = service;
     }
     
+
     [HttpGet]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v2")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<User>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllUsers()
@@ -42,6 +44,7 @@ public class UsersController : ControllerBase
 
     [HttpGet("{id:guid}", Name = "UserById")]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(User), StatusCodes.Status404NotFound)]
@@ -53,6 +56,7 @@ public class UsersController : ControllerBase
 
     [HttpGet(Name = "FilterUserMinAgeSort")]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v2")]
     [Route("filter/")]
     public async Task<IActionResult> FilterUserMinAgeSort([FromQuery]UserParameters userParameters)
     {
@@ -70,6 +74,7 @@ public class UsersController : ControllerBase
 
     [HttpPost]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Consumes(typeof(UserForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -88,6 +93,7 @@ public class UsersController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Consumes(typeof(UserForUpdateDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -103,6 +109,7 @@ public class UsersController : ControllerBase
 
     [HttpDelete("{id}")]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
         await _service.UserService.DeleteUserAsync(id, trackChanges: false);

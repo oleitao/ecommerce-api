@@ -24,6 +24,7 @@ public class ReviewsController : ControllerBase
 
     [HttpGet]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName ="v1")]
     [Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Review>), StatusCodes.Status200OK)]
@@ -44,6 +45,7 @@ public class ReviewsController : ControllerBase
 
     [HttpGet("{id:guid}", Name = "GetReviewById")]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v2")]
     [Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(Review), StatusCodes.Status200OK)]
@@ -56,6 +58,7 @@ public class ReviewsController : ControllerBase
 
     [HttpPost]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     [Consumes(typeof(ReviewForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -75,6 +78,7 @@ public class ReviewsController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     public async Task<IActionResult> UpdateReview(Guid id, [FromBody]ReviewForUpdateDto review)
     {
@@ -88,6 +92,7 @@ public class ReviewsController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     public async Task<IActionResult> DeleteReview(Guid id)
     {

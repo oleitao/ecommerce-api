@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -119,5 +120,55 @@ namespace WebApi.Extensions
 
         public static void AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration) =>
             services.Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
+
+        public static void ConfigureSwagger(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddSwaggerGen(s => 
+            {
+                s.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo 
+                { 
+                    Title="E-Commerce WebAPI", 
+                    Version="v1",
+                    Description = "Products Categories API by oleitao",
+                    TermsOfService = new Uri(""),
+                    Contact = new OpenApiContact 
+                    { 
+                        Name="Oliveira Leitão",
+                        Email= "olivleitao@gmail.com",
+                        Url= new Uri("https://github.com/oleitao/")
+                    }
+                });
+
+                s.SwaggerDoc("v2", new Microsoft.OpenApi.Models.OpenApiInfo 
+                { 
+                    Title = "E-Commerce WebAPI", 
+                    Version = "v2",
+                    Description = "Products Categories API by oleitao",
+                    TermsOfService = new Uri(""),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Oliveira Leitão",
+                        Email = "olivleitao@gmail.com",
+                        Url = new Uri("https://github.com/oleitao/")
+                    }
+                });
+
+                s.AddSecurityRequirement(new OpenApiSecurityRequirement() 
+                { 
+                    { 
+                        new OpenApiSecurityScheme 
+                        { 
+                            Reference = new OpenApiReference 
+                            { 
+                                Type = ReferenceType.SecurityScheme, 
+                                Id = "Bearer"
+                            }, 
+                            Name = "Bearer", 
+                        }, 
+                        new List<string>() 
+                    } 
+                });
+            });
+        }
     }
 }

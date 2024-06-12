@@ -22,6 +22,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [ApiExplorerSettings(GroupName = "v1")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(IEnumerable<User>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllUsers()
@@ -40,6 +41,7 @@ namespace WebApi.Controllers
 
 
         [HttpPost]
+        [ApiExplorerSettings(GroupName = "v1")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
         {
@@ -58,6 +60,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("login")]
+        [ApiExplorerSettings(GroupName = "v1")]
         [ServiceFilter(typeof(ValidationFilterAttribute))] 
         public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user) 
         { 
@@ -70,6 +73,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("refresh")]
+        [ApiExplorerSettings(GroupName = "v1")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Refresh([FromBody] TokenDto tokenDto)
         {

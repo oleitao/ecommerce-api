@@ -25,6 +25,7 @@ public class ImageUrlsController : ControllerBase
     
     [HttpGet]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
     [Authorize]
     [ProducesResponseType(typeof(IEnumerable<ImageUrl>), StatusCodes.Status200OK)]
@@ -37,6 +38,7 @@ public class ImageUrlsController : ControllerBase
 
     [HttpGet("{id:guid}", Name = "GetImageUrlById")]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
     [Authorize]
     [ProducesResponseType(typeof(ImageUrl), StatusCodes.Status200OK)]
@@ -49,6 +51,7 @@ public class ImageUrlsController : ControllerBase
 
     [HttpPost]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     [Consumes(typeof(ImageUrlForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -68,6 +71,7 @@ public class ImageUrlsController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     public async Task<IActionResult> DeleteImageUrl(Guid id)
     {
@@ -78,6 +82,7 @@ public class ImageUrlsController : ControllerBase
 
     [HttpPut("{id}")]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     public async Task<IActionResult> UpdateImageUrl(int id, ImageUrlForUpdateDto imageUrl)
     {

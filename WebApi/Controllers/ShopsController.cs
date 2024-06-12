@@ -24,6 +24,7 @@ public class ShopsController : ControllerBase
     
     [HttpGet]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Shop>), StatusCodes.Status200OK)]
@@ -44,6 +45,7 @@ public class ShopsController : ControllerBase
 
     [HttpGet("{id:guid}", Name = "GetShopById")]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(Shop), StatusCodes.Status200OK)]
@@ -56,6 +58,7 @@ public class ShopsController : ControllerBase
 
     [HttpPost]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     [Consumes(typeof(ShopForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -75,6 +78,7 @@ public class ShopsController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     public async Task<IActionResult> UpdateShop(Guid id, ShopForUpdateDto model)
     {
@@ -88,6 +92,7 @@ public class ShopsController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     public async Task<IActionResult> DeleteShop(Guid id)
     {

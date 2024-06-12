@@ -26,6 +26,7 @@ public class CategoriesController : ControllerBase
 
     [HttpGet]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
     [Authorize]
     [ProducesResponseType(typeof(IEnumerable<Category>), StatusCodes.Status200OK)]
@@ -45,6 +46,7 @@ public class CategoriesController : ControllerBase
 
     [HttpGet]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Category>), StatusCodes.Status200OK)]
     [Route("filter/")]
@@ -65,6 +67,7 @@ public class CategoriesController : ControllerBase
 
     [HttpGet("{id:guid}", Name = "CategoryById")]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Category), StatusCodes.Status404NotFound)]
@@ -78,6 +81,7 @@ public class CategoriesController : ControllerBase
     [HttpGet("collection/({ids})", Name = "CategoryCollection")]
     [Consumes(typeof(CategoryForCreationDto), "application/json")]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     public async Task<IActionResult> GetCategoryCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))]IEnumerable<Guid> ids)
     {
@@ -88,6 +92,7 @@ public class CategoriesController : ControllerBase
 
     [HttpOptions]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     public IActionResult GetCategoriesOptions()
     {
@@ -98,6 +103,7 @@ public class CategoriesController : ControllerBase
 
     [HttpPost("collection")]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     public async Task<IActionResult> CreateCategoryCollection([FromBody] IEnumerable<CategoryForCreationDto> categoryCollection)
     {
@@ -108,6 +114,7 @@ public class CategoriesController : ControllerBase
 
     [HttpPost]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Consumes(typeof(CategoryForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -127,6 +134,7 @@ public class CategoriesController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Consumes(typeof(CategoryForUpdateDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -144,6 +152,7 @@ public class CategoriesController : ControllerBase
     
     [HttpDelete("{id:guid}")]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     public async Task<IActionResult> DeleteCategory(Guid id)
     {
