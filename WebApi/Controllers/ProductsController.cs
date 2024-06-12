@@ -26,6 +26,7 @@ public class ProductsController : ControllerBase
     [HttpGet]
     [HttpHead]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Product>), StatusCodes.Status200OK)]
@@ -45,6 +46,7 @@ public class ProductsController : ControllerBase
 
     [HttpGet]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Product>), StatusCodes.Status200OK)]
@@ -65,6 +67,7 @@ public class ProductsController : ControllerBase
 
     [HttpGet("{id:guid}", Name = "GetProductById")]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
@@ -77,6 +80,7 @@ public class ProductsController : ControllerBase
 
     [HttpPost]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     [Consumes(typeof(ProductForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -97,6 +101,7 @@ public class ProductsController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     public async Task<IActionResult> UpdateProduct(Guid id, ProductForUpdateDto product)
     {
@@ -110,6 +115,7 @@ public class ProductsController : ControllerBase
 
     [HttpDelete("{id}")]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     public async Task<IActionResult> DeleteProduct(Guid id)
     {
