@@ -35,7 +35,9 @@ https://docs.specflow.org/projects/getting-started/en/latest/GettingStarted/Step
 
 
 SET ENVIRIONMENT KEY
-setx SECRET "WebApiKey" /M
+setx SECRET "43443FDFDF34DF34343fdf344SDFSDFSDFSDFSDF4545354345SDFGDFGDFGDFGdffgfdGDFGDGR%" /M
+
+
 
 
 
@@ -68,6 +70,13 @@ POST(https://localhost:64403/api/authentication/login)
 {
     "username": "oleitao",
     "password": "Password1000"
+}
+------------------------------------------------------------------------------------------------------------------------------------
+Refresh
+POST(https://localhost:64403/api/authentication/refresh)
+{
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoib2xlaXRhbyIsImV4cCI6MTcxODE3ODcxOCwiaXNzIjoiV2ViQXBpIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSJ9.Dh-bbiYkBprWo8zWYgy1Z8XOjdkQ81zZuGcWeY8g3BA",
+    "refreshToken": "PVKT/VXyaBsVeOiUaFd1u4CNFCN0bPp9uC2FYdQQFGM="
 }
 ------------------------------------------------------------------------------------------------------------------------------------
 FilterUserMinAgeSort
@@ -173,7 +182,12 @@ PATCH(https://localhost:64403/api/categories/FC7F2981-1031-4D10-8565-9CF93F21179
     }
 ]
 ------------------------------------------------------------------------------------------------------------------------------------
-
+Authenticate
+POST(https://localhost:64403/api/authentication/login)
+{
+    "username": "oleitao",
+    "password": "Password1000"
+}
 ------------------------------------------------------------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------------------------------------------------------------

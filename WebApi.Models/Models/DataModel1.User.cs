@@ -39,6 +39,9 @@ namespace Model
 
         public int Age { get; set; }
 
+        public string? RefreshToken { get; set; }
+        public DateTime RefreshTokenExpiryTime { get; set; }
+
         #region Extensibility Method Definitions
 
         partial void OnCreated();
