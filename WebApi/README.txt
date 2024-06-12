@@ -38,9 +38,8 @@ SET ENVIRIONMENT KEY
 setx SECRET "43443FDFDF34DF34343fdf344SDFSDFSDFSDFSDF4545354345SDFGDFGDFGDFGdffgfdGDFGDGR%" /M
 
 
-
-
-
+------------------------------------------------------------------------------------------------------------------------------------
+https://localhost:64403/swagger/index.html?urls.primaryName=E-Commerce+WebAPI+v1
 ------------------------------------------------------------------------------------------------------------------------------------
 GetCategoriesOptions
 OPTIONS(https://localhost:64403/api/categories)

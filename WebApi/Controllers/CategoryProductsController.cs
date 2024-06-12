@@ -56,6 +56,7 @@ namespace WebApi.Controllers
 
         [HttpGet(Name="GetPagedProductsForCategory")]
         [ApiVersion("1.0")]
+        [ApiExplorerSettings(GroupName = "v1")]
         [Authorize]
         public async Task<IActionResult> GetPagedProductsForCategory(Guid categoryId, [FromQuery]ProductParameters productParameters)
         {
@@ -75,6 +76,7 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [ApiVersion("1.0")]
+        [ApiExplorerSettings(GroupName = "v1")]
         [Authorize]
         [Consumes(typeof(ProductForCreationDto), "application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -94,6 +96,7 @@ namespace WebApi.Controllers
 
         [HttpPatch("{id:guid}")]
         [ApiVersion("1.0")]
+        [ApiExplorerSettings(GroupName = "v1")]
         [Authorize]
         public async Task<IActionResult> PartiallyUpdateProductForCompany(Guid categoryId, Guid Id, 
             [FromBody] JsonPatchDocument<ProductForUpdateDto> patchDoc)

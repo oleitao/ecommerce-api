@@ -85,7 +85,7 @@ var builder = WebApplication.CreateBuilder(args);
         options.SuppressAsyncSuffixInActionNames = false;
     });
 
-    services.AddEndpointsApiExplorer();
+    services.AddEndpointsApiExplorer();    
     services.AddSwaggerGen();
 }
 
@@ -99,7 +99,11 @@ var app = builder.Build();
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
-        app.UseSwaggerUI();
+        app.UseSwaggerUI(s => 
+        {
+            s.SwaggerEndpoint("/swagger/v1/swagger.json", "E-Commerce WebAPI v1");
+            s.SwaggerEndpoint("/swagger/v2/swagger.json", "E-Commerce WebAPI v2");
+        });
 
         // global cors policy
         app.UseCors(x => x

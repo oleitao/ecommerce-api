@@ -25,6 +25,7 @@ public class ShopAvatarsController : ControllerBase
     
     [HttpGet]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<ShopAvatar>), StatusCodes.Status200OK)]
@@ -44,6 +45,7 @@ public class ShopAvatarsController : ControllerBase
 
     [HttpGet("{id:guid}", Name = "GetShopAvatarById")]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(ShopAvatar), StatusCodes.Status200OK)]
@@ -56,6 +58,7 @@ public class ShopAvatarsController : ControllerBase
 
     [HttpPost]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
     [Consumes(typeof(ShopAvatarForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -76,6 +79,7 @@ public class ShopAvatarsController : ControllerBase
     [HttpPut("{id}")]
     [Authorize]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     public async Task<IActionResult> UpdateShopAvatar(Guid id, ShopAvatarForUpdateDto shopAvatar)
     {
         if (shopAvatar is null)
@@ -89,6 +93,7 @@ public class ShopAvatarsController : ControllerBase
     [HttpDelete("{id}")]
     [Authorize]
     [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     public async Task<IActionResult> DeleteShopAvatar(Guid id)
     {
         await _service.ShopAvatarService.DeleteShopAvatar(id, trackChanges: false);
