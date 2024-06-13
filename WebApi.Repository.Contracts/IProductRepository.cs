@@ -20,6 +20,8 @@ namespace WebApi.Contracts
         Task<IEnumerable<Product>> GetPagingProductsAsync(Guid companyId, ProductParameters productParameters, bool trackChanges);
         Task<PagedList<Product>> GetPagedProductsAsync(Guid companyId, ProductParameters productParameters, bool trackChanges);
         Task<IEnumerable<Product>> FilterProductsSortedAsync(ProductParameters productParameters, bool trackChanges);
+        void DeleteCategoryProducts(IEnumerable<Product> productCatogory);
+        void DeleteProduct(Product product);
 
         #endregion
     }

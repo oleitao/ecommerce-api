@@ -26,7 +26,7 @@ public class CategoriesController : ControllerBase
 
     [HttpGet]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
+    [ApiExplorerSettings(GroupName = "v2")]
     [Produces("application/json")]
     [Authorize]
     [ProducesResponseType(typeof(IEnumerable<Category>), StatusCodes.Status200OK)]
@@ -46,7 +46,7 @@ public class CategoriesController : ControllerBase
 
     [HttpGet]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
+    [ApiExplorerSettings(GroupName = "v2")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Category>), StatusCodes.Status200OK)]
     [Route("filter/")]
@@ -114,12 +114,12 @@ public class CategoriesController : ControllerBase
 
     [HttpPost]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
+    [ApiExplorerSettings(GroupName = "v2")]
+    [Authorize]
     [Consumes(typeof(CategoryForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    [Authorize]
-    public async Task<IActionResult> Create([FromBody] CategoryForCreationDto category)
+    public async Task<IActionResult> CreateCategory([FromBody] CategoryForCreationDto category)
     {
         if (category is null)
             return BadRequest("CategoryForCreationDto is null");
@@ -152,11 +152,11 @@ public class CategoriesController : ControllerBase
     
     [HttpDelete("{id:guid}")]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
-    [Authorize]
+    [ApiExplorerSettings(GroupName = "v2")]
     public async Task<IActionResult> DeleteCategory(Guid id)
     {
         await _service.CategoryService.DeleteCategoryAsync(id, trackChanges: false);
+
         return NoContent();
     }
 }

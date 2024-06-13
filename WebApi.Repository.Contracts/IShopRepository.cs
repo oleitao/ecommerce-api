@@ -16,6 +16,7 @@ namespace WebApi.Contracts
         Task<IEnumerable<Shop>> GetAllShopsAsync(bool trackChanges);
 
         Task<Shop> GetShopAsync(Guid shopId, bool trackChanges);
+        void DeleteShop(Shop shop);
 
         #endregion
     }

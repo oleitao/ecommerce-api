@@ -51,7 +51,7 @@ public class ImageUrlsController : ControllerBase
 
     [HttpPost]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
+    [ApiExplorerSettings(GroupName = "v2")]
     [Authorize]
     [Consumes(typeof(ImageUrlForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -63,21 +63,10 @@ public class ImageUrlsController : ControllerBase
 
         if (!ModelState.IsValid)
             return UnprocessableEntity(ModelState);
-
+        
         var createdImageUrl = await _service.ImageUrlService.CreateImageUrlAsync(imageUrl);
 
         return CreatedAtRoute("GetImageUrlById", new { id = createdImageUrl.Id }, createdImageUrl);
-    }
-
-    [HttpDelete("{id:guid}")]
-    [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
-    [Authorize]
-    public async Task<IActionResult> DeleteImageUrl(Guid id)
-    {
-        await _service.ImageUrlService.DeleteImageUrlAsync(id, trackChanges: false);
-
-        return NoContent();
     }
 
     [HttpPut("{id}")]
@@ -91,6 +80,16 @@ public class ImageUrlsController : ControllerBase
 
         await _service.ImageUrlService.UpdateImageUrlAsync(id, imageUrl, trackChanges: true);
         
+        return NoContent();
+    }
+
+    [HttpDelete("{id:guid}")]
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v2")]
+    public async Task<IActionResult> DeleteImageUrl(Guid id)
+    {
+        await _service.ImageUrlService.DeleteImageUrlAsync(id, trackChanges: false);
+
         return NoContent();
     }
 }

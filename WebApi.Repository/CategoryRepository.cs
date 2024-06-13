@@ -61,6 +61,16 @@ namespace WebApi.Repository
             return PagedList<Category>.ToPagedList(categories, categoryParameters.PageNumber, categoryParameters.PageSize);
         }
 
+        public void DeleteCategory(Category category)
+        {
+            Delete(category);
+        }
+
+        public Task<Category> GetCategoryByName(string category, bool trackChanges)
+        {
+            return FindByCondition(c => c.Title.Equals(category), trackChanges).SingleOrDefaultAsync();
+        }
+
         #endregion
     }
 }

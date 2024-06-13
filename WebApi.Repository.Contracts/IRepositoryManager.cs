@@ -1,4 +1,5 @@
-﻿using WebApi.Contracts;
+﻿using Model;
+using WebApi.Contracts;
 
 namespace WebApi.Contracts
 {
@@ -17,7 +18,6 @@ namespace WebApi.Contracts
         IShopRepository Shop { get; }
 
         IUserRepository User { get; }
-
         void Save();
         Task SaveAsync();
     }

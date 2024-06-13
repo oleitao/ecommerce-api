@@ -116,9 +116,14 @@ namespace WebApi.Services
             throw new NotImplementedException();
         }
 
-        public Task DeleteShopAsync(Guid id, bool trackChanges)
+        public async Task DeleteShopAsync(Guid id, bool trackChanges)
         {
-            throw new NotImplementedException();
+            var shop = await _repository.Shop.GetShopAsync(id, trackChanges: trackChanges);
+            if (shop is null)
+                throw new Exception();
+
+            _repository.Shop.DeleteShop(shop);
+            await _repository.SaveAsync();
         }
 
         #endregion

@@ -39,7 +39,50 @@ setx SECRET "43443FDFDF34DF34343fdf344SDFSDFSDFSDFSDF4545354345SDFGDFGDFGDFGdffg
 
 
 ------------------------------------------------------------------------------------------------------------------------------------
+CreateImageUrlAsync
+POST(https://localhost:64403/api/imageurls)
+{
+    "publicUrl": "test",
+    "url": "http://example.com",
+    "productId": "B8E3A7B5-286C-406D-B05D-BB45EB6EF953"
+}
+------------------------------------------------------------------------------------------------------------------------------------
+CreateReview
+POST(https://localhost:64403/api/reviews)
+{
+    "comment": "comment test",
+    "rating": 5,
+    "userId": "d645a5fa-f628-41dd-99d1-6776984bfe91",
+    "productId": "DCA64784-3EB3-4C8A-96B4-0B7FA930FDCF"
+}
+------------------------------------------------------------------------------------------------------------------------------------
+CreateImageUrlAsync
+POST(https://localhost:64403/api/imageurls)
+{
+    "publicUrl": "api-test",
+    "url": "https://example.com",
+    "ProductId": "97107600-0846-40C6-921A-4DB12253B008"
+}
+------------------------------------------------------------------------------------------------------------------------------------
+CreateShopAvatar
+POST(https://localhost:64403/api/shopavatars)
+{
+    "publicId": "api-test",
+    "url": "https://example.com"
+}
+------------------------------------------------------------------------------------------------------------------------------------
+CreateCategory
+POST(https://localhost:64403/api/categories)
+{
+    "title": "New Category 2",
+    "subTitle": "",
+    "imageUrl": "https://example.com"
+}
+------------------------------------------------------------------------------------------------------------------------------------
 https://localhost:64403/swagger/index.html?urls.primaryName=E-Commerce+WebAPI+v1
+------------------------------------------------------------------------------------------------------------------------------------
+DeleteCategory
+DELETE(https://localhost:64403/api/categories/F02D00B6-54BB-4E48-BC43-FC9CD3DEF502)
 ------------------------------------------------------------------------------------------------------------------------------------
 GetCategoriesOptions
 OPTIONS(https://localhost:64403/api/categories)

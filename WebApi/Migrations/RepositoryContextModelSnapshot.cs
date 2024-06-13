@@ -277,10 +277,10 @@ namespace WebApi.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ProductId");
 
-                    b.Property<string>("PublicUrl")
+                    b.Property<string>("PublicId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("PublicUrl");
+                        .HasColumnName("PublicId");
 
                     b.Property<string>("Url")
                         .IsRequired()
@@ -296,392 +296,392 @@ namespace WebApi.Migrations
                         {
                             Id = new Guid("f2791ae6-1c0e-4206-b1f9-fa90291c090d"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://www.istorebangladesh.com/images/thumbs/0000286_macbook-pro-m1_550.png"
                         },
                         new
                         {
                             Id = new Guid("9b728a57-8434-4c5a-a69c-016e3912c9ed"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://www.custommacbd.com/cdn/shop/products/AppleMacBookProwithM2chip2022model_8GB_256GB_CustomMacBD_540x.jpg?v=1659438499"
                         },
                         new
                         {
                             Id = new Guid("1eb4add8-b3ed-4bca-8e7f-b972283b10a1"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://m.media-amazon.com/images/I/31Vle5fVdaL.jpg"
                         },
                         new
                         {
                             Id = new Guid("73d9effd-4509-432d-ab48-5ebeafb1c528"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://adminapi.applegadgetsbd.com/storage/media/large/iPhone-14-Pro-Max-Silver-8456.jpg"
                         },
                         new
                         {
                             Id = new Guid("6c54a19e-16cb-407b-a992-e048bae47132"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_TxUk8mcOtG7_mZmNA6TOZZbADyp3L3HHCg&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("cebf28ce-f7cd-417b-b107-cc58170bff95"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_TxUk8mcOtG7_mZmNA6TOZZbADyp3L3HHCg&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("6402786b-4da2-4acb-8bbc-0db9a82f7973"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSP2a13umWJp5HCeGtJtw9EuW8opwZfY7r6Q&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("bdbfe3a6-6791-4b68-b399-2278f087ab7c"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSP2a13umWJp5HCeGtJtw9EuW8opwZfY7r6Q&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("a262c2d8-932c-46f8-b91d-12895e3ad5f3"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSP2a13umWJp5HCeGtJtw9EuW8opwZfY7r6Q&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("2b96c5a0-3243-48ce-b887-7c5b527f5741"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdUieJcGTqKDqG2pwd8y0PngaUFR0EvjuqPw&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("e26ca839-f400-4280-afa7-db8f5f98c2c9"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdUieJcGTqKDqG2pwd8y0PngaUFR0EvjuqPw&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("b83883d7-35f1-4a2f-bfcd-9ad0a28b6bbe"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1eifg73dBnUR8qM29W4H7iXk9NCRskq67KQ&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("9c8f7491-6492-4604-af50-f6b4534804c2"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1eifg73dBnUR8qM29W4H7iXk9NCRskq67KQ&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("7c4d174f-e886-43a5-9013-affc86fdc1f7"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://dlcdnwebimgs.asus.com/gain/0ad9bdfe-9c75-41fb-82f5-6a6bf25bab22/w800"
                         },
                         new
                         {
                             Id = new Guid("63cd6f37-c4c1-4c3d-b561-4ce2794d98fc"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://dlcdnwebimgs.asus.com/gain/0ad9bdfe-9c75-41fb-82f5-6a6bf25bab22/w800"
                         },
                         new
                         {
                             Id = new Guid("bca185a6-c282-4f7c-ac93-6bf34b7e456c"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQc4HSepwRQjDLQitxc9LHPjdKN-8pYQPGlDA&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("8ad8675d-d91f-41aa-a6f6-34942ca5ab3d"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQc4HSepwRQjDLQitxc9LHPjdKN-8pYQPGlDA&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("6a2a86a6-4bad-4069-929d-38530f7ba366"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7lvpJRN10N75r-1ssE_0tpl9dvmOEiKQzXQ&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("4c59a95e-ed2e-4cf0-b5c1-d93864253a01"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7lvpJRN10N75r-1ssE_0tpl9dvmOEiKQzXQ&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("58da4458-e14e-424c-9190-97b021e1c4b6"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvyCDsCiIgME0mgv_vJYB-285xwWl3bC-pSw&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("0017f244-66e2-496b-bd2b-106b51dca494"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvyCDsCiIgME0mgv_vJYB-285xwWl3bC-pSw&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("1093846c-050a-4cda-840b-947692e778a8"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwSpfSyrQUCFFTMei2zILF0-xFsIYgNgVVSA&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("cc7f88fe-d8c4-4a03-9db5-a61df21d0a3e"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwSpfSyrQUCFFTMei2zILF0-xFsIYgNgVVSA&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("82c748f5-85c3-4831-9ede-8d1cde4a3f6c"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXd2u896WCZISe8VyWsmvOQhwbLREi0O93YQ&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("7f4f5d0a-7e8d-4158-a6bd-94b26ef29e76"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXd2u896WCZISe8VyWsmvOQhwbLREi0O93YQ&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("3cc92386-bbba-4d74-9ed6-c919b6cf76b3"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6AmSV387Vy0EVlO6hYPgsKqPnIA_qxq41oA&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("26a5309f-13d6-49a4-9d8b-d65273106e1f"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6AmSV387Vy0EVlO6hYPgsKqPnIA_qxq41oA&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("db4ee12f-f2bc-4650-9967-e930baed7930"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBOB80TIoBkL_NaeJ_5lG5LuUsD0IYEDXFJg&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("0d3d03a7-0e55-4c0c-a217-4e143b91cc79"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2zcpFb-6hMeoBVWrfp4LazbLD3a1tEjJjY2oYq45yJOyb28WIIYBoJ3qZMsmFdImBSZk&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("1eb222cb-80df-4cb7-bc8d-33a026350f7d"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1GMCvSHthjghTol1tXK_t4eW7Vk-EuBvdnQ&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("4a4b941f-cdb9-45c9-b3e5-7b7c7403302f"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1GMCvSHthjghTol1tXK_t4eW7Vk-EuBvdnQ&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("dd6f4ab9-97f6-4856-a5f2-29949e254ce0"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg7XWy1cmt1D3uUjF29eo2q4HgqJaGEu9XDg&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("4d33df82-05c6-4bac-aeb9-fb12629adb5a"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg7XWy1cmt1D3uUjF29eo2q4HgqJaGEu9XDg&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("fb73fdce-d216-405b-85a2-fe779f7374e6"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCEvcavb1VnIbFqFEh_5sgzYPgjcVAbFLl7g&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("37414111-ab1d-43f1-8066-eb683cafbba3"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCEvcavb1VnIbFqFEh_5sgzYPgjcVAbFLl7g&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("8d97638c-eada-46ec-bb2a-0f21abd93d3f"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdd3n1bpYxsBGOpZ6ZgUPIKdLVChEegzOBnQ&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("72d37ca1-efe6-4c46-bf29-6bf703d5f363"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdd3n1bpYxsBGOpZ6ZgUPIKdLVChEegzOBnQ&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("337dad38-f567-46f4-bf2c-00ad96e08299"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR42FePhUrLX424aLie09J4Pfkn03T8h3D7PQ&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("45227aae-acd4-4b29-8818-463437f0bffa"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://www.lenovo.com/medias/lenovo-tablet-p10-2.png?context=bWFzdGVyfHJvb3R8NTI0NzIyfGltYWdlL3BuZ3xoM2IvaDFkLzk4MTA1NjI0ODIyMDYucG5nfDI1OGI3YjlkODNkMzI2OThkOWEwMjM1NjliNjI5ZDQ3ZjMxZTg4ZDQ5ZmE5NGY3NTEyYjMwYTA0NDBlM2VhZDA"
                         },
                         new
                         {
                             Id = new Guid("0ffbf223-1e65-4238-9437-4df219e4813a"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://www.lenovo.com/medias/lenovo-tablet-p10-2.png?context=bWFzdGVyfHJvb3R8NTI0NzIyfGltYWdlL3BuZ3xoM2IvaDFkLzk4MTA1NjI0ODIyMDYucG5nfDI1OGI3YjlkODNkMzI2OThkOWEwMjM1NjliNjI5ZDQ3ZjMxZTg4ZDQ5ZmE5NGY3NTEyYjMwYTA0NDBlM2VhZDA"
                         },
                         new
                         {
                             Id = new Guid("66f542b3-011f-4b11-967d-9f088a2d823e"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoJTwIqCk049REtJbZL5xEYO5W9m6iUiSRSg&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("e7c74c3a-4978-496a-b607-80f293b9c4ce"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoJTwIqCk049REtJbZL5xEYO5W9m6iUiSRSg&usqp=CAU"
                         },
                         new
                         {
                             Id = new Guid("47975165-a13f-4b78-87ba-c37bfe9aa184"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://www.istorebangladesh.com/images/thumbs/0000286_macbook-pro-m1_550.png"
                         },
                         new
                         {
                             Id = new Guid("04a29587-5d8b-41a4-a043-b162465da987"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://www.istorebangladesh.com/images/thumbs/0000286_macbook-pro-m1_550.png"
                         },
                         new
                         {
                             Id = new Guid("136753e2-bb03-46cb-a28a-fe34980ae5bf"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://i0.wp.com/eccocibd.com/wp-content/uploads/2022/01/1802NL02_1.png?fit=550%2C550&ssl=1"
                         },
                         new
                         {
                             Id = new Guid("7937020d-8af1-4433-b8dc-f7f33a4dfb58"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://i0.wp.com/eccocibd.com/wp-content/uploads/2022/01/1802NL02_1.png?fit=550%2C550&ssl=1"
                         },
                         new
                         {
                             Id = new Guid("acc1a9c8-f064-48b8-a121-b94c4d343154"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://mirzacdns3.s3.ap-south-1.amazonaws.com/cache/catalog/RLV0015/2-800x800.jpg"
                         },
                         new
                         {
                             Id = new Guid("95f8fe3c-6c37-4236-9af4-456cab4d4ca3"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://mirzacdns3.s3.ap-south-1.amazonaws.com/cache/catalog/RLV0015/2-800x800.jpg"
                         },
                         new
                         {
                             Id = new Guid("e701599b-ba03-438e-b16e-94fee5bed687"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://i0.wp.com/eccocibd.com/wp-content/uploads/2022/01/1802NL02_1.png?fit=550%2C550&ssl=1"
                         },
                         new
                         {
                             Id = new Guid("638fc822-01ba-4e1c-8ae3-c4d59604e536"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://i0.wp.com/eccocibd.com/wp-content/uploads/2022/01/1802NL02_1.png?fit=550%2C550&ssl=1"
                         },
                         new
                         {
                             Id = new Guid("d4ac96e9-94da-46c3-a3d7-cf3562b4b30a"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://m.media-amazon.com/images/I/31Vle5fVdaL.jpg"
                         },
                         new
                         {
                             Id = new Guid("efc37995-8fb1-47d3-a141-2629a2b689de"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://m.media-amazon.com/images/I/31Vle5fVdaL.jpg"
                         },
                         new
                         {
                             Id = new Guid("3f647ec7-97c0-4e3f-9849-540d97bb4d87"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://www.startech.com.bd/image/cache/catalog/headphone/havit/h763d/h763d-02-500x500.jpg"
                         },
                         new
                         {
                             Id = new Guid("18b81e19-0c38-471c-b1ae-648700aab92f"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://eratablet.com/wp-content/uploads/2022/08/H51ba6537405f4948972e293927673546u.jpg"
                         },
                         new
                         {
                             Id = new Guid("71bbd7d1-3875-4ab7-a54b-fdd666bddf72"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://www.bdstall.com/asset/product-image/giant_213181.jpg"
                         },
                         new
                         {
                             Id = new Guid("7c99c118-8140-4171-b6ba-0e5a5a1ea243"),
                             ProductId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            PublicUrl = "test",
+                            PublicId = "test",
                             Url = "https://unixnetworkbd.com/image/cache/wp/gj/unix_network_images/product/gaming-pc-9th-gen-core-i7-9700k/Gaming-PC-9th-Gen-Core-i7-9700k-Unix-Computer-jashore-bangladesh-500x500.webp"
                         });
                 });
@@ -701,9 +701,9 @@ namespace WebApi.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Description");
 
-                    b.Property<int>("DiscountPrice")
+                    b.Property<int>("Discount_Price")
                         .HasColumnType("int")
-                        .HasColumnName("DiscountPrice");
+                        .HasColumnName("Discount_Price");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -726,9 +726,9 @@ namespace WebApi.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Stock");
 
-                    b.Property<int>("TotalSell")
+                    b.Property<int>("Total_Sell")
                         .HasColumnType("int")
-                        .HasColumnName("TotalSell");
+                        .HasColumnName("Total_Sell");
 
                     b.HasKey("Id");
 

@@ -40,6 +40,11 @@ namespace WebApi.Repository
             return FindByCondition(c => c.Id.Equals(reviewId), trackChanges).SingleOrDefaultAsync();            
         }
 
+        public void DeleteAsync(Review review)
+        {
+            Delete(review);
+        }
+
         #endregion
     }
 }

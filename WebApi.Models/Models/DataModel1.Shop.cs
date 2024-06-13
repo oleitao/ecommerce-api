@@ -29,7 +29,7 @@ namespace Model
 
         public string Name { get; set; }
 
-        public int Ratings { get; set; }
+        public double Ratings { get; set; }
 
         public Guid ShopAvatarId { get; set; }
 

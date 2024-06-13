@@ -100,7 +100,7 @@ public class RepositoryContext : IdentityDbContext<User>
     {
         modelBuilder.Entity<ImageUrl>().ToTable(@"ImageUrls");
         modelBuilder.Entity<ImageUrl>().Property(x => x.Id).HasColumnName(@"Id").IsRequired().ValueGeneratedNever();
-        modelBuilder.Entity<ImageUrl>().Property(x => x.PublicUrl).HasColumnName(@"PublicUrl").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<ImageUrl>().Property(x => x.PublicId).HasColumnName(@"PublicId").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<ImageUrl>().Property(x => x.Url).HasColumnName(@"Url").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<ImageUrl>().Property(x => x.ProductId).HasColumnName(@"ProductId").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<ImageUrl>().HasKey(@"Id");

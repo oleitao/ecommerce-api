@@ -92,8 +92,7 @@ public class ShopsController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
-    [Authorize]
+    [ApiExplorerSettings(GroupName = "v2")]
     public async Task<IActionResult> DeleteShop(Guid id)
     {
         await _service.ShopService.DeleteShopAsync(id, trackChanges: false);

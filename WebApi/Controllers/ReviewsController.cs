@@ -58,7 +58,7 @@ public class ReviewsController : ControllerBase
 
     [HttpPost]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
+    [ApiExplorerSettings(GroupName = "v2")]
     [Authorize]
     [Consumes(typeof(ReviewForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -92,8 +92,7 @@ public class ReviewsController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
-    [Authorize]
+    [ApiExplorerSettings(GroupName = "v2")]
     public async Task<IActionResult> DeleteReview(Guid id)
     {
         await _service.ReviewService.DeleteReviewAsync(id, trackChanges: false);
