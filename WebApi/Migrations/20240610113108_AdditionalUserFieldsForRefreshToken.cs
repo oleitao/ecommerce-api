@@ -824,7 +824,7 @@ namespace WebApi.Migrations
 
             migrationBuilder.InsertData(
                 table: "ImageUrls",
-                columns: new[] { "Id", "ProductId", "PublicUrl", "Url" },
+                columns: new[] { "Id", "ProductId", "PublicId", "Url" },
                 values: new object[,]
                 {
                     { new Guid("0017f244-66e2-496b-bd2b-106b51dca494"), new Guid("00000000-0000-0000-0000-000000000000"), "test", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvyCDsCiIgME0mgv_vJYB-285xwWl3bC-pSw&usqp=CAU" },
@@ -887,7 +887,7 @@ namespace WebApi.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "CategoryId", "Description", "DiscountPrice", "Name", "Price", "Rating", "ShopId", "Stock", "TotalSell" },
+                columns: new[] { "Id", "CategoryId", "Description", "Discount_Price", "Name", "Price", "Rating", "ShopId", "Stock", "Total_Sell" },
                 values: new object[,]
                 {
                     { new Guid("0b1b8682-3fcd-43bb-afe9-2610ffd67e2c"), new Guid("fc7f2981-1031-4d10-8565-9cf93f211799"), "Product details are a crucial part of any eCommerce website or online marketplace. These details help the potential customers to make an informed decision about the product they are interested in buying. A well-written product description can also be a powerful marketing tool that can help to increase sales.Product details typically include information about the products features, specifications, dimensions, weight, materials, and other relevant information that can help customers to understand the product better. The product details section should also include high-quality images and videos of the product, as well as customer reviews and ratings.", 0, "Iphone 14 pro max 256 gb ssd and 8 gb ram silver colour", 0, 0, new Guid("00000000-0000-0000-0000-000000000000"), 0, 0 },
@@ -1810,7 +1810,7 @@ namespace WebApi.Migrations
 
             migrationBuilder.InsertData(
                 table: "ImageUrls",
-                columns: new[] { "Id", "ProductId", "PublicUrl", "Url" },
+                columns: new[] { "Id", "ProductId", "PublicId", "Url" },
                 values: new object[,]
                 {
                     { new Guid("03113f34-d4b2-49b0-9d29-201719ec90cc"), new Guid("00000000-0000-0000-0000-000000000000"), "test", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1eifg73dBnUR8qM29W4H7iXk9NCRskq67KQ&usqp=CAU" },
@@ -1873,7 +1873,7 @@ namespace WebApi.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "CategoryId", "Description", "DiscountPrice", "Name", "Price", "Rating", "ShopId", "Stock", "TotalSell" },
+                columns: new[] { "Id", "CategoryId", "Description", "Discount_Price", "Name", "Price", "Rating", "ShopId", "Stock", "Total_Sell" },
                 values: new object[,]
                 {
                     { new Guid("1aae6456-626d-4875-b05f-c48e77cb1578"), new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"), "Latest Bluetooth 5.1 Technology-This Bluetooth headset adopts Bluetooth V5.1 standard, you can achieve faster and more stable transmission. The transmission distance is up to 10m (32.8ft) (without obstacles). Compatible with most Bluetooth-enabled devices, such as iPhone, Huawei, Samsung Galaxy, LG, Sony, PC, laptop, etc. It can also be used with 2 devices can be connected at the same time, so you can separate your life and work.Long Working Time-The wireless headset has been tested for up to 10 hours of continuous calls and music time. 180 hours standby time. Fulfill your calling needs while multitasking with amazingly crisp and clear sound. The cell phone Bluetooth headset features Type-C fast charging, which can provide 7 hours of face-to-face communication experience with a single 1-hour fast charge. Clear Sound & High Quality Audio-The wireless headphones with a CVC 8.State-of-the-art noise reduction, which produces a more natural, distortion-free sound quality and clear sound. Dual microphone is designed for calls, not only is it easy to hear other people, but also prevents the noise and sounds around you from being picked up, you can enjoy high quality music and clear phone calls. Comfortable Lightweight Design-The lightweight construction makes it the perfect headset for drivers or business people,The main body of the bluetooth headset weights only 12g (0.4oz), which will not cause any pain even if worn for a long time.Moreover The earhook can rotate 270 so you can adjust it to your preferred angle. small, medium and large Three optional ear tips ensure a comfortable fit for both left and right ears.Hands-free & Mute Button- The bluetooth hands-free headset is equipped with a multi-function button, you can play or pause music, answer/end/reject calls. You can also enable voice controls like Siri and Google Assistant. In addition, you can press the separate mute button for 2 seconds to activate/deactivate the microphone, protect your privacy when you need it.", 0, "Bluetooth Wireless Headset V5.1 Hands-free In-ear Hearphone With Microphone For Iphone Android", 0, 0, new Guid("00000000-0000-0000-0000-000000000000"), 0, 0 },

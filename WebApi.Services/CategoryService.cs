@@ -170,6 +170,9 @@ namespace WebApi.Services
         {
             var categoryEntity = _mapper.Map<Category>(category);
 
+            if(categoryEntity.Id == Guid.Empty)
+                categoryEntity.Id = Guid.NewGuid();
+
             _repository.Category.CreateCategory(categoryEntity);
             await _repository.SaveAsync();
 

@@ -101,6 +101,9 @@ namespace WebApi.Services
         {
             var reviewEntity = _mapper.Map<Review>(review);
 
+            if(reviewEntity.Id == Guid.Empty)
+                reviewEntity.Id = Guid.NewGuid();
+
             _repository.Review.CreateReview(reviewEntity);
             await _repository.SaveAsync();
 

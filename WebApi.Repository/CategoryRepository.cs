@@ -66,6 +66,11 @@ namespace WebApi.Repository
             Delete(category);
         }
 
+        public Task<Category> GetCategoryByName(string category, bool trackChanges)
+        {
+            return FindByCondition(c => c.Title.Equals(category), trackChanges).SingleOrDefaultAsync();
+        }
+
         #endregion
     }
 }

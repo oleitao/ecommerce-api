@@ -113,6 +113,9 @@ namespace WebApi.Services
         {
             var imageUrlEntity = _mapper.Map<ImageUrl>(imageUrlDto);
 
+            if(imageUrlEntity.Id == Guid.Empty)
+                imageUrlEntity.Id = Guid.NewGuid();
+
             _repository.ImageUrl.CreateImageUrl(imageUrlEntity);
             await _repository.SaveAsync();
 
