@@ -58,7 +58,7 @@ public class ReviewsController : ControllerBase
 
     [HttpPost]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
+    [ApiExplorerSettings(GroupName = "v2")]
     [Authorize]
     [Consumes(typeof(ReviewForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]

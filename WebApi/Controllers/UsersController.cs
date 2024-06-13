@@ -44,7 +44,7 @@ public class UsersController : ControllerBase
 
     [HttpGet("{id:guid}", Name = "UserById")]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
+    [ApiExplorerSettings(GroupName = "v2")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(User), StatusCodes.Status404NotFound)]

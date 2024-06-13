@@ -19,6 +19,7 @@ namespace WebApi.Contracts
         Task<IEnumerable<Category>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges);
         Task<PagedList<Category>> GetPagedListCategoriesAsync(CategoryParameters categoryParameters, bool trackChanges);
         void DeleteCategory(Category category);
+        Task<Category> GetCategoryByName(string category, bool trackChanges);
 
         #endregion
     }

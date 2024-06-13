@@ -155,8 +155,68 @@ namespace WebApi.Services
         {
             var productEntity = _mapper.Map<Product>(product);
 
-            _repository.Product.CreateProduct(productEntity);
-            await _repository.SaveAsync();
+            if(productEntity.Id == Guid.Empty)
+                productEntity.Id = Guid.NewGuid();
+
+
+            try
+            {
+                var category = await _repository.Category.GetCategoryByName(product.Category, false);
+                if (category != null)
+                    productEntity.CategoryId = category.Id;
+
+
+                _repository.Product.CreateProduct(productEntity);
+
+                foreach (var review in product.Reviews)
+                {
+                    _repository.Review.CreateReview(new Review()
+                    {
+                        UserId = Guid.NewGuid(),
+                        Comment = review.Comment,
+                        ProductId = productEntity.Id,
+                        Rating = review.Rating
+                    });
+                }
+
+                foreach (var image in product.ImageUrls)
+                {
+                    _repository.ImageUrl.CreateImageUrl(new ImageUrl()
+                    {
+                        Id = Guid.NewGuid(),
+                        ProductId = productEntity.Id,
+                        PublicId = image.Public_id,
+                        Url = image.Url
+                    });
+                }
+
+                ShopAvatar shopAvatar = new ShopAvatar() 
+                { 
+                    Id= Guid.NewGuid(),
+                    PublicId = product.Shop.Shop_avatar.Public_id,
+                    Url = product.Shop.Shop_avatar.Url
+                };
+
+                _repository.ShopAvatar.CreateShopAvatar(shopAvatar);
+
+                Shop shop = new Shop()
+                {
+                    Name = product.Shop.Name,
+                    Ratings = product.Shop.Ratings,
+                    ShopAvatarId = shopAvatar.Id,
+                    Id = Guid.NewGuid()
+                };
+
+                shopAvatar.ShopId = shop.Id;
+                
+                _repository.Shop.CreateShop(shop);
+
+                await _repository.SaveAsync();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
 
             var productReturn = _mapper.Map<ProductDto>(productEntity);
 
@@ -178,19 +238,22 @@ namespace WebApi.Services
 
             if (productImages is null)
             {
+                /*
                 foreach (var image in productForCreationDto.ImageUrls)
                 {
                     _repository.ImageUrl.CreateImageUrl(new ImageUrl()
                     {
                         Id = Guid.NewGuid(),
-                        PublicUrl = image.PublicUrl,
+                        PublicId = image.PublicId,
                         Url = image.Url,
                         ProductId = productEntity.Id
                     });
-                }                
+                }
+                */
             }
             else
             {
+                /*
                 foreach (var image in productForCreationDto.ImageUrls)
                 {
                     if (!images.Contains(image))
@@ -198,12 +261,13 @@ namespace WebApi.Services
                         _repository.ImageUrl.CreateImageUrl(new ImageUrl()
                         {
                             Id = Guid.NewGuid(),
-                            PublicUrl = image.PublicUrl,
+                            PublicId = image.PublicId,
                             Url = image.Url,
                             ProductId = productEntity.Id
                         });
                     }
                 }
+                */
             }
 
 

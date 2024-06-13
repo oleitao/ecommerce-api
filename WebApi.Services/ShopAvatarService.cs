@@ -103,6 +103,9 @@ namespace WebApi.Services
         {
             var shopAvatarEntity = _mapper.Map<ShopAvatar>(shopAvatar);
 
+            if(shopAvatarEntity.Id == Guid.Empty)
+                shopAvatarEntity.Id = Guid.NewGuid();
+
             _repository.ShopAvatar.CreateShopAvatar(shopAvatarEntity);
             await _repository.SaveAsync();
 

@@ -58,12 +58,12 @@ public class ShopAvatarsController : ControllerBase
 
     [HttpPost]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
+    [ApiExplorerSettings(GroupName = "v2")]
     [Authorize]
     [Consumes(typeof(ShopAvatarForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<IActionResult> CreateShoAvatar([FromBody] ShopAvatarForCreationDto shopAvatar)
+    public async Task<IActionResult> CreateShopAvatar([FromBody] ShopAvatarForCreationDto shopAvatar)
     {
         if (shopAvatar is null)
             return BadRequest("ShopAvatarForCreationDto is null");
