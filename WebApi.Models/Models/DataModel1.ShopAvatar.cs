@@ -27,7 +27,7 @@ namespace Model
 
         public Guid Id { get; set; }
 
-        public string PublicId { get; set; }
+        public string Public_id { get; set; }
 
         public string Url { get; set; }
 

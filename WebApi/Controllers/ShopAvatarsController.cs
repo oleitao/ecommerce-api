@@ -25,8 +25,8 @@ public class ShopAvatarsController : ControllerBase
     
     [HttpGet]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
-    [Authorize]
+    [ApiExplorerSettings(GroupName = "v2")]
+    //[Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<ShopAvatar>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllShopAvatars()
@@ -77,9 +77,9 @@ public class ShopAvatarsController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    [Authorize]
+    //[Authorize]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
+    [ApiExplorerSettings(GroupName = "v2")]
     public async Task<IActionResult> UpdateShopAvatar(Guid id, ShopAvatarForUpdateDto shopAvatar)
     {
         if (shopAvatar is null)

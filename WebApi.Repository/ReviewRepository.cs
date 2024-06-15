@@ -35,14 +35,19 @@ namespace WebApi.Repository
             return FindAll(trackChanges).ToList();
         }
 
-        public Task<Review> GetReviewAsync(Guid reviewId, bool trackChanges)
+        public async Task<Review> GetReviewAsync(Guid reviewId, bool trackChanges)
         {
-            return FindByCondition(c => c.Id.Equals(reviewId), trackChanges).SingleOrDefaultAsync();            
+            return await FindByCondition(c => c.Id.Equals(reviewId), trackChanges).SingleOrDefaultAsync();            
         }
 
         public void DeleteAsync(Review review)
         {
             Delete(review);
+        }
+
+        public async Task<IEnumerable<Review>> GetReviewByUserAsync(Guid guid, bool trackChanges)
+        {
+            return await FindByCondition(c => c.UserId.Equals(guid), trackChanges).ToListAsync();
         }
 
         #endregion

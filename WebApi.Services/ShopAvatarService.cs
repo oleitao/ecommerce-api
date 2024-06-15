@@ -114,9 +114,15 @@ namespace WebApi.Services
             return shopAvatarReturn;
         }
 
-        public Task UpdateShopAvatar(Guid id, ShopAvatarForUpdateDto shopAvatar, bool trackChanges)
+        public async Task UpdateShopAvatar(Guid id, ShopAvatarForUpdateDto shopAvatar, bool trackChanges)
         {
-            throw new NotImplementedException();
+            var shopAvatarEntitie = await _repository.ShopAvatar.GetShopAvatarAsync(id, trackChanges);
+            if (shopAvatarEntitie is null)
+                throw new ShopAvatarNotFoundException(id);
+
+
+            _mapper.Map(shopAvatar, shopAvatarEntitie);
+            await _repository.SaveAsync();
         }
 
         public async Task DeleteShopAvatarAsync(Guid id, bool trackChanges)
