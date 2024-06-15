@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react';
 import styles from "../../Styles/Style";
 import Logo from "../../Assets/logo.png";
 import {
@@ -10,7 +10,7 @@ import { BiMenuAltLeft } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { categoriesData, productData } from "../../Static/data";
+import { productData } from "../../Static/data";
 import DropDown from "./DropDown";
 import Navbar from "./Navbar";
 import Cart from "../../Components/Cart";
@@ -18,6 +18,10 @@ import Wishlist from "../../Components/Wishlist";
 import ResponsiveHeader from "./ResponsiveHeader/ResponsiveHeader";
 import avatar from "../../Assets/avatar.jpg";
 import { useSelector } from "react-redux";
+import axios from 'axios';
+
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
 
 const Header = ({ activeHeading }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -36,6 +40,18 @@ const Header = ({ activeHeading }) => {
   // use selector
   const { cart } = useSelector((state) => state.cart);
   const { wishlist } = useSelector((state) => state.wishlist);
+
+  const [categoriesData, setCategoriesData] = useState('');
+  useEffect(() => {
+    axios.get('https://localhost:64403/api/categories')
+      .then(response => {
+        setCategoriesData(response.data);
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
 
   const handleSearch = (e) => {
     const term = e.target.value;

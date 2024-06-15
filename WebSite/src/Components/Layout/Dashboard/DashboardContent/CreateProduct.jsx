@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { categoriesData } from "../../../../Static/data";
+//import { categoriesData } from "../../../../Static/data";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import styles from "../../../../Styles/Style";
 import { v4 } from "uuid";
@@ -9,6 +9,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 import { motion } from "framer-motion";
+import axios from 'axios';
+
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
 
 const CreateProduct = () => {
   const navigate = useNavigate();
@@ -21,6 +25,18 @@ const CreateProduct = () => {
   const [stock, setStock] = useState();
   const [productId, setProductId] = useState("");
   const [images, setImages] = useState([]);
+
+  const [categoriesData, setCategoriesData] = useState('');
+  useEffect(() => {
+    axios.get('https://localhost:64403/api/categories')
+      .then(response => {
+        setCategoriesData(response.data);
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
 
   // upload image handler
   const handleImageChange = (e) => {

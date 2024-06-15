@@ -1,10 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
 import styles from "../../Styles/Style";
-import { brandingData, categoriesData } from "../../Static/data";
+import { brandingData } from "../../Static/data";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
 
 const Categories = () => {
   const Navigate = useNavigate();
+
+  const [categoriesData, setCategoriesData] = useState('');
+  useEffect(() => {
+    axios.get('https://localhost:64403/api/categories')
+      .then(response => {
+        setCategoriesData(response.data);
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
+  
   return (
     <>
       <div className={`${styles.section} hidden sm:block`}>
@@ -30,7 +47,7 @@ const Categories = () => {
         className={`${styles.section} bg-white mb-12 p-6 rounded-lg`}
         id="categories">
         <div className="grid grid-cols-1 gap-[5px] md:grid-cols-2 md:gap-[10px] lg:grid-cols-4 lg:gap-[20px] xl:grid-cols-5 xl:gap-[30px]">
-          {categoriesData &&
+         {categoriesData &&
             categoriesData.map((data) => {
               const handleSubmit = (data) => {
                 Navigate(`/products?category=${data.title}`);
