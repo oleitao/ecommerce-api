@@ -24,8 +24,8 @@ public class ShopsController : ControllerBase
     
     [HttpGet]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
-    [Authorize]
+    [ApiExplorerSettings(GroupName = "v2")]
+    //[Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Shop>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllShops()
@@ -78,14 +78,14 @@ public class ShopsController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
-    [Authorize]
-    public async Task<IActionResult> UpdateShop(Guid id, ShopForUpdateDto model)
+    [ApiExplorerSettings(GroupName = "v2")]
+    //[Authorize]
+    public async Task<IActionResult> UpdateShop(Guid id, ShopForUpdateDto shop)
     {
-        if (model is null)
+        if (shop is null)
             return BadRequest("ShopForUpdateDto object is null");
 
-        await _service.ShopService.UpdateShopAsync(id, model, trackChanges: true);
+        await _service.ShopService.UpdateShopAsync(id, shop, trackChanges: true);
 
         return NoContent();
     }

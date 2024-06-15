@@ -104,6 +104,11 @@ namespace WebApi.Repository
             Delete(product);
         }
 
+        public void UpdateProductAsync(Product productEntity)
+        {
+            Update(productEntity);
+        }
+
         #endregion
     }
 }

@@ -28,7 +28,7 @@ public class CategoriesController : ControllerBase
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "v2")]
     [Produces("application/json")]
-    [Authorize]
+    //[Authorize]
     [ProducesResponseType(typeof(IEnumerable<Category>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllCategories()
     {
@@ -50,7 +50,7 @@ public class CategoriesController : ControllerBase
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Category>), StatusCodes.Status200OK)]
     [Route("filter/")]
-    [Authorize]
+    //[Authorize]
     public async Task<IActionResult> GetAllCategoriesAsync([FromQuery] CategoryParameters categoryParameters)
     {
         try
@@ -115,7 +115,7 @@ public class CategoriesController : ControllerBase
     [HttpPost]
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "v2")]
-    [Authorize]
+    //[Authorize]
     [Consumes(typeof(CategoryForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -134,11 +134,11 @@ public class CategoriesController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
+    [ApiExplorerSettings(GroupName = "v2")]
     [Consumes(typeof(CategoryForUpdateDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [Authorize]
+    //[Authorize]
     public async Task<IActionResult> UpdateCategory(Guid id, [FromBody]CategoryForUpdateDto categry)
     {
         if (categry is null)

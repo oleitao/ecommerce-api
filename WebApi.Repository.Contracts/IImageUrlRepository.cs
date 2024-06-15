@@ -14,6 +14,10 @@ namespace WebApi.Contracts
         #region Async
         Task<IEnumerable<ImageUrl>> GetImageUrlsAsync(bool trackChanges);
         Task<ImageUrl> GetImageUrlAsync(Guid imageUrlId, bool trackChanges);
+        //Task<ImageUrl> GetImageUrlByPublicIdAsync(string public_id, bool trackChanges);
+        Task<IEnumerable<ImageUrl>> GetImageUrlByPublicIdAndUrlAsync(string public_id, string url, bool trackChanges);
+        void UpdateImageUrlAsync(ImageUrl imageUrl);
+        Task<IEnumerable<ImageUrl>> GetImageUrlByPublicIdAsync(string public_id, bool trackChanges);
         #endregion
     }
 }

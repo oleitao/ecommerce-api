@@ -24,8 +24,8 @@ public class ReviewsController : ControllerBase
 
     [HttpGet]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName ="v1")]
-    [Authorize]
+    [ApiExplorerSettings(GroupName ="v2")]
+    //[Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Review>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllReviews()
@@ -79,7 +79,7 @@ public class ReviewsController : ControllerBase
     [HttpPut("{id:guid}")]
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "v1")]
-    [Authorize]
+    //[Authorize]
     public async Task<IActionResult> UpdateReview(Guid id, [FromBody]ReviewForUpdateDto review)
     {
         if (review is null)

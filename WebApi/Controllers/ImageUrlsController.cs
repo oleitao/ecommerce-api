@@ -27,7 +27,7 @@ public class ImageUrlsController : ControllerBase
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
-    [Authorize]
+    //[Authorize]
     [ProducesResponseType(typeof(IEnumerable<ImageUrl>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllImageUrls()
     {
@@ -40,7 +40,7 @@ public class ImageUrlsController : ControllerBase
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
-    [Authorize]
+    //[Authorize]
     [ProducesResponseType(typeof(ImageUrl), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ImageUrl), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetImageUrlById(Guid id)
@@ -52,7 +52,7 @@ public class ImageUrlsController : ControllerBase
     [HttpPost]
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "v2")]
-    [Authorize]
+    //[Authorize]
     [Consumes(typeof(ImageUrlForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -71,9 +71,9 @@ public class ImageUrlsController : ControllerBase
 
     [HttpPut("{id}")]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
-    [Authorize]
-    public async Task<IActionResult> UpdateImageUrl(int id, ImageUrlForUpdateDto imageUrl)
+    [ApiExplorerSettings(GroupName = "v2")]
+    //[Authorize]
+    public async Task<IActionResult> UpdateImageUrl(Guid id, ImageUrlForUpdateDto imageUrl)
     {
         if (imageUrl is null)
             return BadRequest("ImageUrlForUpdateDto object is null");

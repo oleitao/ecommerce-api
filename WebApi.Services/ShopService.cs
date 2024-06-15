@@ -111,9 +111,15 @@ namespace WebApi.Services
             return shopReturn;
         }
 
-        public Task UpdateShopAsync(Guid id, ShopForUpdateDto model, bool trackChanges)
+        public async Task UpdateShopAsync(Guid id, ShopForUpdateDto model, bool trackChanges)
         {
-            throw new NotImplementedException();
+            var shopEntitie = await _repository.Shop.GetShopAsync(id, trackChanges);
+            if (shopEntitie is null)
+                throw new ShopNotFoundException(id);
+
+
+            _mapper.Map(model, shopEntitie);
+            await _repository.SaveAsync();
         }
 
         public async Task DeleteShopAsync(Guid id, bool trackChanges)
