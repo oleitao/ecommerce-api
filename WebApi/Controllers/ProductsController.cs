@@ -26,8 +26,8 @@ public class ProductsController : ControllerBase
     [HttpGet]
     [HttpHead]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
-    [Authorize]
+    [ApiExplorerSettings(GroupName = "v2")]
+    //[Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Product>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllProducts()
@@ -101,8 +101,8 @@ public class ProductsController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
-    [Authorize]
+    [ApiExplorerSettings(GroupName = "v2")]
+    //[Authorize]
     public async Task<IActionResult> UpdateProduct(Guid id, ProductForUpdateDto product)
     {
         if (product is null)

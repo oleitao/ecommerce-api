@@ -180,7 +180,7 @@ public class RepositoryContext : IdentityDbContext<User>
     {
         modelBuilder.Entity<ShopAvatar>().ToTable(@"ShopAvatars");
         modelBuilder.Entity<ShopAvatar>().Property(x => x.Id).HasColumnName(@"Id").IsRequired().ValueGeneratedNever();
-        modelBuilder.Entity<ShopAvatar>().Property(x => x.PublicId).HasColumnName(@"PublicId").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<ShopAvatar>().Property(x => x.Public_id).HasColumnName(@"PublicId").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<ShopAvatar>().Property(x => x.Url).HasColumnName(@"Url").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<ShopAvatar>().Property(x => x.ShopId).HasColumnName(@"ShopId").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<ShopAvatar>().HasKey(@"Id");

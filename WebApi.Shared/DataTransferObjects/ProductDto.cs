@@ -27,7 +27,7 @@ namespace WebApi.Shared.DataTransferObjects
 
         [Required(ErrorMessage = "Rating is a required field.")]
         [Range(1, 5)]
-        int Rating, 
+        double Rating, 
 
         ICollection<Review> Reviews,
 
@@ -52,10 +52,23 @@ namespace WebApi.Shared.DataTransferObjects
         double Rating,
         int Total_sell,
         int Stock,
-        ICollection<ImageUrlForCreationDto> ImageUrls,
+        ICollection<ImageUrlForCreationDto> Image_Url,
         ICollection<ReviewForCreationDto> Reviews,
         ShopForCreationDto Shop
     );
 
-    public record ProductForUpdateDto(Guid CategoryId, string Name, string Description, ICollection<ImageUrl> ImageUrls, int Price, int DiscountPrice, int Rating, ICollection<Review> Reviews, int TotalSell, int Stock);
+    public record ProductForUpdateDto
+    (
+        string Category,
+        string Name, 
+        string Description,
+        int Price,
+        int Discount_price,
+        int Rating,
+        int Total_sell,
+        int Stock,
+        ICollection<ImageUrlForUpdateDto> Image_Url,
+        ICollection<ReviewForUpdateDto> Reviews,
+        ShopForCreationDto Shop        
+    );
 }

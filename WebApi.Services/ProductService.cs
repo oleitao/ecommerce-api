@@ -151,9 +151,9 @@ namespace WebApi.Services
             }
         }
 
-        public async Task<ProductDto> CreateProductAsync(ProductForCreationDto product)
+        public async Task<ProductDto> CreateProductAsync(ProductForCreationDto productForCreationDto)
         {
-            var productEntity = _mapper.Map<Product>(product);
+            var productEntity = _mapper.Map<Product>(productForCreationDto);
 
             if(productEntity.Id == Guid.Empty)
                 productEntity.Id = Guid.NewGuid();
@@ -161,48 +161,54 @@ namespace WebApi.Services
 
             try
             {
-                var category = await _repository.Category.GetCategoryByName(product.Category, false);
+                var category = await _repository.Category.GetCategoryByName(productForCreationDto.Category, false);
                 if (category != null)
                     productEntity.CategoryId = category.Id;
 
 
                 _repository.Product.CreateProduct(productEntity);
 
-                foreach (var review in product.Reviews)
+                if (productForCreationDto.Reviews is not null && productForCreationDto.Reviews.Count > 0)
                 {
-                    _repository.Review.CreateReview(new Review()
+                    foreach (var review in productForCreationDto.Reviews)
                     {
-                        UserId = Guid.NewGuid(),
-                        Comment = review.Comment,
-                        ProductId = productEntity.Id,
-                        Rating = review.Rating
-                    });
+                        _repository.Review.CreateReview(new Review()
+                        {
+                            UserId = Guid.NewGuid(),
+                            Comment = review.Comment,
+                            ProductId = productEntity.Id,
+                            Rating = review.Rating
+                        });
+                    }
                 }
 
-                foreach (var image in product.ImageUrls)
+                if (productForCreationDto.Image_Url is not null && productForCreationDto.Image_Url.Count > 0)
                 {
-                    _repository.ImageUrl.CreateImageUrl(new ImageUrl()
+                    foreach (var image in productForCreationDto.Image_Url)
                     {
-                        Id = Guid.NewGuid(),
-                        ProductId = productEntity.Id,
-                        PublicId = image.Public_id,
-                        Url = image.Url
-                    });
+                        _repository.ImageUrl.CreateImageUrl(new ImageUrl()
+                        {
+                            Id = Guid.NewGuid(),
+                            ProductId = productEntity.Id,
+                            PublicId = image.Public_id,
+                            Url = image.Url
+                        });
+                    }
                 }
 
                 ShopAvatar shopAvatar = new ShopAvatar() 
                 { 
                     Id= Guid.NewGuid(),
-                    PublicId = product.Shop.Shop_avatar.Public_id,
-                    Url = product.Shop.Shop_avatar.Url
+                    Public_id = productForCreationDto.Shop.Shop_avatar.Public_id,
+                    Url = productForCreationDto.Shop.Shop_avatar.Url
                 };
 
                 _repository.ShopAvatar.CreateShopAvatar(shopAvatar);
 
                 Shop shop = new Shop()
                 {
-                    Name = product.Shop.Name,
-                    Ratings = product.Shop.Ratings,
+                    Name = productForCreationDto.Shop.Name,
+                    Ratings = productForCreationDto.Shop.Ratings,
                     ShopAvatarId = shopAvatar.Id,
                     Id = Guid.NewGuid()
                 };
@@ -221,6 +227,96 @@ namespace WebApi.Services
             var productReturn = _mapper.Map<ProductDto>(productEntity);
 
             return productReturn;
+        }
+
+        public async Task UpdateProductAsync(Guid id, ProductForUpdateDto productForUpdateDto, bool trackChanges)
+        {
+            //var productEntity = _mapper.Map<Product>(productForUpdateDto);
+
+            try
+            {
+                Guid categoryId = Guid.Empty;
+
+                var categoryEntity = await _repository.Category.GetCategoryByName(productForUpdateDto.Category, false);
+                if (categoryEntity != null)
+                    categoryId = categoryEntity.Id;
+
+                var productEntity = await _repository.Product.GetProductAsync(id, trackChanges);
+
+
+                //_mapper.Map(productForUpdateDto, productEntity);
+
+                if (productEntity is not null)
+                {
+                    productEntity.CategoryId = categoryId;
+                    productEntity.Name = productForUpdateDto.Name;
+                    productEntity.Description = productForUpdateDto.Description;
+                    productEntity.Price = productForUpdateDto.Price;
+                    productEntity.DiscountPrice = productEntity.DiscountPrice;
+                    productEntity.Rating = productForUpdateDto.Rating;
+                    productEntity.TotalSell = productEntity.TotalSell;
+                    productEntity.Stock = productForUpdateDto.Stock;
+
+                    _repository.Product.UpdateProductAsync(productEntity);
+
+                    if (productForUpdateDto.Reviews is not null && productForUpdateDto.Reviews.Count > 0)
+                    {
+                        foreach (var review in productForUpdateDto.Reviews)
+                        {
+                            var reviewEntities = await _repository.Review.GetReviewByUserAsync(Guid.Parse(review.User.Id), trackChanges);
+                            if (reviewEntities is null)
+                                throw new ReviewNotFoundException(id);
+
+                            _repository.Review.UpdateReviewAsync(reviewEntities);
+                        }
+                    }
+
+                    if (productForUpdateDto.Image_Url is not null && productForUpdateDto.Image_Url.Count > 0)
+                    {
+                        foreach (var image in productForUpdateDto.Image_Url)
+                        {
+                            var imageList = await _repository.ImageUrl.GetImageUrlByPublicIdAsync(image.Public_id, trackChanges);
+                            
+                            foreach (var imageUrl in imageList)
+                            {
+                                imageUrl.Url = image.Url;
+
+                                _repository.ImageUrl.UpdateImageUrlAsync(imageUrl);
+                            }
+                        }
+                    }
+
+                    if (productForUpdateDto.Shop is not null)
+                    {
+                        ShopAvatar shopAvatar = new ShopAvatar()
+                        {
+                            Id = Guid.NewGuid(),
+                            Public_id = productForUpdateDto.Shop.Shop_avatar.Public_id,
+                            Url = productForUpdateDto.Shop.Shop_avatar.Url
+                        };
+
+                        _repository.ShopAvatar.CreateShopAvatar(shopAvatar);
+
+                        Shop shop = new Shop()
+                        {
+                            Name = productForUpdateDto.Shop.Name,
+                            Ratings = productForUpdateDto.Shop.Ratings,
+                            ShopAvatarId = shopAvatar.Id,
+                            Id = Guid.NewGuid()
+                        };
+
+                        shopAvatar.ShopId = shop.Id;
+
+                        _repository.Shop.CreateShop(shop);
+                    }
+
+                    await _repository.SaveAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task<ProductDto> CreateProductForCategoryAsync(Guid categoryId, ProductForCreationDto productForCreationDto, bool trackChanges)
@@ -298,11 +394,6 @@ namespace WebApi.Services
         {
             _mapper.Map(productToPatch, productEntity);
             await _repository.SaveAsync();
-        }
-
-        public async Task UpdateProductAsync(Guid id, ProductForUpdateDto product, bool trackChanges)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task DeleteProductAsync(Guid id, bool trackChanges)

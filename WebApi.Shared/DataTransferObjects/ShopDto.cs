@@ -14,5 +14,5 @@ namespace WebApi.Shared.DataTransferObjects
         Guid ProductId
     );
 
-    public record ShopForUpdateDto(Guid ProductId, string Name, ShopAvatar ShopAvatars, int Ratings);
+    public record ShopForUpdateDto(Guid ProductId, string Name, ShopAvatar ShopAvatars, double Ratings, Guid ShopAvatarId);
 }

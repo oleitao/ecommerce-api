@@ -112,9 +112,14 @@ namespace WebApi.Services
             return reviewReturn;
         }
 
-        public Task UpdateReviewAsync(Guid id, ReviewForUpdateDto review, bool trackChanges)
+        public async Task UpdateReviewAsync(Guid id, ReviewForUpdateDto review, bool trackChanges)
         {
-            throw new NotImplementedException();
+            var reviewEntitie = await _repository.Review.GetReviewAsync(id, trackChanges);
+            if (reviewEntitie is null)
+                throw new ReviewNotFoundException(id);
+
+            _mapper.Map(review, reviewEntitie);
+            await _repository.SaveAsync();
         }
 
         public async Task DeleteReviewAsync(Guid id, bool trackChanges)

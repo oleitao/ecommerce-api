@@ -34,9 +34,9 @@ namespace WebApi.Repository
             return FindAll(trackChanges).ToList();
         }
 
-        public Task<Shop> GetShopAsync(Guid shopId, bool trackChanges)
+        public async Task<Shop> GetShopAsync(Guid shopId, bool trackChanges)
         {
-            return FindByCondition(c => c.Id.Equals(shopId), trackChanges).SingleOrDefaultAsync();            
+            return await FindByCondition(c => c.Id.Equals(shopId), trackChanges).SingleOrDefaultAsync();            
         }
 
         public void DeleteShop(Shop shop)
