@@ -12,8 +12,8 @@ using WebApi.Repository;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240614154105_AddedCategories")]
-    partial class AddedCategories
+    [Migration("20240615112155_AddedUsers")]
+    partial class AddedUsers
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,13 +54,13 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5215bfd2-18e7-454f-928b-2a879ccf2495",
+                            Id = "65313372-81fb-4fba-9cfb-6aca4fe60be8",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "c0f537bf-69b7-44df-a487-d5303c1c909b",
+                            Id = "a7d9a3b6-f287-4fd8-b533-ef96341dec1e",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -196,78 +196,6 @@ namespace WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("8cfc9538-c592-4725-bd02-cf7f42f46198"),
-                            ImageUrl = "https://cdn.shopify.com/s/files/1/1706/9177/products/NEWAppleMacbookProwithM1ProChip14InchLaptop2021ModelMKGQ3LL_A_16GB_1TBSSD_custommacbd.jpg?v=1659592838",
-                            SubTitle = "",
-                            Title = "Computers and Laptops"
-                        },
-                        new
-                        {
-                            Id = new Guid("128d53bd-88b6-44ab-be2f-221ff4b72e37"),
-                            ImageUrl = "https://indian-retailer.s3.ap-south-1.amazonaws.com/s3fs-public/2021-07/kosme1.png",
-                            SubTitle = "",
-                            Title = "cosmetics and body care"
-                        },
-                        new
-                        {
-                            Id = new Guid("407a5a04-b476-4487-b1e4-348b105ac161"),
-                            ImageUrl = "https://img.freepik.com/free-vector/ordering-goods-online-internet-store-online-shopping-niche-e-commerce-website-mother-buying-babies-clothes-footwear-toys-infant-accessories_335657-2345.jpg?w=2000",
-                            SubTitle = "",
-                            Title = "Accesories"
-                        },
-                        new
-                        {
-                            Id = new Guid("0e6ce5fb-e66d-4fd9-a869-39f14944ca05"),
-                            ImageUrl = "https://www.shift4shop.com/2015/images/industries/clothing/clothing-apparel.png",
-                            SubTitle = "",
-                            Title = "Cloths"
-                        },
-                        new
-                        {
-                            Id = new Guid("2bb8d7b8-9882-4fb8-9864-21c254346b4d"),
-                            ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvBQPQMVNRd6TtDkGs2dCri0Y-rxKkFOiEWw&usqp=CAU",
-                            SubTitle = "",
-                            Title = "Shoes"
-                        },
-                        new
-                        {
-                            Id = new Guid("5dd20645-63bb-4f12-bf9b-613c0fca6ed9"),
-                            ImageUrl = "https://searchspring.com/wp-content/uploads/2022/10/Hero-Image-Platform-Others-2.png",
-                            SubTitle = "",
-                            Title = "Gifts"
-                        },
-                        new
-                        {
-                            Id = new Guid("924e3c81-f889-487f-b7a6-d2a19eb13836"),
-                            ImageUrl = "https://cdn.openpr.com/T/c/Tc15444071_g.jpg",
-                            SubTitle = "",
-                            Title = "Pet Care"
-                        },
-                        new
-                        {
-                            Id = new Guid("ff52f5c4-e0cb-4998-bf26-ab3e181a44b6"),
-                            ImageUrl = "https://st-troy.mncdn.com/mnresize/1500/1500/Content/media/ProductImg/original/mpwp3tua-apple-iphone-14-256gb-mavi-mpwp3tua-637986832343472449.jpg",
-                            SubTitle = "",
-                            Title = "Mobile and Tablets"
-                        },
-                        new
-                        {
-                            Id = new Guid("7f3ed17d-d4d1-4b3a-8690-c9a1c87995fe"),
-                            ImageUrl = "https://static.vecteezy.com/system/resources/previews/011/996/555/original/3d-black-headphone-illustration-ecommerce-icon-png.png",
-                            SubTitle = "",
-                            Title = "Music and Gaming"
-                        },
-                        new
-                        {
-                            Id = new Guid("94f9e96a-6171-4d9a-9011-46b7007bcd1f"),
-                            ImageUrl = "",
-                            SubTitle = "",
-                            Title = "Others"
-                        });
                 });
 
             modelBuilder.Entity("Model.ImageUrl", b =>
@@ -280,10 +208,10 @@ namespace WebApi.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ProductId");
 
-                    b.Property<string>("PublicId")
+                    b.Property<string>("Public_id")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("PublicId");
+                        .HasColumnName("Public_id");
 
                     b.Property<string>("Url")
                         .IsRequired()
@@ -291,6 +219,8 @@ namespace WebApi.Migrations
                         .HasColumnName("Url");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("ImageUrls", (string)null);
                 });
@@ -310,9 +240,9 @@ namespace WebApi.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Description");
 
-                    b.Property<int>("DiscountPrice")
+                    b.Property<int>("Discount_price")
                         .HasColumnType("int")
-                        .HasColumnName("DiscountPrice");
+                        .HasColumnName("Discount_price");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -335,11 +265,15 @@ namespace WebApi.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Stock");
 
-                    b.Property<int>("TotalSell")
+                    b.Property<int>("Total_sell")
                         .HasColumnType("int")
-                        .HasColumnName("TotalSell");
+                        .HasColumnName("Total_sell");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("ShopId");
 
                     b.ToTable("Products", (string)null);
                 });
@@ -369,6 +303,8 @@ namespace WebApi.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ProductId");
+
                     b.ToTable("Reviews", (string)null);
                 });
 
@@ -391,7 +327,12 @@ namespace WebApi.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ShopAvatarId");
 
+                    b.Property<Guid?>("ShopAvatarId1")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ShopAvatarId1");
 
                     b.ToTable("Shops", (string)null);
                 });
@@ -405,11 +346,10 @@ namespace WebApi.Migrations
                     b.Property<string>("Public_id")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("PublicId");
+                        .HasColumnName("Public_id");
 
                     b.Property<Guid>("ShopId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("ShopId");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Url")
                         .IsRequired()
@@ -520,11 +460,11 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f02ac8e9-50bc-42c6-a919-8560e6538891",
+                            Id = "424d410e-29a3-48b0-b5fd-3ce93a80bea9",
                             AccessFailedCount = 0,
                             Age = 36,
-                            Birthday = new DateTime(2024, 6, 14, 16, 41, 4, 892, DateTimeKind.Local).AddTicks(9544),
-                            ConcurrencyStamp = "16eaacb2-186e-41ff-814b-81dd7c226033",
+                            Birthday = new DateTime(2024, 6, 15, 12, 21, 55, 646, DateTimeKind.Local).AddTicks(2493),
+                            ConcurrencyStamp = "f915ef7c-d3a4-4bf5-8dba-0c21499f9c00",
                             Email = "oleitao@gmail.com",
                             EmailConfirmed = false,
                             FullName = "oliveira leitao",
@@ -533,7 +473,7 @@ namespace WebApi.Migrations
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "d670378a-e862-4ae4-80ba-71fdbef9d4eb",
+                            SecurityStamp = "f372fccf-ab79-4e90-bfd5-c45fa0e1a114",
                             TwoFactorEnabled = false
                         });
                 });
@@ -587,6 +527,59 @@ namespace WebApi.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Model.ImageUrl", b =>
+                {
+                    b.HasOne("Model.Product", null)
+                        .WithMany("Image_Url")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Model.Product", b =>
+                {
+                    b.HasOne("Model.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Model.Shop", "Shop")
+                        .WithMany()
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Shop");
+                });
+
+            modelBuilder.Entity("Model.Review", b =>
+                {
+                    b.HasOne("Model.Product", null)
+                        .WithMany("Reviews")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Model.Shop", b =>
+                {
+                    b.HasOne("Model.ShopAvatar", "ShopAvatar")
+                        .WithMany()
+                        .HasForeignKey("ShopAvatarId1");
+
+                    b.Navigation("ShopAvatar");
+                });
+
+            modelBuilder.Entity("Model.Product", b =>
+                {
+                    b.Navigation("Image_Url");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

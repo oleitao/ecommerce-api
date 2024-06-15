@@ -5,6 +5,7 @@ using WebApi.Entities.Exceptions;
 using WebApi.Entities.RequestFeatures;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WebApi.Services
 {
@@ -111,7 +112,16 @@ namespace WebApi.Services
             try
             {
                 var products = await _repository.Product.GetAllProductsAsync(trackChanges);
-                return products;
+                if (products is null)
+                    throw new ProductsNotFoundException();
+
+                List<Product> result = new List<Product>();
+                foreach (var product in products)
+                {
+                    result.Add(await GetProductByIdAsync(product.Id, trackChanges));
+                }
+
+                return result;
             }
             catch (Exception ex)
             {
@@ -124,9 +134,7 @@ namespace WebApi.Services
         {
             try
             {
-                var product = await _repository.Product.GetProductAsync(id, trackChanges);
-                if (product == null)
-                    throw new ProductNotFoundException(id);
+                var product = await GetProductByIdAsync(id, trackChanges);
 
                 return product;
             }
@@ -136,6 +144,71 @@ namespace WebApi.Services
                 throw;
             }
         }
+
+        #region Methods
+
+        public async Task<Product> GetProductByIdAsync(Guid productId, bool trackChanges)
+        {
+            try
+            {
+                var product = await _repository.Product.GetProductAsync(productId, trackChanges);
+                if (product is null)
+                    throw new ProductNotFoundException(productId);
+
+                var category = await _repository.Category.GetCategoryAsync(product.CategoryId, trackChanges);
+                if (category is null)
+                    throw new CategoryNotFoundException(product.CategoryId);
+
+                product.Category = category;
+
+                //image_urls
+                var imageUrls = await _repository.ImageUrl.GetImageUrlByPoductIdAsync(productId, trackChanges);
+                if (imageUrls is null)
+                    throw new ImageUrlsNotFoundException();
+
+                product.Image_Url = new List<ImageUrl>();
+
+                foreach (var image in imageUrls)
+                {
+                    product.Image_Url.Add(image);
+                }
+
+                //reviews
+                var reviews = await _repository.Review.GetReviewsByPoductIdAsync(productId, trackChanges);
+                if (reviews is null)
+                    throw new ReviewsNotFoundException();
+
+                product.Reviews = new List<Review>();
+
+                foreach (var review in reviews)
+                {
+                    product.Reviews.Add(review);
+                }
+
+                //shop
+                var shop = await _repository.Shop.GetShopAsync(product.ShopId, trackChanges);
+                if (shop is null)
+                    throw new ShopNotFoundException(product.ShopId);
+
+                product.Shop = shop;
+
+                //shop avatar
+                var shopAvatar = await _repository.ShopAvatar.GetShopAvatarAsync(shop.ShopAvatarId, trackChanges);
+                if (shopAvatar is null)
+                    throw new ShopAvatarNotFoundException(product.ShopId);
+
+                product.Shop.ShopAvatar = shopAvatar;
+
+                return product;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetProductByIdAsync)} service method {ex}");
+                throw;
+            }
+        }
+
+        #endregion
 
         public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(Guid categoryId, bool trackChanges)
         {
@@ -190,7 +263,7 @@ namespace WebApi.Services
                         {
                             Id = Guid.NewGuid(),
                             ProductId = productEntity.Id,
-                            PublicId = image.Public_id,
+                            Public_id = image.Public_id,
                             Url = image.Url
                         });
                     }
@@ -213,8 +286,6 @@ namespace WebApi.Services
                     Id = Guid.NewGuid()
                 };
 
-                shopAvatar.ShopId = shop.Id;
-                
                 _repository.Shop.CreateShop(shop);
 
                 await _repository.SaveAsync();
@@ -252,9 +323,9 @@ namespace WebApi.Services
                     productEntity.Name = productForUpdateDto.Name;
                     productEntity.Description = productForUpdateDto.Description;
                     productEntity.Price = productForUpdateDto.Price;
-                    productEntity.DiscountPrice = productEntity.DiscountPrice;
+                    productEntity.Discount_price = productEntity.Discount_price;
                     productEntity.Rating = productForUpdateDto.Rating;
-                    productEntity.TotalSell = productEntity.TotalSell;
+                    productEntity.Total_sell = productEntity.Total_sell;
                     productEntity.Stock = productForUpdateDto.Stock;
 
                     _repository.Product.UpdateProductAsync(productEntity);
@@ -267,7 +338,7 @@ namespace WebApi.Services
                             if (reviewEntities is null)
                                 throw new ReviewNotFoundException(id);
 
-                            _repository.Review.UpdateReviewAsync(reviewEntities);
+                            //_repository.Review.UpdateReviewAsync(reviewEntities);
                         }
                     }
 
@@ -305,8 +376,6 @@ namespace WebApi.Services
                             Id = Guid.NewGuid()
                         };
 
-                        shopAvatar.ShopId = shop.Id;
-
                         _repository.Shop.CreateShop(shop);
                     }
 
@@ -340,7 +409,7 @@ namespace WebApi.Services
                     _repository.ImageUrl.CreateImageUrl(new ImageUrl()
                     {
                         Id = Guid.NewGuid(),
-                        PublicId = image.PublicId,
+                        Public_id = image.Public_id,
                         Url = image.Url,
                         ProductId = productEntity.Id
                     });
@@ -357,7 +426,7 @@ namespace WebApi.Services
                         _repository.ImageUrl.CreateImageUrl(new ImageUrl()
                         {
                             Id = Guid.NewGuid(),
-                            PublicId = image.PublicId,
+                            Public_id = image.Public_id,
                             Url = image.Url,
                             ProductId = productEntity.Id
                         });

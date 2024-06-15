@@ -67,8 +67,8 @@ public class ProductsController : ControllerBase
 
     [HttpGet("{id:guid}", Name = "GetProductById")]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
-    [Authorize]
+    [ApiExplorerSettings(GroupName = "v2")]
+    //[Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Product), StatusCodes.Status404NotFound)]

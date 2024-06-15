@@ -18,6 +18,7 @@ namespace WebApi.Contracts
         Task<IEnumerable<ImageUrl>> GetImageUrlByPublicIdAndUrlAsync(string public_id, string url, bool trackChanges);
         void UpdateImageUrlAsync(ImageUrl imageUrl);
         Task<IEnumerable<ImageUrl>> GetImageUrlByPublicIdAsync(string public_id, bool trackChanges);
+        Task<IEnumerable<ImageUrl>> GetImageUrlByPoductIdAsync(Guid productId, bool trackChanges);
         #endregion
     }
 }
