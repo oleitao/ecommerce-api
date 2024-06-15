@@ -1,8 +1,8 @@
 ﻿namespace WebApi.Entities.Exceptions
 {
-    public sealed class ProductNotFoundException : NotFoundException
+    public sealed class ProductsNotFoundException : NotFoundException
     {
-        public ProductNotFoundException(Guid Id) : base($"The product with id: { Id } doesn't exist in the  database.")
+        public ProductsNotFoundException() : base($"Products doesn't exist in the  database.")
         {
             
         }

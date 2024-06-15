@@ -12,8 +12,8 @@ using WebApi.Repository;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240614154025_AddedUsers")]
-    partial class AddedUsers
+    [Migration("20240615112347_AddedShops")]
+    partial class AddedShops
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,13 +54,13 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "de368416-43f5-4ee8-9ba4-7c82401591a4",
+                            Id = "8ade8a83-034d-4046-8b05-65773b289c0b",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "5d07be3d-ab4f-4a1f-b714-9e7b8fa12bf2",
+                            Id = "a6722d63-4034-495a-b68b-48a27c3a05c8",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -196,6 +196,22 @@ namespace WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"),
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/1706/9177/products/NEWAppleMacbookProwithM1ProChip14InchLaptop2021ModelMKGQ3LL_A_16GB_1TBSSD_custommacbd.jpg?v=1659592838",
+                            SubTitle = "",
+                            Title = "Computers and Laptops"
+                        },
+                        new
+                        {
+                            Id = new Guid("6e27b4b8-e66c-450a-bf41-58344b208513"),
+                            ImageUrl = "https://indian-retailer.s3.ap-south-1.amazonaws.com/s3fs-public/2021-07/kosme1.png",
+                            SubTitle = "",
+                            Title = "cosmetics and body care"
+                        });
                 });
 
             modelBuilder.Entity("Model.ImageUrl", b =>
@@ -208,10 +224,10 @@ namespace WebApi.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ProductId");
 
-                    b.Property<string>("PublicId")
+                    b.Property<string>("Public_id")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("PublicId");
+                        .HasColumnName("Public_id");
 
                     b.Property<string>("Url")
                         .IsRequired()
@@ -219,6 +235,8 @@ namespace WebApi.Migrations
                         .HasColumnName("Url");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("ImageUrls", (string)null);
                 });
@@ -238,9 +256,9 @@ namespace WebApi.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Description");
 
-                    b.Property<int>("DiscountPrice")
+                    b.Property<int>("Discount_price")
                         .HasColumnType("int")
-                        .HasColumnName("DiscountPrice");
+                        .HasColumnName("Discount_price");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -263,11 +281,15 @@ namespace WebApi.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Stock");
 
-                    b.Property<int>("TotalSell")
+                    b.Property<int>("Total_sell")
                         .HasColumnType("int")
-                        .HasColumnName("TotalSell");
+                        .HasColumnName("Total_sell");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("ShopId");
 
                     b.ToTable("Products", (string)null);
                 });
@@ -297,6 +319,8 @@ namespace WebApi.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ProductId");
+
                     b.ToTable("Reviews", (string)null);
                 });
 
@@ -319,9 +343,23 @@ namespace WebApi.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ShopAvatarId");
 
+                    b.Property<Guid?>("ShopAvatarId1")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("ShopAvatarId1");
+
                     b.ToTable("Shops", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"),
+                            Name = "Apple inc",
+                            Ratings = 4.0,
+                            ShopAvatarId = new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc")
+                        });
                 });
 
             modelBuilder.Entity("Model.ShopAvatar", b =>
@@ -333,11 +371,10 @@ namespace WebApi.Migrations
                     b.Property<string>("Public_id")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("PublicId");
+                        .HasColumnName("Public_id");
 
                     b.Property<Guid>("ShopId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("ShopId");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Url")
                         .IsRequired()
@@ -347,6 +384,15 @@ namespace WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ShopAvatars", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc"),
+                            Publicid = "test",
+                            ShopId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Url = "https://www.hatchwise.com/wp-content/uploads/2022/05/amazon-logo-1024x683.png"
+                        });
                 });
 
             modelBuilder.Entity("Model.User", b =>
@@ -448,11 +494,11 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "99c42d1f-5b82-4486-bc97-7ec3e541ed10",
+                            Id = "efbcf454-0125-41ff-ac91-75d1564af044",
                             AccessFailedCount = 0,
                             Age = 36,
-                            Birthday = new DateTime(2024, 6, 14, 16, 40, 25, 70, DateTimeKind.Local).AddTicks(3287),
-                            ConcurrencyStamp = "c0749dd5-756a-4efc-8cc1-03649593942b",
+                            Birthday = new DateTime(2024, 6, 15, 12, 23, 46, 837, DateTimeKind.Local).AddTicks(3459),
+                            ConcurrencyStamp = "09bb5745-0c09-4d11-bc90-901750966d65",
                             Email = "oleitao@gmail.com",
                             EmailConfirmed = false,
                             FullName = "oliveira leitao",
@@ -461,7 +507,7 @@ namespace WebApi.Migrations
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "6ca302dd-7c40-4a5d-b381-c6932a24399e",
+                            SecurityStamp = "43e03d8f-3694-4906-ad60-f1f7f88a8a98",
                             TwoFactorEnabled = false
                         });
                 });
@@ -515,6 +561,59 @@ namespace WebApi.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Model.ImageUrl", b =>
+                {
+                    b.HasOne("Model.Product", null)
+                        .WithMany("Image_Url")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Model.Product", b =>
+                {
+                    b.HasOne("Model.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Model.Shop", "Shop")
+                        .WithMany()
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Shop");
+                });
+
+            modelBuilder.Entity("Model.Review", b =>
+                {
+                    b.HasOne("Model.Product", null)
+                        .WithMany("Reviews")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Model.Shop", b =>
+                {
+                    b.HasOne("Model.ShopAvatar", "ShopAvatar")
+                        .WithMany()
+                        .HasForeignKey("ShopAvatarId1");
+
+                    b.Navigation("ShopAvatar");
+                });
+
+            modelBuilder.Entity("Model.Product", b =>
+                {
+                    b.Navigation("Image_Url");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }
