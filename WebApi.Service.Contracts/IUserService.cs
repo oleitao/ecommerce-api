@@ -1,4 +1,5 @@
-﻿using WebApi.Entities.Models;
+﻿using Model;
+using WebApi.Entities.RequestFeatures;
 using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Service.Contracts
@@ -12,6 +13,7 @@ namespace WebApi.Service.Contracts
         #endregion
 
         #region Async
+        public Task<IEnumerable<User>> GetAllUsersAsync(UserParameters userParameters, bool trackChanges);
         public Task<IEnumerable<User>> GetAllUsersAsync(bool trackChanges);
         public Task<User> GetUserAsync(Guid id, bool trackChanges);
         public Task<UserDto> CreateUserAsync(UserForCreationDto user);

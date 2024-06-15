@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using Model;
 using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
-using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
@@ -101,6 +101,9 @@ namespace WebApi.Services
         {
             var reviewEntity = _mapper.Map<Review>(review);
 
+            if(reviewEntity.Id == Guid.Empty)
+                reviewEntity.Id = Guid.NewGuid();
+
             _repository.Review.CreateReview(reviewEntity);
             await _repository.SaveAsync();
 
@@ -109,14 +112,32 @@ namespace WebApi.Services
             return reviewReturn;
         }
 
-        public Task UpdateReviewAsync(Guid id, ReviewForUpdateDto review, bool trackChanges)
+        public async Task UpdateReviewAsync(Guid id, ReviewForUpdateDto review, bool trackChanges)
         {
-            throw new NotImplementedException();
+            var reviewEntitie = await _repository.Review.GetReviewAsync(id, trackChanges);
+            if (reviewEntitie is null)
+                throw new ReviewNotFoundException(id);
+
+            _mapper.Map(review, reviewEntitie);
+            await _repository.SaveAsync();
         }
 
-        public Task DeleteReviewAsync(Guid id, bool trackChanges)
+        public async Task DeleteReviewAsync(Guid id, bool trackChanges)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var review = await _repository.Review.GetReviewAsync(id, trackChanges);
+                if (review == null)
+                    throw new ReviewNotFoundException(id);
+
+                _repository.Review.DeleteAsync(review);
+                await _repository.SaveAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(DeleteReviewAsync)} service method {ex}");
+                throw;
+            }
         }
 
         #endregion

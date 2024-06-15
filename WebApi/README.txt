@@ -25,9 +25,145 @@ https://localhost:64403/api/categories/6e27b4b8-e66c-450a-bf41-58344b208512/prod
 https://learn.microsoft.com/pt-pt/aspnet/core/tutorials/first-web-api?view=aspnetcore-8.0&tabs=visual-studio
 
 
+ROUTE
+https://code-maze.com/aspnetcore-pass-parameters-to-http-get-action/
+
+
 TESTS
 https://docs.specflow.org/projects/getting-started/en/latest/GettingStarted/Step6.html
 
+
+
+SET ENVIRIONMENT KEY
+setx SECRET "43443FDFDF34DF34343fdf344SDFSDFSDFSDFSDF4545354345SDFGDFGDFGDFGdffgfdGDFGDGR%" /M
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------------------
+UpdateImageUrl
+PUT(https://localhost:64403/api/imageurls/337dad38-f567-46f4-bf2c-00ad96e08299)
+{
+    "public_id": "PUT method test",
+    "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR42FePhUrLX424aLie09J4Pfkn03T8h3D7PQ&usqp=CAU",
+    "productId": "00000000-0000-0000-0000-000000000000"
+}
+------------------------------------------------------------------------------------------------------------------------------------
+UpdateCategory
+PUT(https://localhost:64403/api/categories/00000000-0000-0000-0000-000000000000)
+{
+    "title": "New Category 1",
+    "subTitle": "",
+    "imageUrl": "https://example.com"
+}
+------------------------------------------------------------------------------------------------------------------------------------
+CreateImageUrlAsync
+POST(https://localhost:64403/api/imageurls)
+{
+    "publicUrl": "test",
+    "url": "http://example.com",
+    "productId": "B8E3A7B5-286C-406D-B05D-BB45EB6EF953"
+}
+------------------------------------------------------------------------------------------------------------------------------------
+CreateReview
+POST(https://localhost:64403/api/reviews)
+{
+    "comment": "comment test",
+    "rating": 5,
+    "userId": "d645a5fa-f628-41dd-99d1-6776984bfe91",
+    "productId": "DCA64784-3EB3-4C8A-96B4-0B7FA930FDCF"
+}
+------------------------------------------------------------------------------------------------------------------------------------
+CreateImageUrlAsync
+POST(https://localhost:64403/api/imageurls)
+{
+    "publicUrl": "api-test",
+    "url": "https://example.com",
+    "ProductId": "97107600-0846-40C6-921A-4DB12253B008"
+}
+------------------------------------------------------------------------------------------------------------------------------------
+CreateShopAvatar
+POST(https://localhost:64403/api/shopavatars)
+{
+    "publicId": "api-test",
+    "url": "https://example.com"
+}
+------------------------------------------------------------------------------------------------------------------------------------
+CreateCategory
+POST(https://localhost:64403/api/categories)
+{
+    "title": "New Category 2",
+    "subTitle": "",
+    "imageUrl": "https://example.com"
+}
+------------------------------------------------------------------------------------------------------------------------------------
+https://localhost:64403/swagger/index.html?urls.primaryName=E-Commerce+WebAPI+v1
+------------------------------------------------------------------------------------------------------------------------------------
+DeleteCategory
+DELETE(https://localhost:64403/api/categories/F02D00B6-54BB-4E48-BC43-FC9CD3DEF502)
+------------------------------------------------------------------------------------------------------------------------------------
+GetCategoriesOptions
+OPTIONS(https://localhost:64403/api/categories)
+------------------------------------------------------------------------------------------------------------------------------------
+GetAllProducts
+HEAD(https://localhost:64403/api/products)
+------------------------------------------------------------------------------------------------------------------------------------
+RegisterUser
+POST(https://localhost:64403/api/authentication)
+{
+    "firstname": "oliveira",
+    "lastname": "leitao",
+    "fullname": "oliveira leitao",
+    "username": "oleitao",
+    "password": "Password1000",
+    "email": "oleitao@gmail.com",
+    "phonenumber": "589-654",
+    "gender": "M",
+    "hobby": "netflix",
+    "roles": [
+        "Manager"
+    ]
+}}
+------------------------------------------------------------------------------------------------------------------------------------
+Authenticate
+POST(https://localhost:64403/api/authentication/login)
+{
+    "username": "oleitao",
+    "password": "Password1000"
+}
+------------------------------------------------------------------------------------------------------------------------------------
+Refresh
+POST(https://localhost:64403/api/authentication/refresh)
+{
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoib2xlaXRhbyIsImV4cCI6MTcxODE3ODcxOCwiaXNzIjoiV2ViQXBpIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSJ9.Dh-bbiYkBprWo8zWYgy1Z8XOjdkQ81zZuGcWeY8g3BA",
+    "refreshToken": "PVKT/VXyaBsVeOiUaFd1u4CNFCN0bPp9uC2FYdQQFGM="
+}
+------------------------------------------------------------------------------------------------------------------------------------
+FilterUserMinAgeSort
+GET(https://localhost:64403/api/users/filter?orderBy=FullName asc)
+FilterProductsSorted
+GET(https://localhost:64403/api/products/filter?orderBy=Name desc)
+------------------------------------------------------------------------------------------------------------------------------------
+FilterUserMinAge
+GET(https://localhost:64403/api/users/filter?minAge=37)
+GET(https://localhost:64403/api/users/filter?maxAge=37)
+------------------------------------------------------------------------------------------------------------------------------------
+FilterUserMinAge
+GET(https://localhost:64403/api/users/filter?searchTerm=M)
+GET(https://localhost:64403/api/users/filter?minAge=36&searchTerm=P)
+------------------------------------------------------------------------------------------------------------------------------------
+GetPagedProductsForCategory
+GET(https://localhost:64403/api/categories/6E27B4B8-E66C-450A-BF41-58344B208512/products?minName=10)
+------------------------------------------------------------------------------------------------------------------------------------
+GetPagedProductsForCategory
+GET(https://localhost:64403/api/categories/6E27B4B8-E66C-450A-BF41-58344B208512/products?pageNumber=2&pageSize=5)
+------------------------------------------------------------------------------------------------------------------------------------
+GetPagingProductsForCategory
+GET(https://localhost:64403/api/categories/6E27B4B8-E66C-450A-BF41-58344B208512/products?pageNumber=2&pageSize=5)
 ------------------------------------------------------------------------------------------------------------------------------------
 CreateProductForCategory
 POST(https://localhost:64403/api/categories/FE58DDC2-61EE-4E1A-9402-A0C9EBFB8E5C/products)
@@ -38,7 +174,7 @@ POST(https://localhost:64403/api/categories/FE58DDC2-61EE-4E1A-9402-A0C9EBFB8E5C
         "subTitle": "",
         "imageUrl": ""
     },
-    "ImageURLs": [
+    "ImageUrls": [
         {
             "id": "2b36c506-8a20-41e8-8faf-0661df746104",
             "publicUrl": "test",
@@ -110,7 +246,12 @@ PATCH(https://localhost:64403/api/categories/FC7F2981-1031-4D10-8565-9CF93F21179
     }
 ]
 ------------------------------------------------------------------------------------------------------------------------------------
-
+Authenticate
+POST(https://localhost:64403/api/authentication/login)
+{
+    "username": "oleitao",
+    "password": "Password1000"
+}
 ------------------------------------------------------------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------------------------------------------------------------

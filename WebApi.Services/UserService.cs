@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
+using Model;
 using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
-using WebApi.Entities.Models;
+using WebApi.Entities.RequestFeatures;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
@@ -122,9 +123,28 @@ namespace WebApi.Services
             await _repository.SaveAsync();
         }
 
-        public Task DeleteUserAsync(Guid id, bool trackChanges)
+        public async Task DeleteUserAsync(Guid id, bool trackChanges)
         {
-            throw new NotImplementedException();
+            var user = await _repository.User.GetUserAsync(id, trackChanges: false);
+            if (user is null)
+                throw new Exception();
+
+            _repository.User.DeleteUser(user);
+            await _repository.SaveAsync();
+        }
+
+        public async Task<IEnumerable<User>> GetAllUsersAsync(UserParameters userParameters, bool trackChanges)
+        {
+            try
+            {
+                var users = await _repository.User.GetAllUsersAsync(userParameters, trackChanges);
+                return users;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetAllUsersAsync)} service method {ex}");
+                throw;
+            }
         }
 
         #endregion

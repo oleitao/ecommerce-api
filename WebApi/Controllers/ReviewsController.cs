@@ -1,11 +1,12 @@
 ﻿namespace WebApi.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
@@ -22,6 +23,9 @@ public class ReviewsController : ControllerBase
     }
 
     [HttpGet]
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName ="v2")]
+    //[Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Review>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllReviews()
@@ -40,6 +44,9 @@ public class ReviewsController : ControllerBase
 
 
     [HttpGet("{id:guid}", Name = "GetReviewById")]
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v2")]
+    [Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(Review), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Review), StatusCodes.Status404NotFound)]
@@ -50,6 +57,9 @@ public class ReviewsController : ControllerBase
     }
 
     [HttpPost]
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v2")]
+    [Authorize]
     [Consumes(typeof(ReviewForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -67,6 +77,9 @@ public class ReviewsController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
+    //[Authorize]
     public async Task<IActionResult> UpdateReview(Guid id, [FromBody]ReviewForUpdateDto review)
     {
         if (review is null)
@@ -78,6 +91,8 @@ public class ReviewsController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v2")]
     public async Task<IActionResult> DeleteReview(Guid id)
     {
         await _service.ReviewService.DeleteReviewAsync(id, trackChanges: false);

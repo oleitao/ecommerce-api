@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using WebApi.Entities.Models;
+﻿using Model;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApi.Shared.DataTransferObjects
 {
@@ -7,7 +7,7 @@ namespace WebApi.Shared.DataTransferObjects
     public record ProductDto(
         Guid Id, 
 
-        Guid CategoryId,
+        string Category,
 
         [Required(ErrorMessage = "Name name is a required field.")]
         [MaxLength(500, ErrorMessage = "Maximum length for the Name is 60 characters.")]
@@ -17,7 +17,7 @@ namespace WebApi.Shared.DataTransferObjects
         [MaxLength(5000, ErrorMessage = "Maximum length for the Description is 60 characters.")]
         string Description, 
 
-        ICollection<ImageUrl> ImageURLs,
+        ICollection<ImageUrl> ImageUrls,
 
         [Required(ErrorMessage = "Price is a required field.")]
         int Price,
@@ -27,9 +27,11 @@ namespace WebApi.Shared.DataTransferObjects
 
         [Required(ErrorMessage = "Rating is a required field.")]
         [Range(1, 5)]
-        int Rating, 
+        double Rating, 
 
         ICollection<Review> Reviews,
+
+        ICollection<Shop> Shop,
 
         [Required(ErrorMessage = "Total Sell is a required field.")]
         int Total_Sell,
@@ -40,7 +42,33 @@ namespace WebApi.Shared.DataTransferObjects
     );
 
 
-    public record ProductForCreationDto(Guid CategoryId, string Name, string Description, ICollection<ImageUrl> ImageURLs, int Price, int Discount_Price, int Rating, ICollection<Review> Reviews, int Total_Sell, int Stock);
+    public record ProductForCreationDto
+    (
+        string Category,
+        string Name,
+        string Description,
+        int Price,
+        int Discount_price,
+        double Rating,
+        int Total_sell,
+        int Stock,
+        ICollection<ImageUrlForCreationDto> Image_Url,
+        ICollection<ReviewForCreationDto> Reviews,
+        ShopForCreationDto Shop
+    );
 
-    public record ProductForUpdateDto(Guid CategoryId, string Name, string Description, ICollection<ImageUrl> ImageURLs, int Price, int Discount_Price, int Rating, ICollection<Review> Reviews, int Total_Sell, int Stock);
+    public record ProductForUpdateDto
+    (
+        string Category,
+        string Name, 
+        string Description,
+        int Price,
+        int Discount_price,
+        int Rating,
+        int Total_sell,
+        int Stock,
+        ICollection<ImageUrlForUpdateDto> Image_Url,
+        ICollection<ReviewForUpdateDto> Reviews,
+        ShopForCreationDto Shop        
+    );
 }

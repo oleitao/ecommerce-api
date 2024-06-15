@@ -1,4 +1,5 @@
-﻿using WebApi.Entities.Models;
+﻿using Model;
+using WebApi.Entities.RequestFeatures;
 
 namespace WebApi.Contracts
 {
@@ -16,6 +17,9 @@ namespace WebApi.Contracts
         Task<IEnumerable<Category>> GetAllCategoriesAsync(bool trackChanges);
         Task<Category> GetCategoryAsync(Guid categoryId, bool trackChanges);
         Task<IEnumerable<Category>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges);
+        Task<PagedList<Category>> GetPagedListCategoriesAsync(CategoryParameters categoryParameters, bool trackChanges);
+        void DeleteCategory(Category category);
+        Task<Category> GetCategoryByName(string category, bool trackChanges);
 
         #endregion
     }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Model;
 using WebApi.Contracts;
-using WebApi.Entities.Models;
 
 namespace WebApi.Repository
 {
@@ -34,9 +34,14 @@ namespace WebApi.Repository
             return FindAll(trackChanges).ToList();
         }
 
-        public Task<ShopAvatar> GetShopAvatarAsync(Guid shopAvatarId, bool trackChanges)
+        public async Task<ShopAvatar> GetShopAvatarAsync(Guid shopAvatarId, bool trackChanges)
         {
-            return FindByCondition(c => c.Id.Equals(shopAvatarId), trackChanges).SingleOrDefaultAsync();
+            return await FindByCondition(c => c.Id.Equals(shopAvatarId), trackChanges).SingleOrDefaultAsync();
+        }
+
+        public void DeleteShopAvatarAsync(ShopAvatar shopAvatar)
+        {
+            Delete(shopAvatar);
         }
 
         #endregion

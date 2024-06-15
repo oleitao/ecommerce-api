@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using WebApi.Entities.Models;
+using Model;
 using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Helpers
@@ -164,6 +164,12 @@ namespace WebApi.Helpers
             #region ProductsByCategory
 
             CreateMap<ProductForCreationDto, Product>();
+
+            #endregion
+
+            #region UserRegistration
+
+            CreateMap<UserForRegistrationDto, User>();
 
             #endregion
         }

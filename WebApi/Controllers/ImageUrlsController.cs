@@ -1,11 +1,12 @@
 ﻿namespace WebApi.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
@@ -23,7 +24,10 @@ public class ImageUrlsController : ControllerBase
 
     
     [HttpGet]
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
+    //[Authorize]
     [ProducesResponseType(typeof(IEnumerable<ImageUrl>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllImageUrls()
     {
@@ -33,7 +37,10 @@ public class ImageUrlsController : ControllerBase
     }
 
     [HttpGet("{id:guid}", Name = "GetImageUrlById")]
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
+    //[Authorize]
     [ProducesResponseType(typeof(ImageUrl), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ImageUrl), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetImageUrlById(Guid id)
@@ -43,6 +50,9 @@ public class ImageUrlsController : ControllerBase
     }
 
     [HttpPost]
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v2")]
+    //[Authorize]
     [Consumes(typeof(ImageUrlForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -53,28 +63,33 @@ public class ImageUrlsController : ControllerBase
 
         if (!ModelState.IsValid)
             return UnprocessableEntity(ModelState);
-
+        
         var createdImageUrl = await _service.ImageUrlService.CreateImageUrlAsync(imageUrl);
 
         return CreatedAtRoute("GetImageUrlById", new { id = createdImageUrl.Id }, createdImageUrl);
     }
 
-    [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> DeleteImageUrl(Guid id)
-    {
-        await _service.ImageUrlService.DeleteImageUrlAsync(id, trackChanges: false);
-
-        return NoContent();
-    }
-
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateImageUrl(int id, ImageUrlForUpdateDto imageUrl)
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v2")]
+    //[Authorize]
+    public async Task<IActionResult> UpdateImageUrl(Guid id, ImageUrlForUpdateDto imageUrl)
     {
         if (imageUrl is null)
             return BadRequest("ImageUrlForUpdateDto object is null");
 
         await _service.ImageUrlService.UpdateImageUrlAsync(id, imageUrl, trackChanges: true);
         
+        return NoContent();
+    }
+
+    [HttpDelete("{id:guid}")]
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v2")]
+    public async Task<IActionResult> DeleteImageUrl(Guid id)
+    {
+        await _service.ImageUrlService.DeleteImageUrlAsync(id, trackChanges: false);
+
         return NoContent();
     }
 }

@@ -1,11 +1,13 @@
 ﻿namespace WebApi.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebApi.Entities.Models;
+using WebApi.Entities.RequestFeatures;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
@@ -22,6 +24,10 @@ public class ProductsController : ControllerBase
     }
     
     [HttpGet]
+    [HttpHead]
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v2")]
+    //[Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Product>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllProducts()
@@ -38,7 +44,31 @@ public class ProductsController : ControllerBase
         }
     }
 
+    [HttpGet]
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
+    [Authorize]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(IEnumerable<Product>), StatusCodes.Status200OK)]
+    [Route("filter/")]
+    public async Task<IActionResult> FilterProductsSorted([FromQuery]ProductParameters productParameters)
+    {
+        try
+        {
+            var products = await _service.ProductService.FilterProductsSortedAsync(productParameters, trackChanges: false);
+
+            return Ok(products);
+        }
+        catch
+        {
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
     [HttpGet("{id:guid}", Name = "GetProductById")]
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
+    [Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Product), StatusCodes.Status404NotFound)]
@@ -49,6 +79,9 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
+    [Authorize]
     [Consumes(typeof(ProductForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -67,6 +100,9 @@ public class ProductsController : ControllerBase
 
 
     [HttpPut("{id:guid}")]
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v2")]
+    //[Authorize]
     public async Task<IActionResult> UpdateProduct(Guid id, ProductForUpdateDto product)
     {
         if (product is null)
@@ -77,7 +113,9 @@ public class ProductsController : ControllerBase
         return NoContent();
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:guid}")]
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v2")]
     public async Task<IActionResult> DeleteProduct(Guid id)
     {
         await _service.ProductService.DeleteProductAsync(id, trackChanges: false);

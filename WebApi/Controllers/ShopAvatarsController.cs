@@ -1,16 +1,17 @@
 ﻿namespace WebApi.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/[controller]")]
 public class ShopAvatarsController : ControllerBase
 {
     private readonly IServiceManager _service;
@@ -23,6 +24,9 @@ public class ShopAvatarsController : ControllerBase
 
     
     [HttpGet]
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v2")]
+    //[Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<ShopAvatar>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllShopAvatars()
@@ -40,6 +44,9 @@ public class ShopAvatarsController : ControllerBase
     }
 
     [HttpGet("{id:guid}", Name = "GetShopAvatarById")]
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
+    [Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(ShopAvatar), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ShopAvatar), StatusCodes.Status404NotFound)]
@@ -50,10 +57,13 @@ public class ShopAvatarsController : ControllerBase
     }
 
     [HttpPost]
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v2")]
+    [Authorize]
     [Consumes(typeof(ShopAvatarForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<IActionResult> CreateShoAvatar([FromBody] ShopAvatarForCreationDto shopAvatar)
+    public async Task<IActionResult> CreateShopAvatar([FromBody] ShopAvatarForCreationDto shopAvatar)
     {
         if (shopAvatar is null)
             return BadRequest("ShopAvatarForCreationDto is null");
@@ -66,7 +76,10 @@ public class ShopAvatarsController : ControllerBase
         return CreatedAtRoute("GetShopAvatarById", new { id = createdShopAvatar.Id }, createdShopAvatar);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:guid}")]
+    //[Authorize]
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v2")]
     public async Task<IActionResult> UpdateShopAvatar(Guid id, ShopAvatarForUpdateDto shopAvatar)
     {
         if (shopAvatar is null)
@@ -77,10 +90,12 @@ public class ShopAvatarsController : ControllerBase
         return NoContent();
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:guid}")]
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v2")]
     public async Task<IActionResult> DeleteShopAvatar(Guid id)
     {
-        await _service.ShopAvatarService.DeleteShopAvatar(id, trackChanges: false);
+        await _service.ShopAvatarService.DeleteShopAvatarAsync(id, trackChanges: false);
 
         return NoContent();
     }

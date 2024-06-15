@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Model;
+using System;
 using WebApi.Contracts;
-using WebApi.Entities.Models;
 
 namespace WebApi.Repository
 {
@@ -39,9 +40,24 @@ namespace WebApi.Repository
             return FindAll(trackChanges).ToList();
         }
 
-        public Task<ImageUrl> GetImageUrlAsync(Guid imageUrlId, bool trackChanges)
+        public async Task<ImageUrl> GetImageUrlAsync(Guid imageUrlId, bool trackChanges)
         {
-            return FindByCondition(c => c.Id.Equals(imageUrlId), trackChanges).SingleOrDefaultAsync();
+            return await FindByCondition(c => c.Id.Equals(imageUrlId), trackChanges).SingleOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<ImageUrl>> GetImageUrlByPublicIdAndUrlAsync(string public_id, string url, bool trackChanges)
+        {
+            return await FindByCondition(c => c.PublicId.Equals(public_id) && c.Url.Equals(url), trackChanges).ToListAsync();
+        }
+
+        public void UpdateImageUrlAsync(ImageUrl imageUrl)
+        {
+            Update(imageUrl);
+        }
+
+        public async Task<IEnumerable<ImageUrl>> GetImageUrlByPublicIdAsync(string public_id, bool trackChanges)
+        {
+            return await FindByCondition(c => c.PublicId.Equals(public_id), trackChanges).ToListAsync();
         }
 
         #endregion

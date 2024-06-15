@@ -1,4 +1,4 @@
-﻿using WebApi.Entities.Models;
+﻿using Model;
 
 namespace WebApi.Contracts
 {
@@ -14,6 +14,8 @@ namespace WebApi.Contracts
 
         Task<IEnumerable<Review>> GetAllReviewsAsync(bool trackChanges);
         Task<Review> GetReviewAsync(Guid reviewId, bool trackChanges);
+        void DeleteAsync(Review review);
+        Task<IEnumerable<Review>> GetReviewByUserAsync(Guid guid, bool trackChanges);
 
         #endregion
     }

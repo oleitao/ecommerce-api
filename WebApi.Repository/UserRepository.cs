@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Model;
 using WebApi.Contracts;
-using WebApi.Entities.Models;
+using WebApi.Entities.RequestFeatures;
+using WebApi.Repository.Extensions;
 
 namespace WebApi.Repository
 {
@@ -35,10 +37,25 @@ namespace WebApi.Repository
             return FindAll(trackChanges);
         }
 
-        public async Task<User> GetUserAsync(Guid userId, bool trackChanges)
+        public async Task<User?> GetUserAsync(Guid userId, bool trackChanges)
         {
             return await FindByCondition(c => c.Id.Equals(userId), trackChanges).SingleOrDefaultAsync();
         }
+
+        public async Task<IEnumerable<User>> GetAllUsersAsync(UserParameters userParameters, bool trackChanges)
+        {
+            return FindByCondition(c => c.Age >= userParameters.MinAge && c.Age <= userParameters.MaxAge, trackChanges)
+                .FilterUsers(userParameters.MinAge, userParameters.MaxAge)
+                .Search(userParameters.SearchTerm)
+                .Sort(userParameters.OrderBy)
+                .ToList();
+        }
+
+        public void DeleteUser(User user)
+        {
+            Delete(user);
+        }
+
 
         #endregion
     }

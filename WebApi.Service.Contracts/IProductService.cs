@@ -1,4 +1,5 @@
-﻿using WebApi.Entities.Models;
+﻿using Model;
+using WebApi.Entities.RequestFeatures;
 using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Service.Contracts
@@ -17,6 +18,7 @@ namespace WebApi.Service.Contracts
 
         #region Async
         public Task<IEnumerable<Product>> GetAllProductsAsync(bool trackChanges);
+        public Task<IEnumerable<Product>> FilterProductsSortedAsync(ProductParameters productParameters, bool trackChanges);
         public Task<Product> GetProductAsync(Guid id, bool trackChanges);
         public Task<IEnumerable<Product>> GetProductsByCategoryAsync(Guid categoryId, bool trackChanges);
         public Task<ProductDto> CreateProductAsync(ProductForCreationDto product);
@@ -25,6 +27,9 @@ namespace WebApi.Service.Contracts
         public Task SaveChangesForPatchAsync(ProductForUpdateDto productToPatch, Product productEntity);
         Task UpdateProductAsync(Guid id, ProductForUpdateDto product, bool trackChanges);
         Task DeleteProductAsync(Guid id, bool trackChanges);
+        Task<IEnumerable<ProductDto>> GetPagingProductsAsync(Guid categoryId, ProductParameters productParameters, bool trackChanges);
+        Task<(IEnumerable<ProductDto> products, MetaData metaData)> GetPagedProductsAsync(Guid categoryId, ProductParameters productParameters, bool trackChanges);
+        Task DeleteProductByCategoryAsync(Guid categoryId);
 
         #endregion
     }

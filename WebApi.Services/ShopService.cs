@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using Model;
 using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
-using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
@@ -111,14 +111,25 @@ namespace WebApi.Services
             return shopReturn;
         }
 
-        public Task UpdateShopAsync(Guid id, ShopForUpdateDto model, bool trackChanges)
+        public async Task UpdateShopAsync(Guid id, ShopForUpdateDto model, bool trackChanges)
         {
-            throw new NotImplementedException();
+            var shopEntitie = await _repository.Shop.GetShopAsync(id, trackChanges);
+            if (shopEntitie is null)
+                throw new ShopNotFoundException(id);
+
+
+            _mapper.Map(model, shopEntitie);
+            await _repository.SaveAsync();
         }
 
-        public Task DeleteShopAsync(Guid id, bool trackChanges)
+        public async Task DeleteShopAsync(Guid id, bool trackChanges)
         {
-            throw new NotImplementedException();
+            var shop = await _repository.Shop.GetShopAsync(id, trackChanges: trackChanges);
+            if (shop is null)
+                throw new Exception();
+
+            _repository.Shop.DeleteShop(shop);
+            await _repository.SaveAsync();
         }
 
         #endregion

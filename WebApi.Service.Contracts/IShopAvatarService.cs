@@ -1,4 +1,4 @@
-﻿using WebApi.Entities.Models;
+﻿using Model;
 using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Service.Contracts
@@ -16,7 +16,7 @@ namespace WebApi.Service.Contracts
         public Task<ShopAvatar> GetShopAvatarAsync(Guid id, bool trackChanges);
         public Task<ShopAvatarDto> CreateShopAvatarAsync(ShopAvatarForCreationDto shopAvatar);
         Task UpdateShopAvatar(Guid id, ShopAvatarForUpdateDto shopAvatar, bool trackChanges);
-        Task DeleteShopAvatar(Guid id, bool trackChanges);
+        Task DeleteShopAvatarAsync(Guid id, bool trackChanges);
         #endregion
     }
 }

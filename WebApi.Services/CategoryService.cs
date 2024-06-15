@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Model;
+using System.Dynamic;
 using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
-using WebApi.Entities.Models;
+using WebApi.Entities.RequestFeatures;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
@@ -12,6 +14,15 @@ namespace WebApi.Services
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
+        private readonly IDataShaper<CategoryDto> _dataShaper;
+        public CategoryService(IRepositoryManager repository, ILoggerManager logger, AutoMapper.IMapper mapper, IDataShaper<CategoryDto> dataShaper)
+        {
+            _repository = repository;
+            _logger = logger;
+            _mapper = mapper;
+            _dataShaper = dataShaper;
+        }
+
         public CategoryService(IRepositoryManager repository, ILoggerManager logger, AutoMapper.IMapper mapper)
         {
             _repository = repository;
@@ -159,6 +170,9 @@ namespace WebApi.Services
         {
             var categoryEntity = _mapper.Map<Category>(category);
 
+            if(categoryEntity.Id == Guid.Empty)
+                categoryEntity.Id = Guid.NewGuid();
+
             _repository.Category.CreateCategory(categoryEntity);
             await _repository.SaveAsync();
 
@@ -200,9 +214,14 @@ namespace WebApi.Services
             return (category: categoryCollectionToReturn, ids: ids);
         }
 
-        public Task DeleteCategoryAsync(Guid id, bool trackChanges)
+        public async Task DeleteCategoryAsync(Guid id, bool trackChanges)
         {
-            throw new NotImplementedException();
+            var category = await _repository.Category.GetCategoryAsync(id, trackChanges: trackChanges);
+            if (category is null)
+                throw new Exception();
+
+            _repository.Category.DeleteCategory(category);
+            await _repository.SaveAsync();
         }
 
         public async Task UpdateCategoryAsync(Guid id, CategoryForUpdateDto category, bool trackChanges)
@@ -214,6 +233,17 @@ namespace WebApi.Services
 
             _mapper.Map(category, categoryEntities);
             await _repository.SaveAsync();
+        }
+
+        public async Task<(IEnumerable<ExpandoObject> categories, MetaData metadata)> GetAllCategoriesAsync(CategoryParameters categoryParameters, bool trackChanges)
+        {
+            var categoriesWithMetaData = await _repository.Category.GetPagedListCategoriesAsync(categoryParameters, trackChanges);
+
+            var categoriesDto = _mapper.Map<IEnumerable<CategoryDto>>(categoriesWithMetaData);
+
+            var shapteData = _dataShaper.ShapeData(categoriesDto, categoryParameters.Fields);
+
+            return (categories: shapteData, metadata: categoriesWithMetaData.MetaData);
         }
 
         #endregion

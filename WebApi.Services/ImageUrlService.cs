@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using Model;
 using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
-using WebApi.Entities.Models;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
@@ -113,6 +113,9 @@ namespace WebApi.Services
         {
             var imageUrlEntity = _mapper.Map<ImageUrl>(imageUrlDto);
 
+            if(imageUrlEntity.Id == Guid.Empty)
+                imageUrlEntity.Id = Guid.NewGuid();
+
             _repository.ImageUrl.CreateImageUrl(imageUrlEntity);
             await _repository.SaveAsync();
 
@@ -131,9 +134,14 @@ namespace WebApi.Services
             await _repository.SaveAsync();
         }
 
-        public Task UpdateImageUrlAsync(int id, ImageUrlForUpdateDto imageUrl, bool trackChanges)
+        public async Task UpdateImageUrlAsync(Guid id, ImageUrlForUpdateDto imageUrl, bool trackChanges)
         {
-            throw new NotImplementedException();
+            var imageUrlEntitie = await _repository.ImageUrl.GetImageUrlAsync(id, trackChanges);
+            if (imageUrlEntitie is null)
+                throw new ImageUrlNotFoundException(id);
+
+            _mapper.Map(imageUrl, imageUrlEntitie);
+            await _repository.SaveAsync();
         }
 
         #endregion

@@ -4,9 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using WebApi.Entities.Models;
 using WebApi.Shared.DataTransferObjects;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WebApi.Formaters
 {

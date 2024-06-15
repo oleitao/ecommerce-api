@@ -1,4 +1,4 @@
-﻿using WebApi.Entities.Models;
+﻿using Model;
 
 namespace WebApi.Contracts
 {
@@ -14,6 +14,7 @@ namespace WebApi.Contracts
 
         Task<IEnumerable<ShopAvatar>> GetAllShopAvatarsAsync(bool trackChanges);
         Task<ShopAvatar> GetShopAvatarAsync(Guid shopAvatarId, bool trackChanges);
+        void DeleteShopAvatarAsync(ShopAvatar shopAvatar);
 
         #endregion
     }
