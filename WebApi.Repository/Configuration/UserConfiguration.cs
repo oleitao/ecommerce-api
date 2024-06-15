@@ -12,6 +12,7 @@ namespace WebApi.Repository.Configuration
             (
                 new User
                 {
+                    Id= "efbcf454-0125-41ff-ac91-75d1564af044",
                     FullName ="oliveira leitao",                
                     Age=36,
                     Gender="M",

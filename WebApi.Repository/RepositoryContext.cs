@@ -76,8 +76,9 @@ public class RepositoryContext : IdentityDbContext<User>
         modelBuilder.ApplyConfiguration(new ShopAvatarConfiguration());
         modelBuilder.ApplyConfiguration(new ImageUrlConfiguration());
         modelBuilder.ApplyConfiguration(new ShopConfiguration());
-        modelBuilder.ApplyConfiguration(new ReviewConfiguration());
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
+        modelBuilder.ApplyConfiguration(new ReviewConfiguration());
+        
     }
 
     #region Category Mapping
@@ -100,7 +101,7 @@ public class RepositoryContext : IdentityDbContext<User>
     {
         modelBuilder.Entity<ImageUrl>().ToTable(@"ImageUrls");
         modelBuilder.Entity<ImageUrl>().Property(x => x.Id).HasColumnName(@"Id").IsRequired().ValueGeneratedNever();
-        modelBuilder.Entity<ImageUrl>().Property(x => x.PublicId).HasColumnName(@"PublicId").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<ImageUrl>().Property(x => x.Public_id).HasColumnName(@"Public_id").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<ImageUrl>().Property(x => x.Url).HasColumnName(@"Url").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<ImageUrl>().Property(x => x.ProductId).HasColumnName(@"ProductId").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<ImageUrl>().HasKey(@"Id");
@@ -117,9 +118,9 @@ public class RepositoryContext : IdentityDbContext<User>
         modelBuilder.Entity<Product>().Property(x => x.Name).HasColumnName(@"Name").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Product>().Property(x => x.Description).HasColumnName(@"Description").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Product>().Property(x => x.Price).HasColumnName(@"Price").IsRequired().ValueGeneratedNever();
-        modelBuilder.Entity<Product>().Property(x => x.DiscountPrice).HasColumnName(@"DiscountPrice").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<Product>().Property(x => x.Discount_price).HasColumnName(@"Discount_price").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Product>().Property(x => x.Rating).HasColumnName(@"Rating").IsRequired().ValueGeneratedNever();
-        modelBuilder.Entity<Product>().Property(x => x.TotalSell).HasColumnName(@"TotalSell").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<Product>().Property(x => x.Total_sell).HasColumnName(@"Total_sell").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Product>().Property(x => x.Stock).HasColumnName(@"Stock").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Product>().Property(x => x.CategoryId).HasColumnName(@"CategoryId").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Product>().Property(x => x.ShopId).HasColumnName(@"ShopId").IsRequired().ValueGeneratedNever();
@@ -180,9 +181,8 @@ public class RepositoryContext : IdentityDbContext<User>
     {
         modelBuilder.Entity<ShopAvatar>().ToTable(@"ShopAvatars");
         modelBuilder.Entity<ShopAvatar>().Property(x => x.Id).HasColumnName(@"Id").IsRequired().ValueGeneratedNever();
-        modelBuilder.Entity<ShopAvatar>().Property(x => x.Public_id).HasColumnName(@"PublicId").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<ShopAvatar>().Property(x => x.Public_id).HasColumnName(@"Public_id").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<ShopAvatar>().Property(x => x.Url).HasColumnName(@"Url").IsRequired().ValueGeneratedNever();
-        modelBuilder.Entity<ShopAvatar>().Property(x => x.ShopId).HasColumnName(@"ShopId").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<ShopAvatar>().HasKey(@"Id");
     }
 

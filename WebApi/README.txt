@@ -39,7 +39,49 @@ setx SECRET "43443FDFDF34DF34343fdf344SDFSDFSDFSDFSDF4545354345SDFGDFGDFGDFGdffg
 
 
 ------------------------------------------------------------------------------------------------------------------------------------
-
+GetAllProducts
+GetProductById
+GET(https://localhost:64403/api/products/398E76BB-70F0-4712-AF76-10726BB6DD92)
+{
+    "id": "398e76bb-70f0-4712-af76-10726bb6dd92",
+    "name": "MacBook pro M2 chipset 256gb ssd 8gb ram space-gray color with apple 1 year warranty",
+    "description": "Product details are a crucial part of any eCommerce website or online marketplace. These details help the potential customers to make an informed decision about the product they are interested in buying. A well-written product description can also be a powerful marketing tool that can help to increase sales.Product details typically include information about the products features, specifications, dimensions, weight, materials, and other relevant information that can help customers to understand the product better. The product details section should also include high-quality images and videos of the product, as well as customer reviews and ratings.",
+    "price": 0,
+    "discount_price": 0,
+    "rating": 0,
+    "total_sell": 0,
+    "stock": 0,
+    "categoryId": "6e27b4b8-e66c-450a-bf41-58344b208512",
+    "shopId": "c2264d48-6f36-4b1a-bf95-3c62f67f2ac0",
+    "category": {
+        "id": "6e27b4b8-e66c-450a-bf41-58344b208512",
+        "title": "Computers and Laptops",
+        "subTitle": "",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/1706/9177/products/NEWAppleMacbookProwithM1ProChip14InchLaptop2021ModelMKGQ3LL_A_16GB_1TBSSD_custommacbd.jpg?v=1659592838"
+    },
+    "image_Url": [],
+    "reviews": [
+        {
+            "id": "dc3a92ce-1c3c-40c8-8266-9e0d638d236b",
+            "comment": "comment",
+            "rating": 5,
+            "userId": "efbcf454-0125-41ff-ac91-75d1564af044",
+            "productId": "398e76bb-70f0-4712-af76-10726bb6dd92"
+        }
+    ],
+    "shop": {
+        "id": "c2264d48-6f36-4b1a-bf95-3c62f67f2ac0",
+        "name": "Apple inc",
+        "ratings": 4,
+        "shopAvatarId": "41635d09-6c09-40cd-89c5-17f81ab497fc",
+        "shopAvatar": {
+            "id": "41635d09-6c09-40cd-89c5-17f81ab497fc",
+            "public_id": "test",
+            "url": "https://www.hatchwise.com/wp-content/uploads/2022/05/amazon-logo-1024x683.png",
+            "shopId": "00000000-0000-0000-0000-000000000000"
+        }
+    }
+}
 ------------------------------------------------------------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------------------------------------------------------------

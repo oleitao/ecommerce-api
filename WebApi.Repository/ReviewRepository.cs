@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Model;
+using System;
 using WebApi.Contracts;
 
 namespace WebApi.Repository
@@ -48,6 +49,11 @@ namespace WebApi.Repository
         public async Task<IEnumerable<Review>> GetReviewByUserAsync(Guid guid, bool trackChanges)
         {
             return await FindByCondition(c => c.UserId.Equals(guid), trackChanges).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Review>> GetReviewsByPoductIdAsync(Guid productId, bool trackChanges)
+        {
+            return await FindByCondition(c => c.ProductId.Equals(productId), trackChanges).ToListAsync();
         }
 
         #endregion

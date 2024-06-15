@@ -33,17 +33,22 @@ namespace Model
 
         public int Price { get; set; }
 
-        public int DiscountPrice { get; set; }
+        public int Discount_price { get; set; }
 
         public int Rating { get; set; }
 
-        public int TotalSell { get; set; }
+        public int Total_sell { get; set; }
 
         public int Stock { get; set; }
 
         public Guid CategoryId { get; set; }
 
         public Guid ShopId { get; set; }
+
+        public Category? Category { get; set; }
+        public ICollection<ImageUrl>? Image_Url{ get; set; }
+        public ICollection<Review>? Reviews { get; set; }
+        public Shop Shop { get; set; }
 
         #region Extensibility Method Definitions
 

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApi.Repository;
 
@@ -11,9 +12,11 @@ using WebApi.Repository;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20240615112220_AddedCategories")]
+    partial class AddedCategories
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "221f8f3e-f15b-4f71-b5bf-206eeca77e49",
+                            Id = "0ec22d75-3ee3-4d82-a92b-ab5404380efc",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "98581e90-1088-41f8-a670-36b3eedf1ea5",
+                            Id = "85737be0-5e3e-42ae-9497-270c11af84b0",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -289,34 +292,6 @@ namespace WebApi.Migrations
                     b.HasIndex("ShopId");
 
                     b.ToTable("Products", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"),
-                            CategoryId = new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"),
-                            Description = "Product details are a crucial part of any eCommerce website or online marketplace. These details help the potential customers to make an informed decision about the product they are interested in buying. A well-written product description can also be a powerful marketing tool that can help to increase sales.Product details typically include information about the products features, specifications, dimensions, weight, materials, and other relevant information that can help customers to understand the product better. The product details section should also include high-quality images and videos of the product, as well as customer reviews and ratings.",
-                            Discountprice = 0,
-                            Name = "MacBook pro M2 chipset 256gb ssd 8gb ram space-gray color with apple 1 year warranty",
-                            Price = 0,
-                            Rating = 0,
-                            ShopId = new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"),
-                            Stock = 0,
-                            Totalsell = 0
-                        },
-                        new
-                        {
-                            Id = new Guid("398e76bb-70f0-4712-af76-10726bb6dd93"),
-                            CategoryId = new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"),
-                            Description = "Product details are a crucial part of any eCommerce website or online marketplace. These details help the potential customers to make an informed decision about the product they are interested in buying. A well-written product description can also be a powerful marketing tool that can help to increase sales.Product details typically include information about the products features, specifications, dimensions, weight, materials, and other relevant information that can help customers to understand the product better. The product details section should also include high-quality images and videos of the product, as well as customer reviews and ratings.",
-                            Discountprice = 0,
-                            Name = "Iphone 14 pro max 256 gb ssd and 8 gb ram silver colour",
-                            Price = 0,
-                            Rating = 0,
-                            ShopId = new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"),
-                            Stock = 0,
-                            Totalsell = 0
-                        });
                 });
 
             modelBuilder.Entity("Model.Review", b =>
@@ -347,16 +322,6 @@ namespace WebApi.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Reviews", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("dc3a92ce-1c3c-40c8-8266-9e0d638d236b"),
-                            Comment = "comment",
-                            ProductId = new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"),
-                            Rating = 5,
-                            UserId = new Guid("efbcf454-0125-41ff-ac91-75d1564af044")
-                        });
                 });
 
             modelBuilder.Entity("Model.Shop", b =>
@@ -386,15 +351,6 @@ namespace WebApi.Migrations
                     b.HasIndex("ShopAvatarId1");
 
                     b.ToTable("Shops", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"),
-                            Name = "Apple inc",
-                            Ratings = 4.0,
-                            ShopAvatarId = new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc")
-                        });
                 });
 
             modelBuilder.Entity("Model.ShopAvatar", b =>
@@ -419,15 +375,6 @@ namespace WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ShopAvatars", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc"),
-                            Publicid = "test",
-                            ShopId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            Url = "https://www.hatchwise.com/wp-content/uploads/2022/05/amazon-logo-1024x683.png"
-                        });
                 });
 
             modelBuilder.Entity("Model.User", b =>
@@ -529,11 +476,11 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "efbcf454-0125-41ff-ac91-75d1564af044",
+                            Id = "88925595-183f-48a0-baf3-257a2e008f72",
                             AccessFailedCount = 0,
                             Age = 36,
-                            Birthday = new DateTime(2024, 6, 15, 12, 29, 58, 692, DateTimeKind.Local).AddTicks(7357),
-                            ConcurrencyStamp = "52344a96-45c1-4109-9455-1ffa5c735dd4",
+                            Birthday = new DateTime(2024, 6, 15, 12, 22, 20, 92, DateTimeKind.Local).AddTicks(9478),
+                            ConcurrencyStamp = "03697bc1-83b0-43ad-9d5f-289244898075",
                             Email = "oleitao@gmail.com",
                             EmailConfirmed = false,
                             FullName = "oliveira leitao",
@@ -542,7 +489,7 @@ namespace WebApi.Migrations
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "486accd8-b41e-48b6-a5ff-6abe906100a5",
+                            SecurityStamp = "06872177-c3c7-4234-87c7-50699879f77e",
                             TwoFactorEnabled = false
                         });
                 });
