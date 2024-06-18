@@ -182,7 +182,15 @@ namespace WebApi.Services
 
                 foreach (var review in reviews)
                 {
-                    product.Reviews.Add(review);
+                    var user = await _repository.User.GetUserAsync(review.UserId, trackChanges);
+                    if (reviews is not null)
+                    {
+                        if(review.User is null) 
+                            review.User = new User();
+                        
+                        product.Reviews.Add(review);
+                    }
+
                 }
 
                 //shop
@@ -197,7 +205,8 @@ namespace WebApi.Services
                 if (shopAvatar is null)
                     throw new ShopAvatarNotFoundException(product.ShopId);
 
-                product.Shop.ShopAvatar = shopAvatar;
+                product.Shop.Shop_avatar = new ShopAvatar();
+                product.Shop.Shop_avatar = shopAvatar;
 
                 return product;
             }

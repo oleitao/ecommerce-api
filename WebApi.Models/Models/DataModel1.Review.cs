@@ -33,6 +33,8 @@ namespace Model
 
         public Guid UserId { get; set; }
 
+        public User? User { get; set; }
+
         public Guid ProductId { get; set; }
 
         #region Extensibility Method Definitions

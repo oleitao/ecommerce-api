@@ -48,7 +48,7 @@ namespace Model
         public Category? Category { get; set; }
         public ICollection<ImageUrl>? Image_Url{ get; set; }
         public ICollection<Review>? Reviews { get; set; }
-        public Shop Shop { get; set; }
+        public Shop? Shop { get; set; }
 
         #region Extensibility Method Definitions
 

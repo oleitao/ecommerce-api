@@ -51,13 +51,13 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "221f8f3e-f15b-4f71-b5bf-206eeca77e49",
+                            Id = "fd8b5769-3081-40f1-8562-fab80d4ef999",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "98581e90-1088-41f8-a670-36b3eedf1ea5",
+                            Id = "55b70911-3616-4979-9021-f645e3da7fcb",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -342,16 +342,21 @@ namespace WebApi.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("UserId");
 
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Reviews", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("dc3a92ce-1c3c-40c8-8266-9e0d638d236b"),
+                            Id = new Guid("e9472dba-e273-4c8e-801b-52feb331f789"),
                             Comment = "comment",
                             ProductId = new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"),
                             Rating = 5,
@@ -378,12 +383,12 @@ namespace WebApi.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ShopAvatarId");
 
-                    b.Property<Guid?>("ShopAvatarId1")
+                    b.Property<Guid?>("Shop_avatarId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ShopAvatarId1");
+                    b.HasIndex("Shop_avatarId");
 
                     b.ToTable("Shops", (string)null);
 
@@ -532,8 +537,8 @@ namespace WebApi.Migrations
                             Id = "efbcf454-0125-41ff-ac91-75d1564af044",
                             AccessFailedCount = 0,
                             Age = 36,
-                            Birthday = new DateTime(2024, 6, 15, 12, 29, 58, 692, DateTimeKind.Local).AddTicks(7357),
-                            ConcurrencyStamp = "52344a96-45c1-4109-9455-1ffa5c735dd4",
+                            Birthday = new DateTime(2024, 6, 18, 15, 14, 12, 845, DateTimeKind.Local).AddTicks(8344),
+                            ConcurrencyStamp = "a37a6e2d-40da-4b45-a0d2-d770df9e2e58",
                             Email = "oleitao@gmail.com",
                             EmailConfirmed = false,
                             FullName = "oliveira leitao",
@@ -542,7 +547,7 @@ namespace WebApi.Migrations
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "486accd8-b41e-48b6-a5ff-6abe906100a5",
+                            SecurityStamp = "60d0a673-8b4d-4746-8ec1-cc23f13b5369",
                             TwoFactorEnabled = false
                         });
                 });
@@ -633,15 +638,21 @@ namespace WebApi.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Model.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Model.Shop", b =>
                 {
-                    b.HasOne("Model.ShopAvatar", "ShopAvatar")
+                    b.HasOne("Model.ShopAvatar", "Shop_avatar")
                         .WithMany()
-                        .HasForeignKey("ShopAvatarId1");
+                        .HasForeignKey("Shop_avatarId");
 
-                    b.Navigation("ShopAvatar");
+                    b.Navigation("Shop_avatar");
                 });
 
             modelBuilder.Entity("Model.Product", b =>

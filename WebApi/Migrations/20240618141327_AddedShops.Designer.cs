@@ -12,8 +12,8 @@ using WebApi.Repository;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240615112220_AddedCategories")]
-    partial class AddedCategories
+    [Migration("20240618141327_AddedShops")]
+    partial class AddedShops
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,13 +54,13 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0ec22d75-3ee3-4d82-a92b-ab5404380efc",
+                            Id = "e5a2de42-2afb-4ec9-8209-b0f66d694995",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "85737be0-5e3e-42ae-9497-270c11af84b0",
+                            Id = "b1e1078e-2579-46a1-92bb-3516e4f1a58d",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -317,9 +317,14 @@ namespace WebApi.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("UserId");
 
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Reviews", (string)null);
                 });
@@ -343,14 +348,23 @@ namespace WebApi.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ShopAvatarId");
 
-                    b.Property<Guid?>("ShopAvatarId1")
+                    b.Property<Guid?>("Shop_avatarId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ShopAvatarId1");
+                    b.HasIndex("Shop_avatarId");
 
                     b.ToTable("Shops", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"),
+                            Name = "Apple inc",
+                            Ratings = 4.0,
+                            ShopAvatarId = new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc")
+                        });
                 });
 
             modelBuilder.Entity("Model.ShopAvatar", b =>
@@ -375,6 +389,15 @@ namespace WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ShopAvatars", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc"),
+                            Publicid = "test",
+                            ShopId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Url = "https://www.hatchwise.com/wp-content/uploads/2022/05/amazon-logo-1024x683.png"
+                        });
                 });
 
             modelBuilder.Entity("Model.User", b =>
@@ -476,11 +499,11 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "88925595-183f-48a0-baf3-257a2e008f72",
+                            Id = "efbcf454-0125-41ff-ac91-75d1564af044",
                             AccessFailedCount = 0,
                             Age = 36,
-                            Birthday = new DateTime(2024, 6, 15, 12, 22, 20, 92, DateTimeKind.Local).AddTicks(9478),
-                            ConcurrencyStamp = "03697bc1-83b0-43ad-9d5f-289244898075",
+                            Birthday = new DateTime(2024, 6, 18, 15, 13, 26, 663, DateTimeKind.Local).AddTicks(9695),
+                            ConcurrencyStamp = "4d89b6f0-a34d-4369-98bc-5a951fb7968b",
                             Email = "oleitao@gmail.com",
                             EmailConfirmed = false,
                             FullName = "oliveira leitao",
@@ -489,7 +512,7 @@ namespace WebApi.Migrations
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "06872177-c3c7-4234-87c7-50699879f77e",
+                            SecurityStamp = "8a75b037-0b44-44f3-bbef-f8161b2cd948",
                             TwoFactorEnabled = false
                         });
                 });
@@ -580,15 +603,21 @@ namespace WebApi.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Model.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Model.Shop", b =>
                 {
-                    b.HasOne("Model.ShopAvatar", "ShopAvatar")
+                    b.HasOne("Model.ShopAvatar", "Shop_avatar")
                         .WithMany()
-                        .HasForeignKey("ShopAvatarId1");
+                        .HasForeignKey("Shop_avatarId");
 
-                    b.Navigation("ShopAvatar");
+                    b.Navigation("Shop_avatar");
                 });
 
             modelBuilder.Entity("Model.Product", b =>
