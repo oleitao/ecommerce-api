@@ -178,10 +178,10 @@ namespace WebApi.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("Id");
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<string>("Image_Url")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ImageUrl");
+                        .HasColumnName("Image_Url");
 
                     b.Property<string>("SubTitle")
                         .IsRequired()
@@ -198,7 +198,7 @@ namespace WebApi.Migrations
                     b.ToTable("Categories", (string)null);
                 });
 
-            modelBuilder.Entity("Model.ImageUrl", b =>
+            modelBuilder.Entity("Model.Image_Url", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier")
@@ -534,7 +534,7 @@ namespace WebApi.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Model.ImageUrl", b =>
+            modelBuilder.Entity("Model.Image_Url", b =>
                 {
                     b.HasOne("Model.Product", null)
                         .WithMany("Image_Url")

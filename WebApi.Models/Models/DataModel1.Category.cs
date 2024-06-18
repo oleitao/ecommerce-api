@@ -31,7 +31,7 @@ namespace Model
 
         public string SubTitle { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string Image_Url { get; set; }
 
         #region Extensibility Method Definitions
 

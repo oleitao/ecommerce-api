@@ -415,7 +415,7 @@ namespace WebApi.Services
                 /*
                 foreach (var image in productForCreationDto.ImageUrls)
                 {
-                    _repository.ImageUrl.CreateImageUrl(new ImageUrl()
+                    _repository.Image_Url.CreateImageUrl(new Image_Url()
                     {
                         Id = Guid.NewGuid(),
                         Public_id = image.Public_id,
@@ -432,7 +432,7 @@ namespace WebApi.Services
                 {
                     if (!images.Contains(image))
                     {
-                        _repository.ImageUrl.CreateImageUrl(new ImageUrl()
+                        _repository.Image_Url.CreateImageUrl(new Image_Url()
                         {
                             Id = Guid.NewGuid(),
                             Public_id = image.Public_id,
