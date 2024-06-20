@@ -71,7 +71,16 @@ namespace WebApi.Services
             try
             {
                 var reviews = await _repository.Review.GetAllReviewsAsync(trackChanges);
-                return reviews;
+                if (reviews is null)
+                    throw new ReviewsNotFoundException();
+
+                List<Review> result = new List<Review>();
+                foreach (var review in reviews)
+                {
+                    result.Add(await GetReviewByIdAsync(review.Id, trackChanges));
+                }
+
+                return result;
             }
             catch (Exception ex)
             {
@@ -84,9 +93,7 @@ namespace WebApi.Services
         {
             try
             {
-                var review = await _repository.Review.GetReviewAsync(id, trackChanges);
-                if (review == null)
-                    throw new ReviewNotFoundException(id);
+                var review = await GetReviewByIdAsync(id, trackChanges);
 
                 return review;
             }
@@ -95,6 +102,24 @@ namespace WebApi.Services
                 _logger.LogError($"Something went wrong in the {nameof(GetReviewAsync)} service method {ex}");
                 throw;
             }
+        }
+
+        public async Task<Review> GetReviewByIdAsync(Guid reviewId, bool trackChanges)
+        {
+            var review = await _repository.Review.GetReviewAsync(reviewId, trackChanges);
+            if (review == null)
+                throw new ReviewNotFoundException(reviewId);
+
+            var user = await _repository.User.GetUserAsync(review.UserId, trackChanges: false);
+            if (user == null)
+                throw new UserNotFoundException(review.UserId);
+
+            if (review.User is null)
+                review.User = new User();
+
+            review.User = user;
+
+            return review;
         }
 
         public async Task<ReviewDto> CreateReviewAsync(ReviewForCreationDto review)

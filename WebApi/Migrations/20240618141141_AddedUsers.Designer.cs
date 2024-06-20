@@ -12,8 +12,8 @@ using WebApi.Repository;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240615112959_AddedReviews")]
-    partial class AddedReviews
+    [Migration("20240618141141_AddedUsers")]
+    partial class AddedUsers
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,13 +54,13 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "221f8f3e-f15b-4f71-b5bf-206eeca77e49",
+                            Id = "38e49853-8edb-4261-b946-e7794ca997a4",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "98581e90-1088-41f8-a670-36b3eedf1ea5",
+                            Id = "9524c45e-37f1-466d-a605-5e516d3c4caf",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -178,10 +178,10 @@ namespace WebApi.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("Id");
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<string>("Image_Url")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ImageUrl");
+                        .HasColumnName("Image_Url");
 
                     b.Property<string>("SubTitle")
                         .IsRequired()
@@ -196,25 +196,9 @@ namespace WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"),
-                            ImageUrl = "https://cdn.shopify.com/s/files/1/1706/9177/products/NEWAppleMacbookProwithM1ProChip14InchLaptop2021ModelMKGQ3LL_A_16GB_1TBSSD_custommacbd.jpg?v=1659592838",
-                            SubTitle = "",
-                            Title = "Computers and Laptops"
-                        },
-                        new
-                        {
-                            Id = new Guid("6e27b4b8-e66c-450a-bf41-58344b208513"),
-                            ImageUrl = "https://indian-retailer.s3.ap-south-1.amazonaws.com/s3fs-public/2021-07/kosme1.png",
-                            SubTitle = "",
-                            Title = "cosmetics and body care"
-                        });
                 });
 
-            modelBuilder.Entity("Model.ImageUrl", b =>
+            modelBuilder.Entity("Model.Image_Url", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier")
@@ -292,34 +276,6 @@ namespace WebApi.Migrations
                     b.HasIndex("ShopId");
 
                     b.ToTable("Products", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"),
-                            CategoryId = new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"),
-                            Description = "Product details are a crucial part of any eCommerce website or online marketplace. These details help the potential customers to make an informed decision about the product they are interested in buying. A well-written product description can also be a powerful marketing tool that can help to increase sales.Product details typically include information about the products features, specifications, dimensions, weight, materials, and other relevant information that can help customers to understand the product better. The product details section should also include high-quality images and videos of the product, as well as customer reviews and ratings.",
-                            Discountprice = 0,
-                            Name = "MacBook pro M2 chipset 256gb ssd 8gb ram space-gray color with apple 1 year warranty",
-                            Price = 0,
-                            Rating = 0,
-                            ShopId = new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"),
-                            Stock = 0,
-                            Totalsell = 0
-                        },
-                        new
-                        {
-                            Id = new Guid("398e76bb-70f0-4712-af76-10726bb6dd93"),
-                            CategoryId = new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"),
-                            Description = "Product details are a crucial part of any eCommerce website or online marketplace. These details help the potential customers to make an informed decision about the product they are interested in buying. A well-written product description can also be a powerful marketing tool that can help to increase sales.Product details typically include information about the products features, specifications, dimensions, weight, materials, and other relevant information that can help customers to understand the product better. The product details section should also include high-quality images and videos of the product, as well as customer reviews and ratings.",
-                            Discountprice = 0,
-                            Name = "Iphone 14 pro max 256 gb ssd and 8 gb ram silver colour",
-                            Price = 0,
-                            Rating = 0,
-                            ShopId = new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"),
-                            Stock = 0,
-                            Totalsell = 0
-                        });
                 });
 
             modelBuilder.Entity("Model.Review", b =>
@@ -345,21 +301,16 @@ namespace WebApi.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("UserId");
 
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.HasIndex("UserId1");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("dc3a92ce-1c3c-40c8-8266-9e0d638d236b"),
-                            Comment = "comment",
-                            ProductId = new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"),
-                            Rating = 5,
-                            UserId = new Guid("efbcf454-0125-41ff-ac91-75d1564af044")
-                        });
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("Model.Shop", b =>
@@ -381,23 +332,14 @@ namespace WebApi.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ShopAvatarId");
 
-                    b.Property<Guid?>("ShopAvatarId1")
+                    b.Property<Guid?>("Shop_avatarId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ShopAvatarId1");
+                    b.HasIndex("Shop_avatarId");
 
                     b.ToTable("Shops", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"),
-                            Name = "Apple inc",
-                            Ratings = 4.0,
-                            ShopAvatarId = new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc")
-                        });
                 });
 
             modelBuilder.Entity("Model.ShopAvatar", b =>
@@ -422,15 +364,6 @@ namespace WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ShopAvatars", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc"),
-                            Publicid = "test",
-                            ShopId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            Url = "https://www.hatchwise.com/wp-content/uploads/2022/05/amazon-logo-1024x683.png"
-                        });
                 });
 
             modelBuilder.Entity("Model.User", b =>
@@ -535,8 +468,8 @@ namespace WebApi.Migrations
                             Id = "efbcf454-0125-41ff-ac91-75d1564af044",
                             AccessFailedCount = 0,
                             Age = 36,
-                            Birthday = new DateTime(2024, 6, 15, 12, 29, 58, 692, DateTimeKind.Local).AddTicks(7357),
-                            ConcurrencyStamp = "52344a96-45c1-4109-9455-1ffa5c735dd4",
+                            Birthday = new DateTime(2024, 6, 18, 15, 11, 41, 610, DateTimeKind.Local).AddTicks(5938),
+                            ConcurrencyStamp = "5c788d5c-b6b4-45a4-bf72-7e4462025e61",
                             Email = "oleitao@gmail.com",
                             EmailConfirmed = false,
                             FullName = "oliveira leitao",
@@ -545,7 +478,7 @@ namespace WebApi.Migrations
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "486accd8-b41e-48b6-a5ff-6abe906100a5",
+                            SecurityStamp = "ac0a5d24-0552-43d9-88a5-f72d69f36c5c",
                             TwoFactorEnabled = false
                         });
                 });
@@ -601,7 +534,7 @@ namespace WebApi.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Model.ImageUrl", b =>
+            modelBuilder.Entity("Model.Image_Url", b =>
                 {
                     b.HasOne("Model.Product", null)
                         .WithMany("Image_Url")
@@ -636,15 +569,21 @@ namespace WebApi.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Model.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Model.Shop", b =>
                 {
-                    b.HasOne("Model.ShopAvatar", "ShopAvatar")
+                    b.HasOne("Model.ShopAvatar", "Shop_avatar")
                         .WithMany()
-                        .HasForeignKey("ShopAvatarId1");
+                        .HasForeignKey("Shop_avatarId");
 
-                    b.Navigation("ShopAvatar");
+                    b.Navigation("Shop_avatar");
                 });
 
             modelBuilder.Entity("Model.Product", b =>

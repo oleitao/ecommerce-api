@@ -16,20 +16,20 @@ namespace WebApi.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "8ade8a83-034d-4046-8b05-65773b289c0b");
+                keyValue: "b1e1078e-2579-46a1-92bb-3516e4f1a58d");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "a6722d63-4034-495a-b68b-48a27c3a05c8");
+                keyValue: "e5a2de42-2afb-4ec9-8209-b0f66d694995");
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "b79ff1c8-8781-4054-bd7c-e5aafd09fa33", null, "Manager", "MANAGER" },
-                    { "e24239aa-8e9a-40b2-94b3-d904e0bf8d6a", null, "Administrator", "ADMINISTRATOR" }
+                    { "37fe0441-5c42-4a82-91b5-ce9f5cf844c8", null, "Administrator", "ADMINISTRATOR" },
+                    { "6034e85b-0640-4e4e-acb1-f0e6aebac001", null, "Manager", "MANAGER" }
                 });
 
             migrationBuilder.InsertData(
@@ -53,7 +53,7 @@ namespace WebApi.Migrations
                 keyColumn: "Id",
                 keyValue: "efbcf454-0125-41ff-ac91-75d1564af044",
                 columns: new[] { "Birthday", "ConcurrencyStamp", "SecurityStamp" },
-                values: new object[] { new DateTime(2024, 6, 15, 12, 29, 11, 773, DateTimeKind.Local).AddTicks(9307), "bd3e6c90-710e-47e6-8840-db3597b7896d", "75a28edc-4033-406e-9a6e-312806dcb4d8" });
+                values: new object[] { new DateTime(2024, 6, 18, 15, 13, 47, 379, DateTimeKind.Local).AddTicks(5390), "f75875bc-e092-4433-94db-67a6c8f94b4f", "979df93b-e3b5-4ac4-822a-9b500512f8e4" });
         }
 
         /// <inheritdoc />
@@ -62,12 +62,12 @@ namespace WebApi.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "b79ff1c8-8781-4054-bd7c-e5aafd09fa33");
+                keyValue: "37fe0441-5c42-4a82-91b5-ce9f5cf844c8");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "e24239aa-8e9a-40b2-94b3-d904e0bf8d6a");
+                keyValue: "6034e85b-0640-4e4e-acb1-f0e6aebac001");
 
             migrationBuilder.DeleteData(
                 table: "Products",
@@ -84,8 +84,8 @@ namespace WebApi.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "8ade8a83-034d-4046-8b05-65773b289c0b", null, "Manager", "MANAGER" },
-                    { "a6722d63-4034-495a-b68b-48a27c3a05c8", null, "Administrator", "ADMINISTRATOR" }
+                    { "b1e1078e-2579-46a1-92bb-3516e4f1a58d", null, "Administrator", "ADMINISTRATOR" },
+                    { "e5a2de42-2afb-4ec9-8209-b0f66d694995", null, "Manager", "MANAGER" }
                 });
 
             migrationBuilder.UpdateData(
@@ -100,7 +100,7 @@ namespace WebApi.Migrations
                 keyColumn: "Id",
                 keyValue: "efbcf454-0125-41ff-ac91-75d1564af044",
                 columns: new[] { "Birthday", "ConcurrencyStamp", "SecurityStamp" },
-                values: new object[] { new DateTime(2024, 6, 15, 12, 23, 46, 837, DateTimeKind.Local).AddTicks(3459), "09bb5745-0c09-4d11-bc90-901750966d65", "43e03d8f-3694-4906-ad60-f1f7f88a8a98" });
+                values: new object[] { new DateTime(2024, 6, 18, 15, 13, 26, 663, DateTimeKind.Local).AddTicks(9695), "4d89b6f0-a34d-4369-98bc-5a951fb7968b", "8a75b037-0b44-44f3-bbef-f8161b2cd948" });
         }
     }
 }

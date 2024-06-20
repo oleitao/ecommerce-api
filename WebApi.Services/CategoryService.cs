@@ -38,7 +38,7 @@ namespace WebApi.Services
             {
                 var categories = _repository.Category.GetAllCategories(trackChanges);
 
-                var categotiesDto = categories.Select(c => new CategoryDto(c.Id, c.Title ?? "", c.SubTitle ?? "", c.ImageUrl ?? "")).ToList();
+                var categotiesDto = categories.Select(c => new CategoryDto(c.Id, c.Title ?? "", c.SubTitle ?? "", c.Image_Url ?? "")).ToList();
 
                 return categotiesDto;
             }
@@ -136,7 +136,7 @@ namespace WebApi.Services
             {
                 var categories = await _repository.Category.GetAllCategoriesAsync(trackChanges);
 
-                var categotiesDto = categories.Select(c => new CategoryDto(c.Id, c.Title ?? "", c.SubTitle ?? "", c.ImageUrl ?? "")).ToList();
+                var categotiesDto = categories.Select(c => new CategoryDto(c.Id, c.Title ?? "", c.SubTitle ?? "", c.Image_Url ?? "")).ToList();
 
                 return categotiesDto;
             }

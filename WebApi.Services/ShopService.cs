@@ -73,7 +73,16 @@ namespace WebApi.Services
             try
             {
                 var shops = await _repository.Shop.GetAllShopsAsync(trackChanges);
-                return shops;
+                if (shops is null)
+                    throw new ShopsNotFoundException();
+
+                List<Shop> shopsList = new List<Shop>();
+                foreach (var shop in shops)
+                {
+                    shopsList.Add(await GetShopByIdAsync(shop.Id, trackChanges));
+                }
+
+                return shopsList;
             }
             catch (Exception ex)
             {
@@ -86,7 +95,7 @@ namespace WebApi.Services
         {
             try
             {
-                var shop = await _repository.Shop.GetShopAsync(id, trackChanges);
+                var shop = await GetShopByIdAsync(id, trackChanges);
                 if (shop == null)
                     throw new ShopNotFoundException(id);
 
@@ -97,6 +106,21 @@ namespace WebApi.Services
                 _logger.LogError($"Something went wrong in the {nameof(GetShopAsync)} service method {ex}");
                 throw;
             }
+        }
+
+        public async Task<Shop> GetShopByIdAsync(Guid id, bool trackChanges)
+        {
+            var shop = await _repository.Shop.GetShopAsync(id, trackChanges);
+            if(shop is null)
+                throw new ShopNotFoundException(id);
+
+            var shopAvatar = await _repository.ShopAvatar.GetShopAvatarAsync(shop.ShopAvatarId, trackChanges);
+            if (shopAvatar is null)
+                throw new ShopNotFoundException(shop.ShopAvatarId);
+
+            shop.Shop_avatar = shopAvatar;
+
+            return shop;
         }
 
         public async Task<ShopDto> CreateShopAsync(ShopForCreationDto shop)

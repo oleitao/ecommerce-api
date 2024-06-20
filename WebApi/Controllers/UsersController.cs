@@ -30,16 +30,9 @@ public class UsersController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<User>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllUsers()
     {
-        try
-        {
-            var users = await _service.UserService.GetAllUsersAsync(trackChanges: false);
+        var users = await _service.UserService.GetAllUsersAsync(trackChanges: false);
 
-            return Ok(users);
-        }
-        catch
-        {
-            return StatusCode(500, "Internal server error");
-        }
+        return Ok(users);
     }
 
     [HttpGet("{id:guid}", Name = "UserById")]

@@ -48,7 +48,7 @@ namespace WebApi.Formaters
 
         private static void FormatCsv(StringBuilder buffer, CategoryDto category)
         {
-            buffer.AppendLine($"{category.Id},\"{category.Title},\"{category.SubTitle},\"{category.ImageUrl}");
+            buffer.AppendLine($"{category.Id},\"{category.Title},\"{category.SubTitle},\"{category.Image_Url}");
         }
     }
 }

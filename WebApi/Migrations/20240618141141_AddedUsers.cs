@@ -116,14 +116,14 @@ namespace WebApi.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Ratings = table.Column<double>(type: "float", nullable: false),
                     ShopAvatarId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ShopAvatarId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    ShopavatarId = table.Column<Guid>(name: "Shop_avatarId", type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Shops", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Shops_ShopAvatars_ShopAvatarId1",
-                        column: x => x.ShopAvatarId1,
+                        name: "FK_Shops_ShopAvatars_Shop_avatarId",
+                        column: x => x.ShopavatarId,
                         principalTable: "ShopAvatars",
                         principalColumn: "Id");
                 });
@@ -273,6 +273,7 @@ namespace WebApi.Migrations
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -284,6 +285,11 @@ namespace WebApi.Migrations
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Users_UserId1",
+                        column: x => x.UserId1,
+                        principalTable: "Users",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(
@@ -291,14 +297,14 @@ namespace WebApi.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "65313372-81fb-4fba-9cfb-6aca4fe60be8", null, "Manager", "MANAGER" },
-                    { "a7d9a3b6-f287-4fd8-b533-ef96341dec1e", null, "Administrator", "ADMINISTRATOR" }
+                    { "38e49853-8edb-4261-b946-e7794ca997a4", null, "Manager", "MANAGER" },
+                    { "9524c45e-37f1-466d-a605-5e516d3c4caf", null, "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "Age", "Birthday", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "Gender", "Hobby", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "424d410e-29a3-48b0-b5fd-3ce93a80bea9", 0, 36, new DateTime(2024, 6, 15, 12, 21, 55, 646, DateTimeKind.Local).AddTicks(2493), "f915ef7c-d3a4-4bf5-8dba-0c21499f9c00", "oleitao@gmail.com", false, "oliveira leitao", "M", "netflix", false, null, null, null, null, null, false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "f372fccf-ab79-4e90-bfd5-c45fa0e1a114", false, null });
+                values: new object[] { "efbcf454-0125-41ff-ac91-75d1564af044", 0, 36, new DateTime(2024, 6, 18, 15, 11, 41, 610, DateTimeKind.Local).AddTicks(5938), "5c788d5c-b6b4-45a4-bf72-7e4462025e61", "oleitao@gmail.com", false, "oliveira leitao", "M", "netflix", false, null, null, null, null, null, false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ac0a5d24-0552-43d9-88a5-f72d69f36c5c", false, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -348,9 +354,14 @@ namespace WebApi.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Shops_ShopAvatarId1",
+                name: "IX_Reviews_UserId1",
+                table: "Reviews",
+                column: "UserId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Shops_Shop_avatarId",
                 table: "Shops",
-                column: "ShopAvatarId1");
+                column: "Shop_avatarId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
@@ -393,10 +404,10 @@ namespace WebApi.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Categories");
