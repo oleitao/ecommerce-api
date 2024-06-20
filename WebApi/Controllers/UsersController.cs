@@ -35,7 +35,7 @@ public class UsersController : ControllerBase
         return Ok(users);
     }
 
-    [HttpGet("{id:guid}", Name = "UserById")]
+    [HttpGet("{id:guid}", Name = "GetByUserId")]
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "v2")]
     [Produces("application/json")]
@@ -47,27 +47,22 @@ public class UsersController : ControllerBase
         return Ok(user);
     }
 
+    /*
     [HttpGet(Name = "FilterUserMinAgeSort")]
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "v2")]
     [Route("filter/")]
-    public async Task<IActionResult> FilterUserMinAgeSort([FromQuery]UserParameters userParameters)
+    public async Task<IActionResult> FilterUserMinAgeSort([FromQuery] UserParameters userParameters)
     {
-        try
-        {
-            var result = await _service.UserService.GetAllUsersAsync(userParameters, trackChanges: false);
+        var result = await _service.UserService.GetAllUsersAsync(userParameters, trackChanges: false);
 
-            return Ok(result);
-        }
-        catch
-        {
-            return StatusCode(500, "Internal server error");
-        }
+        return Ok(result);
     }
+    */
 
     [HttpPost]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
+    [ApiExplorerSettings(GroupName = "v2")]
     [Consumes(typeof(UserForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]

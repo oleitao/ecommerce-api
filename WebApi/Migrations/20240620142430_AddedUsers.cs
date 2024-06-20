@@ -34,7 +34,7 @@ namespace WebApi.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SubTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ImageUrl = table.Column<string>(name: "Image_Url", type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -47,8 +47,7 @@ namespace WebApi.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Publicid = table.Column<string>(name: "Public_id", type: "nvarchar(max)", nullable: false),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ShopId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -116,16 +115,17 @@ namespace WebApi.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Ratings = table.Column<double>(type: "float", nullable: false),
                     ShopAvatarId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ShopavatarId = table.Column<Guid>(name: "Shop_avatarId", type: "uniqueidentifier", nullable: true)
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Shops", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Shops_ShopAvatars_Shop_avatarId",
-                        column: x => x.ShopavatarId,
+                        name: "FK_Shops_ShopAvatars_ShopAvatarId",
+                        column: x => x.ShopAvatarId,
                         principalTable: "ShopAvatars",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -226,23 +226,17 @@ namespace WebApi.Migrations
                     Totalsell = table.Column<int>(name: "Total_sell", type: "int", nullable: false),
                     Stock = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ShopId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ShopId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ShopId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Products_Shops_ShopId",
-                        column: x => x.ShopId,
+                        name: "FK_Products_Shops_ShopId1",
+                        column: x => x.ShopId1,
                         principalTable: "Shops",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -297,14 +291,14 @@ namespace WebApi.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "38e49853-8edb-4261-b946-e7794ca997a4", null, "Manager", "MANAGER" },
-                    { "9524c45e-37f1-466d-a605-5e516d3c4caf", null, "Administrator", "ADMINISTRATOR" }
+                    { "3f2f0db1-d054-4c65-a3a6-8a2306ed4745", null, "Manager", "MANAGER" },
+                    { "e7b339e9-f500-417c-99e6-43242f45b995", null, "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "Age", "Birthday", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "Gender", "Hobby", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "efbcf454-0125-41ff-ac91-75d1564af044", 0, 36, new DateTime(2024, 6, 18, 15, 11, 41, 610, DateTimeKind.Local).AddTicks(5938), "5c788d5c-b6b4-45a4-bf72-7e4462025e61", "oleitao@gmail.com", false, "oliveira leitao", "M", "netflix", false, null, null, null, null, null, false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ac0a5d24-0552-43d9-88a5-f72d69f36c5c", false, null });
+                values: new object[] { "efbcf454-0125-41ff-ac91-75d1564af044", 0, 36, new DateTime(2024, 6, 20, 15, 24, 30, 19, DateTimeKind.Local).AddTicks(1598), "37337bb4-8b18-468d-9ddd-cf7a077bc743", "oleitao@gmail.com", false, "oliveira leitao", "M", "netflix", false, null, null, null, null, null, false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "7d110eab-a9cf-4988-bd4b-b099d5d51243", false, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -339,14 +333,9 @@ namespace WebApi.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_CategoryId",
+                name: "IX_Products_ShopId1",
                 table: "Products",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_ShopId",
-                table: "Products",
-                column: "ShopId");
+                column: "ShopId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_ProductId",
@@ -359,9 +348,9 @@ namespace WebApi.Migrations
                 column: "UserId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Shops_Shop_avatarId",
+                name: "IX_Shops_ShopAvatarId",
                 table: "Shops",
-                column: "Shop_avatarId");
+                column: "ShopAvatarId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
@@ -395,6 +384,9 @@ namespace WebApi.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Categories");
+
+            migrationBuilder.DropTable(
                 name: "ImageUrls");
 
             migrationBuilder.DropTable(
@@ -408,9 +400,6 @@ namespace WebApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Shops");

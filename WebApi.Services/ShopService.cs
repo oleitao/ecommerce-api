@@ -126,8 +126,19 @@ namespace WebApi.Services
         public async Task<ShopDto> CreateShopAsync(ShopForCreationDto shop)
         {
             var shopEntity = _mapper.Map<Shop>(shop);
+            if(shopEntity.Id.Equals(Guid.Empty))
+                shopEntity.Id = Guid.NewGuid();
 
+            var shopAvatarEntity = _mapper.Map<ShopAvatar>(shop.Shop_avatar);
+            if(shopAvatarEntity.Id.Equals(Guid.Empty))
+                shopAvatarEntity.Id = Guid.NewGuid();
+            
+            shopEntity.ShopAvatarId = shopAvatarEntity.Id;
+            shopEntity.Shop_avatar = shopAvatarEntity;
+
+            _repository.ShopAvatar.CreateShopAvatar(shopAvatarEntity);
             _repository.Shop.CreateShop(shopEntity);
+
             await _repository.SaveAsync();
 
             var shopReturn = _mapper.Map<ShopDto>(shopEntity);

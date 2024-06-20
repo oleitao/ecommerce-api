@@ -33,7 +33,7 @@ namespace WebApi.Repository
 
         public async Task<IEnumerable<Review>> GetAllReviewsAsync(bool trackChanges)
         {
-            return FindAll(trackChanges).ToList();
+            return await FindAll(trackChanges).ToListAsync();
         }
 
         public async Task<Review> GetReviewAsync(Guid reviewId, bool trackChanges)

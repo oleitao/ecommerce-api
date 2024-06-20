@@ -12,7 +12,7 @@ using WebApi.Repository;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240618141303_AddedImageUrls")]
+    [Migration("20240620142540_AddedImageUrls")]
     partial class AddedImageUrls
     {
         /// <inheritdoc />
@@ -54,13 +54,13 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fc00faaa-f701-40d8-8654-988d54791191",
+                            Id = "b9b0873f-fb02-438a-b7ca-805b91d892c5",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "cbb703fc-8661-490a-b5f5-120a24dcd655",
+                            Id = "614310f1-dd02-4de1-90f3-cb3ca005de6c",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -214,7 +214,7 @@ namespace WebApi.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Model.Image_Url", b =>
+            modelBuilder.Entity("Model.ImageUrl", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier")
@@ -277,6 +277,9 @@ namespace WebApi.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ShopId");
 
+                    b.Property<Guid?>("ShopId1")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Stock")
                         .HasColumnType("int")
                         .HasColumnName("Stock");
@@ -287,9 +290,7 @@ namespace WebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("ShopId");
+                    b.HasIndex("ShopId1");
 
                     b.ToTable("Products", (string)null);
                 });
@@ -340,6 +341,9 @@ namespace WebApi.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Name");
 
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<double>("Ratings")
                         .HasColumnType("float")
                         .HasColumnName("Ratings");
@@ -348,12 +352,9 @@ namespace WebApi.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ShopAvatarId");
 
-                    b.Property<Guid?>("Shop_avatarId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("Shop_avatarId");
+                    b.HasIndex("ShopAvatarId");
 
                     b.ToTable("Shops", (string)null);
                 });
@@ -369,9 +370,6 @@ namespace WebApi.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Public_id");
 
-                    b.Property<Guid>("ShopId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Url")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
@@ -386,7 +384,6 @@ namespace WebApi.Migrations
                         {
                             Id = new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc"),
                             Publicid = "test",
-                            ShopId = new Guid("00000000-0000-0000-0000-000000000000"),
                             Url = "https://www.hatchwise.com/wp-content/uploads/2022/05/amazon-logo-1024x683.png"
                         });
                 });
@@ -493,8 +490,8 @@ namespace WebApi.Migrations
                             Id = "efbcf454-0125-41ff-ac91-75d1564af044",
                             AccessFailedCount = 0,
                             Age = 36,
-                            Birthday = new DateTime(2024, 6, 18, 15, 13, 2, 747, DateTimeKind.Local).AddTicks(9786),
-                            ConcurrencyStamp = "2b387f4a-0b3a-4905-bcfe-b73eb3a320ad",
+                            Birthday = new DateTime(2024, 6, 20, 15, 25, 39, 689, DateTimeKind.Local).AddTicks(491),
+                            ConcurrencyStamp = "8606135c-f94c-4ef5-8922-bbe5a3aa62fb",
                             Email = "oleitao@gmail.com",
                             EmailConfirmed = false,
                             FullName = "oliveira leitao",
@@ -503,7 +500,7 @@ namespace WebApi.Migrations
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "6add70a3-46fe-4507-9f29-5bca90cd5a6d",
+                            SecurityStamp = "667fa3dd-d9de-4916-9a7a-4acf1424bc72",
                             TwoFactorEnabled = false
                         });
                 });
@@ -559,7 +556,7 @@ namespace WebApi.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Model.Image_Url", b =>
+            modelBuilder.Entity("Model.ImageUrl", b =>
                 {
                     b.HasOne("Model.Product", null)
                         .WithMany("Image_Url")
@@ -570,19 +567,9 @@ namespace WebApi.Migrations
 
             modelBuilder.Entity("Model.Product", b =>
                 {
-                    b.HasOne("Model.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Model.Shop", "Shop")
                         .WithMany()
-                        .HasForeignKey("ShopId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
+                        .HasForeignKey("ShopId1");
 
                     b.Navigation("Shop");
                 });
@@ -606,7 +593,9 @@ namespace WebApi.Migrations
                 {
                     b.HasOne("Model.ShopAvatar", "Shop_avatar")
                         .WithMany()
-                        .HasForeignKey("Shop_avatarId");
+                        .HasForeignKey("ShopAvatarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Shop_avatar");
                 });

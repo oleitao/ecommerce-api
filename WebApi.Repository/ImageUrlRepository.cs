@@ -37,7 +37,7 @@ namespace WebApi.Repository
 
         public async Task<IEnumerable<ImageUrl>> GetImageUrlsAsync(bool trackChanges)
         {
-            return FindAll(trackChanges).ToList();
+            return await FindAll(trackChanges).ToListAsync();
         }
 
         public async Task<ImageUrl> GetImageUrlAsync(Guid imageUrlId, bool trackChanges)

@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
@@ -45,7 +46,6 @@ namespace Model
 
         public Guid ShopId { get; set; }
 
-        public Category? Category { get; set; }
         public ICollection<ImageUrl>? Image_Url{ get; set; }
         public ICollection<Review>? Reviews { get; set; }
         public Shop? Shop { get; set; }

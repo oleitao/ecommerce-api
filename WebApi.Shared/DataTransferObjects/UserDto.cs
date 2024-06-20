@@ -3,7 +3,9 @@
 namespace WebApi.Shared.DataTransferObjects
 {
     [Serializable]
-    public record UserDto(Guid Id, string FullName, char Sex, int Age, DateTime Birthday, string Hobby, string Email);
+    public record UserDto(Guid Id, string FullName, string Gender, string UserName, int Age, DateTime Birthday, string Hobby, string Email);
+
+    public record UserForReviewCreationDto(Guid Id);
 
     public record UserForCreationDto(
 
@@ -13,7 +15,9 @@ namespace WebApi.Shared.DataTransferObjects
 
         [Required(ErrorMessage = "Sex name is a required field.")]
         [MaxLength(1, ErrorMessage = "Maximum length for the Sex is 1 characters.")]
-        char Sex,
+        string Gender,
+
+        string UserName,
 
         [Required(ErrorMessage = "Age is a required field.")]
         int Age,
@@ -30,7 +34,7 @@ namespace WebApi.Shared.DataTransferObjects
         string Email
     );
 
-    public record UserForUpdateDto(string FullName, char Sex, int Age, DateTime Birthday, string Hobby, string Email);
+    public record UserForUpdateDto(string FullName, string Gender, string UserName, int Age, DateTime Birthday, string Hobby, string Email);
 
     public record UserForDeleteDto(Guid Id);
 }
