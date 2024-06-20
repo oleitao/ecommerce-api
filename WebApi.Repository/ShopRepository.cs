@@ -31,7 +31,7 @@ namespace WebApi.Repository
 
         public async Task<IEnumerable<Shop>> GetAllShopsAsync(bool trackChanges)
         {
-            return FindAll(trackChanges).ToList();
+            return await FindAll(trackChanges).ToListAsync();
         }
 
         public async Task<Shop> GetShopAsync(Guid shopId, bool trackChanges)

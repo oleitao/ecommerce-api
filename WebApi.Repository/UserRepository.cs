@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Model;
+using System.Security.Cryptography.X509Certificates;
 using WebApi.Contracts;
 using WebApi.Entities.RequestFeatures;
 using WebApi.Repository.Extensions;
@@ -39,7 +40,7 @@ namespace WebApi.Repository
 
         public async Task<User?> GetUserAsync(Guid userId, bool trackChanges)
         {
-            return await FindByCondition(c => c.Id.Equals(userId), trackChanges).SingleOrDefaultAsync();
+            return await FindByCondition(c => c.Id.Equals(userId.ToString()), trackChanges).SingleOrDefaultAsync();
         }
 
         public async Task<IEnumerable<User>> GetAllUsersAsync(UserParameters userParameters, bool trackChanges)

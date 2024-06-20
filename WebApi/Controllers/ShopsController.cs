@@ -30,23 +30,16 @@ public class ShopsController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<Shop>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllShops()
     {
-        try
-        {
-            var shops = await _service.ShopService.GetAllShopsAsync(trackChanges: false);
+        var shops = await _service.ShopService.GetAllShopsAsync(trackChanges: false);
 
-            return Ok(shops);
-        }
-        catch
-        {
-            return StatusCode(500, "Internal server error");
-        }
+        return Ok(shops);
     }
 
 
     [HttpGet("{id:guid}", Name = "GetShopById")]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
-    [Authorize]
+    [ApiExplorerSettings(GroupName = "v2")]
+    //[Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(Shop), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Shop), StatusCodes.Status404NotFound)]
@@ -58,8 +51,8 @@ public class ShopsController : ControllerBase
 
     [HttpPost]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
-    [Authorize]
+    [ApiExplorerSettings(GroupName = "v2")]
+    //[Authorize]
     [Consumes(typeof(ShopForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]

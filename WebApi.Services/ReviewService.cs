@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Azure;
 using Model;
+using System.Reflection;
 using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
 using WebApi.Service.Contracts;
@@ -71,7 +73,18 @@ namespace WebApi.Services
             try
             {
                 var reviews = await _repository.Review.GetAllReviewsAsync(trackChanges);
-                return reviews;
+                if (reviews is null)
+                    throw new ReviewsNotFoundException();
+
+                List<Review> reviewsList = new List<Review>();
+                foreach (var review in reviews)
+                {
+                    var rev = await GetReviewByIdAsync(review.Id, trackChanges);
+                    if(rev is not null)
+                        reviewsList.Add(rev);
+                }
+
+                return reviewsList;
             }
             catch (Exception ex)
             {
@@ -84,9 +97,15 @@ namespace WebApi.Services
         {
             try
             {
-                var review = await _repository.Review.GetReviewAsync(id, trackChanges);
-                if (review == null)
-                    throw new ReviewNotFoundException(id);
+                var review = await GetReviewByIdAsync(id, trackChanges);
+                if(review is null)
+                    throw new ReviewsNotFoundException();
+
+                var user = await _repository.User.GetUserAsync(review.UserId, trackChanges);
+                if (user is null)
+                    throw new UserNotFoundException(review.UserId);
+
+                review.User = user;
 
                 return review;
             }
@@ -97,17 +116,45 @@ namespace WebApi.Services
             }
         }
 
+        public async Task<Review> GetReviewByIdAsync(Guid reviewId, bool trackChanges)
+        {
+            var review = await _repository.Review.GetReviewAsync(reviewId, trackChanges);
+            if (review == null)
+                throw new ReviewNotFoundException(reviewId);
+
+            var user = await _repository.User.GetUserAsync(review.UserId, trackChanges: false);
+            if (user == null)
+                throw new UserNotFoundException(review.UserId);
+
+            if (review.User is null)
+                review.User = new User();
+
+            review.User = user;
+
+            return review;
+        }
+
         public async Task<ReviewDto> CreateReviewAsync(ReviewForCreationDto review)
         {
-            var reviewEntity = _mapper.Map<Review>(review);
+            var user = _repository.User.GetUserAsync(review.User.Id, trackChanges: false);
+            if (user == null && review.User is null)
+                throw new UserNotFoundException(review.User.Id);
 
-            if(reviewEntity.Id == Guid.Empty)
-                reviewEntity.Id = Guid.NewGuid();
+            var rev = new Review()
+            {
+                Id = Guid.NewGuid(),
+                Comment = review.Comment,
+                ProductId = review.ProductId,
+                Rating = review.Rating,
+                UserId = Guid.Parse(user.Result.Id)
+            };
 
-            _repository.Review.CreateReview(reviewEntity);
+            _repository.Review.CreateReview(rev);
+
+
             await _repository.SaveAsync();
 
-            var reviewReturn = _mapper.Map<ReviewDto>(reviewEntity);
+            var reviewReturn = _mapper.Map<ReviewDto>(new ReviewDto(rev.Id, rev.Comment, rev.Rating, rev.UserId, rev.ProductId));
 
             return reviewReturn;
         }

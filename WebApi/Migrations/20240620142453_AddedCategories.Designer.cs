@@ -12,8 +12,8 @@ using WebApi.Repository;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240615112155_AddedUsers")]
-    partial class AddedUsers
+    [Migration("20240620142453_AddedCategories")]
+    partial class AddedCategories
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,13 +54,13 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "65313372-81fb-4fba-9cfb-6aca4fe60be8",
+                            Id = "e07bb771-a003-459f-94b6-2e090a043e38",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "a7d9a3b6-f287-4fd8-b533-ef96341dec1e",
+                            Id = "1bd347ec-83b2-4086-8751-5dfcb96d1b57",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -178,10 +178,10 @@ namespace WebApi.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("Id");
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<string>("Image_Url")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ImageUrl");
+                        .HasColumnName("Image_Url");
 
                     b.Property<string>("SubTitle")
                         .IsRequired()
@@ -196,6 +196,22 @@ namespace WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"),
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/1706/9177/products/NEWAppleMacbookProwithM1ProChip14InchLaptop2021ModelMKGQ3LL_A_16GB_1TBSSD_custommacbd.jpg?v=1659592838",
+                            SubTitle = "",
+                            Title = "Computers and Laptops"
+                        },
+                        new
+                        {
+                            Id = new Guid("6e27b4b8-e66c-450a-bf41-58344b208513"),
+                            ImageUrl = "https://indian-retailer.s3.ap-south-1.amazonaws.com/s3fs-public/2021-07/kosme1.png",
+                            SubTitle = "",
+                            Title = "cosmetics and body care"
+                        });
                 });
 
             modelBuilder.Entity("Model.ImageUrl", b =>
@@ -261,6 +277,9 @@ namespace WebApi.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ShopId");
 
+                    b.Property<Guid?>("ShopId1")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Stock")
                         .HasColumnType("int")
                         .HasColumnName("Stock");
@@ -271,9 +290,7 @@ namespace WebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("ShopId");
+                    b.HasIndex("ShopId1");
 
                     b.ToTable("Products", (string)null);
                 });
@@ -301,9 +318,14 @@ namespace WebApi.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("UserId");
 
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Reviews", (string)null);
                 });
@@ -319,6 +341,9 @@ namespace WebApi.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Name");
 
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<double>("Ratings")
                         .HasColumnType("float")
                         .HasColumnName("Ratings");
@@ -327,12 +352,9 @@ namespace WebApi.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ShopAvatarId");
 
-                    b.Property<Guid?>("ShopAvatarId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ShopAvatarId1");
+                    b.HasIndex("ShopAvatarId");
 
                     b.ToTable("Shops", (string)null);
                 });
@@ -347,9 +369,6 @@ namespace WebApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Public_id");
-
-                    b.Property<Guid>("ShopId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Url")
                         .IsRequired()
@@ -460,11 +479,11 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "424d410e-29a3-48b0-b5fd-3ce93a80bea9",
+                            Id = "efbcf454-0125-41ff-ac91-75d1564af044",
                             AccessFailedCount = 0,
                             Age = 36,
-                            Birthday = new DateTime(2024, 6, 15, 12, 21, 55, 646, DateTimeKind.Local).AddTicks(2493),
-                            ConcurrencyStamp = "f915ef7c-d3a4-4bf5-8dba-0c21499f9c00",
+                            Birthday = new DateTime(2024, 6, 20, 15, 24, 52, 748, DateTimeKind.Local).AddTicks(3396),
+                            ConcurrencyStamp = "313c86bf-09a2-4539-9ee3-abd1694c18ad",
                             Email = "oleitao@gmail.com",
                             EmailConfirmed = false,
                             FullName = "oliveira leitao",
@@ -473,7 +492,7 @@ namespace WebApi.Migrations
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "f372fccf-ab79-4e90-bfd5-c45fa0e1a114",
+                            SecurityStamp = "a95d7f56-cdf8-475b-a161-322c47c7107d",
                             TwoFactorEnabled = false
                         });
                 });
@@ -540,19 +559,9 @@ namespace WebApi.Migrations
 
             modelBuilder.Entity("Model.Product", b =>
                 {
-                    b.HasOne("Model.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Model.Shop", "Shop")
                         .WithMany()
-                        .HasForeignKey("ShopId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
+                        .HasForeignKey("ShopId1");
 
                     b.Navigation("Shop");
                 });
@@ -564,15 +573,23 @@ namespace WebApi.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Model.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Model.Shop", b =>
                 {
-                    b.HasOne("Model.ShopAvatar", "ShopAvatar")
+                    b.HasOne("Model.ShopAvatar", "Shop_avatar")
                         .WithMany()
-                        .HasForeignKey("ShopAvatarId1");
+                        .HasForeignKey("ShopAvatarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("ShopAvatar");
+                    b.Navigation("Shop_avatar");
                 });
 
             modelBuilder.Entity("Model.Product", b =>

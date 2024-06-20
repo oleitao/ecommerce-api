@@ -159,7 +159,7 @@ namespace WebApi.Services
                 if (category is null)
                     throw new CategoryNotFoundException(product.CategoryId);
 
-                product.Category = category;
+                product.CategoryId = category.Id;
 
                 //image_urls
                 var imageUrls = await _repository.ImageUrl.GetImageUrlByPoductIdAsync(productId, trackChanges);
@@ -182,7 +182,15 @@ namespace WebApi.Services
 
                 foreach (var review in reviews)
                 {
-                    product.Reviews.Add(review);
+                    var user = await _repository.User.GetUserAsync(review.UserId, trackChanges);
+                    if (reviews is not null)
+                    {
+                        if(review.User is null) 
+                            review.User = new User();
+                        
+                        product.Reviews.Add(review);
+                    }
+
                 }
 
                 //shop
@@ -197,7 +205,8 @@ namespace WebApi.Services
                 if (shopAvatar is null)
                     throw new ShopAvatarNotFoundException(product.ShopId);
 
-                product.Shop.ShopAvatar = shopAvatar;
+                product.Shop.Shop_avatar = new ShopAvatar();
+                product.Shop.Shop_avatar = shopAvatar;
 
                 return product;
             }
@@ -226,48 +235,19 @@ namespace WebApi.Services
 
         public async Task<ProductDto> CreateProductAsync(ProductForCreationDto productForCreationDto)
         {
-            var productEntity = _mapper.Map<Product>(productForCreationDto);
-
-            if(productEntity.Id == Guid.Empty)
-                productEntity.Id = Guid.NewGuid();
-
+            var category = await _repository.Category.GetCategoryByName(productForCreationDto.Category, false);
+            if (category is null)
+                throw new CategoryNotFoundException();
 
             try
             {
-                var category = await _repository.Category.GetCategoryByName(productForCreationDto.Category, false);
+                var productEntity = _mapper.Map<Product>(productForCreationDto);
+
                 if (category != null)
                     productEntity.CategoryId = category.Id;
 
-
-                _repository.Product.CreateProduct(productEntity);
-
-                if (productForCreationDto.Reviews is not null && productForCreationDto.Reviews.Count > 0)
-                {
-                    foreach (var review in productForCreationDto.Reviews)
-                    {
-                        _repository.Review.CreateReview(new Review()
-                        {
-                            UserId = Guid.NewGuid(),
-                            Comment = review.Comment,
-                            ProductId = productEntity.Id,
-                            Rating = review.Rating
-                        });
-                    }
-                }
-
-                if (productForCreationDto.Image_Url is not null && productForCreationDto.Image_Url.Count > 0)
-                {
-                    foreach (var image in productForCreationDto.Image_Url)
-                    {
-                        _repository.ImageUrl.CreateImageUrl(new ImageUrl()
-                        {
-                            Id = Guid.NewGuid(),
-                            ProductId = productEntity.Id,
-                            Public_id = image.Public_id,
-                            Url = image.Url
-                        });
-                    }
-                }
+                if (productEntity.Id == Guid.Empty)
+                    productEntity.Id = Guid.NewGuid();
 
                 ShopAvatar shopAvatar = new ShopAvatar() 
                 { 
@@ -286,18 +266,39 @@ namespace WebApi.Services
                     Id = Guid.NewGuid()
                 };
 
+                productEntity.Shop = shop;
+                productEntity.ShopId = shop.Id;
+                shop.ProductId = productEntity.Id;
+                shop.Shop_avatar = shopAvatar;
+
                 _repository.Shop.CreateShop(shop);
 
+                _repository.Product.CreateProduct(productEntity);
+
                 await _repository.SaveAsync();
+
+
+                var productReturn = _mapper.Map<ProductDto>(new ProductDto(
+                    productEntity.Id,
+                    productEntity.Name,
+                    productEntity.Description,
+                    productEntity.Price,
+                    productEntity.Discount_price,
+                    productEntity.Rating,
+                    productEntity.Total_sell,
+                    productEntity.Stock,
+                    productEntity.CategoryId,
+                    productEntity.ShopId,
+                    productEntity.Image_Url,
+                    productEntity.Reviews,
+                    productEntity.Shop));
+
+                return productReturn;
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                throw;
+                throw new Exception();
             }
-
-            var productReturn = _mapper.Map<ProductDto>(productEntity);
-
-            return productReturn;
         }
 
         public async Task UpdateProductAsync(Guid id, ProductForUpdateDto productForUpdateDto, bool trackChanges)
@@ -406,7 +407,7 @@ namespace WebApi.Services
                 /*
                 foreach (var image in productForCreationDto.ImageUrls)
                 {
-                    _repository.ImageUrl.CreateImageUrl(new ImageUrl()
+                    _repository.Image_Url.CreateImageUrl(new Image_Url()
                     {
                         Id = Guid.NewGuid(),
                         Public_id = image.Public_id,
@@ -423,7 +424,7 @@ namespace WebApi.Services
                 {
                     if (!images.Contains(image))
                     {
-                        _repository.ImageUrl.CreateImageUrl(new ImageUrl()
+                        _repository.Image_Url.CreateImageUrl(new Image_Url()
                         {
                             Id = Guid.NewGuid(),
                             Public_id = image.Public_id,

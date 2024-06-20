@@ -5,9 +5,7 @@ namespace WebApi.Shared.DataTransferObjects
 {
     [Serializable]
     public record ProductDto(
-        Guid Id, 
-
-        string Category,
+        Guid Id,
 
         [Required(ErrorMessage = "Name name is a required field.")]
         [MaxLength(500, ErrorMessage = "Maximum length for the Name is 60 characters.")]
@@ -15,9 +13,7 @@ namespace WebApi.Shared.DataTransferObjects
 
         [Required(ErrorMessage = "Description name is a required field.")]
         [MaxLength(5000, ErrorMessage = "Maximum length for the Description is 60 characters.")]
-        string Description, 
-
-        ICollection<ImageUrl> ImageUrls,
+        string Description,
 
         [Required(ErrorMessage = "Price is a required field.")]
         int Price,
@@ -27,18 +23,24 @@ namespace WebApi.Shared.DataTransferObjects
 
         [Required(ErrorMessage = "Rating is a required field.")]
         [Range(1, 5)]
-        double Rating, 
-
-        ICollection<Review> Reviews,
-
-        ICollection<Shop> Shop,
+        double Rating,
 
         [Required(ErrorMessage = "Total Sell is a required field.")]
         int Total_Sell,
 
         [Required(ErrorMessage = "Stock is a required field.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than {1}")]
-        int Stock
+        int Stock,
+
+        Guid CategoryId,
+
+        Guid ShopId,
+
+        ICollection<ImageUrl>? ImageUrl,
+
+        ICollection<Review>? Reviews,
+
+        Shop? Shop
     );
 
 
@@ -52,9 +54,9 @@ namespace WebApi.Shared.DataTransferObjects
         double Rating,
         int Total_sell,
         int Stock,
-        ICollection<ImageUrlForCreationDto> Image_Url,
-        ICollection<ReviewForCreationDto> Reviews,
-        ShopForCreationDto Shop
+        ICollection<ImageUrlForCreationDto>? Image_Url,
+        ICollection<ReviewForCreationDto>? Reviews,
+        ShopForCreationDto? Shop
     );
 
     public record ProductForUpdateDto

@@ -89,7 +89,7 @@ public class RepositoryContext : IdentityDbContext<User>
         modelBuilder.Entity<Category>().Property(x => x.Id).HasColumnName(@"Id").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Category>().Property(x => x.Title).HasColumnName(@"Title").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Category>().Property(x => x.SubTitle).HasColumnName(@"SubTitle").IsRequired().ValueGeneratedNever();
-        modelBuilder.Entity<Category>().Property(x => x.ImageUrl).HasColumnName(@"ImageUrl").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<Category>().Property(x => x.Image_Url).HasColumnName(@"Image_Url").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Category>().HasKey(@"Id");
     }
 

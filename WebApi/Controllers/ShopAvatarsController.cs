@@ -31,22 +31,15 @@ public class ShopAvatarsController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<ShopAvatar>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllShopAvatars()
     {
-        try
-        {
-            var shopAvatars = await _service.ShopAvatarService.GetAllShopAvatarsAsync(trackChanges: false);
+        var shopAvatars = await _service.ShopAvatarService.GetAllShopAvatarsAsync(trackChanges: false);
 
-            return Ok(shopAvatars);
-        }
-        catch
-        {
-            return StatusCode(500, "Internal server error");
-        }
+        return Ok(shopAvatars);
     }
 
     [HttpGet("{id:guid}", Name = "GetShopAvatarById")]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
-    [Authorize]
+    [ApiExplorerSettings(GroupName = "v2")]
+    //[Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(ShopAvatar), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ShopAvatar), StatusCodes.Status404NotFound)]
@@ -59,7 +52,7 @@ public class ShopAvatarsController : ControllerBase
     [HttpPost]
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "v2")]
-    [Authorize]
+    //[Authorize]
     [Consumes(typeof(ShopAvatarForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]

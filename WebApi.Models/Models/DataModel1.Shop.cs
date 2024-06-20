@@ -32,7 +32,8 @@ namespace Model
         public double Ratings { get; set; }
 
         public Guid ShopAvatarId { get; set; }
-        public ShopAvatar? ShopAvatar { get; set; }
+        public Guid ProductId { get; set; }
+        public ShopAvatar? Shop_avatar { get; set; }
 
         #region Extensibility Method Definitions
 

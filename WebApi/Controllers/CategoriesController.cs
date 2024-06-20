@@ -32,46 +32,32 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<Category>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllCategories()
     {
-        try
-        {
-            var categories = await _service.CategoryService.GetAllCategoriesAsync(trackChanges: false);
+        var categories = await _service.CategoryService.GetAllCategoriesAsync(trackChanges: false);
 
-            return Ok(categories);
-        }
-        catch
-        {
-            return StatusCode(500, "Internal server error");
-        }
+        return Ok(categories);
     }
 
     [HttpGet]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v2")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Category>), StatusCodes.Status200OK)]
     [Route("filter/")]
     //[Authorize]
     public async Task<IActionResult> GetAllCategoriesAsync([FromQuery] CategoryParameters categoryParameters)
     {
-        try
-        {
-            var categories = await _service.CategoryService.GetAllCategoriesAsync(categoryParameters, false);
+        var categories = await _service.CategoryService.GetAllCategoriesAsync(categoryParameters, false);
 
-            return Ok(categories);
-        }
-        catch
-        {
-            return StatusCode(500, "Internal server error");
-        }
+        return Ok(categories);
     }
 
     [HttpGet("{id:guid}", Name = "CategoryById")]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
+    [ApiExplorerSettings(GroupName = "v2")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Category), StatusCodes.Status404NotFound)]
-    [Authorize]
+    //[Authorize]
     public async Task<IActionResult> GetById(Guid id)
     {
         var category = await _service.CategoryService.GetCategoryAsync(id, trackChanges: false);

@@ -11,14 +11,14 @@ namespace WebApi.Repository.Configuration
             /*
             builder.HasData
             (
-                new ImageUrl
+                new Image_Url
                 {
                     Id = Guid.NewGuid(),
                     Public_id = "test",
                     Url = "https://www.istorebangladesh.com/images/thumbs/0000286_macbook-pro-m1_550.png",
                     ProductId = Guid.NewGuid()
                 },
-                new ImageUrl
+                new Image_Url
                 {
                     Id = Guid.NewGuid(),
                     Public_id = "test",

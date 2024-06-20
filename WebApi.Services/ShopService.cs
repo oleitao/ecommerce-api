@@ -73,7 +73,16 @@ namespace WebApi.Services
             try
             {
                 var shops = await _repository.Shop.GetAllShopsAsync(trackChanges);
-                return shops;
+                if (shops is null)
+                    throw new ShopsNotFoundException();
+
+                List<Shop> shopsList = new List<Shop>();
+                foreach (var shop in shops)
+                {
+                    shopsList.Add(await GetShopByIdAsync(shop.Id, trackChanges));
+                }
+
+                return shopsList;
             }
             catch (Exception ex)
             {
@@ -86,7 +95,7 @@ namespace WebApi.Services
         {
             try
             {
-                var shop = await _repository.Shop.GetShopAsync(id, trackChanges);
+                var shop = await GetShopByIdAsync(id, trackChanges);
                 if (shop == null)
                     throw new ShopNotFoundException(id);
 
@@ -99,11 +108,37 @@ namespace WebApi.Services
             }
         }
 
+        public async Task<Shop> GetShopByIdAsync(Guid id, bool trackChanges)
+        {
+            var shop = await _repository.Shop.GetShopAsync(id, trackChanges);
+            if(shop is null)
+                throw new ShopNotFoundException(id);
+
+            var shopAvatar = await _repository.ShopAvatar.GetShopAvatarAsync(shop.ShopAvatarId, trackChanges);
+            if (shopAvatar is null)
+                throw new ShopNotFoundException(shop.ShopAvatarId);
+
+            shop.Shop_avatar = shopAvatar;
+
+            return shop;
+        }
+
         public async Task<ShopDto> CreateShopAsync(ShopForCreationDto shop)
         {
             var shopEntity = _mapper.Map<Shop>(shop);
+            if(shopEntity.Id.Equals(Guid.Empty))
+                shopEntity.Id = Guid.NewGuid();
 
+            var shopAvatarEntity = _mapper.Map<ShopAvatar>(shop.Shop_avatar);
+            if(shopAvatarEntity.Id.Equals(Guid.Empty))
+                shopAvatarEntity.Id = Guid.NewGuid();
+            
+            shopEntity.ShopAvatarId = shopAvatarEntity.Id;
+            shopEntity.Shop_avatar = shopAvatarEntity;
+
+            _repository.ShopAvatar.CreateShopAvatar(shopAvatarEntity);
             _repository.Shop.CreateShop(shopEntity);
+
             await _repository.SaveAsync();
 
             var shopReturn = _mapper.Map<ShopDto>(shopEntity);

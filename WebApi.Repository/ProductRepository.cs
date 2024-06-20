@@ -53,9 +53,9 @@ namespace WebApi.Repository
             .OrderBy(p => p.Name).ToImmutableList<Product>();
         }
 
-        public Task<Product> GetProductAsync(Guid productId, bool trackChanges)
+        public async Task<Product> GetProductAsync(Guid productId, bool trackChanges)
         {
-            return FindByCondition(c => c.Id.Equals(productId), trackChanges).SingleOrDefaultAsync();
+            return await FindByCondition(c => c.Id.Equals(productId), trackChanges).SingleOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Product>> GetPagingProductsAsync(Guid categoryId, ProductParameters productParameters, bool trackChanges)

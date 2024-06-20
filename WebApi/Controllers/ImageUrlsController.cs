@@ -25,7 +25,7 @@ public class ImageUrlsController : ControllerBase
     
     [HttpGet]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
+    [ApiExplorerSettings(GroupName = "v2")]
     [Produces("application/json")]
     //[Authorize]
     [ProducesResponseType(typeof(IEnumerable<ImageUrl>), StatusCodes.Status200OK)]
@@ -38,7 +38,7 @@ public class ImageUrlsController : ControllerBase
 
     [HttpGet("{id:guid}", Name = "GetImageUrlById")]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
+    [ApiExplorerSettings(GroupName = "v2")]
     [Produces("application/json")]
     //[Authorize]
     [ProducesResponseType(typeof(ImageUrl), StatusCodes.Status200OK)]
