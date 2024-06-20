@@ -25,28 +25,23 @@ public class ReviewsController : ControllerBase
 
     [HttpGet]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName ="v1")]
+    [ApiExplorerSettings(GroupName ="v2")]
     //[Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<Review>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllReviews()
     {
-        try
-        {
-            var reviews = await _service.ReviewService.GetAllReviewsAsync(trackChanges: false);
+        var reviews = await _service.ReviewService.GetAllReviewsAsync(trackChanges: false);
+        if (reviews is null)
+            throw new ReviewsNotFoundException();
 
-            return Ok(reviews);
-        }
-        catch
-        {
-            return StatusCode(500, "Internal server error");
-        }
+        return Ok(reviews);
     }
 
 
     [HttpGet("{id:guid}", Name = "GetReviewByIdAsync")]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
+    [ApiExplorerSettings(GroupName = "v2")]
     //[Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(Review), StatusCodes.Status200OK)]
@@ -63,7 +58,7 @@ public class ReviewsController : ControllerBase
     [HttpPost]
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "v2")]
-    [Authorize]
+    //[Authorize]
     [Consumes(typeof(ReviewForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]

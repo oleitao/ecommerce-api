@@ -31,8 +31,6 @@ namespace Model
 
         public string Url { get; set; }
 
-        public Guid ShopId { get; set; }
-
         #region Extensibility Method Definitions
 
         partial void OnCreated();

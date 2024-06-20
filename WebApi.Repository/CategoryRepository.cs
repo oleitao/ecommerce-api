@@ -41,14 +41,14 @@ namespace WebApi.Repository
             return FindAll(trackChanges).ToList();
         }
 
-        public Task<Category> GetCategoryAsync(Guid categoryId, bool trackChanges)
+        public async Task<Category> GetCategoryAsync(Guid categoryId, bool trackChanges)
         {
-            return FindByCondition(c => c.Id.Equals(categoryId), trackChanges).SingleOrDefaultAsync();            
+            return await FindByCondition(c => c.Id.Equals(categoryId), trackChanges).SingleOrDefaultAsync();            
         }
 
         public async Task<IEnumerable<Category>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges)
         {
-            return FindByCondition(x => ids.Contains(x.Id), trackChanges).ToList();
+            return await FindByCondition(x => ids.Contains(x.Id), trackChanges).ToListAsync();
         }
 
         public async Task<PagedList<Category>> GetPagedListCategoriesAsync(CategoryParameters categoryParameters, bool trackChanges)
@@ -66,9 +66,9 @@ namespace WebApi.Repository
             Delete(category);
         }
 
-        public Task<Category> GetCategoryByName(string category, bool trackChanges)
+        public async Task<Category> GetCategoryByName(string category, bool trackChanges)
         {
-            return FindByCondition(c => c.Title.Equals(category), trackChanges).SingleOrDefaultAsync();
+            return await FindByCondition(c => c.Title.Equals(category), trackChanges).SingleOrDefaultAsync();
         }
 
         #endregion

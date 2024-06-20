@@ -32,16 +32,9 @@ public class ProductsController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<Product>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllProducts()
     {
-        try
-        {
-            var products = await _service.ProductService.GetAllProductsAsync(trackChanges: false);
+        var products = await _service.ProductService.GetAllProductsAsync(trackChanges: false);
 
-            return Ok(products);
-        }
-        catch
-        {
-            return StatusCode(500, "Internal server error");
-        }
+        return Ok(products);
     }
 
     [HttpGet]
@@ -80,8 +73,8 @@ public class ProductsController : ControllerBase
 
     [HttpPost]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
-    [Authorize]
+    [ApiExplorerSettings(GroupName = "v2")]
+    //[Authorize]
     [Consumes(typeof(ProductForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]

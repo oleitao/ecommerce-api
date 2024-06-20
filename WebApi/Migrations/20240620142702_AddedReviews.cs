@@ -16,26 +16,40 @@ namespace WebApi.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "37fe0441-5c42-4a82-91b5-ce9f5cf844c8");
+                keyValue: "9361084f-e57c-41fb-9b5a-bab858808ba2");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "6034e85b-0640-4e4e-acb1-f0e6aebac001");
+                keyValue: "d26f0003-d8f8-47d6-86f4-c254600ece41");
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "55b70911-3616-4979-9021-f645e3da7fcb", null, "Administrator", "ADMINISTRATOR" },
-                    { "fd8b5769-3081-40f1-8562-fab80d4ef999", null, "Manager", "MANAGER" }
+                    { "6604105a-cec1-4221-ab3a-f1ec7ad2dda8", null, "Administrator", "ADMINISTRATOR" },
+                    { "b03f46cd-b85e-4c78-b177-ec494810711c", null, "Manager", "MANAGER" }
                 });
+
+            migrationBuilder.UpdateData(
+                table: "Categories",
+                keyColumn: "Id",
+                keyValue: new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"),
+                column: "Image_Url",
+                value: "https://cdn.shopify.com/s/files/1/1706/9177/products/NEWAppleMacbookProwithM1ProChip14InchLaptop2021ModelMKGQ3LL_A_16GB_1TBSSD_custommacbd.jpg?v=1659592838");
+
+            migrationBuilder.UpdateData(
+                table: "Categories",
+                keyColumn: "Id",
+                keyValue: new Guid("6e27b4b8-e66c-450a-bf41-58344b208513"),
+                column: "Image_Url",
+                value: "https://indian-retailer.s3.ap-south-1.amazonaws.com/s3fs-public/2021-07/kosme1.png");
 
             migrationBuilder.InsertData(
                 table: "Reviews",
                 columns: new[] { "Id", "Comment", "ProductId", "Rating", "UserId", "UserId1" },
-                values: new object[] { new Guid("e9472dba-e273-4c8e-801b-52feb331f789"), "comment", new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"), 5, new Guid("efbcf454-0125-41ff-ac91-75d1564af044"), null });
+                values: new object[] { new Guid("ff0eade0-e55f-4016-82d8-6ce283cd6224"), "comment", new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"), 5, new Guid("efbcf454-0125-41ff-ac91-75d1564af044"), null });
 
             migrationBuilder.UpdateData(
                 table: "ShopAvatars",
@@ -49,7 +63,7 @@ namespace WebApi.Migrations
                 keyColumn: "Id",
                 keyValue: "efbcf454-0125-41ff-ac91-75d1564af044",
                 columns: new[] { "Birthday", "ConcurrencyStamp", "SecurityStamp" },
-                values: new object[] { new DateTime(2024, 6, 18, 15, 14, 12, 845, DateTimeKind.Local).AddTicks(8344), "a37a6e2d-40da-4b45-a0d2-d770df9e2e58", "60d0a673-8b4d-4746-8ec1-cc23f13b5369" });
+                values: new object[] { new DateTime(2024, 6, 20, 15, 27, 2, 423, DateTimeKind.Local).AddTicks(5332), "585bd3f6-55d0-492b-8003-97adadd1b0d0", "c21926e3-2c62-4908-a323-1a45f74c8f12" });
         }
 
         /// <inheritdoc />
@@ -58,26 +72,40 @@ namespace WebApi.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "55b70911-3616-4979-9021-f645e3da7fcb");
+                keyValue: "6604105a-cec1-4221-ab3a-f1ec7ad2dda8");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "fd8b5769-3081-40f1-8562-fab80d4ef999");
+                keyValue: "b03f46cd-b85e-4c78-b177-ec494810711c");
 
             migrationBuilder.DeleteData(
                 table: "Reviews",
                 keyColumn: "Id",
-                keyValue: new Guid("e9472dba-e273-4c8e-801b-52feb331f789"));
+                keyValue: new Guid("ff0eade0-e55f-4016-82d8-6ce283cd6224"));
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "37fe0441-5c42-4a82-91b5-ce9f5cf844c8", null, "Administrator", "ADMINISTRATOR" },
-                    { "6034e85b-0640-4e4e-acb1-f0e6aebac001", null, "Manager", "MANAGER" }
+                    { "9361084f-e57c-41fb-9b5a-bab858808ba2", null, "Administrator", "ADMINISTRATOR" },
+                    { "d26f0003-d8f8-47d6-86f4-c254600ece41", null, "Manager", "MANAGER" }
                 });
+
+            migrationBuilder.UpdateData(
+                table: "Categories",
+                keyColumn: "Id",
+                keyValue: new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"),
+                column: "Image_Url",
+                value: null);
+
+            migrationBuilder.UpdateData(
+                table: "Categories",
+                keyColumn: "Id",
+                keyValue: new Guid("6e27b4b8-e66c-450a-bf41-58344b208513"),
+                column: "Image_Url",
+                value: null);
 
             migrationBuilder.UpdateData(
                 table: "ShopAvatars",
@@ -91,7 +119,7 @@ namespace WebApi.Migrations
                 keyColumn: "Id",
                 keyValue: "efbcf454-0125-41ff-ac91-75d1564af044",
                 columns: new[] { "Birthday", "ConcurrencyStamp", "SecurityStamp" },
-                values: new object[] { new DateTime(2024, 6, 18, 15, 13, 47, 379, DateTimeKind.Local).AddTicks(5390), "f75875bc-e092-4433-94db-67a6c8f94b4f", "979df93b-e3b5-4ac4-822a-9b500512f8e4" });
+                values: new object[] { new DateTime(2024, 6, 20, 15, 26, 37, 91, DateTimeKind.Local).AddTicks(7273), "974539a2-9c86-4e87-840f-b9fee362809b", "0b777239-ca9f-4f1c-855a-2719cc0a2189" });
         }
     }
 }

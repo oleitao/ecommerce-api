@@ -46,16 +46,9 @@ public class CategoriesController : ControllerBase
     //[Authorize]
     public async Task<IActionResult> GetAllCategoriesAsync([FromQuery] CategoryParameters categoryParameters)
     {
-        try
-        {
-            var categories = await _service.CategoryService.GetAllCategoriesAsync(categoryParameters, false);
+        var categories = await _service.CategoryService.GetAllCategoriesAsync(categoryParameters, false);
 
-            return Ok(categories);
-        }
-        catch
-        {
-            return StatusCode(500, "Internal server error");
-        }
+        return Ok(categories);
     }
 
     [HttpGet("{id:guid}", Name = "CategoryById")]

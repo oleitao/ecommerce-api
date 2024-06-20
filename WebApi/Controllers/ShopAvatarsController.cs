@@ -52,7 +52,7 @@ public class ShopAvatarsController : ControllerBase
     [HttpPost]
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "v2")]
-    [Authorize]
+    //[Authorize]
     [Consumes(typeof(ShopAvatarForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
