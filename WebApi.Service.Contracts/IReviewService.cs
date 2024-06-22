@@ -17,6 +17,7 @@ namespace WebApi.Service.Contracts
         public Task<ReviewDto> CreateReviewAsync(ReviewForCreationDto review);
         Task UpdateReviewAsync(Guid id, ReviewForUpdateDto review, bool trackChanges);
         Task DeleteReviewAsync(Guid id, bool trackChanges);
+        Task DeleteReviewByProductIdAsync(Guid productId, bool trackChanges);
         #endregion
     }
 }

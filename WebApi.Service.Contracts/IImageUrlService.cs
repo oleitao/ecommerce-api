@@ -20,6 +20,7 @@ namespace WebApi.Service.Contracts
         public Task<ImageUrlDto> CreateImageUrlAsync(ImageUrlForCreationDto imageUrlDto);
         public Task DeleteImageUrlAsync(Guid id, bool trackChanges);
         public Task UpdateImageUrlAsync(Guid id, ImageUrlForUpdateDto imageUrl, bool trackChanges);
+        Task DeleteImageUrlByProductIdAsync(Guid productId, bool trackChanges);
 
         #endregion
     }

@@ -2,6 +2,7 @@
 using Azure;
 using Model;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
 using WebApi.Service.Contracts;
@@ -185,6 +186,17 @@ namespace WebApi.Services
                 _logger.LogError($"Something went wrong in the {nameof(DeleteReviewAsync)} service method {ex}");
                 throw;
             }
+        }
+
+        public async Task DeleteReviewByProductIdAsync(Guid productId, bool trackChanges)
+        {
+            var reviews = await _repository.Review.GetReviewByProductIdAsync(productId, trackChanges);
+            if (reviews is null)
+                throw new ReviewsNotFoundException();
+
+
+            _repository.Review.DeleteReviewByProductIdAsync(reviews);
+            await _repository.SaveAsync();
         }
 
         #endregion

@@ -97,7 +97,7 @@ public class UsersController : ControllerBase
 
     [HttpDelete("{id}")]
     [ApiVersion("1.0")]
-    [ApiExplorerSettings(GroupName = "v1")]
+    [ApiExplorerSettings(GroupName = "v2")]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
         await _service.UserService.DeleteUserAsync(id, trackChanges: false);

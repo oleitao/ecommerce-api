@@ -44,6 +44,19 @@ namespace WebApi.Repository
             Delete(shop);
         }
 
+        public async Task<IEnumerable<Shop>> GetShopByProductIdAsync(Guid productId, bool trackChanges)
+        {
+            return await FindByCondition(c => c.ProductId.Equals(productId), trackChanges).ToListAsync();
+        }
+
+        public void DeleteShopsByProductIdAsync(IEnumerable<Shop> shops)
+        {
+            foreach (var shop in shops) 
+            {
+                Delete(shop);
+            }
+        }
+
         #endregion
     }
 }

@@ -17,6 +17,7 @@ namespace WebApi.Service.Contracts
         public Task<ShopDto> CreateShopAsync(ShopForCreationDto shop);
         Task UpdateShopAsync(Guid id, ShopForUpdateDto model, bool trackChanges);
         Task DeleteShopAsync(Guid id, bool trackChanges);
+        Task DeleteShopByProductIdAsync(Guid productId, bool trackChanges);
         #endregion
     }
 }
