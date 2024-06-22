@@ -65,6 +65,13 @@ namespace WebApi.Repository
             return await FindByCondition(c => c.ProductId.Equals(productId), trackChanges).ToListAsync();
         }
 
+        public void DeleteImageUrlProducts(IEnumerable<ImageUrl> imageUrls)
+        {
+            foreach (var imageUrl in imageUrls) {
+                Delete(imageUrl);
+            }
+        }
+
         #endregion
     }
 }

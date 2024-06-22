@@ -56,6 +56,19 @@ namespace WebApi.Repository
             return await FindByCondition(c => c.ProductId.Equals(productId), trackChanges).ToListAsync();
         }
 
+        public async Task<IEnumerable<Review>> GetReviewByProductIdAsync(Guid productId, bool trackChanges)
+        {
+            return await FindByCondition(c => c.ProductId.Equals(productId), trackChanges).ToListAsync();
+        }
+
+        public void DeleteReviewByProductIdAsync(IEnumerable<Review> reviews)
+        {
+            foreach (var item in reviews)
+            {
+                Delete(item);
+            }
+        }
+
         #endregion
     }
 }

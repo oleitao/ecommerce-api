@@ -86,6 +86,7 @@ public class ShopAvatarsController : ControllerBase
     [HttpDelete("{id:guid}")]
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "v2")]
+    //[Authorize]
     public async Task<IActionResult> DeleteShopAvatar(Guid id)
     {
         await _service.ShopAvatarService.DeleteShopAvatarAsync(id, trackChanges: false);

@@ -167,6 +167,17 @@ namespace WebApi.Services
             await _repository.SaveAsync();
         }
 
+        public async Task DeleteShopByProductIdAsync(Guid productId, bool trackChanges)
+        {
+            var shops = await _repository.Shop.GetShopByProductIdAsync(productId, trackChanges);
+            if (shops is null)
+                throw new ShopsNotFoundException();
+
+
+            _repository.Shop.DeleteShopsByProductIdAsync(shops);
+            await _repository.SaveAsync();
+        }
+
         #endregion
     }
 }

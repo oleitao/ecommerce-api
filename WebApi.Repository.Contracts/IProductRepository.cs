@@ -23,6 +23,8 @@ namespace WebApi.Contracts
         void DeleteCategoryProducts(IEnumerable<Product> productCatogory);
         void DeleteProduct(Product product);
         void UpdateProductAsync(Product productEntity);
+        Task<IEnumerable<Product>> GetProductsByShopAsync(Guid shopId, bool trackChanges);
+        void DeleteShopProducts(IEnumerable<Product> productShop);
 
         #endregion
     }
