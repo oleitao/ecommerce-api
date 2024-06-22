@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Model;
+using System.Net.Http.Headers;
 using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
 using WebApi.Service.Contracts;
@@ -141,6 +142,16 @@ namespace WebApi.Services
                 throw new ImageUrlNotFoundException(id);
 
             _mapper.Map(imageUrl, imageUrlEntitie);
+            await _repository.SaveAsync();
+        }
+
+        public async Task DeleteImageUrlByProductIdAsync(Guid productId, bool trackChanges)
+        {
+            var imageUrls = await _repository.ImageUrl.GetImageUrlByPoductIdAsync(productId, trackChanges);
+            if (imageUrls is null)
+                throw new ImageUrlsNotFoundException();
+
+            _repository.ImageUrl.DeleteImageUrlProducts(imageUrls);
             await _repository.SaveAsync();
         }
 

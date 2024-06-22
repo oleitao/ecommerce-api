@@ -7,6 +7,7 @@ using Model;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WebApi.Entities.Exceptions;
 using WebApi.Entities.RequestFeatures;
 using WebApi.ModelBinders;
 using WebApi.Service.Contracts;
@@ -139,8 +140,15 @@ public class CategoriesController : ControllerBase
     [HttpDelete("{id:guid}")]
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "v2")]
+    //[Authorize]
     public async Task<IActionResult> DeleteCategory(Guid id)
     {
+        var category = _service.CategoryService.GetCategoryAsync(id, trackChanges: false);
+        if (category is null)
+            throw new CategoryNotFoundException(id);
+
+        await _service.ProductService.DeleteProductByCategoryAsync(id);
+
         await _service.CategoryService.DeleteCategoryAsync(id, trackChanges: false);
 
         return NoContent();

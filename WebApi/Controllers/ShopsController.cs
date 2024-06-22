@@ -7,6 +7,7 @@ using Model;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WebApi.Entities.Exceptions;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
@@ -86,9 +87,19 @@ public class ShopsController : ControllerBase
     [HttpDelete("{id:guid}")]
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "v2")]
+    //[Authorize]
     public async Task<IActionResult> DeleteShop(Guid id)
     {
-        await _service.ShopService.DeleteShopAsync(id, trackChanges: false);
+
+        var shop = await _service.ShopService.GetShopAsync(shopId, trackChanges: false);
+        if (shop is null)
+            throw new ShopAvatarNotFoundException(shopId);
+
+        await _service.ProductService.DeleteProductByShopAsync(shopId);
+
+        await _service.ShopAvatarService.DeleteShopAvatarAsync(shop.ShopAvatarId, trackChanges: false);
+
+        await _service.ShopService.DeleteShopAsync(shopId, trackChanges: false);        
 
         return NoContent();
     }

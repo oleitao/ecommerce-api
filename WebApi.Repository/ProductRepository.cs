@@ -109,6 +109,21 @@ namespace WebApi.Repository
             Update(productEntity);
         }
 
+        public async Task<IEnumerable<Product>> GetProductsByShopAsync(Guid shopId, bool trackChanges)
+        {
+            return FindByCondition(p => p.ShopId.Equals(shopId), trackChanges)
+            .ToImmutableList<Product>();
+        }
+
+        public void DeleteShopProducts(IEnumerable<Product> productShop)
+        {
+            foreach(var item in productShop)
+            { 
+                Delete(item);
+            }
+        }
+
+
         #endregion
     }
 }

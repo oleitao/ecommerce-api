@@ -92,6 +92,7 @@ public class ReviewsController : ControllerBase
     [HttpDelete("{id:guid}")]
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "v2")]
+    //[Authorize]
     public async Task<IActionResult> DeleteReview(Guid id)
     {
         await _service.ReviewService.DeleteReviewAsync(id, trackChanges: false);

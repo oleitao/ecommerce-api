@@ -111,6 +111,12 @@ public class ProductsController : ControllerBase
     [ApiExplorerSettings(GroupName = "v2")]
     public async Task<IActionResult> DeleteProduct(Guid id)
     {
+        await _service.ImageUrlService.DeleteImageUrlByProductIdAsync(id, trackChanges: false);
+
+        await _service.ReviewService.DeleteReviewByProductIdAsync(id, trackChanges: false);
+
+        await _service.ShopService.DeleteShopByProductIdAsync(id, trackChanges: false);
+
         await _service.ProductService.DeleteProductAsync(id, trackChanges: false);
 
         return NoContent();

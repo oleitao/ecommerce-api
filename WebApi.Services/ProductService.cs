@@ -473,6 +473,8 @@ namespace WebApi.Services
                 throw new Exception();
 
             _repository.Product.DeleteProduct(product);
+
+
             await _repository.SaveAsync();
         }
 
@@ -531,6 +533,16 @@ namespace WebApi.Services
                 throw new Exception();
 
             _repository.Product.DeleteCategoryProducts(productCatogory);
+            await _repository.SaveAsync();
+        }
+
+        public async Task DeleteProductByShopAsync(Guid shopId)
+        {
+            var productShops = await _repository.Product.GetProductsByShopAsync(shopId, false);
+            if (productShops is null)
+                throw new Exception();
+
+            _repository.Product.DeleteShopProducts(productShops);
             await _repository.SaveAsync();
         }
     }

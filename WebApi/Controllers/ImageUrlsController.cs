@@ -56,7 +56,7 @@ public class ImageUrlsController : ControllerBase
     [Consumes(typeof(ImageUrlForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<IActionResult> CreateImageUrlAsync(ImageUrlForCreationDto imageUrl)
+    public async Task<IActionResult> CreateImageUrlAsync([FromBody] ImageUrlForCreationDto imageUrl)
     {
         if (imageUrl is null)
             return BadRequest("ImageUrlForCreationDto is null");
@@ -86,6 +86,7 @@ public class ImageUrlsController : ControllerBase
     [HttpDelete("{id:guid}")]
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "v2")]
+    //[Authorize]
     public async Task<IActionResult> DeleteImageUrl(Guid id)
     {
         await _service.ImageUrlService.DeleteImageUrlAsync(id, trackChanges: false);
