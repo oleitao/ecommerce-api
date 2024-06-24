@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Azure;
 using Model;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;

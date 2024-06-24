@@ -91,15 +91,15 @@ public class ShopsController : ControllerBase
     public async Task<IActionResult> DeleteShop(Guid id)
     {
 
-        var shop = await _service.ShopService.GetShopAsync(shopId, trackChanges: false);
+        var shop = await _service.ShopService.GetShopAsync(id, trackChanges: false);
         if (shop is null)
-            throw new ShopAvatarNotFoundException(shopId);
+            throw new ShopAvatarNotFoundException(id);
 
-        await _service.ProductService.DeleteProductByShopAsync(shopId);
+        await _service.ProductService.DeleteProductByShopAsync(id);
 
         await _service.ShopAvatarService.DeleteShopAvatarAsync(shop.ShopAvatarId, trackChanges: false);
 
-        await _service.ShopService.DeleteShopAsync(shopId, trackChanges: false);        
+        await _service.ShopService.DeleteShopAsync(id, trackChanges: false);        
 
         return NoContent();
     }

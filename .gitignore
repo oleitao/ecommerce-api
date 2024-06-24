@@ -30,3 +30,9 @@
 /WebApi.Tests/bin/Debug/net7.0
 /WebApi.Repository.Contracts/bin/Debug/net7.0
 /WebApi.Repository.Contracts/obj
+/.vs/WebApi/v17
+/.vs/WebApi/FileContentIndex
+/obj/Docker
+/obj/Debug
+/bin/Debug
+/.vs

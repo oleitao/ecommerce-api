@@ -1,11 +1,37 @@
-version: '3.7'
+version: '3.4'
 
-# Set up all services
 services:
-  # The Redis Service, this label is required for the "Links" and Connection string
-  redis_image:
-    # Pull the image from Docker Hub
-    image: redis
 
-    # Give the container a name (any name you want)
-    container_name: redis.web-api.cache    
+  webapi:
+    image: ${DOCKER_REGISTRY-}webapi
+    container_name: webapi
+    build:
+      context: .
+      dockerfile: WebApi/Dockerfile
+    depends_on: 
+      - database
+    ports:
+      - "5001:80"
+    restart: always
+    environment: 
+      - DBHOST=database
+      - ASPNETCORE_ENVIRONMENT=Development
+
+  
+  database:
+    image: mysql:8.0.22
+    container_name: mysqldb
+    ports:
+      - "3306:3306"
+    expose: 
+      - 3306
+    volumes:
+      - db-volume:/var/lib/mysql
+    restart: always
+    environment: 
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: ecommerce-db
+volumes:
+  db-volume:
