@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedProducts : Migration
+    public partial class AddedShops : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,20 +16,20 @@ namespace WebApi.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "4e9a5b5a-33a6-4512-9f08-987a308c19d1");
+                keyValue: "21def79a-3ff3-4d31-81dc-25bc1c02667e");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "ba14c062-e22e-4ed0-a160-67caa1be7cf7");
+                keyValue: "609b2faf-1af3-401d-b79f-340db861048a");
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "9361084f-e57c-41fb-9b5a-bab858808ba2", null, "Administrator", "ADMINISTRATOR" },
-                    { "d26f0003-d8f8-47d6-86f4-c254600ece41", null, "Manager", "MANAGER" }
+                    { "24827e47-545e-4937-8227-f9269152a8dc", null, "Administrator", "ADMINISTRATOR" },
+                    { "94cf1b5e-341d-40c1-9115-6347ed0608e1", null, "Manager", "MANAGER" }
                 });
 
             migrationBuilder.UpdateData(
@@ -46,15 +46,6 @@ namespace WebApi.Migrations
                 column: "Image_Url",
                 value: "https://indian-retailer.s3.ap-south-1.amazonaws.com/s3fs-public/2021-07/kosme1.png");
 
-            migrationBuilder.InsertData(
-                table: "Products",
-                columns: new[] { "Id", "CategoryId", "Description", "Discount_price", "Name", "Price", "Rating", "ShopId", "ShopId1", "Stock", "Total_sell" },
-                values: new object[,]
-                {
-                    { new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"), new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"), "Product details are a crucial part of any eCommerce website or online marketplace. These details help the potential customers to make an informed decision about the product they are interested in buying. A well-written product description can also be a powerful marketing tool that can help to increase sales.Product details typically include information about the products features, specifications, dimensions, weight, materials, and other relevant information that can help customers to understand the product better. The product details section should also include high-quality images and videos of the product, as well as customer reviews and ratings.", 0, "MacBook pro M2 chipset 256gb ssd 8gb ram space-gray color with apple 1 year warranty", 0, 0, new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"), null, 0, 0 },
-                    { new Guid("398e76bb-70f0-4712-af76-10726bb6dd93"), new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"), "Product details are a crucial part of any eCommerce website or online marketplace. These details help the potential customers to make an informed decision about the product they are interested in buying. A well-written product description can also be a powerful marketing tool that can help to increase sales.Product details typically include information about the products features, specifications, dimensions, weight, materials, and other relevant information that can help customers to understand the product better. The product details section should also include high-quality images and videos of the product, as well as customer reviews and ratings.", 0, "Iphone 14 pro max 256 gb ssd and 8 gb ram silver colour", 0, 0, new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"), null, 0, 0 }
-                });
-
             migrationBuilder.UpdateData(
                 table: "ShopAvatars",
                 keyColumn: "Id",
@@ -62,12 +53,17 @@ namespace WebApi.Migrations
                 column: "Public_id",
                 value: "test");
 
+            migrationBuilder.InsertData(
+                table: "Shops",
+                columns: new[] { "Id", "Name", "ProductId", "Ratings", "ShopAvatarId" },
+                values: new object[] { new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"), "Apple inc", new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"), 4.0, new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc") });
+
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: "efbcf454-0125-41ff-ac91-75d1564af044",
                 columns: new[] { "Birthday", "ConcurrencyStamp", "SecurityStamp" },
-                values: new object[] { new DateTime(2024, 6, 20, 15, 26, 37, 91, DateTimeKind.Local).AddTicks(7273), "974539a2-9c86-4e87-840f-b9fee362809b", "0b777239-ca9f-4f1c-855a-2719cc0a2189" });
+                values: new object[] { new DateTime(2024, 6, 24, 12, 3, 41, 677, DateTimeKind.Local).AddTicks(5065), "3788e35d-dfa4-4cb4-adb4-1dab381b1b0e", "71eee8eb-4b1c-429b-a11c-c53d1bff67db" });
         }
 
         /// <inheritdoc />
@@ -76,30 +72,25 @@ namespace WebApi.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "9361084f-e57c-41fb-9b5a-bab858808ba2");
+                keyValue: "24827e47-545e-4937-8227-f9269152a8dc");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "d26f0003-d8f8-47d6-86f4-c254600ece41");
+                keyValue: "94cf1b5e-341d-40c1-9115-6347ed0608e1");
 
             migrationBuilder.DeleteData(
-                table: "Products",
+                table: "Shops",
                 keyColumn: "Id",
-                keyValue: new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"));
-
-            migrationBuilder.DeleteData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: new Guid("398e76bb-70f0-4712-af76-10726bb6dd93"));
+                keyValue: new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"));
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "4e9a5b5a-33a6-4512-9f08-987a308c19d1", null, "Manager", "MANAGER" },
-                    { "ba14c062-e22e-4ed0-a160-67caa1be7cf7", null, "Administrator", "ADMINISTRATOR" }
+                    { "21def79a-3ff3-4d31-81dc-25bc1c02667e", null, "Manager", "MANAGER" },
+                    { "609b2faf-1af3-401d-b79f-340db861048a", null, "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.UpdateData(
@@ -128,7 +119,7 @@ namespace WebApi.Migrations
                 keyColumn: "Id",
                 keyValue: "efbcf454-0125-41ff-ac91-75d1564af044",
                 columns: new[] { "Birthday", "ConcurrencyStamp", "SecurityStamp" },
-                values: new object[] { new DateTime(2024, 6, 20, 15, 26, 8, 400, DateTimeKind.Local).AddTicks(2339), "2a7a65e0-0453-45c8-b3bd-546f0d544add", "4f5b53e4-0ecc-4f66-b16a-9eb08f3be5c5" });
+                values: new object[] { new DateTime(2024, 6, 24, 12, 3, 1, 747, DateTimeKind.Local).AddTicks(6379), "0549a453-0d10-4c31-b85b-de92e6693013", "b583e26f-9c78-4ec4-895c-5e2a7b7c9c7b" });
         }
     }
 }

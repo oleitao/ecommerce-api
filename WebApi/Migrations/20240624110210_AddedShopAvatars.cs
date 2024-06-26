@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedImageUrls : Migration
+    public partial class AddedShopAvatars : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,20 +16,20 @@ namespace WebApi.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "5e4546fa-98fc-4083-b78f-85294b61b814");
+                keyValue: "10a857e4-b45f-4ebb-93b8-65b43b52e872");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "800c915d-51fe-4c4d-9bc4-13dd4dfbc82c");
+                keyValue: "bb7d4ddd-cf6f-47bb-8faf-5c51fd5bccd7");
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "614310f1-dd02-4de1-90f3-cb3ca005de6c", null, "Administrator", "ADMINISTRATOR" },
-                    { "b9b0873f-fb02-438a-b7ca-805b91d892c5", null, "Manager", "MANAGER" }
+                    { "86d6752b-e0af-4883-a011-375a7cde2979", null, "Manager", "MANAGER" },
+                    { "96651a24-03de-4869-bce6-095eac02a8cb", null, "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.UpdateData(
@@ -46,19 +46,17 @@ namespace WebApi.Migrations
                 column: "Image_Url",
                 value: "https://indian-retailer.s3.ap-south-1.amazonaws.com/s3fs-public/2021-07/kosme1.png");
 
-            migrationBuilder.UpdateData(
+            migrationBuilder.InsertData(
                 table: "ShopAvatars",
-                keyColumn: "Id",
-                keyValue: new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc"),
-                column: "Public_id",
-                value: "test");
+                columns: new[] { "Id", "Public_id", "Url" },
+                values: new object[] { new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc"), "test", "https://www.hatchwise.com/wp-content/uploads/2022/05/amazon-logo-1024x683.png" });
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: "efbcf454-0125-41ff-ac91-75d1564af044",
                 columns: new[] { "Birthday", "ConcurrencyStamp", "SecurityStamp" },
-                values: new object[] { new DateTime(2024, 6, 20, 15, 25, 39, 689, DateTimeKind.Local).AddTicks(491), "8606135c-f94c-4ef5-8922-bbe5a3aa62fb", "667fa3dd-d9de-4916-9a7a-4acf1424bc72" });
+                values: new object[] { new DateTime(2024, 6, 24, 12, 2, 9, 981, DateTimeKind.Local).AddTicks(9560), "5233c29b-0f96-4f54-a340-7cd5dafc83a9", "818048f0-0f13-4997-ba0e-3052bf97af95" });
         }
 
         /// <inheritdoc />
@@ -67,20 +65,25 @@ namespace WebApi.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "614310f1-dd02-4de1-90f3-cb3ca005de6c");
+                keyValue: "86d6752b-e0af-4883-a011-375a7cde2979");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "b9b0873f-fb02-438a-b7ca-805b91d892c5");
+                keyValue: "96651a24-03de-4869-bce6-095eac02a8cb");
+
+            migrationBuilder.DeleteData(
+                table: "ShopAvatars",
+                keyColumn: "Id",
+                keyValue: new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc"));
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "5e4546fa-98fc-4083-b78f-85294b61b814", null, "Administrator", "ADMINISTRATOR" },
-                    { "800c915d-51fe-4c4d-9bc4-13dd4dfbc82c", null, "Manager", "MANAGER" }
+                    { "10a857e4-b45f-4ebb-93b8-65b43b52e872", null, "Administrator", "ADMINISTRATOR" },
+                    { "bb7d4ddd-cf6f-47bb-8faf-5c51fd5bccd7", null, "Manager", "MANAGER" }
                 });
 
             migrationBuilder.UpdateData(
@@ -98,18 +101,11 @@ namespace WebApi.Migrations
                 value: null);
 
             migrationBuilder.UpdateData(
-                table: "ShopAvatars",
-                keyColumn: "Id",
-                keyValue: new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc"),
-                column: "Public_id",
-                value: null);
-
-            migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: "efbcf454-0125-41ff-ac91-75d1564af044",
                 columns: new[] { "Birthday", "ConcurrencyStamp", "SecurityStamp" },
-                values: new object[] { new DateTime(2024, 6, 20, 15, 25, 17, 335, DateTimeKind.Local).AddTicks(5827), "e2e6406c-5ca2-4ffd-b725-e1334d98bd73", "5b8c8dd1-2d14-4ab6-832a-7b7b6c7aff17" });
+                values: new object[] { new DateTime(2024, 6, 24, 12, 1, 25, 844, DateTimeKind.Local).AddTicks(4970), "4d647084-8c5d-4456-ab54-f4bfe486bced", "57a23367-b2e3-4c57-b996-32ce6b709061" });
         }
     }
 }
