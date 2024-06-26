@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NLog;
+using StackExchange.Redis;
 using System.IO;
 using System.Text.Json.Serialization;
 using WebApi.ActionFilters;
@@ -34,6 +35,11 @@ var builder = WebApplication.CreateBuilder(args);
     services.ConfigureLoggerService();
     services.ConfigureRepositoryManager();
     services.ConfigureServiceManager();
+
+    services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost:6379"));
+    services.AddHttpClient();
+    services.ConfigureRedisCache();
+
     services.ConfigureSqlContext(builder.Configuration);
 
     services.AddScoped<ValidationFilterAttribute>();
@@ -77,7 +83,7 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddApiVersioning(opt => {
         opt.ReportApiVersions = true;
         opt.AssumeDefaultVersionWhenUnspecified= true;
-        opt.DefaultApiVersion = new ApiVersion(1, 0);
+        opt.DefaultApiVersion = new ApiVersion(1, 1);
     });
 
     services.AddMvc(options =>

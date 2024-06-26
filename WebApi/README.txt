@@ -41,6 +41,11 @@ SET ENVIRIONMENT KEY
 setx SECRET "43443FDFDF34DF34343fdf344SDFSDFSDFSDFSDF4545354345SDFGDFGDFGDFGdffgfdGDFGDGR%" /M
 
 
+REDIS
+https://redis.io/learn/develop/dotnet/aspnetcore/caching/basic-api-caching
+https://nishanc.medium.com/redis-as-a-distributed-cache-on-net-6-0-949ef5b795ee
+https://www.c-sharpcorner.com/article/caching-mechanism-in-asp-net-core/
+
 
 SQLSERVER TO MYSQL
 dotnet ef migrations add SqlServerToMySql

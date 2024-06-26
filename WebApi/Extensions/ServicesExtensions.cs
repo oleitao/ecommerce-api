@@ -17,7 +17,6 @@ using WebApi.Formaters;
 using WebApi.Repository;
 using WebApi.Service.Contracts;
 using WebApi.Services;
-using Microsoft.Extensions.Configuration;
 
 namespace WebApi.Extensions
 {
@@ -60,6 +59,9 @@ namespace WebApi.Extensions
 
         //public static void ConfigureDataShaperService(this IServiceCollection services) =>
         //    services.AddScoped<IDataShaper<CategoryDto>, IDataShaper<CategoryDto>>();
+
+        public static void ConfigureRedisCache(this IServiceCollection services) =>
+            services.AddStackExchangeRedisCache(options => options.Configuration = "localhost:6379");
 
         public static void ConfigureRateLimitingOptions(this IServiceCollection services) 
         { 
