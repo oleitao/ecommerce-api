@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using StackExchange.Redis;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace WebApi.Helpers
 {
@@ -20,10 +21,19 @@ namespace WebApi.Helpers
             return keys;
         }
 
-        public static async void SetKey<T>(T category, string key, IDistributedCache cache) where T : class
+        public static async void SetKey<T>(T model, string key, IDistributedCache cache) where T : class
         {
-            string strValue = JsonConvert.SerializeObject(category);
+            string strValue = JsonConvert.SerializeObject(model);
             await cache.SetAsync(key, Encoding.ASCII.GetBytes(strValue));
+        }
+
+        public static async Task<T> GetKey<T>(string key, IDistributedCache cache)
+        {
+            string cacheValue = await cache.GetStringAsync($"{key}");
+            if( cacheValue is not null)
+                return JsonConvert.DeserializeObject<T>(cacheValue);
+
+            return JsonConvert.DeserializeObject<T>(string.Empty);
         }
     }
 }

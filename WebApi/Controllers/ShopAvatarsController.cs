@@ -1,18 +1,16 @@
 ﻿namespace WebApi.Controllers;
 
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
-using Model;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
+using WebApi.Entities.Exceptions;
 using WebApi.Helpers;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
@@ -26,6 +24,8 @@ public class ShopAvatarsController : ControllerBase
     private readonly IDatabase _redis;
     private readonly IDistributedCache _cache;
     private readonly IConnectionMultiplexer _muxer;
+
+    const string key = $"{nameof(ShopAvatarDto)}";
 
     public ShopAvatarsController(IServiceManager service, HttpClient client, IConnectionMultiplexer muxer, IDistributedCache cache)
     {
@@ -44,12 +44,10 @@ public class ShopAvatarsController : ControllerBase
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(IEnumerable<ShopAvatar>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<ShopAvatarDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllShopAvatars()
     {
-        List<ShopAvatar> shopAvaters = new List<ShopAvatar>();
-
-        var key = $"{nameof(ShopAvatar)}";
+        List<ShopAvatarDto> shopAvaters = new List<ShopAvatarDto>();
 
         var shopAvatarsInCache = CacheHelper.SearchAllKeys(_muxer, key);
         if (shopAvatarsInCache is not null && shopAvatarsInCache.Count <= 0)
@@ -66,7 +64,7 @@ public class ShopAvatarsController : ControllerBase
         foreach (var shopAvatar in shopAvatarsInCache)
         {
             var item = _cache.GetStringAsync(shopAvatar.ToString());
-            var result = JsonConvert.DeserializeObject<ShopAvatar>(item.Result);
+            var result = JsonConvert.DeserializeObject<ShopAvatarDto>(item.Result);
 
             shopAvaters.Add(result);
         }
@@ -79,26 +77,23 @@ public class ShopAvatarsController : ControllerBase
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(ShopAvatar), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ShopAvatar), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ShopAvatarDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ShopAvatarDto), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetShopAvatarById(Guid id)
     {
-        var key = $"{nameof(ShopAvatar)}";
-
-        var shopAvatarsInCache = await _cache.GetStringAsync($"{key}:{id.ToString()}");
+        var shopAvatarsInCache = await CacheHelper.GetKey<ShopAvatarDto>($"{key}:{id.ToString()}", _cache);
         if (shopAvatarsInCache is null)
         {
             var shopAvatarInDatabase = await _service.ShopAvatarService.GetShopAvatarAsync(id, trackChanges: false);
+            if (shopAvatarInDatabase is null)
+                throw new ShopAvatarNotFoundException(id);
 
-            string strValue = JsonConvert.SerializeObject(shopAvatarInDatabase);
-            await _cache.SetAsync($"{key}:{shopAvatarInDatabase.Id}", Encoding.ASCII.GetBytes(strValue));
+            CacheHelper.SetKey<ShopAvatarDto>(shopAvatarInDatabase, $"{key}:{shopAvatarInDatabase.Id}", _cache);
 
             return Ok(shopAvatarInDatabase);
         }
 
-        var shopAvatar = JsonConvert.DeserializeObject<ShopAvatar>(shopAvatarsInCache);
-
-        return Ok(shopAvatar);
+        return Ok(shopAvatarsInCache);
     }
 
     [HttpPost]
@@ -110,8 +105,6 @@ public class ShopAvatarsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> CreateShopAvatar([FromBody] ShopAvatarForCreationDto shopAvatar)
     {
-        var key = $"{nameof(ShopAvatar)}";
-
         if (shopAvatar is null)
             return BadRequest("ShopAvatarForCreationDto is null");
 
@@ -129,12 +122,36 @@ public class ShopAvatarsController : ControllerBase
     //[Authorize]
     [ApiVersion("1.1")]
     [ApiExplorerSettings(GroupName = "v1")]
-    public async Task<IActionResult> UpdateShopAvatar(Guid id, ShopAvatarForUpdateDto shopAvatar)
+    public async Task<IActionResult> UpdateShopAvatar(Guid id, ShopAvatarForUpdateDto shopAvatarUpdate)
     {
+        var key = $"{nameof(ShopAvatarDto)}:{id.ToString()}";
+
+        var shopAvatar = await _service.ShopAvatarService.GetShopAvatarAsync(id, trackChanges: true);
         if (shopAvatar is null)
+            return BadRequest("ShopAvatarDto object is null");
+
+        if (shopAvatarUpdate is null)
             return BadRequest("ShopAvatarForUpdateDto object is null");
 
-        await _service.ShopAvatarService.UpdateShopAvatar(id, shopAvatar, trackChanges: true);
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
+
+        var shopAvatarInCache = await CacheHelper.GetKey<ShopAvatarDto>(key, _cache);
+        if (shopAvatarInCache is null)
+        {
+            await _service.ShopAvatarService.UpdateShopAvatar(id, shopAvatarUpdate, trackChanges: true);
+
+            CacheHelper.SetKey<ShopAvatarDto>(shopAvatar, key, _cache);
+        }
+        else
+        {
+            await _service.ShopAvatarService.UpdateShopAvatar(id, shopAvatarUpdate, trackChanges: true);
+            await _cache.RemoveAsync(key);
+
+            var returnShopAvatar = await _service.ShopAvatarService.GetShopAvatarAsync(id, trackChanges: true);
+
+            CacheHelper.SetKey<ShopAvatarDto>(returnShopAvatar, key, _cache);
+        }
 
         return NoContent();
     }
@@ -145,17 +162,17 @@ public class ShopAvatarsController : ControllerBase
     //[Authorize]
     public async Task<IActionResult> DeleteShopAvatar(Guid id)
     {
-        var key = $"{nameof(ShopAvatar)}:{id.ToString()}";
+        var key = $"{nameof(ShopAvatarDto)}:{id.ToString()}";
 
-        var shopAvatarInCache = await _cache.GetStringAsync(key);
+        var shopAvatarInCache = await CacheHelper.GetKey<ShopAvatarDto>(key, _cache);
         if (shopAvatarInCache is null)
         {
             await _service.ShopAvatarService.DeleteShopAvatarAsync(id, trackChanges: false);
         }
         else
         {
-            await _cache.RemoveAsync(key);
             await _service.ShopAvatarService.DeleteShopAvatarAsync(id, trackChanges: false);
+            await _cache.RemoveAsync(key);
         }
 
         return NoContent();

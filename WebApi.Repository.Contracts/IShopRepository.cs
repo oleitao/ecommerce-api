@@ -19,6 +19,7 @@ namespace WebApi.Contracts
         void DeleteShop(Shop shop);
         Task<IEnumerable<Shop>> GetShopByProductIdAsync(Guid productId, bool trackChanges);
         void DeleteShopsByProductIdAsync(IEnumerable<Shop> shops);
+        void UpdateShop(Shop shopEntity);
 
         #endregion
     }

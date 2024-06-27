@@ -57,6 +57,11 @@ namespace WebApi.Repository
             }
         }
 
+        public void UpdateShop(Shop shopEntity)
+        {
+            Update(shopEntity);
+        }
+
         #endregion
     }
 }

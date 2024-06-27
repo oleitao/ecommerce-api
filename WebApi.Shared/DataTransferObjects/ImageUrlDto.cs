@@ -4,9 +4,9 @@ namespace WebApi.Shared.DataTransferObjects
 {
     [Serializable]
     public record ImageUrlDto(
-        Guid Id, 
-        string Public_id, 
-        string Url, 
+        Guid Id,
+        string Public_id,
+        string Url,
         Guid ProductId
     );
 

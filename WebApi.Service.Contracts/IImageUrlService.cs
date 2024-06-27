@@ -15,8 +15,8 @@ namespace WebApi.Service.Contracts
 
         #region Async
 
-        public Task<IEnumerable<ImageUrl>> GetAllImageUrlsAsync(bool trackChanges);
-        public Task<ImageUrl> GetImageUrlAsync(Guid id, bool trackChanges);
+        public Task<IEnumerable<ImageUrlDto>> GetAllImageUrlsAsync(bool trackChanges);
+        public Task<ImageUrlDto> GetImageUrlAsync(Guid id, bool trackChanges);
         public Task<ImageUrlDto> CreateImageUrlAsync(ImageUrlForCreationDto imageUrlDto);
         public Task DeleteImageUrlAsync(Guid id, bool trackChanges);
         public Task UpdateImageUrlAsync(Guid id, ImageUrlForUpdateDto imageUrl, bool trackChanges);

@@ -12,8 +12,8 @@ namespace WebApi.Service.Contracts
         #endregion
 
         #region Async
-        public Task<IEnumerable<Shop>> GetAllShopsAsync(bool trackChanges);
-        public Task<Shop> GetShopAsync(Guid id, bool trackChanges);
+        public Task<IEnumerable<ShopDto>> GetAllShopsAsync(bool trackChanges);
+        public Task<ShopDto> GetShopAsync(Guid id, bool trackChanges);
         public Task<ShopDto> CreateShopAsync(ShopForCreationDto shop);
         Task UpdateShopAsync(Guid id, ShopForUpdateDto model, bool trackChanges);
         Task DeleteShopAsync(Guid id, bool trackChanges);

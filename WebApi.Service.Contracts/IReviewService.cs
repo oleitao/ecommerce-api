@@ -12,8 +12,8 @@ namespace WebApi.Service.Contracts
         #endregion
 
         #region Async
-        public Task<IEnumerable<Review>> GetAllReviewsAsync(bool trackChanges);
-        public Task<Review> GetReviewAsync(Guid id, bool trackChanges);
+        public Task<IEnumerable<ReviewDto>> GetAllReviewsAsync(bool trackChanges);
+        public Task<ReviewDto> GetReviewAsync(Guid id, bool trackChanges);
         public Task<ReviewDto> CreateReviewAsync(ReviewForCreationDto review);
         Task UpdateReviewAsync(Guid id, ReviewForUpdateDto review, bool trackChanges);
         Task DeleteReviewAsync(Guid id, bool trackChanges);
