@@ -3,7 +3,7 @@
 namespace WebApi.Shared.DataTransferObjects
 {
     [Serializable]
-    public record ReviewDto(Guid Id, string Comment, int Rating, Guid UserId, Guid ProductId);
+    public record ReviewDto(Guid Id, string Comment, int Rating, Guid UserId, Guid ProductId, UserDto User);
 
     public record ReviewForCreationDto(string Comment, int Rating, UserForReviewCreationDto? User, Guid ProductId);
 

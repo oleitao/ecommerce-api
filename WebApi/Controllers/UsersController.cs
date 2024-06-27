@@ -3,15 +3,14 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
-using Model;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
+using WebApi.Entities.Exceptions;
 using WebApi.Helpers;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
@@ -25,6 +24,8 @@ public class UsersController : ControllerBase
     private readonly IDatabase _redis;
     private readonly IDistributedCache _cache;
     private readonly IConnectionMultiplexer _muxer;
+
+    const string key = $"{nameof(UserDto)}";
 
     public UsersController(IServiceManager service, HttpClient client, IConnectionMultiplexer muxer, IDistributedCache cache)
     {
@@ -42,12 +43,10 @@ public class UsersController : ControllerBase
     [ApiVersion("1.1")]
     [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(IEnumerable<User>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<UserDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllUsers()
     {
-        List<User> users = new List<User>();
-
-        var key = $"{nameof(User)}";
+        List<UserDto> users = new List<UserDto>();
 
         var usersInCache = CacheHelper.SearchAllKeys(_muxer, key);
         if (usersInCache is not null && usersInCache.Count <= 0)
@@ -64,7 +63,7 @@ public class UsersController : ControllerBase
         foreach (var user in usersInCache)
         {
             var item = _cache.GetStringAsync(user.ToString());
-            var result = JsonConvert.DeserializeObject<User>(item.Result);
+            var result = JsonConvert.DeserializeObject<UserDto>(item.Result);
 
             users.Add(result);
         }
@@ -76,26 +75,23 @@ public class UsersController : ControllerBase
     [ApiVersion("1.1")]
     [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(User), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(UserDto), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetByUserId(Guid id)
     {
-        var key = $"{nameof(User)}";
-
-        var userInCache = await _cache.GetStringAsync($"{key}:{id.ToString()}");
+        var userInCache = await CacheHelper.GetKey<UserDto>($"{key}:{id.ToString()}", _cache);        
         if (userInCache is null)
         {
             var userInDatabase = await _service.UserService.GetUserAsync(id, trackChanges: false);
+            if (userInDatabase is null)
+                throw new UserNotFoundException(id);
 
-            string strValue = JsonConvert.SerializeObject(userInDatabase);
-            await _cache.SetAsync($"{key}:{userInDatabase.Id}", Encoding.ASCII.GetBytes(strValue));
+            CacheHelper.SetKey<UserDto>(userInDatabase, $"{key}:{userInDatabase.Id}", _cache);
 
             return Ok(userInDatabase);
         }
 
-        var user = JsonConvert.DeserializeObject<User>(userInCache);
-
-        return Ok(user);
+        return Ok(userInCache);
     }
 
     /*
@@ -119,8 +115,6 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> CreateUser([FromBody] UserForCreationDto user)
     {
-        var key = $"{nameof(User)}";
-
         if (user is null)
             return BadRequest("UserForCreationDto is null");
 
@@ -135,17 +129,41 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    [ApiVersion("1.0")]
+    [ApiVersion("1.1")]
     [ApiExplorerSettings(GroupName = "v1")]
     [Consumes(typeof(UserForUpdateDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> UpdateUser(Guid id, UserForUpdateDto category)
+    public async Task<IActionResult> UpdateUser(Guid id, UserForUpdateDto userUpdate)
     {
-        if (category is null)
+        var key = $"{nameof(UserDto)}:{id.ToString()}";
+
+        var user = await _service.UserService.GetUserAsync(id, trackChanges: true);
+        if (user is null)
+            return BadRequest("UserDto object is null");
+
+        if (userUpdate is null)
             return BadRequest("UserForUpdateDto object is null");
 
-        await _service.UserService.UpdateUserAsync(id, category, trackChanges: true);
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
+
+        var userInCache = await CacheHelper.GetKey<UserDto>(key, _cache);
+        if (userInCache is null)
+        {
+            await _service.UserService.UpdateUserAsync(id, userUpdate, trackChanges: true);
+
+            CacheHelper.SetKey<UserDto>(user, key, _cache);
+        }
+        else
+        {
+            await _service.UserService.UpdateUserAsync(id, userUpdate, trackChanges: true);
+            await _cache.RemoveAsync(key);
+
+            var returnUser = await _service.UserService.GetUserAsync(id, trackChanges: true);
+
+            CacheHelper.SetKey<UserDto>(returnUser, key, _cache);
+        }        
         
         return NoContent();
     }
@@ -155,17 +173,17 @@ public class UsersController : ControllerBase
     [ApiExplorerSettings(GroupName = "v1")]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
-        var key = $"{nameof(User)}:{id.ToString()}";
+        var key = $"{nameof(UserDto)}:{id.ToString()}";
 
-        var userInCache = await _cache.GetStringAsync(key);
+        var userInCache = await CacheHelper.GetKey<UserDto>(key, _cache);
         if (userInCache is null)
         {
             await _service.UserService.DeleteUserAsync(id, trackChanges: false);
         }
         else
         {
-            await _cache.RemoveAsync(key);
-            await _service.UserService.DeleteUserAsync(id, trackChanges: false);
+            await _service.UserService.DeleteUserAsync(id, trackChanges: false);            
+            await _cache.RemoveAsync(key);            
         }
 
         return NoContent();

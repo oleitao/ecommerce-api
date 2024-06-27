@@ -11,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using WebApi.Entities.Exceptions;
 using WebApi.Entities.RequestFeatures;
@@ -29,6 +28,8 @@ public class CategoriesController : ControllerBase
     private readonly IDatabase _redis;
     private readonly IDistributedCache _cache;
     private readonly IConnectionMultiplexer _muxer;
+
+    const string key = $"{nameof(CategoryDto)}";
     public CategoriesController(IServiceManager service, HttpClient client, IConnectionMultiplexer muxer, IDistributedCache cache)
     {
         _service = service;
@@ -48,9 +49,7 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<Category>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllCategoriesAsync()
     {
-        List<Category> categories = new List<Category>();
-
-        var key = $"{nameof(Category)}";
+        List<CategoryDto> categories = new List<CategoryDto>();
 
         var categoryInCache = CacheHelper.SearchAllKeys(_muxer, key);
         if (categoryInCache is not null && categoryInCache.Count <= 0)
@@ -67,7 +66,7 @@ public class CategoriesController : ControllerBase
         foreach (var category in categoryInCache)
         {
             var item = _cache.GetStringAsync(category.ToString());
-            var result = JsonConvert.DeserializeObject<Category>(item.Result);
+            var result = JsonConvert.DeserializeObject<CategoryDto>(item.Result);
 
             categories.Add(result);
         }
@@ -84,9 +83,7 @@ public class CategoriesController : ControllerBase
     //[Authorize]
     public async Task<IActionResult> GetAllCategoriesAsync([FromQuery] CategoryParameters categoryParameters)
     {
-        List<Category> categories = new List<Category>();
-
-        var key = $"{nameof(Category)}";
+        List<CategoryDto> categories = new List<CategoryDto>();
 
         var categoryInCache = CacheHelper.SearchAllKeys(_muxer, key);
         if (categoryInCache is not null && categoryInCache.Count <= 0)
@@ -103,7 +100,7 @@ public class CategoriesController : ControllerBase
         foreach (var category in categoryInCache)
         {
             var item = _cache.GetStringAsync(category.ToString());
-            var result = JsonConvert.DeserializeObject<Category>(item.Result);
+            var result = JsonConvert.DeserializeObject<CategoryDto>(item.Result);
 
             categories.Add(result);
         }
@@ -115,29 +112,24 @@ public class CategoriesController : ControllerBase
     [ApiVersion("1.1")]
     [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Category), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(CategoryDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(CategoryDto), StatusCodes.Status404NotFound)]
     //[Authorize]
     public async Task<IActionResult> CategoryById(Guid id)
     {
-        var key = $"{nameof(Category)}";
-
-        var categoryInCache = await _cache.GetStringAsync($"{key}:{id.ToString()}");
+        var categoryInCache = await CacheHelper.GetKey<CategoryDto>($"{key}:{id.ToString()}", _cache);
         if (categoryInCache is null)
         {
             var categoryInDatabase = await _service.CategoryService.GetCategoryAsync(id, trackChanges: false);
             if (categoryInDatabase is null)
                 throw new CategoryNotFoundException(id);
 
-            string strValue = JsonConvert.SerializeObject(categoryInDatabase);
-            await _cache.SetAsync($"{key}:{categoryInDatabase.Id}", Encoding.ASCII.GetBytes(strValue));
+            CacheHelper.SetKey(categoryInDatabase ,$"{key}:{categoryInDatabase.Id}", _cache);
 
             return Ok(categoryInDatabase);
         }
 
-        var category = JsonConvert.DeserializeObject<Category>(categoryInCache);
-
-        return Ok(category);
+        return Ok(categoryInCache);
     }
 
     [HttpGet("collection/({ids})", Name = "CategoryCollection")]
@@ -183,8 +175,6 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> CreateCategory([FromBody] CategoryForCreationDto category)
     {
-        var key = $"{nameof(Category)}";
-
         if (category is null)
             return BadRequest("CategoryForCreationDto is null");
 
@@ -206,13 +196,36 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     //[Authorize]
-    public async Task<IActionResult> UpdateCategory(Guid id, [FromBody]CategoryForUpdateDto categry)
+    public async Task<IActionResult> UpdateCategory(Guid id, [FromBody]CategoryForUpdateDto categoryUpdate)
     {
-        if (categry is null)
+        var category = await _service.CategoryService.GetCategoryAsync(id, trackChanges: true);
+        if (category is null)
+            return BadRequest("CategoryDto object is null");
+
+        if (categoryUpdate is null)
             return BadRequest("CategoryForUpdateDto object is null");
 
-        await _service.CategoryService.UpdateCategoryAsync(id, categry, trackChanges: true);
-        
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
+
+
+        var categoryInCache = await CacheHelper.GetKey<CategoryDto>($"{key}:{id.ToString()}", _cache);
+        if (categoryInCache is null)
+        {
+            await _service.CategoryService.UpdateCategoryAsync(id, categoryUpdate, trackChanges: true);
+
+            CacheHelper.SetKey<CategoryDto>(category, $"{key}:{id.ToString()}", _cache);
+        }
+        else
+        {
+            await _service.CategoryService.UpdateCategoryAsync(id, categoryUpdate, trackChanges: true);
+            await _cache.RemoveAsync($"{key}:{id.ToString()}");
+
+            var returnCategory = await _service.CategoryService.GetCategoryAsync(id, trackChanges: true);
+
+            CacheHelper.SetKey<CategoryDto>(returnCategory, $"{key}:{id.ToString()}", _cache);
+        }
+
         return NoContent();
     }
 
@@ -223,15 +236,13 @@ public class CategoriesController : ControllerBase
     //[Authorize]
     public async Task<IActionResult> DeleteCategory(Guid id)
     {
-        var key = $"{nameof(Category)}:{id.ToString()}";
-
-        var categoryInCache = await _cache.GetStringAsync(key);
+        var categoryInCache = await CacheHelper.GetKey<CategoryDto>($"{key}:{id.ToString()}", _cache);
         if (categoryInCache is null)
             await _service.CategoryService.DeleteCategoryAsync(id, trackChanges: false);
         else
-        {
-            await _cache.RemoveAsync(key);
-            await _service.CategoryService.DeleteCategoryAsync(id, trackChanges: false);            
+        {            
+            await _service.CategoryService.DeleteCategoryAsync(id, trackChanges: false);
+            await _cache.RemoveAsync($"{key}:{id.ToString()}");
         }
 
         return NoContent();

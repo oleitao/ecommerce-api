@@ -3,14 +3,12 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
-using Model;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using WebApi.Entities.Exceptions;
 using WebApi.Helpers;
@@ -26,6 +24,8 @@ public class ReviewsController : ControllerBase
     private readonly IDatabase _redis;
     private readonly IDistributedCache _cache;
     private readonly IConnectionMultiplexer _muxer;
+
+    const string key = $"{nameof(ReviewDto)}";
 
     public ReviewsController(IServiceManager service, HttpClient client, IConnectionMultiplexer muxer, IDistributedCache cache)
     {
@@ -43,12 +43,10 @@ public class ReviewsController : ControllerBase
     [ApiExplorerSettings(GroupName ="v1")]
     //[Authorize]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(IEnumerable<Review>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<ReviewDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllReviews()
     {
-        List<Review> reviews = new List<Review>();
-
-        var key = $"{nameof(Review)}";
+        List<ReviewDto> reviews = new List<ReviewDto>();
 
         var reviewsInCache = CacheHelper.SearchAllKeys(_muxer, key);
         if (reviewsInCache is not null && reviewsInCache.Count <= 0)
@@ -65,7 +63,7 @@ public class ReviewsController : ControllerBase
         foreach (var review in reviewsInCache)
         {
             var item = _cache.GetStringAsync(review.ToString());
-            var result = JsonConvert.DeserializeObject<Review>(item.Result);
+            var result = JsonConvert.DeserializeObject<ReviewDto>(item.Result);
 
             reviews.Add(result);
         }
@@ -79,32 +77,27 @@ public class ReviewsController : ControllerBase
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(Review), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Review), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ReviewDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ReviewDto), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetReviewById(Guid id)
     {
-        var key = $"{nameof(Review)}";
-
-        var reviewInCache = await _cache.GetStringAsync($"{key}:{id.ToString()}");
+        var reviewInCache = await CacheHelper.GetKey<ReviewDto>(key, _cache);
         if (reviewInCache is null)
         {
             var reviewInDatabase = await _service.ReviewService.GetReviewAsync(id, trackChanges: false);
             if(reviewInDatabase is null)
                 throw new ReviewNotFoundException(id);
 
-            string strValue = JsonConvert.SerializeObject(reviewInDatabase);
-            await _cache.SetAsync($"{key}:{reviewInDatabase.Id}", Encoding.ASCII.GetBytes(strValue));
+            CacheHelper.SetKey<ReviewDto>(reviewInDatabase, $"{key}:{reviewInDatabase.Id}", _cache);
 
             return Ok(reviewInDatabase);
         }
 
-        var review = JsonConvert.DeserializeObject<Review>(reviewInCache);
-
-        return Ok(review);
+        return Ok(reviewInCache);
     }
 
     [HttpPost]
-    [ApiVersion("1.1")]
+    [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     [Consumes(typeof(ReviewForCreationDto), "application/json")]
@@ -112,8 +105,6 @@ public class ReviewsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> CreateReview([FromBody] ReviewForCreationDto review)
     {
-        var key = $"{nameof(Review)}";
-
         if (review is null)
             return BadRequest("ReviewForCreationDto is null");
 
@@ -131,12 +122,34 @@ public class ReviewsController : ControllerBase
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
-    public async Task<IActionResult> UpdateReview(Guid id, [FromBody]ReviewForUpdateDto review)
+    public async Task<IActionResult> UpdateReview(Guid id, [FromBody]ReviewForUpdateDto reviewUpdate)
     {
+        var key = $"{nameof(ReviewDto)}:{id.ToString()}";
+
+        var review = await _service.ReviewService.GetReviewAsync(id, trackChanges: true);
         if (review is null)
+            return BadRequest("ReviewDto object is null");
+
+        if (reviewUpdate is null)
             return BadRequest("ReviewForUpdateDto object is null");
 
-        await _service.ReviewService.UpdateReviewAsync(id, review, trackChanges: false);
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
+
+        var reviewInCache = await CacheHelper.GetKey<ReviewDto>(key, _cache);
+        if (reviewInCache is null)
+        {
+            await _service.ReviewService.UpdateReviewAsync(id, reviewUpdate, trackChanges: false);
+
+            CacheHelper.SetKey<ReviewDto>(review, key, _cache);
+        }
+        else
+        {
+            await _service.ReviewService.UpdateReviewAsync(id, reviewUpdate, trackChanges: false);
+            await _cache.RemoveAsync(key);
+
+            CacheHelper.SetKey<ReviewDto>(review, key, _cache);
+        }
 
         return NoContent();
     }
@@ -147,17 +160,19 @@ public class ReviewsController : ControllerBase
     //[Authorize]
     public async Task<IActionResult> DeleteReview(Guid id)
     {
-        var key = $"{nameof(Review)}:{id.ToString()}";
+        var key = $"{nameof(ReviewDto)}:{id.ToString()}";
 
-        var reviewInCache = await _cache.GetStringAsync(key);
+        var reviewInCache = await CacheHelper.GetKey<ReviewDto>(key, _cache);
         if (reviewInCache is null)
         {
             await _service.ReviewService.DeleteReviewAsync(id, trackChanges: false);
         }
         else
         {
-            await _cache.RemoveAsync(key);
             await _service.ReviewService.DeleteReviewAsync(id, trackChanges: false);
+            await _cache.RemoveAsync(key);
+
+            CacheHelper.SetKey<ReviewDto>(reviewInCache, key, _cache);
         }
 
         return NoContent();

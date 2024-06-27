@@ -3,7 +3,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Caching.Distributed;
 using Model;
 using Newtonsoft.Json;
@@ -30,6 +29,8 @@ public class ProductsController : ControllerBase
     private readonly IDistributedCache _cache;
     private readonly IConnectionMultiplexer _muxer;
 
+    const string key = $"{nameof(ProductDto)}";
+
     public ProductsController(IServiceManager service, HttpClient client, IConnectionMultiplexer muxer, IDistributedCache cache)
     {
         _service = service;
@@ -47,12 +48,10 @@ public class ProductsController : ControllerBase
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(IEnumerable<Product>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<ProductDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllProducts()
     {
-        List<Product> products = new List<Product>();
-
-        var key = $"{nameof(Product)}";
+        List<ProductDto> products = new List<ProductDto>();
 
         var productsInCache = CacheHelper.SearchAllKeys(_muxer, key);
         if (productsInCache is not null && productsInCache.Count <= 0)
@@ -69,7 +68,7 @@ public class ProductsController : ControllerBase
         foreach (var product in productsInCache)
         {
             var item = _cache.GetStringAsync(product.ToString());
-            var result = JsonConvert.DeserializeObject<Product>(item.Result);
+            var result = JsonConvert.DeserializeObject<ProductDto>(item.Result);
 
             products.Add(result);
         }
@@ -103,28 +102,23 @@ public class ProductsController : ControllerBase
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Product), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProductDto), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetProductById(Guid id)
     {
-        var key = $"{nameof(Product)}";
-
-        var productsInCache = await _cache.GetStringAsync($"{key}:{id.ToString()}");
+        var productsInCache = await CacheHelper.GetKey<ProductDto>($"{key}:{id.ToString()}", _cache);
         if (productsInCache is null)
         {
             var productsInDatabase = await _service.ProductService.GetProductAsync(id, trackChanges: false);
             if (productsInDatabase is null)
                 throw new ProductNotFoundException(id);
 
-            string strValue = JsonConvert.SerializeObject(productsInDatabase);
-            await _cache.SetAsync($"{key}:{productsInDatabase.Id}", Encoding.ASCII.GetBytes(strValue));
+            CacheHelper.SetKey<ProductDto>(productsInDatabase, $"{key}:{productsInDatabase.Id}", _cache);
 
             return Ok(productsInDatabase);
         }
 
-        var product = JsonConvert.DeserializeObject<Product>(productsInCache);
-
-        return Ok(product);
+        return Ok(productsInCache);
     }
 
     [HttpPost]
@@ -136,8 +130,6 @@ public class ProductsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> CreateProduct([FromBody] ProductForCreationDto product)
     {
-        var key = $"{nameof(Product)}";
-
         if (product is null)
             return BadRequest("ProductForCreationDto is null");
 
@@ -156,12 +148,44 @@ public class ProductsController : ControllerBase
     [ApiVersion("1.1")]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
-    public async Task<IActionResult> UpdateProduct(Guid id, ProductForUpdateDto product)
+    public async Task<IActionResult> UpdateProduct(Guid id, ProductForUpdateDto productUpdate)
     {
+        var key = $"{nameof(ProductDto)}:{id.ToString()}";
+
+        var product = await _service.ProductService.GetProductAsync(id, trackChanges: true);
         if (product is null)
+            return BadRequest("ProductDto object is null");
+
+        var category = await _service.CategoryService.GetCategoryAsync(product.CategoryId, trackChanges: false);
+        if (category is null)
+            throw new CategoryNotFoundException(product.CategoryId);
+
+        var shop = await _service.ShopService.GetShopAsync(product.ShopId, trackChanges: false);
+        if(shop is null)
+            throw new ShopNotFoundException(product.ShopId);
+
+        if (productUpdate is null)
             return BadRequest("ProductForUpdateDto object is null");
 
-        await _service.ProductService.UpdateProductAsync(id, product, trackChanges: true);
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
+
+        var productInCache = await CacheHelper.GetKey<ProductDto>(key, _cache);
+        if (productInCache is null)
+        {
+            await _service.ProductService.UpdateProductAsync(id, productUpdate, trackChanges: true);
+
+            CacheHelper.SetKey<ProductDto>(product, key, _cache);
+        }
+        else
+        {
+            await _service.ProductService.UpdateProductAsync(id, productUpdate, trackChanges: true);
+            await _cache.RemoveAsync(key);
+
+            var returnProduct = await _service.ProductService.GetProductAsync(id, trackChanges: true);
+
+            CacheHelper.SetKey<ProductDto>(returnProduct, key, _cache);
+        }
 
         return NoContent();
     }
@@ -171,48 +195,48 @@ public class ProductsController : ControllerBase
     [ApiExplorerSettings(GroupName = "v1")]
     public async Task<IActionResult> DeleteProduct(Guid id)
     {
-        //remove image_url by product ID
-        var key = $"{nameof(ImageUrl)}:{id.ToString()}";
+        //remove image_url by productUpdate ID
+        var key = $"{nameof(ImageUrlDto)}:{id.ToString()}";
         var imageUrlInCache = await _cache.GetStringAsync(key);
         if (imageUrlInCache is null)
             await _service.ImageUrlService.DeleteImageUrlByProductIdAsync(id, trackChanges: false);
         else
         {
-            await _cache.RemoveAsync(key);
             await _service.ImageUrlService.DeleteImageUrlByProductIdAsync(id, trackChanges: false);
+            await _cache.RemoveAsync(key);
         }
 
-        //remove review by product ID
-        key = $"{nameof(Review)}:{id.ToString()}";
+        //remove review by productUpdate ID
+        key = $"{nameof(ReviewDto)}:{id.ToString()}";
         var reviewInCache = await _cache.GetStringAsync(key);
         if (reviewInCache is null)
             await _service.ReviewService.DeleteReviewByProductIdAsync(id, trackChanges: false);
         else
         {
-            await _cache.RemoveAsync(key);
             await _service.ReviewService.DeleteReviewByProductIdAsync(id, trackChanges: false);
+            await _cache.RemoveAsync(key);
         }
 
-        //remove shop by product ID
-        key = $"{nameof(Shop)}:{id.ToString()}";
+        //remove shop by productUpdate ID
+        key = $"{nameof(ShopDto)}:{id.ToString()}";
         var shopInCache = await _cache.GetStringAsync(key);
         if (shopInCache is null)
             await _service.ShopService.DeleteShopByProductIdAsync(id, trackChanges: false);
         else
         {
-            await _cache.RemoveAsync(key);
             await _service.ShopService.DeleteShopByProductIdAsync(id, trackChanges: false);
+            await _cache.RemoveAsync(key);
         }
 
-        //remove product by product ID
-        key = $"{nameof(Product)}:{id.ToString()}";
+        //remove productUpdate by productUpdate ID
+        key = $"{nameof(ProductDto)}:{id.ToString()}";
         var productInCache = await _cache.GetStringAsync(key);
         if (productInCache is null)
             await _service.ProductService.DeleteProductAsync(id, trackChanges: false);
         else
         {
-            await _cache.RemoveAsync(key);
             await _service.ProductService.DeleteProductAsync(id, trackChanges: false);
+            await _cache.RemoveAsync(key);
         }
 
         return NoContent();

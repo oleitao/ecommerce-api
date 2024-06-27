@@ -13,9 +13,9 @@ namespace WebApi.Service.Contracts
         #endregion
 
         #region Async
-        public Task<IEnumerable<User>> GetAllUsersAsync(UserParameters userParameters, bool trackChanges);
-        public Task<IEnumerable<User>> GetAllUsersAsync(bool trackChanges);
-        public Task<User> GetUserAsync(Guid id, bool trackChanges);
+        public Task<IEnumerable<UserDto>> GetAllUsersAsync(UserParameters userParameters, bool trackChanges);
+        public Task<IEnumerable<UserDto>> GetAllUsersAsync(bool trackChanges);
+        public Task<UserDto> GetUserAsync(Guid id, bool trackChanges);
         public Task<UserDto> CreateUserAsync(UserForCreationDto user);
         public Task UpdateUserAsync(Guid id, UserForUpdateDto category, bool trackChanges);
         Task DeleteUserAsync(Guid id, bool trackChanges);
