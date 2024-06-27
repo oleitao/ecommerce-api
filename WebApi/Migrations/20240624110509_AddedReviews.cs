@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedShops : Migration
+    public partial class AddedReviews : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,20 +16,20 @@ namespace WebApi.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "614310f1-dd02-4de1-90f3-cb3ca005de6c");
+                keyValue: "4dd37cce-4138-4baa-939e-edeed0d77dfb");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "b9b0873f-fb02-438a-b7ca-805b91d892c5");
+                keyValue: "8e86cc8f-2350-428c-9337-ffdbd93e66cf");
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "4e9a5b5a-33a6-4512-9f08-987a308c19d1", null, "Manager", "MANAGER" },
-                    { "ba14c062-e22e-4ed0-a160-67caa1be7cf7", null, "Administrator", "ADMINISTRATOR" }
+                    { "3daae705-2ae2-45be-af23-e380c5489e14", null, "Manager", "MANAGER" },
+                    { "e0e90d29-a6fb-4774-b597-9004eef275be", null, "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.UpdateData(
@@ -46,6 +46,11 @@ namespace WebApi.Migrations
                 column: "Image_Url",
                 value: "https://indian-retailer.s3.ap-south-1.amazonaws.com/s3fs-public/2021-07/kosme1.png");
 
+            migrationBuilder.InsertData(
+                table: "Reviews",
+                columns: new[] { "Id", "Comment", "ProductId", "Rating", "UserId", "UserId1" },
+                values: new object[] { new Guid("2913f590-3edc-47b8-acfb-2489c2afa74f"), "comment", new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"), 5, new Guid("efbcf454-0125-41ff-ac91-75d1564af044"), null });
+
             migrationBuilder.UpdateData(
                 table: "ShopAvatars",
                 keyColumn: "Id",
@@ -53,17 +58,12 @@ namespace WebApi.Migrations
                 column: "Public_id",
                 value: "test");
 
-            migrationBuilder.InsertData(
-                table: "Shops",
-                columns: new[] { "Id", "Name", "ProductId", "Ratings", "ShopAvatarId" },
-                values: new object[] { new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"), "Apple inc", new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"), 4.0, new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc") });
-
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: "efbcf454-0125-41ff-ac91-75d1564af044",
                 columns: new[] { "Birthday", "ConcurrencyStamp", "SecurityStamp" },
-                values: new object[] { new DateTime(2024, 6, 20, 15, 26, 8, 400, DateTimeKind.Local).AddTicks(2339), "2a7a65e0-0453-45c8-b3bd-546f0d544add", "4f5b53e4-0ecc-4f66-b16a-9eb08f3be5c5" });
+                values: new object[] { new DateTime(2024, 6, 24, 12, 5, 9, 72, DateTimeKind.Local).AddTicks(1048), "d5537b58-9487-4e5c-9f1a-f8713a918fd8", "a4f471f7-36e5-4403-8726-ba3733ba60d1" });
         }
 
         /// <inheritdoc />
@@ -72,25 +72,25 @@ namespace WebApi.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "4e9a5b5a-33a6-4512-9f08-987a308c19d1");
+                keyValue: "3daae705-2ae2-45be-af23-e380c5489e14");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "ba14c062-e22e-4ed0-a160-67caa1be7cf7");
+                keyValue: "e0e90d29-a6fb-4774-b597-9004eef275be");
 
             migrationBuilder.DeleteData(
-                table: "Shops",
+                table: "Reviews",
                 keyColumn: "Id",
-                keyValue: new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"));
+                keyValue: new Guid("2913f590-3edc-47b8-acfb-2489c2afa74f"));
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "614310f1-dd02-4de1-90f3-cb3ca005de6c", null, "Administrator", "ADMINISTRATOR" },
-                    { "b9b0873f-fb02-438a-b7ca-805b91d892c5", null, "Manager", "MANAGER" }
+                    { "4dd37cce-4138-4baa-939e-edeed0d77dfb", null, "Manager", "MANAGER" },
+                    { "8e86cc8f-2350-428c-9337-ffdbd93e66cf", null, "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.UpdateData(
@@ -119,7 +119,7 @@ namespace WebApi.Migrations
                 keyColumn: "Id",
                 keyValue: "efbcf454-0125-41ff-ac91-75d1564af044",
                 columns: new[] { "Birthday", "ConcurrencyStamp", "SecurityStamp" },
-                values: new object[] { new DateTime(2024, 6, 20, 15, 25, 39, 689, DateTimeKind.Local).AddTicks(491), "8606135c-f94c-4ef5-8922-bbe5a3aa62fb", "667fa3dd-d9de-4916-9a7a-4acf1424bc72" });
+                values: new object[] { new DateTime(2024, 6, 24, 12, 4, 21, 993, DateTimeKind.Local).AddTicks(6293), "7d913c6d-8f5e-42ab-80dd-6ddc58ba66c7", "5811f4a6-35a0-4f29-896b-dd3ac88f239a" });
         }
     }
 }

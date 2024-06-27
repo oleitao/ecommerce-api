@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 using WebApi.Repository;
+using Microsoft.Extensions.Configuration;
 
 namespace WebApi
 {
@@ -15,8 +16,9 @@ namespace WebApi
                 .AddJsonFile("appsettings.json")
                 .Build();
 
+            string mySqlConnectionStr = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("ConnectionStrings")["ApiDatabase"];
             var builder = new DbContextOptionsBuilder<RepositoryContext>()
-                .UseSqlServer(configuration.GetConnectionString("ApiDatabase"),
+                .UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr),
                 b => b.MigrationsAssembly("WebApi"));
 
             return new RepositoryContext(builder.Options);

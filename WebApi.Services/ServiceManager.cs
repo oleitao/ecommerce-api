@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Model;
 using WebApi.Contracts;
@@ -11,6 +11,8 @@ namespace WebApi.Services
 {
     public class ServiceManager : IServiceManager
     {
+        private readonly IDistributedCache _distributedCache;
+
         private readonly Lazy<ICategoryService> _categoryService;
         private readonly Lazy<IImageUrlService> _imageUrlService;
         private readonly Lazy<IProductService> _productService;

@@ -68,7 +68,7 @@ namespace WebApi.Services
 
         #region Async
 
-        public async Task<IEnumerable<Shop>> GetAllShopsAsync(bool trackChanges)
+        public async Task<IEnumerable<ShopDto>> GetAllShopsAsync(bool trackChanges)
         {
             try
             {
@@ -76,10 +76,11 @@ namespace WebApi.Services
                 if (shops is null)
                     throw new ShopsNotFoundException();
 
-                List<Shop> shopsList = new List<Shop>();
+                List<ShopDto> shopsList = new List<ShopDto>();
                 foreach (var shop in shops)
                 {
-                    shopsList.Add(await GetShopByIdAsync(shop.Id, trackChanges));
+                    var shopReturn = await GetShopByIdAsync(shop.Id, trackChanges);
+                    shopsList.Add(shopReturn);
                 }
 
                 return shopsList;
@@ -91,7 +92,7 @@ namespace WebApi.Services
             }
         }
 
-        public async Task<Shop> GetShopAsync(Guid id, bool trackChanges)
+        public async Task<ShopDto> GetShopAsync(Guid id, bool trackChanges)
         {
             try
             {
@@ -108,7 +109,7 @@ namespace WebApi.Services
             }
         }
 
-        public async Task<Shop> GetShopByIdAsync(Guid id, bool trackChanges)
+        public async Task<ShopDto> GetShopByIdAsync(Guid id, bool trackChanges)
         {
             var shop = await _repository.Shop.GetShopAsync(id, trackChanges);
             if(shop is null)
@@ -118,63 +119,79 @@ namespace WebApi.Services
             if (shopAvatar is null)
                 throw new ShopNotFoundException(shop.ShopAvatarId);
 
-            shop.Shop_avatar = shopAvatar;
+            var returnShop = _mapper.Map<ShopDto>(shop);
 
-            return shop;
+            return returnShop;
         }
 
-        public async Task<ShopDto> CreateShopAsync(ShopForCreationDto shop)
+        public async Task<ShopDto> CreateShopAsync(ShopForCreationDto shopCreation)
         {
-            var shopEntity = _mapper.Map<Shop>(shop);
+            var shopEntity = _mapper.Map<Shop>(shopCreation);
             if(shopEntity.Id.Equals(Guid.Empty))
                 shopEntity.Id = Guid.NewGuid();
 
-            var shopAvatarEntity = _mapper.Map<ShopAvatar>(shop.Shop_avatar);
-            if(shopAvatarEntity.Id.Equals(Guid.Empty))
-                shopAvatarEntity.Id = Guid.NewGuid();
-            
-            shopEntity.ShopAvatarId = shopAvatarEntity.Id;
-            shopEntity.Shop_avatar = shopAvatarEntity;
+            if (shopCreation.ShopAvatarId != Guid.Empty && shopCreation.Shop_avatar is null)
+            {
+                var shopAvatarEntity = await _repository.ShopAvatar.GetShopAvatarAsync(shopCreation.ShopAvatarId, trackChanges: false);
+                if(shopAvatarEntity  is null)
+                    throw new ShopAvatarNotFoundException(shopCreation.ShopAvatarId);
 
-            _repository.ShopAvatar.CreateShopAvatar(shopAvatarEntity);
+                shopEntity.Shop_avatar = shopAvatarEntity;
+            }
+            else if (shopCreation.ShopAvatarId == Guid.Empty && shopCreation.Shop_avatar is not null)
+            {
+                shopEntity.Shop_avatar = new ShopAvatar()
+                {
+                    Id = Guid.NewGuid(),
+                    Public_id = shopCreation.Shop_avatar.Public_id,
+                    Url = shopCreation.Shop_avatar.Url
+                };
+
+                shopEntity.ShopAvatarId = shopEntity.Shop_avatar.Id;
+
+                _repository.ShopAvatar.CreateShopAvatar(shopEntity.Shop_avatar);
+            }
+
+            _mapper.Map(shopCreation, shopEntity);
+
             _repository.Shop.CreateShop(shopEntity);
 
-            await _repository.SaveAsync();
+            var returnShop = _mapper.Map<ShopDto>(shopEntity);
 
-            var shopReturn = _mapper.Map<ShopDto>(shopEntity);
+            await _repository.SaveAsync();            
 
-            return shopReturn;
+            return returnShop;
         }
 
-        public async Task UpdateShopAsync(Guid id, ShopForUpdateDto model, bool trackChanges)
+        public async Task UpdateShopAsync(Guid id, ShopForUpdateDto shopUpdate, bool trackChanges)
         {
-            var shopEntitie = await _repository.Shop.GetShopAsync(id, trackChanges);
-            if (shopEntitie is null)
+            var shopEntity = await _repository.Shop.GetShopAsync(id, trackChanges);
+            if (shopEntity is null)
                 throw new ShopNotFoundException(id);
 
-
-            _mapper.Map(model, shopEntitie);
+            _mapper.Map(shopUpdate, shopEntity);
+            _repository.Shop.UpdateShop(shopEntity);
             await _repository.SaveAsync();
         }
 
         public async Task DeleteShopAsync(Guid id, bool trackChanges)
         {
-            var shop = await _repository.Shop.GetShopAsync(id, trackChanges: trackChanges);
-            if (shop is null)
+            var shopEntity = await _repository.Shop.GetShopAsync(id, trackChanges: trackChanges);
+            if (shopEntity is null)
                 throw new Exception();
 
-            _repository.Shop.DeleteShop(shop);
+            _repository.Shop.DeleteShop(shopEntity);
             await _repository.SaveAsync();
         }
 
         public async Task DeleteShopByProductIdAsync(Guid productId, bool trackChanges)
         {
-            var shops = await _repository.Shop.GetShopByProductIdAsync(productId, trackChanges);
-            if (shops is null)
+            var shopsEntity = await _repository.Shop.GetShopByProductIdAsync(productId, trackChanges);
+            if (shopsEntity is null)
                 throw new ShopsNotFoundException();
 
 
-            _repository.Shop.DeleteShopsByProductIdAsync(shops);
+            _repository.Shop.DeleteShopsByProductIdAsync(shopsEntity);
             await _repository.SaveAsync();
         }
 

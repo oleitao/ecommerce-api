@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedReviews : Migration
+    public partial class AddedImageUrls : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,20 +16,20 @@ namespace WebApi.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "9361084f-e57c-41fb-9b5a-bab858808ba2");
+                keyValue: "86d6752b-e0af-4883-a011-375a7cde2979");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "d26f0003-d8f8-47d6-86f4-c254600ece41");
+                keyValue: "96651a24-03de-4869-bce6-095eac02a8cb");
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "6604105a-cec1-4221-ab3a-f1ec7ad2dda8", null, "Administrator", "ADMINISTRATOR" },
-                    { "b03f46cd-b85e-4c78-b177-ec494810711c", null, "Manager", "MANAGER" }
+                    { "21def79a-3ff3-4d31-81dc-25bc1c02667e", null, "Manager", "MANAGER" },
+                    { "609b2faf-1af3-401d-b79f-340db861048a", null, "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.UpdateData(
@@ -46,11 +46,6 @@ namespace WebApi.Migrations
                 column: "Image_Url",
                 value: "https://indian-retailer.s3.ap-south-1.amazonaws.com/s3fs-public/2021-07/kosme1.png");
 
-            migrationBuilder.InsertData(
-                table: "Reviews",
-                columns: new[] { "Id", "Comment", "ProductId", "Rating", "UserId", "UserId1" },
-                values: new object[] { new Guid("ff0eade0-e55f-4016-82d8-6ce283cd6224"), "comment", new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"), 5, new Guid("efbcf454-0125-41ff-ac91-75d1564af044"), null });
-
             migrationBuilder.UpdateData(
                 table: "ShopAvatars",
                 keyColumn: "Id",
@@ -63,7 +58,7 @@ namespace WebApi.Migrations
                 keyColumn: "Id",
                 keyValue: "efbcf454-0125-41ff-ac91-75d1564af044",
                 columns: new[] { "Birthday", "ConcurrencyStamp", "SecurityStamp" },
-                values: new object[] { new DateTime(2024, 6, 20, 15, 27, 2, 423, DateTimeKind.Local).AddTicks(5332), "585bd3f6-55d0-492b-8003-97adadd1b0d0", "c21926e3-2c62-4908-a323-1a45f74c8f12" });
+                values: new object[] { new DateTime(2024, 6, 24, 12, 3, 1, 747, DateTimeKind.Local).AddTicks(6379), "0549a453-0d10-4c31-b85b-de92e6693013", "b583e26f-9c78-4ec4-895c-5e2a7b7c9c7b" });
         }
 
         /// <inheritdoc />
@@ -72,25 +67,20 @@ namespace WebApi.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "6604105a-cec1-4221-ab3a-f1ec7ad2dda8");
+                keyValue: "21def79a-3ff3-4d31-81dc-25bc1c02667e");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "b03f46cd-b85e-4c78-b177-ec494810711c");
-
-            migrationBuilder.DeleteData(
-                table: "Reviews",
-                keyColumn: "Id",
-                keyValue: new Guid("ff0eade0-e55f-4016-82d8-6ce283cd6224"));
+                keyValue: "609b2faf-1af3-401d-b79f-340db861048a");
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "9361084f-e57c-41fb-9b5a-bab858808ba2", null, "Administrator", "ADMINISTRATOR" },
-                    { "d26f0003-d8f8-47d6-86f4-c254600ece41", null, "Manager", "MANAGER" }
+                    { "86d6752b-e0af-4883-a011-375a7cde2979", null, "Manager", "MANAGER" },
+                    { "96651a24-03de-4869-bce6-095eac02a8cb", null, "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.UpdateData(
@@ -119,7 +109,7 @@ namespace WebApi.Migrations
                 keyColumn: "Id",
                 keyValue: "efbcf454-0125-41ff-ac91-75d1564af044",
                 columns: new[] { "Birthday", "ConcurrencyStamp", "SecurityStamp" },
-                values: new object[] { new DateTime(2024, 6, 20, 15, 26, 37, 91, DateTimeKind.Local).AddTicks(7273), "974539a2-9c86-4e87-840f-b9fee362809b", "0b777239-ca9f-4f1c-855a-2719cc0a2189" });
+                values: new object[] { new DateTime(2024, 6, 24, 12, 2, 9, 981, DateTimeKind.Local).AddTicks(9560), "5233c29b-0f96-4f54-a340-7cd5dafc83a9", "818048f0-0f13-4997-ba0e-3052bf97af95" });
         }
     }
 }

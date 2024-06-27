@@ -3,30 +3,32 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi.csproj", "{90EDB8EC-3D47-4E9A-B3CF-D999C6F7B886}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csproj", "{90EDB8EC-3D47-4E9A-B3CF-D999C6F7B886}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Entities", "..\WebApi.Models\WebApi.Entities.csproj", "{63184021-9C5D-4988-81A6-0773B88425EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Entities", "WebApi.Models\WebApi.Entities.csproj", "{63184021-9C5D-4988-81A6-0773B88425EB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Repository", "..\WebApi.Repository\WebApi.Repository.csproj", "{315711CC-D3B6-491F-AF15-D10E86C87AEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Repository", "WebApi.Repository\WebApi.Repository.csproj", "{315711CC-D3B6-491F-AF15-D10E86C87AEF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Service.Contracts", "..\WebApi.Service.Contracts\WebApi.Service.Contracts.csproj", "{2043E3DD-0B07-4E04-8AA9-A9CB5C6F0286}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Service.Contracts", "WebApi.Service.Contracts\WebApi.Service.Contracts.csproj", "{2043E3DD-0B07-4E04-8AA9-A9CB5C6F0286}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.LoggerServices", "..\WebApi.LoggerServices\WebApi.LoggerServices.csproj", "{C563BC95-33A2-405A-99E7-5B2ACC36021F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.LoggerServices", "WebApi.LoggerServices\WebApi.LoggerServices.csproj", "{C563BC95-33A2-405A-99E7-5B2ACC36021F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Services", "..\WebApi.Services\WebApi.Services.csproj", "{C49BD8A4-51A8-4D10-8CBB-569F9A5EF242}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Services", "WebApi.Services\WebApi.Services.csproj", "{C49BD8A4-51A8-4D10-8CBB-569F9A5EF242}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Shared", "..\WebApi.Shared\WebApi.Shared.csproj", "{978A0F14-A63C-48CF-8BDA-4C2B61C0ADB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Shared", "WebApi.Shared\WebApi.Shared.csproj", "{978A0F14-A63C-48CF-8BDA-4C2B61C0ADB0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Tests", "..\WebApi.Tests\WebApi.Tests.csproj", "{BB5DE227-5FD2-4318-B145-816B4C936ED8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Tests", "WebApi.Tests\WebApi.Tests.csproj", "{BB5DE227-5FD2-4318-B145-816B4C936ED8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Repository.Contracts", "..\WebApi.Repository.Contracts\WebApi.Repository.Contracts.csproj", "{3ED577EF-9756-4E2C-898F-951BB2D1FEAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Repository.Contracts", "WebApi.Repository.Contracts\WebApi.Repository.Contracts.csproj", "{3ED577EF-9756-4E2C-898F-951BB2D1FEAF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{431CDC93-DCDD-491D-BADE-08673618504B}"
 	ProjectSection(SolutionItems) = preProject
-		..\docker-compose.yml = ..\docker-compose.yml
-		..\start-docker-compose.bat = ..\start-docker-compose.bat
-		..\stop-docker-compose.bat = ..\stop-docker-compose.bat
+		docker-compose.yml = docker-compose.yml
+		start-docker-compose.bat = start-docker-compose.bat
+		stop-docker-compose.bat = stop-docker-compose.bat
 	EndProjectSection
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{F6AB6FB6-1319-43B7-9ACB-C98CF13D02D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,6 +72,10 @@ Global
 		{3ED577EF-9756-4E2C-898F-951BB2D1FEAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3ED577EF-9756-4E2C-898F-951BB2D1FEAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3ED577EF-9756-4E2C-898F-951BB2D1FEAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6AB6FB6-1319-43B7-9ACB-C98CF13D02D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6AB6FB6-1319-43B7-9ACB-C98CF13D02D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6AB6FB6-1319-43B7-9ACB-C98CF13D02D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6AB6FB6-1319-43B7-9ACB-C98CF13D02D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

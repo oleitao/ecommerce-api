@@ -107,21 +107,23 @@ namespace WebApi.Services
 
         #region Async
 
-        public async Task<IEnumerable<Product>> GetAllProductsAsync(bool trackChanges)
+        public async Task<IEnumerable<ProductDto>> GetAllProductsAsync(bool trackChanges)
         {
             try
             {
-                var products = await _repository.Product.GetAllProductsAsync(trackChanges);
-                if (products is null)
+                var productsEntity = await _repository.Product.GetAllProductsAsync(trackChanges);
+                if (productsEntity is null)
                     throw new ProductsNotFoundException();
 
-                List<Product> result = new List<Product>();
-                foreach (var product in products)
+                List<ProductDto> returnList = new List<ProductDto>();
+                foreach (var productEntity in productsEntity)
                 {
-                    result.Add(await GetProductByIdAsync(product.Id, trackChanges));
+                    //var productEntity = await GetProductByIdAsync(productEntity.Id, trackChanges);
+                    var returnProduct = _mapper.Map<ProductDto>(productEntity);
+                    returnList.Add(returnProduct);
                 }
 
-                return result;
+                return returnList;
             }
             catch (Exception ex)
             {
@@ -130,13 +132,17 @@ namespace WebApi.Services
             }
         }
 
-        public async Task<Product> GetProductAsync(Guid id, bool trackChanges)
+        public async Task<ProductDto> GetProductAsync(Guid id, bool trackChanges)
         {
             try
             {
-                var product = await GetProductByIdAsync(id, trackChanges);
+                var productEntity = await GetProductByIdAsync(id, trackChanges);
+                if (productEntity is null)
+                    throw new ProductNotFoundException(id);
 
-                return product;
+                var returnProduct = _mapper.Map<ProductDto>(productEntity);
+
+                return returnProduct;
             }
             catch (Exception ex)
             {
@@ -219,12 +225,21 @@ namespace WebApi.Services
 
         #endregion
 
-        public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(Guid categoryId, bool trackChanges)
+        public async Task<IEnumerable<ProductDto>> GetProductsByCategoryAsync(Guid categoryId, bool trackChanges)
         {
             try
             {
-                var products = await _repository.Product.GetProductsByCategoryAsync(categoryId, trackChanges);
-                return products;
+                var productsEntity = await _repository.Product.GetProductsByCategoryAsync(categoryId, trackChanges);
+
+                List<ProductDto> returnProducts = new List<ProductDto>();
+
+                foreach (var product in productsEntity)
+                {
+                    var returnProduct = _mapper.Map<ProductDto>(product);
+                    returnProducts.Add(returnProduct);
+                }
+
+                return returnProducts;
             }
             catch (Exception ex)
             {
@@ -501,12 +516,20 @@ namespace WebApi.Services
             return (products: productDto, metaData: productsWithMetaData.MetaData);
         }
 
-        public async Task<IEnumerable<Product>> FilterProductsSortedAsync(ProductParameters productParameters, bool trackChanges)
+        public async Task<IEnumerable<ProductDto>> FilterProductsSortedAsync(ProductParameters productParameters, bool trackChanges)
         {
             try
             {
-                var products = await _repository.Product.FilterProductsSortedAsync(productParameters, trackChanges);
-                return products;
+                var productsEntity = await _repository.Product.FilterProductsSortedAsync(productParameters, trackChanges);
+
+                List<ProductDto> returnList = new List<ProductDto>();
+                foreach (var product in productsEntity)
+                {
+                    var returnProduct = _mapper.Map<ProductDto>(product);
+                    returnList.Add(returnProduct);
+                }
+
+                return returnList;
             }
             catch (Exception ex)
             {

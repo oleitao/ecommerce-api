@@ -17,10 +17,10 @@ namespace WebApi.Service.Contracts
         #endregion
 
         #region Async
-        public Task<IEnumerable<Product>> GetAllProductsAsync(bool trackChanges);
-        public Task<IEnumerable<Product>> FilterProductsSortedAsync(ProductParameters productParameters, bool trackChanges);
-        public Task<Product> GetProductAsync(Guid id, bool trackChanges);
-        public Task<IEnumerable<Product>> GetProductsByCategoryAsync(Guid categoryId, bool trackChanges);
+        public Task<IEnumerable<ProductDto>> GetAllProductsAsync(bool trackChanges);
+        public Task<IEnumerable<ProductDto>> FilterProductsSortedAsync(ProductParameters productParameters, bool trackChanges);
+        public Task<ProductDto> GetProductAsync(Guid id, bool trackChanges);
+        public Task<IEnumerable<ProductDto>> GetProductsByCategoryAsync(Guid categoryId, bool trackChanges);
         public Task<ProductDto> CreateProductAsync(ProductForCreationDto product);
         public Task<ProductDto> CreateProductForCategoryAsync(Guid categoryId, ProductForCreationDto productForCreationDto, bool trackChanges);
         public Task<(ProductForUpdateDto productToPatch, Product productEntity)> GetProductForPatchAsync(Guid categoryId, Guid id, bool catTrackChanges, bool prodTrackChanges);

@@ -30,32 +30,6 @@ services:
       MYSQL_PASSWORD: root
       MYSQL_DATABASE: ecommerce-db
 
-
-  # webapi:
-  #   image: ${DOCKER_REGISTRY-}webapi
-  #   restart: always
-  #   depends_on:
-  #     - database
-  #     - myredis
-  #   build:
-  #     context: .
-  #     dockerfile: WebApi/Dockerfile
-  #   ports:
-  #     - "5000:80"
-  #   environment: 
-  #     - DBHOST=database
-  #     - ASPNETCORE_ENVIRONMENT=Development
-  #     - REDIS_HOST=myredis
-  #     - REDIS_USER=redisroot
-  #     - REDIS_PASS=redisroot
-  #     - REDIS_PORT=6379
-  #     - REDIS_DB=0
-  #   deploy:
-  #     replicas: 3
-  #   networks:
-  #     - load-balancing
-
-
   nginx:
     image: nginx:latest
     container_name: reverse_proxy
@@ -68,6 +42,29 @@ services:
       - load-balancing
     depends_on:
       - webapi
+
+
+   webapi:
+     image: ${DOCKER_REGISTRY-}webapi
+     restart: always
+     depends_on:
+       - database
+       - myredis
+     build:
+       context: .
+       dockerfile: WebApi/Dockerfile
+     ports:
+       - "5000:80"
+     environment: 
+       - DBHOST=database
+       - ASPNETCORE_ENVIRONMENT=Development
+       - REDIS_HOST=myredis
+       - REDIS_USER=redisroot
+       - REDIS_PASS=redisroot
+       - REDIS_PORT=6379
+       - REDIS_DB=0
+     networks:
+       - load-balancing
 
 volumes:
   redis_data:

@@ -68,12 +68,22 @@ namespace WebApi.Services
 
         #region Async
 
-        public async Task<IEnumerable<ShopAvatar>> GetAllShopAvatarsAsync(bool trackChanges)
+        public async Task<IEnumerable<ShopAvatarDto>> GetAllShopAvatarsAsync(bool trackChanges)
         {
             try
             {
-                var shopAvatars = await _repository.ShopAvatar.GetAllShopAvatarsAsync(trackChanges);
-                return shopAvatars;
+                var shopAvatarsEntity = await _repository.ShopAvatar.GetAllShopAvatarsAsync(trackChanges);
+                if (shopAvatarsEntity is null)
+                    throw new ShopAvatarsNotFoundException();
+
+                List<ShopAvatarDto> returnList = new List<ShopAvatarDto>();
+                foreach (var shopAvatar in shopAvatarsEntity)
+                {
+                    var shopAvatarReturn = _mapper.Map<ShopAvatarDto>(shopAvatar);
+                    returnList.Add(shopAvatarReturn);
+                }
+
+                return returnList;
             }
             catch (Exception ex)
             {
@@ -82,15 +92,17 @@ namespace WebApi.Services
             }
         }
 
-        public async Task<ShopAvatar> GetShopAvatarAsync(Guid id, bool trackChanges)
+        public async Task<ShopAvatarDto> GetShopAvatarAsync(Guid id, bool trackChanges)
         {
             try
             {
-                var shopAvatar = await _repository.ShopAvatar.GetShopAvatarAsync(id, trackChanges);
-                if (shopAvatar == null)
+                var shopAvatarEntity = await _repository.ShopAvatar.GetShopAvatarAsync(id, trackChanges);
+                if (shopAvatarEntity == null)
                     throw new ShopAvatarNotFoundException(id);
 
-                return shopAvatar;
+                var shopAvatarReturn = _mapper.Map<ShopAvatarDto>(shopAvatarEntity);
+
+                return shopAvatarReturn;
             }
             catch (Exception ex)
             {

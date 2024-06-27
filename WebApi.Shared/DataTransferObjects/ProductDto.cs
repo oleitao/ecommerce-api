@@ -19,14 +19,14 @@ namespace WebApi.Shared.DataTransferObjects
         int Price,
 
         [Required(ErrorMessage = "Discount Price is a required field.")]
-        int Discount_Price,
+        int Discount_price,
 
         [Required(ErrorMessage = "Rating is a required field.")]
         [Range(1, 5)]
         double Rating,
 
         [Required(ErrorMessage = "Total Sell is a required field.")]
-        int Total_Sell,
+        int Total_sell,
 
         [Required(ErrorMessage = "Stock is a required field.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than {1}")]
@@ -36,7 +36,7 @@ namespace WebApi.Shared.DataTransferObjects
 
         Guid ShopId,
 
-        ICollection<ImageUrl>? ImageUrl,
+        ICollection<ImageUrl>? Image_Url,
 
         ICollection<Review>? Reviews,
 

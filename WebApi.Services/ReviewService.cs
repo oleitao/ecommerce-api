@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Azure;
 using Model;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
@@ -69,23 +68,22 @@ namespace WebApi.Services
 
         #region Async
 
-        public async Task<IEnumerable<Review>> GetAllReviewsAsync(bool trackChanges)
+        public async Task<IEnumerable<ReviewDto>> GetAllReviewsAsync(bool trackChanges)
         {
             try
             {
-                var reviews = await _repository.Review.GetAllReviewsAsync(trackChanges);
-                if (reviews is null)
+                var reviewsEntity = await _repository.Review.GetAllReviewsAsync(trackChanges);
+                if (reviewsEntity is null)
                     throw new ReviewsNotFoundException();
 
-                List<Review> reviewsList = new List<Review>();
-                foreach (var review in reviews)
+                List<ReviewDto> returnList = new List<ReviewDto>();
+                foreach (var review in reviewsEntity)
                 {
-                    var rev = await GetReviewByIdAsync(review.Id, trackChanges);
-                    if(rev is not null)
-                        reviewsList.Add(rev);
+                    var returnReview = await GetReviewByIdAsync(review.Id, trackChanges);                    
+                    returnList.Add(returnReview);
                 }
 
-                return reviewsList;
+                return returnList;
             }
             catch (Exception ex)
             {
@@ -94,7 +92,7 @@ namespace WebApi.Services
             }
         }
 
-        public async Task<Review> GetReviewAsync(Guid id, bool trackChanges)
+        public async Task<ReviewDto> GetReviewAsync(Guid id, bool trackChanges)
         {
             try
             {
@@ -106,8 +104,6 @@ namespace WebApi.Services
                 if (user is null)
                     throw new UserNotFoundException(review.UserId);
 
-                review.User = user;
-
                 return review;
             }
             catch (Exception ex)
@@ -117,47 +113,56 @@ namespace WebApi.Services
             }
         }
 
-        public async Task<Review> GetReviewByIdAsync(Guid reviewId, bool trackChanges)
+        public async Task<ReviewDto> GetReviewByIdAsync(Guid reviewId, bool trackChanges)
         {
-            var review = await _repository.Review.GetReviewAsync(reviewId, trackChanges);
-            if (review == null)
+            var reviewEntity = await _repository.Review.GetReviewAsync(reviewId, trackChanges);
+            if (reviewEntity == null)
                 throw new ReviewNotFoundException(reviewId);
 
-            var user = await _repository.User.GetUserAsync(review.UserId, trackChanges: false);
-            if (user == null)
-                throw new UserNotFoundException(review.UserId);
+            var userEntity = await _repository.User.GetUserAsync(reviewEntity.UserId, trackChanges: false);
+            if (userEntity == null)
+                throw new UserNotFoundException(reviewEntity.UserId);
 
-            if (review.User is null)
-                review.User = new User();
+            if (reviewEntity.User is null)
+                reviewEntity.User = new User();
 
-            review.User = user;
-
-            return review;
-        }
-
-        public async Task<ReviewDto> CreateReviewAsync(ReviewForCreationDto review)
-        {
-            var user = _repository.User.GetUserAsync(review.User.Id, trackChanges: false);
-            if (user == null && review.User is null)
-                throw new UserNotFoundException(review.User.Id);
-
-            var rev = new Review()
-            {
-                Id = Guid.NewGuid(),
-                Comment = review.Comment,
-                ProductId = review.ProductId,
-                Rating = review.Rating,
-                UserId = Guid.Parse(user.Result.Id)
-            };
-
-            _repository.Review.CreateReview(rev);
-
-
-            await _repository.SaveAsync();
-
-            var reviewReturn = _mapper.Map<ReviewDto>(new ReviewDto(rev.Id, rev.Comment, rev.Rating, rev.UserId, rev.ProductId));
+            var returnUser = _mapper.Map<UserDto>(userEntity);
+            var reviewReturn = _mapper.Map<ReviewDto>(new ReviewDto(reviewEntity.Id, reviewEntity.Comment, reviewEntity.Rating, reviewEntity.UserId, reviewEntity.ProductId, returnUser));
 
             return reviewReturn;
+        }
+
+        public async Task<ReviewDto> CreateReviewAsync(ReviewForCreationDto reviewCreate)
+        {
+            try
+            {
+                var userEntity = _repository.User.GetUserAsync(reviewCreate.User.Id, trackChanges: false);
+                if (userEntity == null && reviewCreate.User is null)
+                    throw new UserNotFoundException(reviewCreate.User.Id);
+
+                var reviewEntity = new Review()
+                {
+                    Id = Guid.NewGuid(),
+                    Comment = reviewCreate.Comment,
+                    ProductId = reviewCreate.ProductId,
+                    Rating = reviewCreate.Rating,
+                    UserId = Guid.Parse(userEntity.Result.Id),
+                    User = userEntity.Result
+                };
+
+
+                var returnReview = _mapper.Map<ReviewDto>(reviewEntity);
+
+                _repository.Review.CreateReview(reviewEntity);
+                await _repository.SaveAsync();
+
+                return returnReview;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         public async Task UpdateReviewAsync(Guid id, ReviewForUpdateDto review, bool trackChanges)

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Model;
 using System.Net.Http.Headers;
 using WebApi.Contracts;
@@ -79,12 +80,21 @@ namespace WebApi.Services
 
         #region Async
 
-        public async Task<IEnumerable<ImageUrl>> GetAllImageUrlsAsync(bool trackChanges)
+        public async Task<IEnumerable<ImageUrlDto>> GetAllImageUrlsAsync(bool trackChanges)
         {
             try
             {
-                var images = await _repository.ImageUrl.GetImageUrlsAsync(trackChanges);
-                return images;
+                var imagesUrlEntity = await _repository.ImageUrl.GetImageUrlsAsync(trackChanges);
+
+                List<ImageUrlDto> returnList = new List<ImageUrlDto>();
+
+                foreach (var imageUrl in imagesUrlEntity)
+                {
+                    var returnImageUrl = _mapper.Map<ImageUrlDto>(imageUrl);
+                    returnList.Add(returnImageUrl);
+                }
+
+                return returnList;
             }
             catch (Exception ex)
             {
@@ -93,15 +103,17 @@ namespace WebApi.Services
             }
         }
 
-        public async Task<ImageUrl> GetImageUrlAsync(Guid id, bool trackChanges)
+        public async Task<ImageUrlDto> GetImageUrlAsync(Guid id, bool trackChanges)
         {
             try
             {
-                var image = await _repository.ImageUrl.GetImageUrlAsync(id, trackChanges);
-                if (image == null)
+                var imageUrlEntity = await _repository.ImageUrl.GetImageUrlAsync(id, trackChanges);
+                if (imageUrlEntity == null)
                     throw new ImageUrlNotFoundException(id);
 
-                return image;
+                var returnImageUrl = _mapper.Map<ImageUrlDto>(imageUrlEntity);
+
+                return returnImageUrl;
             }
             catch (Exception ex)
             {

@@ -69,12 +69,20 @@ namespace WebApi.Services
 
         #region Async
 
-        public async Task<IEnumerable<User>> GetAllUsersAsync(bool trackChanges)
+        public async Task<IEnumerable<UserDto>> GetAllUsersAsync(bool trackChanges)
         {
             try
             {
-                var users = await _repository.User.GetAllUsersAsync(trackChanges);
-                return users;
+                var usersEntity = await _repository.User.GetAllUsersAsync(trackChanges);
+
+                List<UserDto> returnList = new List<UserDto>();
+                foreach (var user in usersEntity)
+                {
+                    var returnUser = _mapper.Map<UserDto>(user);
+                    returnList.Add(returnUser);
+                }
+
+                return returnList;
             }
             catch (Exception ex)
             {
@@ -83,15 +91,17 @@ namespace WebApi.Services
             }
         }
 
-        public async Task<User> GetUserAsync(Guid id, bool trackChanges)
+        public async Task<UserDto> GetUserAsync(Guid id, bool trackChanges)
         {
             try
             {
-                var user = await _repository.User.GetUserAsync(id, trackChanges);
-                if (user == null)
+                var userEntity = await _repository.User.GetUserAsync(id, trackChanges);
+                if (userEntity == null)
                     throw new UserNotFoundException(id);
 
-                return user;
+                var userReturn = _mapper.Map<UserDto>(userEntity);
+
+                return userReturn;
             }
             catch (Exception ex)
             {
@@ -133,12 +143,21 @@ namespace WebApi.Services
             await _repository.SaveAsync();
         }
 
-        public async Task<IEnumerable<User>> GetAllUsersAsync(UserParameters userParameters, bool trackChanges)
+        public async Task<IEnumerable<UserDto>> GetAllUsersAsync(UserParameters userParameters, bool trackChanges)
         {
             try
             {
-                var users = await _repository.User.GetAllUsersAsync(userParameters, trackChanges);
-                return users;
+                var usersEntity = await _repository.User.GetAllUsersAsync(userParameters, trackChanges);
+
+                List<UserDto> returnList = new List<UserDto>();
+
+                foreach (var userEntity in usersEntity)
+                {
+                    var returnUser = _mapper.Map<UserDto>(userEntity);
+                    returnList.Add(returnUser);
+                }
+
+                return returnList;
             }
             catch (Exception ex)
             {
