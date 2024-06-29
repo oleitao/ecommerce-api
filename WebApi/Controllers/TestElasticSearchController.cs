@@ -7,7 +7,8 @@ using WebApi.Entities.Exceptions;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("api/testlog")]
+    [ApiVersion("1.1")]
+    [Route("api/testlog/v{version:apiVersion}/[controller]")]
     public class TestElasticSearchController : ControllerBase
     {
         [HttpGet]

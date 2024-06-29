@@ -13,6 +13,7 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [Route("api/categories/{categoryId}/products")]
+    [ApiVersion("1.1")]
     public class CategoryProductsController : ControllerBase
     {
         private readonly IServiceManager _service;

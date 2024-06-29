@@ -11,7 +11,8 @@ using WebApi.Shared.DataTransferObjects;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion("1.1")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class AuthenticationController : ControllerBase
     {
         private readonly IServiceManager _service;
