@@ -11,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using WebApi.Entities.Exceptions;
 using WebApi.Entities.RequestFeatures;
@@ -20,7 +19,8 @@ using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
 [ApiController]
-[Route("api/[controller]")]
+[ApiVersion("1.1")]
+[Route("api/v{version:apiVersion}/[controller]")]
 public class ProductsController : ControllerBase
 {
     private readonly IServiceManager _service;

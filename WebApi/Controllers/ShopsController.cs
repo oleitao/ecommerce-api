@@ -3,7 +3,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
-using Model;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;
@@ -17,7 +16,8 @@ using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
 [ApiController]
-[Route("api/[controller]")]
+[ApiVersion("1.1")]
+[Route("api/v{version:apiVersion}/[controller]")]
 public class ShopsController : ControllerBase
 {
     private readonly IServiceManager _service;

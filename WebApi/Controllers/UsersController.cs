@@ -16,7 +16,8 @@ using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
 [ApiController]
-[Route("api/[controller]")]
+[ApiVersion("1.1")]
+[Route("api/v{version:apiVersion}/[controller]")]
 public class UsersController : ControllerBase
 {
     private readonly IServiceManager _service;

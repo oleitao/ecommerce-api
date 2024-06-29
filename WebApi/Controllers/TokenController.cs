@@ -3,8 +3,9 @@ using WebApi.Service.Contracts;
 
 namespace WebApi.Controllers
 {
-    [Route("api/token")]
     [ApiController]
+    [ApiVersion("1.1")]
+    [Route("api/token/v{version:apiVersion}/[controller]")]
     public class TokenController : ControllerBase
     {
         private readonly IServiceManager _service;
