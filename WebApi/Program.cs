@@ -177,6 +177,8 @@ var app = builder.Build();
     app.UseIpRateLimiting();
     app.UseCors("CorsPolicy");
 
+    app.UseForwardedHeaders();
+
     app.UseAuthentication();
     app.UseAuthorization();
 

@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using Model;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using WebApi.Contracts;
 using WebApi.Entities.ConfigurationModels;
@@ -176,6 +177,18 @@ namespace WebApi.Extensions
                         new List<string>() 
                     } 
                 });
+            });
+        }
+
+        public static void UseForwardedHeaders(this IMvcBuilder builder)
+        {
+            string myPorxyServer = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("ProxyConfiguration")["ProxyServer"];
+
+            builder.Services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto;
+
+                options.KnownProxies.Add(IPAddress.Parse(myPorxyServer));
             });
         }
     }
