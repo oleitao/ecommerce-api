@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Model;
-using System.Net.Http.Headers;
 using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
 using WebApi.Service.Contracts;
@@ -12,12 +10,10 @@ namespace WebApi.Services
     internal sealed class ImageUrlService : IImageUrlService
     {
         private readonly IRepositoryManager _repository;
-        private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
-        public ImageUrlService(IRepositoryManager repository, ILoggerManager logger, AutoMapper.IMapper mapper)
+        public ImageUrlService(IRepositoryManager repository, AutoMapper.IMapper mapper)
         {
             _repository = repository;
-            _logger = logger;
             _mapper = mapper;
         }
 
@@ -32,8 +28,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllImageUrls)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetAllImageUrls)} : {ex}");
             }
         }
 
@@ -49,8 +44,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetImageUrl)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetImageUrl)} : {ex}");
             }
         }
 
@@ -98,8 +92,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllImageUrlsAsync)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetAllImageUrlsAsync)} : {ex}");
             }
         }
 
@@ -117,8 +110,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetImageUrlAsync)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetImageUrlAsync)} : {ex}");
             }
         }
 

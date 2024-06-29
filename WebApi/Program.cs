@@ -2,15 +2,19 @@
 using AutoMapper.Internal;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NLog;
+using Serilog.Sinks.Elasticsearch;
+using Serilog;
 using StackExchange.Redis;
-using System.IO;
+using System.Reflection;
+using System;
 using System.Text.Json.Serialization;
 using WebApi.ActionFilters;
 using WebApi.Extensions;
 using WebApi.Helpers;
+using Serilog.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +32,7 @@ var builder = WebApplication.CreateBuilder(args);
         .WithExposedHeaders("X-Pagination"));
     });
 
-    LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "\\nlog.config"));
+    //LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "\\nlog.config"));
 
     services.ConfigureCors();
     services.ConfigureIISIntegration();
@@ -93,12 +97,35 @@ var builder = WebApplication.CreateBuilder(args);
 
     services.AddEndpointsApiExplorer();    
     services.AddSwaggerGen();
+
+
+    // elasticSearch log
+    var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+    var configuration = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .AddJsonFile($"appsettings.{environment}.json", optional: true).Build();
+
+    Log.Logger = new LoggerConfiguration()
+        .Enrich.FromLogContext()
+        .Enrich.WithExceptionDetails()
+        .WriteTo.Debug()
+        .WriteTo.Console()
+        .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(configuration["ElasticConfiguration:Uri"]))
+        {
+            AutoRegisterTemplate = true,
+            IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower()}-{environment.ToLower()}-{DateTime.UtcNow:yyyy-MM}",
+            NumberOfReplicas = 1,
+            NumberOfShards = 2,
+        })
+        .Enrich.WithProperty("Environment", environment)
+        .ReadFrom.Configuration(configuration)
+        .CreateLogger();
+
+    builder.Host.UseSerilog();
 }
 
 var app = builder.Build();
 
-//var logger = app.Services.GetRequiredService<ILoggerManager>();
-//app.ConfigureExceptionHandler(logger);
 
 // configure HTTP request pipeline
 {

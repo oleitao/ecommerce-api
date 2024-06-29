@@ -1,11 +1,16 @@
 ﻿namespace WebApi.Entities.Exceptions
 {
-    public abstract class BadRequestException : Exception
+    [Serializable]
+    public class BadRequestException : Exception
     {
-        protected BadRequestException(string message) 
-            :base(message)
-        { 
-        
+        public BadRequestException()
+        {
+        }
+        public BadRequestException(string message) : base(message)
+        {
+        }
+        public BadRequestException(string message, Exception innerException) : base(message, innerException)
+        {
         }
     }
 }
