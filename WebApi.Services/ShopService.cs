@@ -10,12 +10,10 @@ namespace WebApi.Services
     internal sealed class ShopService : IShopService
     {
         private readonly IRepositoryManager _repository;
-        private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
-        public ShopService(IRepositoryManager repository, ILoggerManager logger, AutoMapper.IMapper mapper)
+        public ShopService(IRepositoryManager repository, AutoMapper.IMapper mapper)
         {
             _repository = repository;
-            _logger = logger;
             _mapper = mapper;
         }
 
@@ -30,8 +28,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllShops)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetAllShops)} : {ex}");
             }
         }
 
@@ -47,8 +44,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetShop)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetShop)} : {ex}");
             }
         }
 
@@ -87,8 +83,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllShopsAsync)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetAllShopsAsync)} : {ex}");
             }
         }
 
@@ -104,8 +99,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetShopAsync)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetShopAsync)} : {ex}");
             }
         }
 

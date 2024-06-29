@@ -12,12 +12,10 @@ namespace WebApi.Services
     internal sealed class ProductService : IProductService
     {
         private readonly IRepositoryManager _repository;
-        private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
-        public ProductService(IRepositoryManager repository, ILoggerManager logger, AutoMapper.IMapper mapper)
+        public ProductService(IRepositoryManager repository, AutoMapper.IMapper mapper)
         {
             _repository = repository;
-            _logger = logger;
             _mapper = mapper;
         }
 
@@ -32,8 +30,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllProducts)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetAllProducts)} : {ex}");
             }
         }
 
@@ -49,8 +46,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetProduct)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetProduct)} : {ex}");
             }
         }
 
@@ -63,8 +59,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetProductsByCategory)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetProductsByCategory)} : {ex}");
             }
         }
 
@@ -127,8 +122,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllProducts)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetAllProducts)} : {ex}");
             }
         }
 
@@ -146,8 +140,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetProduct)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetProduct)} : {ex}");
             }
         }
 
@@ -218,8 +211,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetProductByIdAsync)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetProductByIdAsync)} : {ex}");
             }
         }
 
@@ -243,8 +235,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetProductsByCategory)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetProductsByCategory)} : {ex}");
             }
         }
 
@@ -312,7 +303,7 @@ namespace WebApi.Services
             }
             catch(Exception ex)
             {
-                throw new Exception();
+                throw new Exception($"{nameof(CreateProductAsync)} : {ex}");
             }
         }
 
@@ -400,7 +391,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                throw;
+                throw new Exception($"{nameof(UpdateProductAsync)} : {ex}");
             }
         }
 
@@ -533,8 +524,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(FilterProductsSortedAsync)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(FilterProductsSortedAsync)} : {ex}");
             }
         }
         #endregion

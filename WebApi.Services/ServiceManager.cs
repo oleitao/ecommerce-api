@@ -21,16 +21,16 @@ namespace WebApi.Services
         private readonly Lazy<IShopService> _shopService;
         private readonly Lazy<IUserService> _userService;
         private readonly Lazy<IAuthenticationService> _authenticationService;
-        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger, IMapper mapper, UserManager<User> userManager, IOptions<JwtConfiguration> configuration)
+        public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, UserManager<User> userManager, IOptions<JwtConfiguration> configuration)
         {
-            _categoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager, logger, mapper));
-            _imageUrlService = new Lazy<IImageUrlService>(() => new ImageUrlService(repositoryManager, logger, mapper));
-            _productService = new Lazy<IProductService>(() => new ProductService(repositoryManager, logger, mapper));
-            _reviewService = new Lazy<IReviewService>(() => new ReviewService(repositoryManager, logger, mapper));
-            _shopService = new Lazy<IShopService>(() => new ShopService(repositoryManager, logger, mapper));
-            _shopAvatarService = new Lazy<IShopAvatarService>(() => new ShopAvatarService(repositoryManager, logger, mapper));
-            _userService = new Lazy<IUserService>(() => new UserService(repositoryManager, logger, mapper));
-            _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration));
+            _categoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager, mapper));
+            _imageUrlService = new Lazy<IImageUrlService>(() => new ImageUrlService(repositoryManager, mapper));
+            _productService = new Lazy<IProductService>(() => new ProductService(repositoryManager, mapper));
+            _reviewService = new Lazy<IReviewService>(() => new ReviewService(repositoryManager, mapper));
+            _shopService = new Lazy<IShopService>(() => new ShopService(repositoryManager, mapper));
+            _shopAvatarService = new Lazy<IShopAvatarService>(() => new ShopAvatarService(repositoryManager, mapper));
+            _userService = new Lazy<IUserService>(() => new UserService(repositoryManager, mapper));
+            _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(mapper, userManager, configuration));
         }
 
         public ICategoryService CategoryService => _categoryService.Value;

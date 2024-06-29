@@ -1,7 +1,16 @@
 ﻿namespace WebApi.Entities.Exceptions
 {
-    public abstract class NotFoundException :Exception
+    [Serializable]
+    public class NotFoundException : Exception
     {
-        protected NotFoundException(string message) : base(message) { }
+        public NotFoundException()
+        {
+        }
+        public NotFoundException(string message) : base(message)
+        {
+        }
+        public NotFoundException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
     }
 }

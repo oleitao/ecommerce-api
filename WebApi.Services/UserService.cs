@@ -11,12 +11,10 @@ namespace WebApi.Services
     internal sealed class UserService : IUserService
     {
         private readonly IRepositoryManager _repository;
-        private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
-        public UserService(IRepositoryManager repository, ILoggerManager logger, AutoMapper.IMapper mapper)
+        public UserService(IRepositoryManager repository, AutoMapper.IMapper mapper)
         {
             _repository = repository;
-            _logger = logger;
             _mapper = mapper;
         }
 
@@ -31,8 +29,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllUsers)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetAllUsers)} : {ex}");
             }
         }
 
@@ -48,8 +45,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetUser)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetUser)} : {ex}");
             }
         }
 
@@ -86,8 +82,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllUsersAsync)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetAllUsersAsync)} : {ex}");
             }
         }
 
@@ -105,8 +100,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetUserAsync)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetUserAsync)} : {ex}");
             }
         }
 
@@ -161,8 +155,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllUsersAsync)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetAllUsersAsync)} : {ex}");
             }
         }
 

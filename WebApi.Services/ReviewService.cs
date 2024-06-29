@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using Model;
-using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
 using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
 using WebApi.Service.Contracts;
@@ -12,12 +10,10 @@ namespace WebApi.Services
     internal sealed class ReviewService : IReviewService
     {
         private readonly IRepositoryManager _repository;
-        private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
-        public ReviewService(IRepositoryManager repository, ILoggerManager logger, AutoMapper.IMapper mapper)
+        public ReviewService(IRepositoryManager repository, AutoMapper.IMapper mapper)
         {
             _repository = repository;
-            _logger = logger;
             _mapper = mapper;
         }
         #region Sync
@@ -30,8 +26,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllReviews)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetAllReviews)} : {ex}");
             }
         }
 
@@ -47,8 +42,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetReview)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetReview)} : {ex}");
             }
         }
 
@@ -87,8 +81,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllReviews)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetAllReviews)} : {ex}");
             }
         }
 
@@ -108,8 +101,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetReviewAsync)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetReviewAsync)} : {ex}");
             }
         }
 
@@ -160,8 +152,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-
-                throw;
+                throw new Exception($"{nameof(CreateReviewAsync)} : {ex}");
             }
         }
 
@@ -188,8 +179,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(DeleteReviewAsync)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(DeleteReviewAsync)} : {ex}");
             }
         }
 
