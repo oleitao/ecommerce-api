@@ -10,12 +10,10 @@ namespace WebApi.Services
     internal sealed class ShopAvatarService : IShopAvatarService
     {
         private readonly IRepositoryManager _repository;
-        private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
-        public ShopAvatarService(IRepositoryManager repository, ILoggerManager logger, AutoMapper.IMapper mapper)
+        public ShopAvatarService(IRepositoryManager repository, AutoMapper.IMapper mapper)
         {
             _repository = repository;
-            _logger = logger;
             _mapper = mapper;
         }
 
@@ -30,8 +28,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllShopAvatars)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetAllShopAvatars)} : {ex}");
             }
         }
 
@@ -47,8 +44,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetShopAvatar)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetShopAvatar)} : {ex}");
             }
         }
 
@@ -87,8 +83,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllShopAvatarsAsync)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetAllShopAvatarsAsync)} : {ex}");
             }
         }
 
@@ -106,8 +101,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetShopAvatarAsync)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetShopAvatarAsync)} : {ex}");
             }
         }
 

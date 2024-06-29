@@ -12,21 +12,18 @@ namespace WebApi.Services
     internal sealed class CategoryService : ICategoryService
     {
         private readonly IRepositoryManager _repository;
-        private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
         private readonly IDataShaper<CategoryDto> _dataShaper;
-        public CategoryService(IRepositoryManager repository, ILoggerManager logger, AutoMapper.IMapper mapper, IDataShaper<CategoryDto> dataShaper)
+        public CategoryService(IRepositoryManager repository, AutoMapper.IMapper mapper, IDataShaper<CategoryDto> dataShaper)
         {
             _repository = repository;
-            _logger = logger;
             _mapper = mapper;
             _dataShaper = dataShaper;
         }
 
-        public CategoryService(IRepositoryManager repository, ILoggerManager logger, AutoMapper.IMapper mapper)
+        public CategoryService(IRepositoryManager repository, AutoMapper.IMapper mapper)
         {
             _repository = repository;
-            _logger = logger;
             _mapper = mapper;
         }
 
@@ -44,8 +41,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllCategories)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetAllCategories)} : {ex}");
             }
         }
 
@@ -63,8 +59,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetCategory)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetCategory)} : {ex}");
             }
         }
 
@@ -142,8 +137,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllCategories)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetAllCategories)} : {ex}");
             }
         }
 
@@ -161,8 +155,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong in the {nameof(GetCategory)} service method {ex}");
-                throw;
+                throw new Exception($"{nameof(GetCategory)} : {ex}");
             }
         }
 
@@ -206,7 +199,7 @@ namespace WebApi.Services
                 _repository.Category.CreateCategory(category);
             }
 
-            _repository.SaveAsync();
+            await _repository.SaveAsync();
 
             var categoryCollectionToReturn = _mapper.Map<IEnumerable<CategoryDto>>(categoriyEntities);
             var ids = string.Join(",", categoryCollectionToReturn.Select(c => c.Id));

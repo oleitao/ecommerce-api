@@ -17,7 +17,6 @@ namespace WebApi.Services
 {
     internal sealed class AuthenticationService : IAuthenticationService
     {
-        private readonly ILoggerManager _logger; 
         private readonly IMapper _mapper; 
         private readonly UserManager<User> _userManager; 
         private readonly IOptions<JwtConfiguration> _configuration;
@@ -25,9 +24,8 @@ namespace WebApi.Services
 
         private User? _user;
 
-        public AuthenticationService(ILoggerManager logger, IMapper mapper, UserManager<User> userManager, IOptions<JwtConfiguration> configuration)
+        public AuthenticationService(IMapper mapper, UserManager<User> userManager, IOptions<JwtConfiguration> configuration)
         {
-            _logger = logger;
             _mapper = mapper; 
             _userManager = userManager; 
             _configuration = configuration;
@@ -109,8 +107,8 @@ namespace WebApi.Services
             var result = (_user != null && await _userManager.CheckPasswordAsync(_user, userForAuth.Password)); 
             
             if (!result) 
-                _logger.LogWarn($"{nameof(ValidateUser)}: Authentication failed. Wrong user name or password."); 
-            
+                throw new Exception($"{nameof(ValidateUser)}: Authentication failed. Wrong user name or password.");
+
             return result;
         }
 
