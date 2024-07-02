@@ -47,19 +47,19 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "52597751-662e-4fc3-92f6-4e9438af1b2d",
+                            Id = "f5befbe6-6d53-4577-918f-d68c0b250f7e",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "bcad7d8c-a0e7-4b78-821d-ef647bb95cbd",
+                            Id = "712d84e9-bdc2-41bf-ad04-ef65134401c6",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "7b836505-baac-4167-9536-8858245d61cd",
+                            Id = "0a79a2b2-9c7b-4694-a1d2-c8b0efd875a6",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -355,7 +355,7 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("57fbe976-6cd5-4ea1-8ac3-decfc9ddeeca"),
+                            Id = new Guid("cf18bf4b-61eb-4372-9855-a8ec4dd19358"),
                             Comment = "comment",
                             ProductId = new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"),
                             Rating = 5,
@@ -532,8 +532,8 @@ namespace WebApi.Migrations
                             Id = "efbcf454-0125-41ff-ac91-75d1564af044",
                             AccessFailedCount = 0,
                             Age = 36,
-                            Birthday = new DateTime(2024, 7, 2, 11, 48, 9, 861, DateTimeKind.Local).AddTicks(5424),
-                            ConcurrencyStamp = "30f7b2da-34d1-4d73-b8be-ddb44992b17d",
+                            Birthday = new DateTime(2024, 7, 2, 12, 46, 51, 579, DateTimeKind.Local).AddTicks(6063),
+                            ConcurrencyStamp = "69535511-c462-458b-ae27-a3b041aa8af3",
                             Email = "oleitao@gmail.com",
                             EmailConfirmed = false,
                             FullName = "oliveira leitao",
@@ -542,8 +542,9 @@ namespace WebApi.Migrations
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "def73a2a-1e2d-4808-84c9-5a4a722a6070",
-                            TwoFactorEnabled = false
+                            SecurityStamp = "cfdd97e3-e8a7-4b4b-a800-3d4980d99763",
+                            TwoFactorEnabled = false,
+                            UserName = "oleitao"
                         });
                 });
 

@@ -111,7 +111,7 @@ namespace WebApi.Services
             return result;
         }
 
-        public async Task<TokenDto> CreateToken(bool populateExp)
+        public async Task<TokenDto> GenerateToken(bool populateExp)
         {
             var signingCredentials = GetSigningCredentials();
 
@@ -181,7 +181,7 @@ namespace WebApi.Services
 
             _user = user;
 
-            return await CreateToken(populateExp: false);
+            return await GenerateToken(populateExp: false);
         }
     }
 }

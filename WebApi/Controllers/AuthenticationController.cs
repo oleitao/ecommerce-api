@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Model;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.ActionFilters;
 using WebApi.Service.Contracts;
@@ -62,7 +59,7 @@ namespace WebApi.Controllers
             if (!await _service.AuthenticationService.LoginUser(user))
                 return response; 
 
-            var tokenString = await _service.AuthenticationService.CreateToken(populateExp: true);
+            var tokenString = await _service.AuthenticationService.GenerateToken(populateExp: true);
             response = Ok(new { token = tokenString });
 
             return response; 

@@ -18,7 +18,8 @@ namespace WebApi.Repository.Configuration
                     Gender="M",
                     Birthday= DateTime.Now,
                     Email="oleitao@gmail.com",
-                    Hobby="netflix"
+                    Hobby="netflix",
+                    UserName = "oleitao",                      
                 }
             );
         }    

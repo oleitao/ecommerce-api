@@ -7,7 +7,7 @@ namespace WebApi.Service.Contracts
     {
         Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration);
         Task<bool> LoginUser(UserForAuthenticationDto userForAuth); 
-        Task<TokenDto> CreateToken(bool populateExp);
+        Task<TokenDto> GenerateToken(bool populateExp);
         Task<TokenDto> RefreshToken(TokenDto token);
     }
 }

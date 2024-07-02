@@ -353,9 +353,9 @@ namespace WebApi.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "52597751-662e-4fc3-92f6-4e9438af1b2d", null, "User", "USER" },
-                    { "7b836505-baac-4167-9536-8858245d61cd", null, "Administrator", "ADMINISTRATOR" },
-                    { "bcad7d8c-a0e7-4b78-821d-ef647bb95cbd", null, "Manager", "MANAGER" }
+                    { "0a79a2b2-9c7b-4694-a1d2-c8b0efd875a6", null, "Administrator", "ADMINISTRATOR" },
+                    { "712d84e9-bdc2-41bf-ad04-ef65134401c6", null, "Manager", "MANAGER" },
+                    { "f5befbe6-6d53-4577-918f-d68c0b250f7e", null, "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -384,12 +384,12 @@ namespace WebApi.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "Age", "Birthday", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "Gender", "Hobby", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "efbcf454-0125-41ff-ac91-75d1564af044", 0, 36, new DateTime(2024, 7, 2, 11, 48, 9, 861, DateTimeKind.Local).AddTicks(5424), "30f7b2da-34d1-4d73-b8be-ddb44992b17d", "oleitao@gmail.com", false, "oliveira leitao", "M", "netflix", false, null, null, null, null, null, false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "def73a2a-1e2d-4808-84c9-5a4a722a6070", false, null });
+                values: new object[] { "efbcf454-0125-41ff-ac91-75d1564af044", 0, 36, new DateTime(2024, 7, 2, 12, 46, 51, 579, DateTimeKind.Local).AddTicks(6063), "69535511-c462-458b-ae27-a3b041aa8af3", "oleitao@gmail.com", false, "oliveira leitao", "M", "netflix", false, null, null, null, null, null, false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "cfdd97e3-e8a7-4b4b-a800-3d4980d99763", false, "oleitao" });
 
             migrationBuilder.InsertData(
                 table: "Reviews",
                 columns: new[] { "Id", "Comment", "ProductId", "Rating", "UserId", "UserId1" },
-                values: new object[] { new Guid("57fbe976-6cd5-4ea1-8ac3-decfc9ddeeca"), "comment", new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"), 5, new Guid("efbcf454-0125-41ff-ac91-75d1564af044"), null });
+                values: new object[] { new Guid("cf18bf4b-61eb-4372-9855-a8ec4dd19358"), "comment", new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"), 5, new Guid("efbcf454-0125-41ff-ac91-75d1564af044"), null });
 
             migrationBuilder.InsertData(
                 table: "Shops",
