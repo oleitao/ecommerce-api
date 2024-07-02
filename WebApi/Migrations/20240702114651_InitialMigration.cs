@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedUsers : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -353,14 +353,48 @@ namespace WebApi.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "4dc23665-7f36-4f2a-a816-792724d9152f", null, "Administrator", "ADMINISTRATOR" },
-                    { "d1241de2-7187-475a-890b-328a62bf4340", null, "Manager", "MANAGER" }
+                    { "0a79a2b2-9c7b-4694-a1d2-c8b0efd875a6", null, "Administrator", "ADMINISTRATOR" },
+                    { "712d84e9-bdc2-41bf-ad04-ef65134401c6", null, "Manager", "MANAGER" },
+                    { "f5befbe6-6d53-4577-918f-d68c0b250f7e", null, "User", "USER" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "Image_Url", "SubTitle", "Title" },
+                values: new object[,]
+                {
+                    { new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"), "https://cdn.shopify.com/s/files/1/1706/9177/products/NEWAppleMacbookProwithM1ProChip14InchLaptop2021ModelMKGQ3LL_A_16GB_1TBSSD_custommacbd.jpg?v=1659592838", "", "Computers and Laptops" },
+                    { new Guid("6e27b4b8-e66c-450a-bf41-58344b208513"), "https://indian-retailer.s3.ap-south-1.amazonaws.com/s3fs-public/2021-07/kosme1.png", "", "cosmetics and body care" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "CategoryId", "Description", "Discount_price", "Name", "Price", "Rating", "ShopId", "ShopId1", "Stock", "Total_sell" },
+                values: new object[,]
+                {
+                    { new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"), new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"), "Product details are a crucial part of any eCommerce website or online marketplace. These details help the potential customers to make an informed decision about the product they are interested in buying. A well-written product description can also be a powerful marketing tool that can help to increase sales.Product details typically include information about the products features, specifications, dimensions, weight, materials, and other relevant information that can help customers to understand the product better. The product details section should also include high-quality images and videos of the product, as well as customer reviews and ratings.", 0, "MacBook pro M2 chipset 256gb ssd 8gb ram space-gray color with apple 1 year warranty", 0, 0, new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"), null, 0, 0 },
+                    { new Guid("398e76bb-70f0-4712-af76-10726bb6dd93"), new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"), "Product details are a crucial part of any eCommerce website or online marketplace. These details help the potential customers to make an informed decision about the product they are interested in buying. A well-written product description can also be a powerful marketing tool that can help to increase sales.Product details typically include information about the products features, specifications, dimensions, weight, materials, and other relevant information that can help customers to understand the product better. The product details section should also include high-quality images and videos of the product, as well as customer reviews and ratings.", 0, "Iphone 14 pro max 256 gb ssd and 8 gb ram silver colour", 0, 0, new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"), null, 0, 0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ShopAvatars",
+                columns: new[] { "Id", "Public_id", "Url" },
+                values: new object[] { new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc"), "test", "https://www.hatchwise.com/wp-content/uploads/2022/05/amazon-logo-1024x683.png" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "Age", "Birthday", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "Gender", "Hobby", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "efbcf454-0125-41ff-ac91-75d1564af044", 0, 36, new DateTime(2024, 6, 24, 11, 59, 38, 839, DateTimeKind.Local).AddTicks(4150), "431c073a-fa73-4a30-a2da-cb71ece1121e", "oleitao@gmail.com", false, "oliveira leitao", "M", "netflix", false, null, null, null, null, null, false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "075b9c58-d296-40f1-9d2b-0b6087ed7d70", false, null });
+                values: new object[] { "efbcf454-0125-41ff-ac91-75d1564af044", 0, 36, new DateTime(2024, 7, 2, 12, 46, 51, 579, DateTimeKind.Local).AddTicks(6063), "69535511-c462-458b-ae27-a3b041aa8af3", "oleitao@gmail.com", false, "oliveira leitao", "M", "netflix", false, null, null, null, null, null, false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "cfdd97e3-e8a7-4b4b-a800-3d4980d99763", false, "oleitao" });
+
+            migrationBuilder.InsertData(
+                table: "Reviews",
+                columns: new[] { "Id", "Comment", "ProductId", "Rating", "UserId", "UserId1" },
+                values: new object[] { new Guid("cf18bf4b-61eb-4372-9855-a8ec4dd19358"), "comment", new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"), 5, new Guid("efbcf454-0125-41ff-ac91-75d1564af044"), null });
+
+            migrationBuilder.InsertData(
+                table: "Shops",
+                columns: new[] { "Id", "Name", "ProductId", "Ratings", "ShopAvatarId" },
+                values: new object[] { new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"), "Apple inc", new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"), 4.0, new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

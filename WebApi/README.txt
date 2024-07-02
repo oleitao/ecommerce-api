@@ -48,7 +48,7 @@ https://www.c-sharpcorner.com/article/caching-mechanism-in-asp-net-core/
 
 
 SQLSERVER TO MYSQL
-dotnet ef migrations add SqlServerToMySql
+dotnet ef migrations add InitialMigration
 dotnet ef database update
 //In some situations I recommend clear DB by next command before first migration:
 dotnet ef database -f
