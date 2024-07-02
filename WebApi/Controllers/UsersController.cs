@@ -1,5 +1,6 @@
 ﻿namespace WebApi.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
@@ -44,6 +45,8 @@ public class UsersController : ControllerBase
     [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<UserDto>), StatusCodes.Status200OK)]
+    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Manager")]
     public async Task<IActionResult> GetAllUsers()
     {
         List<UserDto> users = new List<UserDto>();
@@ -113,6 +116,9 @@ public class UsersController : ControllerBase
     [Consumes(typeof(UserForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Manager")]
+    [Authorize(Roles = "User")]
     public async Task<IActionResult> CreateUser([FromBody] UserForCreationDto user)
     {
         if (user is null)
@@ -134,6 +140,9 @@ public class UsersController : ControllerBase
     [Consumes(typeof(UserForUpdateDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Manager")]
+    [Authorize(Roles = "User")]
     public async Task<IActionResult> UpdateUser(Guid id, UserForUpdateDto userUpdate)
     {
         var key = $"{nameof(UserDto)}:{id.ToString()}";
@@ -171,6 +180,8 @@ public class UsersController : ControllerBase
     [HttpDelete("{id}")]
     [ApiVersion("1.1")]
     [ApiExplorerSettings(GroupName = "v1")]
+    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Manager")]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
         var key = $"{nameof(UserDto)}:{id.ToString()}";

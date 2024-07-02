@@ -85,12 +85,11 @@ namespace WebApi.Services
         {
             var user = _mapper.Map<User>(userForRegistration);
 
-            user.FullName = userForRegistration.FullName;
-            user.UserName = userForRegistration.UserName;
-            user.Email = userForRegistration.Email;
-            user.PhoneNumber = userForRegistration.PhoneNumber;
-            user.Gender = userForRegistration.Gender;
-            user.Hobby = userForRegistration.Hobby;
+            if(user != null) 
+            {
+                user.NormalizedEmail = userForRegistration.Email.ToUpper();
+                user.PasswordHash = userForRegistration.Password;
+            }
 
             var result = await _userManager.CreateAsync(user, userForRegistration.Password);
 
@@ -100,14 +99,14 @@ namespace WebApi.Services
             return result;
         }
 
-        public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
+        public async Task<bool> LoginUser(UserForAuthenticationDto userForAuth)
         {
             _user = await _userManager.FindByNameAsync(userForAuth.UserName); 
             
             var result = (_user != null && await _userManager.CheckPasswordAsync(_user, userForAuth.Password)); 
             
             if (!result) 
-                throw new Exception($"{nameof(ValidateUser)}: Authentication failed. Wrong user name or password.");
+                throw new Exception($"{nameof(LoginUser)}: Authentication failed. Wrong user name or password.");
 
             return result;
         }

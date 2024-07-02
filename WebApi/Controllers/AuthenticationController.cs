@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,66 +16,62 @@ namespace WebApi.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IServiceManager _service;
+        private IConfiguration _configuration;
 
-        public AuthenticationController(IServiceManager service)
+        public AuthenticationController(IServiceManager service, IConfiguration configuration)
         {
             _service = service;
-        }
-
-        [HttpGet]
-        [ApiExplorerSettings(GroupName = "v1")]
-        [Produces("application/json")]
-        [ProducesResponseType(typeof(IEnumerable<User>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAllUsers()
-        {
-            try
-            {
-                var categories = await _service.UserService.GetAllUsersAsync(trackChanges: false);
-
-                return Ok(categories);
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
+            _configuration = configuration;
         }
 
 
-        [HttpPost]
+        [HttpPost("register")]
         [ApiExplorerSettings(GroupName = "v1")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
+        [ApiVersion("1.1")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register([FromBody] UserForRegistrationDto userForRegistration)
         {
-            var result = await _service.AuthenticationService.RegisterUser(userForRegistration); 
-            
-            if (!result.Succeeded)
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _service.AuthenticationService.RegisterUser(userForRegistration);
+            if (!user.Succeeded)
             { 
-                foreach (var error in result.Errors) 
+                foreach (var error in user.Errors) 
                 { 
                     ModelState.TryAddModelError(error.Code, error.Description); 
                 } 
                 return BadRequest(ModelState); 
             }
 
+
             return StatusCode(201);
         }
 
         [HttpPost("login")]
         [ApiExplorerSettings(GroupName = "v1")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))] 
-        public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user) 
-        { 
-            if (!await _service.AuthenticationService.ValidateUser(user)) 
-                return Unauthorized(); 
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ApiVersion("1.1")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto user) 
+        {
+            IActionResult response = Unauthorized();
+            if (!await _service.AuthenticationService.LoginUser(user))
+                return response; 
 
-            var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
-            
-            return Ok(tokenDto); 
+            var tokenString = await _service.AuthenticationService.CreateToken(populateExp: true);
+            response = Ok(new { token = tokenString });
+
+            return response; 
         }
 
         [HttpPost("refresh")]
         [ApiExplorerSettings(GroupName = "v1")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ApiVersion("1.1")]
+        [AllowAnonymous]
         public async Task<IActionResult> Refresh([FromBody] TokenDto tokenDto)
         {
             var tokenDtoToReturn = await _service.AuthenticationService.RefreshToken(tokenDto);

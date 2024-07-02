@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Model;
-using System.Security.Cryptography.X509Certificates;
 using WebApi.Contracts;
 using WebApi.Entities.RequestFeatures;
 using WebApi.Repository.Extensions;
@@ -55,6 +54,11 @@ namespace WebApi.Repository
         public void DeleteUser(User user)
         {
             Delete(user);
+        }
+
+        public async Task<User?> FindByEmailAsync(string email)
+        {
+            return await FindByCondition(c => c.Email.ToLower().Equals(email.ToLower()), false).FirstOrDefaultAsync();
         }
 
 

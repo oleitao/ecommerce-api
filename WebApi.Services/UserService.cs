@@ -159,6 +159,24 @@ namespace WebApi.Services
             }
         }
 
+        public async Task<UserDto> FindByEmailAsync(string email)
+        {
+            try
+            {
+                var userEntity = await _repository.User.FindByEmailAsync(email);
+                if (userEntity == null)
+                    throw new UserNotFoundException(email);
+
+                var userReturn = _mapper.Map<UserDto>(userEntity);
+
+                return userReturn;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{nameof(GetUserAsync)} : {ex}");
+            }
+        }
+
         #endregion
     }
 }

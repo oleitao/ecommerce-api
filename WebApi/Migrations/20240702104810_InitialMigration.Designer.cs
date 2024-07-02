@@ -11,8 +11,8 @@ using WebApi.Repository;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240624110126_AddedCategories")]
-    partial class AddedCategories
+    [Migration("20240702104810_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,13 +50,19 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "bb7d4ddd-cf6f-47bb-8faf-5c51fd5bccd7",
+                            Id = "52597751-662e-4fc3-92f6-4e9438af1b2d",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "bcad7d8c-a0e7-4b78-821d-ef647bb95cbd",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "10a857e4-b45f-4ebb-93b8-65b43b52e872",
+                            Id = "7b836505-baac-4167-9536-8858245d61cd",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -285,6 +291,34 @@ namespace WebApi.Migrations
                     b.HasIndex("ShopId1");
 
                     b.ToTable("Products", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"),
+                            CategoryId = new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"),
+                            Description = "Product details are a crucial part of any eCommerce website or online marketplace. These details help the potential customers to make an informed decision about the product they are interested in buying. A well-written product description can also be a powerful marketing tool that can help to increase sales.Product details typically include information about the products features, specifications, dimensions, weight, materials, and other relevant information that can help customers to understand the product better. The product details section should also include high-quality images and videos of the product, as well as customer reviews and ratings.",
+                            Discountprice = 0,
+                            Name = "MacBook pro M2 chipset 256gb ssd 8gb ram space-gray color with apple 1 year warranty",
+                            Price = 0,
+                            Rating = 0,
+                            ShopId = new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"),
+                            Stock = 0,
+                            Totalsell = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("398e76bb-70f0-4712-af76-10726bb6dd93"),
+                            CategoryId = new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"),
+                            Description = "Product details are a crucial part of any eCommerce website or online marketplace. These details help the potential customers to make an informed decision about the product they are interested in buying. A well-written product description can also be a powerful marketing tool that can help to increase sales.Product details typically include information about the products features, specifications, dimensions, weight, materials, and other relevant information that can help customers to understand the product better. The product details section should also include high-quality images and videos of the product, as well as customer reviews and ratings.",
+                            Discountprice = 0,
+                            Name = "Iphone 14 pro max 256 gb ssd and 8 gb ram silver colour",
+                            Price = 0,
+                            Rating = 0,
+                            ShopId = new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"),
+                            Stock = 0,
+                            Totalsell = 0
+                        });
                 });
 
             modelBuilder.Entity("Model.Review", b =>
@@ -320,6 +354,16 @@ namespace WebApi.Migrations
                     b.HasIndex("UserId1");
 
                     b.ToTable("Reviews", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("57fbe976-6cd5-4ea1-8ac3-decfc9ddeeca"),
+                            Comment = "comment",
+                            ProductId = new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"),
+                            Rating = 5,
+                            UserId = new Guid("efbcf454-0125-41ff-ac91-75d1564af044")
+                        });
                 });
 
             modelBuilder.Entity("Model.Shop", b =>
@@ -349,6 +393,16 @@ namespace WebApi.Migrations
                     b.HasIndex("ShopAvatarId");
 
                     b.ToTable("Shops", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"),
+                            Name = "Apple inc",
+                            ProductId = new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"),
+                            Ratings = 4.0,
+                            ShopAvatarId = new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc")
+                        });
                 });
 
             modelBuilder.Entity("Model.ShopAvatar", b =>
@@ -370,6 +424,14 @@ namespace WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ShopAvatars", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc"),
+                            Publicid = "test",
+                            Url = "https://www.hatchwise.com/wp-content/uploads/2022/05/amazon-logo-1024x683.png"
+                        });
                 });
 
             modelBuilder.Entity("Model.User", b =>
@@ -473,8 +535,8 @@ namespace WebApi.Migrations
                             Id = "efbcf454-0125-41ff-ac91-75d1564af044",
                             AccessFailedCount = 0,
                             Age = 36,
-                            Birthday = new DateTime(2024, 6, 24, 12, 1, 25, 844, DateTimeKind.Local).AddTicks(4970),
-                            ConcurrencyStamp = "4d647084-8c5d-4456-ab54-f4bfe486bced",
+                            Birthday = new DateTime(2024, 7, 2, 11, 48, 9, 861, DateTimeKind.Local).AddTicks(5424),
+                            ConcurrencyStamp = "30f7b2da-34d1-4d73-b8be-ddb44992b17d",
                             Email = "oleitao@gmail.com",
                             EmailConfirmed = false,
                             FullName = "oliveira leitao",
@@ -483,7 +545,7 @@ namespace WebApi.Migrations
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "57a23367-b2e3-4c57-b996-32ce6b709061",
+                            SecurityStamp = "def73a2a-1e2d-4808-84c9-5a4a722a6070",
                             TwoFactorEnabled = false
                         });
                 });
