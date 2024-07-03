@@ -17,7 +17,7 @@ using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
 [ApiController]
-[ApiVersion("1.1")]
+[ApiVersion(version: VersionHelper.ApiVersion)]
 [Route("api/v{version:apiVersion}/[controller]")]
 public class UsersController : ControllerBase
 {
@@ -42,7 +42,7 @@ public class UsersController : ControllerBase
 
 
     [HttpGet]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<UserDto>), StatusCodes.Status200OK)]
@@ -76,7 +76,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("{id:guid}", Name = "GetByUserId")]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
@@ -100,7 +100,7 @@ public class UsersController : ControllerBase
 
     /*
     [HttpGet(Name = "FilterUserMinAgeSort")]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     [Route("filter/")]
     public async Task<IActionResult> FilterUserMinAgeSort([FromQuery] UserParameters userParameters)
@@ -112,7 +112,7 @@ public class UsersController : ControllerBase
     */
 
     [HttpPost]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     [Consumes(typeof(UserForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -132,11 +132,16 @@ public class UsersController : ControllerBase
 
         CacheHelper.SetKey(createdUser, $"{key}:{createdUser.Id}", _cache);
 
+        Uri uri = new Uri($"https://localhost:5000/api/v{VersionHelper.ApiVersion}/email/accountvalidation/{createdUser.Id.ToString()}");
+        var client = new HttpClient { BaseAddress = uri };
+
+        await client.GetAsync(uri);
+
         return CreatedAtRoute("GetByUserId", new { id = createdUser.Id }, createdUser);
     }
 
     [HttpPut("{id:guid}")]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     [Consumes(typeof(UserForUpdateDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -179,7 +184,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     [Authorize(Roles = "Administrator")]
     [Authorize(Roles = "Manager")]

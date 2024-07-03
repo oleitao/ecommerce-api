@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using WebApi.ActionFilters;
+using WebApi.Helpers;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Controllers
 {
     [ApiController]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class AuthenticationController : ControllerBase
     {
@@ -26,7 +27,7 @@ namespace WebApi.Controllers
         [HttpPost("register")]
         [ApiExplorerSettings(GroupName = "v1")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        [ApiVersion("1.1")]
+        [ApiVersion(version: VersionHelper.ApiVersion)]
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] UserForRegistrationDto userForRegistration)
         {
@@ -52,7 +53,7 @@ namespace WebApi.Controllers
         [HttpPost("login")]
         [ApiExplorerSettings(GroupName = "v1")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        [ApiVersion("1.1")]
+        [ApiVersion(version: VersionHelper.ApiVersion)]
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto user) 
         {
@@ -68,7 +69,7 @@ namespace WebApi.Controllers
 
         [HttpPost("refresh")]
         [ApiExplorerSettings(GroupName = "v1")]
-        [ApiVersion("1.1")]
+        [ApiVersion(version: VersionHelper.ApiVersion)]
         [AllowAnonymous]
         public async Task<IActionResult> Refresh([FromBody] TokenDto tokenDto)
         {

@@ -81,7 +81,9 @@ var builder = WebApplication.CreateBuilder(args);
         x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     }).AddXmlDataContractSerializerFormatters()
       .AddCustomCSVFormatter();
-    
+
+
+    services.AddEmailSettings(builder.Configuration);
 
     services.AddAutoMapper(cfg => cfg.Internal().MethodMappingEnabled = false, typeof(MappingProfile).Assembly);
 

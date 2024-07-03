@@ -15,6 +15,7 @@ using System.Text;
 using WebApi.Contracts;
 using WebApi.Entities.ConfigurationModels;
 using WebApi.Formaters;
+using WebApi.Helpers;
 using WebApi.Repository;
 using WebApi.Service.Contracts;
 using WebApi.Services;
@@ -130,6 +131,12 @@ namespace WebApi.Extensions
                 });
         }
 
+        public static void AddEmailSettings(this IServiceCollection services, IConfiguration configuration) 
+        {
+            services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
+            services.AddTransient<IEmailSender, EmailSender>();
+        }
+            
         public static void AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration) =>
             services.Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
 
