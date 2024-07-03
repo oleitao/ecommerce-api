@@ -28,7 +28,7 @@ public class ErrorHandlerMiddleware
         }
         catch (Exception exception)
         {
-            _logger.LogError(exception, "An exception occurred: {Message}", exception.Message);
+            _logger.LogError(exception, "An exception occurred: {Content}", exception.Message);
             await HandleExceptionAsync(httpContext, exception);
         }
     }

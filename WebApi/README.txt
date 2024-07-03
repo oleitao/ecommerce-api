@@ -18,8 +18,8 @@ https://www.convertcsv.com/json-to-csv.htm?utm_content=cmp-true
 
 
 
-https://localhost:5000/api/v1/categories
-https://localhost:5000/api/categories/6e27b4b8-e66c-450a-bf41-58344b208512/products
+https://localhost:5000/api/v1.1/v1/categories
+https://localhost:5000/api/v1.1/categories/6e27b4b8-e66c-450a-bf41-58344b208512/products
 
 
 https://learn.microsoft.com/pt-pt/aspnet/core/tutorials/first-web-api?view=aspnetcore-8.0&tabs=visual-studio
@@ -33,7 +33,7 @@ TESTS
 https://docs.specflow.org/projects/getting-started/en/latest/GettingStarted/Step6.html
 
 DOCKER
-docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+docker-compose -f docker-compose.yml up
 
 
 https://www.freecodecamp.org/news/how-to-set-an-environment-variable-in-linux/
@@ -48,7 +48,7 @@ https://www.c-sharpcorner.com/article/caching-mechanism-in-asp-net-core/
 
 
 SQLSERVER TO MYSQL
-dotnet ef migrations add SqlServerToMySql
+dotnet ef migrations add InitialMigration
 dotnet ef database update
 //In some situations I recommend clear DB by next command before first migration:
 dotnet ef database -f
@@ -56,7 +56,7 @@ dotnet ef database -f
 ------------------------------------------------------------------------------------------------------------------------------------
 GetAllProducts
 GetProductById
-GET(https://localhost:5000/api/products/398E76BB-70F0-4712-AF76-10726BB6DD92)
+GET(https://localhost:5000/api/v1.1/products/398E76BB-70F0-4712-AF76-10726BB6DD92)
 {
     "id": "398e76bb-70f0-4712-af76-10726bb6dd92",
     "name": "MacBook pro M2 chipset 256gb ssd 8gb ram space-gray color with apple 1 year warranty",
@@ -103,7 +103,7 @@ GET(https://localhost:5000/api/products/398E76BB-70F0-4712-AF76-10726BB6DD92)
 
 ------------------------------------------------------------------------------------------------------------------------------------
 UpdateImageUrl
-PUT(https://localhost:5000/api/imageurls/337dad38-f567-46f4-bf2c-00ad96e08299)
+PUT(https://localhost:5000/api/v1.1/imageurls/337dad38-f567-46f4-bf2c-00ad96e08299)
 {
     "public_id": "PUT method test",
     "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR42FePhUrLX424aLie09J4Pfkn03T8h3D7PQ&usqp=CAU",
@@ -111,7 +111,7 @@ PUT(https://localhost:5000/api/imageurls/337dad38-f567-46f4-bf2c-00ad96e08299)
 }
 ------------------------------------------------------------------------------------------------------------------------------------
 UpdateCategory
-PUT(https://localhost:5000/api/categories/00000000-0000-0000-0000-000000000000)
+PUT(https://localhost:5000/api/v1.1/categories/00000000-0000-0000-0000-000000000000)
 {
     "title": "New Category 1",
     "subTitle": "",
@@ -119,7 +119,7 @@ PUT(https://localhost:5000/api/categories/00000000-0000-0000-0000-000000000000)
 }
 ------------------------------------------------------------------------------------------------------------------------------------
 CreateImageUrlAsync
-POST(https://localhost:5000/api/imageurls)
+POST(https://localhost:5000/api/v1.1/imageurls)
 {
     "publicUrl": "test",
     "url": "http://example.com",
@@ -127,7 +127,7 @@ POST(https://localhost:5000/api/imageurls)
 }
 ------------------------------------------------------------------------------------------------------------------------------------
 CreateReview
-POST(https://localhost:5000/api/reviews)
+POST(https://localhost:5000/api/v1.1/reviews)
 {
     "comment": "comment test",
     "rating": 5,
@@ -136,7 +136,7 @@ POST(https://localhost:5000/api/reviews)
 }
 ------------------------------------------------------------------------------------------------------------------------------------
 CreateImageUrlAsync
-POST(https://localhost:5000/api/imageurls)
+POST(https://localhost:5000/api/v1.1/imageurls)
 {
     "publicUrl": "api-test",
     "url": "https://example.com",
@@ -144,14 +144,14 @@ POST(https://localhost:5000/api/imageurls)
 }
 ------------------------------------------------------------------------------------------------------------------------------------
 CreateShopAvatar
-POST(https://localhost:5000/api/shopavatars)
+POST(https://localhost:5000/api/v1.1/shopavatars)
 {
     "publicId": "api-test",
     "url": "https://example.com"
 }
 ------------------------------------------------------------------------------------------------------------------------------------
 CreateCategory
-POST(https://localhost:5000/api/categories)
+POST(https://localhost:5000/api/v1.1/categories)
 {
     "title": "New Category 2",
     "subTitle": "",
@@ -161,16 +161,16 @@ POST(https://localhost:5000/api/categories)
 https://localhost:5000/swagger/index.html?urls.primaryName=E-Commerce+WebAPI+v1
 ------------------------------------------------------------------------------------------------------------------------------------
 DeleteCategory
-DELETE(https://localhost:5000/api/categories/F02D00B6-54BB-4E48-BC43-FC9CD3DEF502)
+DELETE(https://localhost:5000/api/v1.1/categories/F02D00B6-54BB-4E48-BC43-FC9CD3DEF502)
 ------------------------------------------------------------------------------------------------------------------------------------
 GetCategoriesOptions
-OPTIONS(https://localhost:5000/api/categories)
+OPTIONS(https://localhost:5000/api/v1.1/categories)
 ------------------------------------------------------------------------------------------------------------------------------------
 GetAllProducts
-HEAD(https://localhost:5000/api/products)
+HEAD(https://localhost:5000/api/v1.1/products)
 ------------------------------------------------------------------------------------------------------------------------------------
 RegisterUser
-POST(https://localhost:5000/api/authentication)
+POST(https://localhost:5000/api/v1.1/authentication)
 {
     "firstname": "oliveira",
     "lastname": "leitao",
@@ -187,43 +187,43 @@ POST(https://localhost:5000/api/authentication)
 }}
 ------------------------------------------------------------------------------------------------------------------------------------
 Authenticate
-POST(https://localhost:5000/api/authentication/login)
+POST(https://localhost:5000/api/v1.1/authentication/login)
 {
     "username": "oleitao",
     "password": "Password1000"
 }
 ------------------------------------------------------------------------------------------------------------------------------------
 Refresh
-POST(https://localhost:5000/api/authentication/refresh)
+POST(https://localhost:5000/api/v1.1/authentication/refresh)
 {
     "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoib2xlaXRhbyIsImV4cCI6MTcxODE3ODcxOCwiaXNzIjoiV2ViQXBpIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSJ9.Dh-bbiYkBprWo8zWYgy1Z8XOjdkQ81zZuGcWeY8g3BA",
     "refreshToken": "PVKT/VXyaBsVeOiUaFd1u4CNFCN0bPp9uC2FYdQQFGM="
 }
 ------------------------------------------------------------------------------------------------------------------------------------
 FilterUserMinAgeSort
-GET(https://localhost:5000/api/users/filter?orderBy=FullName asc)
+GET(https://localhost:5000/api/v1.1/users/filter?orderBy=FullName asc)
 FilterProductsSorted
-GET(https://localhost:5000/api/products/filter?orderBy=Name desc)
+GET(https://localhost:5000/api/v1.1/products/filter?orderBy=Name desc)
 ------------------------------------------------------------------------------------------------------------------------------------
 FilterUserMinAge
-GET(https://localhost:5000/api/users/filter?minAge=37)
-GET(https://localhost:5000/api/users/filter?maxAge=37)
+GET(https://localhost:5000/api/v1.1/users/filter?minAge=37)
+GET(https://localhost:5000/api/v1.1/users/filter?maxAge=37)
 ------------------------------------------------------------------------------------------------------------------------------------
 FilterUserMinAge
-GET(https://localhost:5000/api/users/filter?searchTerm=M)
-GET(https://localhost:5000/api/users/filter?minAge=36&searchTerm=P)
+GET(https://localhost:5000/api/v1.1/users/filter?searchTerm=M)
+GET(https://localhost:5000/api/v1.1/users/filter?minAge=36&searchTerm=P)
 ------------------------------------------------------------------------------------------------------------------------------------
 GetPagedProductsForCategory
-GET(https://localhost:5000/api/categories/6E27B4B8-E66C-450A-BF41-58344B208512/products?minName=10)
+GET(https://localhost:5000/api/v1.1/categories/6E27B4B8-E66C-450A-BF41-58344B208512/products?minName=10)
 ------------------------------------------------------------------------------------------------------------------------------------
 GetPagedProductsForCategory
-GET(https://localhost:5000/api/categories/6E27B4B8-E66C-450A-BF41-58344B208512/products?pageNumber=2&pageSize=5)
+GET(https://localhost:5000/api/v1.1/categories/6E27B4B8-E66C-450A-BF41-58344B208512/products?pageNumber=2&pageSize=5)
 ------------------------------------------------------------------------------------------------------------------------------------
 GetPagingProductsForCategory
-GET(https://localhost:5000/api/categories/6E27B4B8-E66C-450A-BF41-58344B208512/products?pageNumber=2&pageSize=5)
+GET(https://localhost:5000/api/v1.1/categories/6E27B4B8-E66C-450A-BF41-58344B208512/products?pageNumber=2&pageSize=5)
 ------------------------------------------------------------------------------------------------------------------------------------
 CreateProductForCategory
-POST(https://localhost:5000/api/categories/FE58DDC2-61EE-4E1A-9402-A0C9EBFB8E5C/products)
+POST(https://localhost:5000/api/v1.1/categories/FE58DDC2-61EE-4E1A-9402-A0C9EBFB8E5C/products)
 {
     "Category": {
         "id": "fe58ddc2-61ee-4e1a-9402-a0c9ebfb8e5c",
@@ -260,7 +260,7 @@ POST(https://localhost:5000/api/categories/FE58DDC2-61EE-4E1A-9402-A0C9EBFB8E5C/
 }
 ------------------------------------------------------------------------------------------------------------------------------------
 CreateCategoryCollection
-GET(https://localhost:5000/api/categories/collection)
+GET(https://localhost:5000/api/v1.1/categories/collection)
 [
     {
         "id": "4d9ea93c-1b54-4576-9821-0822f8c32aa0",
@@ -277,13 +277,13 @@ GET(https://localhost:5000/api/categories/collection)
 ]
 ------------------------------------------------------------------------------------------------------------------------------------
 GetProductsByCategory
-GET(https://localhost:5000/api/categories/6E27B4B8-E66C-450A-BF41-58344B208512/products)
+GET(https://localhost:5000/api/v1.1/categories/6E27B4B8-E66C-450A-BF41-58344B208512/products)
 ------------------------------------------------------------------------------------------------------------------------------------
 GetCategoryCollection
-GET(https://localhost:5000/api/categories/collection/(4D9EA93C-1B54-4576-9821-0822F8C32EE0,418A55C2-6254-4BC7-9593-4A41665FD396))
+GET(https://localhost:5000/api/v1.1/categories/collection/(4D9EA93C-1B54-4576-9821-0822F8C32EE0,418A55C2-6254-4BC7-9593-4A41665FD396))
 ------------------------------------------------------------------------------------------------------------------------------------
 UpdateCategory
-PUT(https://localhost:5000/api/categories/418A55C2-6254-4BC7-9593-4A41665FD396)
+PUT(https://localhost:5000/api/v1.1/categories/418A55C2-6254-4BC7-9593-4A41665FD396)
 {
     "title": "TEST3",
     "subTitle": "test put",
@@ -291,10 +291,10 @@ PUT(https://localhost:5000/api/categories/418A55C2-6254-4BC7-9593-4A41665FD396)
 }
 ------------------------------------------------------------------------------------------------------------------------------------
 DeleteImageUrl
-DELETE(https://localhost:5000/api/imageurls/2B36C506-8A20-41E8-8FAF-02B1DF746104)
+DELETE(https://localhost:5000/api/v1.1/imageurls/2B36C506-8A20-41E8-8FAF-02B1DF746104)
 ------------------------------------------------------------------------------------------------------------------------------------
 PartiallyUpdateProductForCompany
-PATCH(https://localhost:5000/api/categories/FC7F2981-1031-4D10-8565-9CF93F211799/products/B4087A37-1862-4408-A52B-2F06D122D540)
+PATCH(https://localhost:5000/api/v1.1/categories/FC7F2981-1031-4D10-8565-9CF93F211799/products/B4087A37-1862-4408-A52B-2F06D122D540)
 [
     {
         "op": "replace",
@@ -304,7 +304,7 @@ PATCH(https://localhost:5000/api/categories/FC7F2981-1031-4D10-8565-9CF93F211799
 ]
 ------------------------------------------------------------------------------------------------------------------------------------
 Authenticate
-POST(https://localhost:5000/api/authentication/login)
+POST(https://localhost:5000/api/v1.1/authentication/login)
 {
     "username": "oleitao",
     "password": "Password1000"

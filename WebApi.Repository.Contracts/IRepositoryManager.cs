@@ -18,6 +18,8 @@ namespace WebApi.Contracts
         IShopRepository Shop { get; }
 
         IUserRepository User { get; }
+
+        IEmailRepository Email { get; }
         void Save();
         Task SaveAsync();
     }

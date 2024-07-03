@@ -11,8 +11,8 @@ using WebApi.Repository;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240624110126_AddedCategories")]
-    partial class AddedCategories
+    [Migration("20240703161328_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,13 +50,19 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "bb7d4ddd-cf6f-47bb-8faf-5c51fd5bccd7",
+                            Id = "e0c197b2-e489-48ea-9576-e87c283761c5",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "4a3418bd-a89b-4174-9248-1ba17a1e5dc9",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "10a857e4-b45f-4ebb-93b8-65b43b52e872",
+                            Id = "9390e41f-5eae-44dc-85ec-fef55a7962ba",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -206,6 +212,64 @@ namespace WebApi.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Model.Email", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("Id");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsBodyHtml")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Emails", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("ab93ad1d-fb5a-4fb2-bd71-8c4b1baec9ae"),
+                            Body = "<body style=\"font-family: 'Poppins', Arial, sans-serif\">\r\n    <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n        <tr>\r\n            <td align=\"center\" style=\"padding: 20px;\">\r\n                <table class=\"content\" width=\"600\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse: collapse; border: 1px solid #cccccc;\">\r\n                    <!-- Header -->\r\n                    <tr>\r\n                        <td class=\"header\" style=\"background-color: #345C72; padding: 40px; text-align: center; color: white; font-size: 24px;\">\r\n                        [TITLE]\r\n                        </td>\r\n                    </tr>\r\n\r\n                    <!-- Body -->\r\n                    <tr>\r\n                        <td class=\"body\" style=\"padding: 40px; text-align: left; font-size: 16px; line-height: 1.6;\">\r\n                        Hello, All! <br>\r\n                        [CONTENT]\r\n                        <br><br>\r\n                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam corporis sint eum nemo animi velit exercitationem impedit. Incidunt, officia facilis  atque? Ipsam voluptas fugiat distinctio blanditiis veritatis.            \r\n                        </td>\r\n                    </tr>\r\n\r\n                    <!-- Call to action Button -->\r\n                    <tr>\r\n                        <td style=\"padding: 0px 40px 0px 40px; text-align: center;\">\r\n                            <!-- CTA Button -->\r\n                            <table cellspacing=\"0\" cellpadding=\"0\" style=\"margin: auto;\">\r\n                                <tr>\r\n                                    <td align=\"center\" style=\"background-color: #345C72; padding: 10px 20px; border-radius: 5px;\">\r\n                                        <a href=\"https://www.yourwebsite.com\" target=\"_blank\" style=\"color: #ffffff; text-decoration: none; font-weight: bold;\">Book a Free Consulatation</a>\r\n                                    </td>\r\n                                </tr>\r\n                            </table>\r\n                        </td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td class=\"body\" style=\"padding: 40px; text-align: left; font-size: 16px; line-height: 1.6;\">\r\n                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam corporis sint eum nemo animi velit exercitationem impedit.             \r\n                        </td>\r\n                    </tr>\r\n                    <!-- Footer -->\r\n                    <tr>\r\n                        <td class=\"footer\" style=\"background-color: #333333; padding: 40px; text-align: center; color: white; font-size: 14px;\">\r\n                        Copyright &copy; 2024 | Your brand name\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n            </td>\r\n        </tr>\r\n    </table>\r\n</body>",
+                            Content = "https://localhost:5000/api/v1.1/email/accountvalidation",
+                            IsBodyHtml = true,
+                            Priority = 0,
+                            Subject = "Email account validation"
+                        },
+                        new
+                        {
+                            Id = new Guid("3a18dd76-edf5-4541-b54c-943fd6e1f176"),
+                            Body = "<body style=\"font-family: 'Poppins', Arial, sans-serif\">\r\n    <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n        <tr>\r\n            <td align=\"center\" style=\"padding: 20px;\">\r\n                <table class=\"content\" width=\"600\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse: collapse; border: 1px solid #cccccc;\">\r\n                    <!-- Header -->\r\n                    <tr>\r\n                        <td class=\"header\" style=\"background-color: #345C72; padding: 40px; text-align: center; color: white; font-size: 24px;\">\r\n                        [TITLE]\r\n                        </td>\r\n                    </tr>\r\n\r\n                    <!-- Body -->\r\n                    <tr>\r\n                        <td class=\"body\" style=\"padding: 40px; text-align: left; font-size: 16px; line-height: 1.6;\">\r\n                        Hello, All! <br>\r\n                        [CONTENT]\r\n                        <br><br>\r\n                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam corporis sint eum nemo animi velit exercitationem impedit. Incidunt, officia facilis  atque? Ipsam voluptas fugiat distinctio blanditiis veritatis.            \r\n                        </td>\r\n                    </tr>\r\n\r\n                    <!-- Call to action Button -->\r\n                    <tr>\r\n                        <td style=\"padding: 0px 40px 0px 40px; text-align: center;\">\r\n                            <!-- CTA Button -->\r\n                            <table cellspacing=\"0\" cellpadding=\"0\" style=\"margin: auto;\">\r\n                                <tr>\r\n                                    <td align=\"center\" style=\"background-color: #345C72; padding: 10px 20px; border-radius: 5px;\">\r\n                                        <a href=\"https://www.yourwebsite.com\" target=\"_blank\" style=\"color: #ffffff; text-decoration: none; font-weight: bold;\">Book a Free Consulatation</a>\r\n                                    </td>\r\n                                </tr>\r\n                            </table>\r\n                        </td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td class=\"body\" style=\"padding: 40px; text-align: left; font-size: 16px; line-height: 1.6;\">\r\n                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam corporis sint eum nemo animi velit exercitationem impedit.             \r\n                        </td>\r\n                    </tr>\r\n                    <!-- Footer -->\r\n                    <tr>\r\n                        <td class=\"footer\" style=\"background-color: #333333; padding: 40px; text-align: center; color: white; font-size: 14px;\">\r\n                        Copyright &copy; 2024 | Your brand name\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n            </td>\r\n        </tr>\r\n    </table>\r\n</body>",
+                            Content = "email de pagamento",
+                            IsBodyHtml = true,
+                            Priority = 0,
+                            Subject = "Email payment"
+                        },
+                        new
+                        {
+                            Id = new Guid("06d36b5b-d52e-4328-9a8a-2db972b119a1"),
+                            Body = "<body style=\"font-family: 'Poppins', Arial, sans-serif\">\r\n    <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n        <tr>\r\n            <td align=\"center\" style=\"padding: 20px;\">\r\n                <table class=\"content\" width=\"600\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse: collapse; border: 1px solid #cccccc;\">\r\n                    <!-- Header -->\r\n                    <tr>\r\n                        <td class=\"header\" style=\"background-color: #345C72; padding: 40px; text-align: center; color: white; font-size: 24px;\">\r\n                        [TITLE]\r\n                        </td>\r\n                    </tr>\r\n\r\n                    <!-- Body -->\r\n                    <tr>\r\n                        <td class=\"body\" style=\"padding: 40px; text-align: left; font-size: 16px; line-height: 1.6;\">\r\n                        Hello, All! <br>\r\n                        [CONTENT]\r\n                        <br><br>\r\n                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam corporis sint eum nemo animi velit exercitationem impedit. Incidunt, officia facilis  atque? Ipsam voluptas fugiat distinctio blanditiis veritatis.            \r\n                        </td>\r\n                    </tr>\r\n\r\n                    <!-- Call to action Button -->\r\n                    <tr>\r\n                        <td style=\"padding: 0px 40px 0px 40px; text-align: center;\">\r\n                            <!-- CTA Button -->\r\n                            <table cellspacing=\"0\" cellpadding=\"0\" style=\"margin: auto;\">\r\n                                <tr>\r\n                                    <td align=\"center\" style=\"background-color: #345C72; padding: 10px 20px; border-radius: 5px;\">\r\n                                        <a href=\"https://www.yourwebsite.com\" target=\"_blank\" style=\"color: #ffffff; text-decoration: none; font-weight: bold;\">Book a Free Consulatation</a>\r\n                                    </td>\r\n                                </tr>\r\n                            </table>\r\n                        </td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td class=\"body\" style=\"padding: 40px; text-align: left; font-size: 16px; line-height: 1.6;\">\r\n                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam corporis sint eum nemo animi velit exercitationem impedit.             \r\n                        </td>\r\n                    </tr>\r\n                    <!-- Footer -->\r\n                    <tr>\r\n                        <td class=\"footer\" style=\"background-color: #333333; padding: 40px; text-align: center; color: white; font-size: 14px;\">\r\n                        Copyright &copy; 2024 | Your brand name\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n            </td>\r\n        </tr>\r\n    </table>\r\n</body>",
+                            Content = "Newsletter email 1",
+                            IsBodyHtml = true,
+                            Priority = 0,
+                            Subject = "Newslatter email 1"
+                        });
+                });
+
             modelBuilder.Entity("Model.ImageUrl", b =>
                 {
                     b.Property<Guid>("Id")
@@ -246,7 +310,7 @@ namespace WebApi.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("Description");
+                        .HasColumnName("Subject");
 
                     b.Property<int>("Discount_price")
                         .HasColumnType("int")
@@ -285,6 +349,34 @@ namespace WebApi.Migrations
                     b.HasIndex("ShopId1");
 
                     b.ToTable("Products", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"),
+                            CategoryId = new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"),
+                            Description = "Product details are a crucial part of any eCommerce website or online marketplace. These details help the potential customers to make an informed decision about the product they are interested in buying. A well-written product description can also be a powerful marketing tool that can help to increase sales.Product details typically include information about the products features, specifications, dimensions, weight, materials, and other relevant information that can help customers to understand the product better. The product details section should also include high-quality images and videos of the product, as well as customer reviews and ratings.",
+                            Discountprice = 0,
+                            Name = "MacBook pro M2 chipset 256gb ssd 8gb ram space-gray color with apple 1 year warranty",
+                            Price = 0,
+                            Rating = 0,
+                            ShopId = new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"),
+                            Stock = 0,
+                            Totalsell = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("398e76bb-70f0-4712-af76-10726bb6dd93"),
+                            CategoryId = new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"),
+                            Description = "Product details are a crucial part of any eCommerce website or online marketplace. These details help the potential customers to make an informed decision about the product they are interested in buying. A well-written product description can also be a powerful marketing tool that can help to increase sales.Product details typically include information about the products features, specifications, dimensions, weight, materials, and other relevant information that can help customers to understand the product better. The product details section should also include high-quality images and videos of the product, as well as customer reviews and ratings.",
+                            Discountprice = 0,
+                            Name = "Iphone 14 pro max 256 gb ssd and 8 gb ram silver colour",
+                            Price = 0,
+                            Rating = 0,
+                            ShopId = new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"),
+                            Stock = 0,
+                            Totalsell = 0
+                        });
                 });
 
             modelBuilder.Entity("Model.Review", b =>
@@ -320,6 +412,16 @@ namespace WebApi.Migrations
                     b.HasIndex("UserId1");
 
                     b.ToTable("Reviews", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("1024dcaa-2bc5-4bb8-8d09-a1459a64259a"),
+                            Comment = "comment",
+                            ProductId = new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"),
+                            Rating = 5,
+                            UserId = new Guid("efbcf454-0125-41ff-ac91-75d1564af044")
+                        });
                 });
 
             modelBuilder.Entity("Model.Shop", b =>
@@ -349,6 +451,16 @@ namespace WebApi.Migrations
                     b.HasIndex("ShopAvatarId");
 
                     b.ToTable("Shops", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"),
+                            Name = "Apple inc",
+                            ProductId = new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"),
+                            Ratings = 4.0,
+                            ShopAvatarId = new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc")
+                        });
                 });
 
             modelBuilder.Entity("Model.ShopAvatar", b =>
@@ -370,6 +482,14 @@ namespace WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ShopAvatars", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc"),
+                            Publicid = "test",
+                            Url = "https://www.hatchwise.com/wp-content/uploads/2022/05/amazon-logo-1024x683.png"
+                        });
                 });
 
             modelBuilder.Entity("Model.User", b =>
@@ -473,9 +593,9 @@ namespace WebApi.Migrations
                             Id = "efbcf454-0125-41ff-ac91-75d1564af044",
                             AccessFailedCount = 0,
                             Age = 36,
-                            Birthday = new DateTime(2024, 6, 24, 12, 1, 25, 844, DateTimeKind.Local).AddTicks(4970),
-                            ConcurrencyStamp = "4d647084-8c5d-4456-ab54-f4bfe486bced",
-                            Email = "oleitao@gmail.com",
+                            Birthday = new DateTime(2024, 7, 3, 17, 13, 28, 538, DateTimeKind.Local).AddTicks(5544),
+                            ConcurrencyStamp = "152220df-70bc-4403-8e05-be4b3b394ed6",
+                            Email = "cp5469@protonmail.com",
                             EmailConfirmed = false,
                             FullName = "oliveira leitao",
                             Gender = "M",
@@ -483,8 +603,9 @@ namespace WebApi.Migrations
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "57a23367-b2e3-4c57-b996-32ce6b709061",
-                            TwoFactorEnabled = false
+                            SecurityStamp = "9acfe278-0a56-438e-8173-1720b81a2fce",
+                            TwoFactorEnabled = false,
+                            UserName = "oleitao"
                         });
                 });
 

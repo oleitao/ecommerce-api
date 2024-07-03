@@ -3,11 +3,13 @@ using System.Security.Authentication;
 using System.Threading.Tasks;
 using System;
 using WebApi.Entities.Exceptions;
+using WebApi.Helpers;
 
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("api/testlog")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
+    [Route("api/testlog/v{version:apiVersion}/[controller]")]
     public class TestElasticSearchController : ControllerBase
     {
         [HttpGet]

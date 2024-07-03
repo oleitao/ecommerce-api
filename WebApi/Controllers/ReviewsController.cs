@@ -16,7 +16,8 @@ using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
 [ApiController]
-[Route("api/[controller]")]
+[ApiVersion(version: VersionHelper.ApiVersion)]
+[Route("api/v{version:apiVersion}/[controller]")]
 public class ReviewsController : ControllerBase
 {
     private readonly IServiceManager _service;
@@ -39,7 +40,7 @@ public class ReviewsController : ControllerBase
     }
 
     [HttpGet]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName ="v1")]
     //[Authorize]
     [Produces("application/json")]
@@ -73,7 +74,7 @@ public class ReviewsController : ControllerBase
 
 
     [HttpGet("{id:guid}", Name = "GetReviewByIdAsync")]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     [Produces("application/json")]
@@ -155,7 +156,7 @@ public class ReviewsController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     public async Task<IActionResult> DeleteReview(Guid id)

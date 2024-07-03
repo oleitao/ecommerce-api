@@ -11,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using WebApi.Entities.Exceptions;
 using WebApi.Entities.RequestFeatures;
@@ -20,7 +19,8 @@ using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
 [ApiController]
-[Route("api/[controller]")]
+[ApiVersion(version: VersionHelper.ApiVersion)]
+[Route("api/v{version:apiVersion}/[controller]")]
 public class ProductsController : ControllerBase
 {
     private readonly IServiceManager _service;
@@ -44,7 +44,7 @@ public class ProductsController : ControllerBase
 
     [HttpGet]
     [HttpHead]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     [Produces("application/json")]
@@ -98,7 +98,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet("{id:guid}", Name = "GetProductById")]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     [Produces("application/json")]
@@ -122,7 +122,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     [Consumes(typeof(ProductForCreationDto), "application/json")]
@@ -145,7 +145,7 @@ public class ProductsController : ControllerBase
 
 
     [HttpPut("{id:guid}")]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     public async Task<IActionResult> UpdateProduct(Guid id, ProductForUpdateDto productUpdate)
@@ -191,7 +191,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     public async Task<IActionResult> DeleteProduct(Guid id)
     {

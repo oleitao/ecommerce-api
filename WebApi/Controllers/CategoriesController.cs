@@ -20,10 +20,12 @@ using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
 [ApiController]
-[Route("api/[controller]")]
+[ApiVersion(version: VersionHelper.ApiVersion)]
+[Route("api/v{version:apiVersion}/[controller]")]
 public class CategoriesController : ControllerBase
 {
     private readonly IServiceManager _service;
+    private readonly IEmailSender _emailSender;
     private readonly HttpClient _client;
     private readonly IDatabase _redis;
     private readonly IDistributedCache _cache;
@@ -42,7 +44,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpGet]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
     //[Authorize]
@@ -109,7 +111,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpGet("{id:guid}", Name = "CategoryById")]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(CategoryDto), StatusCodes.Status200OK)]
@@ -167,7 +169,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPost]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     [Consumes(typeof(CategoryForCreationDto), "application/json")]
@@ -190,7 +192,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     [Consumes(typeof(CategoryForUpdateDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -231,7 +233,7 @@ public class CategoriesController : ControllerBase
 
     
     [HttpDelete("{id:guid}")]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     public async Task<IActionResult> DeleteCategory(Guid id)

@@ -6,6 +6,7 @@ using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using WebApi.Entities.RequestFeatures;
+using WebApi.Helpers;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
@@ -13,6 +14,7 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [Route("api/categories/{categoryId}/products")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     public class CategoryProductsController : ControllerBase
     {
         private readonly IServiceManager _service;

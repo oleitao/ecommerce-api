@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedUsers : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -51,6 +51,26 @@ namespace WebApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Emails",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Body = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsBodyHtml = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Priority = table.Column<int>(type: "int", nullable: false),
+                    Content = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Subject = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Emails", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -273,7 +293,7 @@ namespace WebApi.Migrations
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Description = table.Column<string>(type: "longtext", nullable: false)
+                    Subject = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Price = table.Column<int>(type: "int", nullable: false),
                     Discountprice = table.Column<int>(name: "Discount_price", type: "int", nullable: false),
@@ -353,14 +373,58 @@ namespace WebApi.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "4dc23665-7f36-4f2a-a816-792724d9152f", null, "Administrator", "ADMINISTRATOR" },
-                    { "d1241de2-7187-475a-890b-328a62bf4340", null, "Manager", "MANAGER" }
+                    { "4a3418bd-a89b-4174-9248-1ba17a1e5dc9", null, "Manager", "MANAGER" },
+                    { "9390e41f-5eae-44dc-85ec-fef55a7962ba", null, "Administrator", "ADMINISTRATOR" },
+                    { "e0c197b2-e489-48ea-9576-e87c283761c5", null, "User", "USER" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "Image_Url", "SubTitle", "Title" },
+                values: new object[,]
+                {
+                    { new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"), "https://cdn.shopify.com/s/files/1/1706/9177/products/NEWAppleMacbookProwithM1ProChip14InchLaptop2021ModelMKGQ3LL_A_16GB_1TBSSD_custommacbd.jpg?v=1659592838", "", "Computers and Laptops" },
+                    { new Guid("6e27b4b8-e66c-450a-bf41-58344b208513"), "https://indian-retailer.s3.ap-south-1.amazonaws.com/s3fs-public/2021-07/kosme1.png", "", "cosmetics and body care" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Emails",
+                columns: new[] { "Id", "Body", "Content", "IsBodyHtml", "Priority", "Subject" },
+                values: new object[,]
+                {
+                    { new Guid("06d36b5b-d52e-4328-9a8a-2db972b119a1"), "<body style=\"font-family: 'Poppins', Arial, sans-serif\">\r\n    <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n        <tr>\r\n            <td align=\"center\" style=\"padding: 20px;\">\r\n                <table class=\"content\" width=\"600\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse: collapse; border: 1px solid #cccccc;\">\r\n                    <!-- Header -->\r\n                    <tr>\r\n                        <td class=\"header\" style=\"background-color: #345C72; padding: 40px; text-align: center; color: white; font-size: 24px;\">\r\n                        [TITLE]\r\n                        </td>\r\n                    </tr>\r\n\r\n                    <!-- Body -->\r\n                    <tr>\r\n                        <td class=\"body\" style=\"padding: 40px; text-align: left; font-size: 16px; line-height: 1.6;\">\r\n                        Hello, All! <br>\r\n                        [CONTENT]\r\n                        <br><br>\r\n                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam corporis sint eum nemo animi velit exercitationem impedit. Incidunt, officia facilis  atque? Ipsam voluptas fugiat distinctio blanditiis veritatis.            \r\n                        </td>\r\n                    </tr>\r\n\r\n                    <!-- Call to action Button -->\r\n                    <tr>\r\n                        <td style=\"padding: 0px 40px 0px 40px; text-align: center;\">\r\n                            <!-- CTA Button -->\r\n                            <table cellspacing=\"0\" cellpadding=\"0\" style=\"margin: auto;\">\r\n                                <tr>\r\n                                    <td align=\"center\" style=\"background-color: #345C72; padding: 10px 20px; border-radius: 5px;\">\r\n                                        <a href=\"https://www.yourwebsite.com\" target=\"_blank\" style=\"color: #ffffff; text-decoration: none; font-weight: bold;\">Book a Free Consulatation</a>\r\n                                    </td>\r\n                                </tr>\r\n                            </table>\r\n                        </td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td class=\"body\" style=\"padding: 40px; text-align: left; font-size: 16px; line-height: 1.6;\">\r\n                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam corporis sint eum nemo animi velit exercitationem impedit.             \r\n                        </td>\r\n                    </tr>\r\n                    <!-- Footer -->\r\n                    <tr>\r\n                        <td class=\"footer\" style=\"background-color: #333333; padding: 40px; text-align: center; color: white; font-size: 14px;\">\r\n                        Copyright &copy; 2024 | Your brand name\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n            </td>\r\n        </tr>\r\n    </table>\r\n</body>", "Newsletter email 1", true, 0, "Newslatter email 1" },
+                    { new Guid("3a18dd76-edf5-4541-b54c-943fd6e1f176"), "<body style=\"font-family: 'Poppins', Arial, sans-serif\">\r\n    <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n        <tr>\r\n            <td align=\"center\" style=\"padding: 20px;\">\r\n                <table class=\"content\" width=\"600\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse: collapse; border: 1px solid #cccccc;\">\r\n                    <!-- Header -->\r\n                    <tr>\r\n                        <td class=\"header\" style=\"background-color: #345C72; padding: 40px; text-align: center; color: white; font-size: 24px;\">\r\n                        [TITLE]\r\n                        </td>\r\n                    </tr>\r\n\r\n                    <!-- Body -->\r\n                    <tr>\r\n                        <td class=\"body\" style=\"padding: 40px; text-align: left; font-size: 16px; line-height: 1.6;\">\r\n                        Hello, All! <br>\r\n                        [CONTENT]\r\n                        <br><br>\r\n                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam corporis sint eum nemo animi velit exercitationem impedit. Incidunt, officia facilis  atque? Ipsam voluptas fugiat distinctio blanditiis veritatis.            \r\n                        </td>\r\n                    </tr>\r\n\r\n                    <!-- Call to action Button -->\r\n                    <tr>\r\n                        <td style=\"padding: 0px 40px 0px 40px; text-align: center;\">\r\n                            <!-- CTA Button -->\r\n                            <table cellspacing=\"0\" cellpadding=\"0\" style=\"margin: auto;\">\r\n                                <tr>\r\n                                    <td align=\"center\" style=\"background-color: #345C72; padding: 10px 20px; border-radius: 5px;\">\r\n                                        <a href=\"https://www.yourwebsite.com\" target=\"_blank\" style=\"color: #ffffff; text-decoration: none; font-weight: bold;\">Book a Free Consulatation</a>\r\n                                    </td>\r\n                                </tr>\r\n                            </table>\r\n                        </td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td class=\"body\" style=\"padding: 40px; text-align: left; font-size: 16px; line-height: 1.6;\">\r\n                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam corporis sint eum nemo animi velit exercitationem impedit.             \r\n                        </td>\r\n                    </tr>\r\n                    <!-- Footer -->\r\n                    <tr>\r\n                        <td class=\"footer\" style=\"background-color: #333333; padding: 40px; text-align: center; color: white; font-size: 14px;\">\r\n                        Copyright &copy; 2024 | Your brand name\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n            </td>\r\n        </tr>\r\n    </table>\r\n</body>", "email de pagamento", true, 0, "Email payment" },
+                    { new Guid("ab93ad1d-fb5a-4fb2-bd71-8c4b1baec9ae"), "<body style=\"font-family: 'Poppins', Arial, sans-serif\">\r\n    <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n        <tr>\r\n            <td align=\"center\" style=\"padding: 20px;\">\r\n                <table class=\"content\" width=\"600\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse: collapse; border: 1px solid #cccccc;\">\r\n                    <!-- Header -->\r\n                    <tr>\r\n                        <td class=\"header\" style=\"background-color: #345C72; padding: 40px; text-align: center; color: white; font-size: 24px;\">\r\n                        [TITLE]\r\n                        </td>\r\n                    </tr>\r\n\r\n                    <!-- Body -->\r\n                    <tr>\r\n                        <td class=\"body\" style=\"padding: 40px; text-align: left; font-size: 16px; line-height: 1.6;\">\r\n                        Hello, All! <br>\r\n                        [CONTENT]\r\n                        <br><br>\r\n                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam corporis sint eum nemo animi velit exercitationem impedit. Incidunt, officia facilis  atque? Ipsam voluptas fugiat distinctio blanditiis veritatis.            \r\n                        </td>\r\n                    </tr>\r\n\r\n                    <!-- Call to action Button -->\r\n                    <tr>\r\n                        <td style=\"padding: 0px 40px 0px 40px; text-align: center;\">\r\n                            <!-- CTA Button -->\r\n                            <table cellspacing=\"0\" cellpadding=\"0\" style=\"margin: auto;\">\r\n                                <tr>\r\n                                    <td align=\"center\" style=\"background-color: #345C72; padding: 10px 20px; border-radius: 5px;\">\r\n                                        <a href=\"https://www.yourwebsite.com\" target=\"_blank\" style=\"color: #ffffff; text-decoration: none; font-weight: bold;\">Book a Free Consulatation</a>\r\n                                    </td>\r\n                                </tr>\r\n                            </table>\r\n                        </td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td class=\"body\" style=\"padding: 40px; text-align: left; font-size: 16px; line-height: 1.6;\">\r\n                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam corporis sint eum nemo animi velit exercitationem impedit.             \r\n                        </td>\r\n                    </tr>\r\n                    <!-- Footer -->\r\n                    <tr>\r\n                        <td class=\"footer\" style=\"background-color: #333333; padding: 40px; text-align: center; color: white; font-size: 14px;\">\r\n                        Copyright &copy; 2024 | Your brand name\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n            </td>\r\n        </tr>\r\n    </table>\r\n</body>", "https://localhost:5000/api/v1.1/email/accountvalidation", true, 0, "Email account validation" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "CategoryId", "Subject", "Discount_price", "Name", "Price", "Rating", "ShopId", "ShopId1", "Stock", "Total_sell" },
+                values: new object[,]
+                {
+                    { new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"), new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"), "Product details are a crucial part of any eCommerce website or online marketplace. These details help the potential customers to make an informed decision about the product they are interested in buying. A well-written product description can also be a powerful marketing tool that can help to increase sales.Product details typically include information about the products features, specifications, dimensions, weight, materials, and other relevant information that can help customers to understand the product better. The product details section should also include high-quality images and videos of the product, as well as customer reviews and ratings.", 0, "MacBook pro M2 chipset 256gb ssd 8gb ram space-gray color with apple 1 year warranty", 0, 0, new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"), null, 0, 0 },
+                    { new Guid("398e76bb-70f0-4712-af76-10726bb6dd93"), new Guid("6e27b4b8-e66c-450a-bf41-58344b208512"), "Product details are a crucial part of any eCommerce website or online marketplace. These details help the potential customers to make an informed decision about the product they are interested in buying. A well-written product description can also be a powerful marketing tool that can help to increase sales.Product details typically include information about the products features, specifications, dimensions, weight, materials, and other relevant information that can help customers to understand the product better. The product details section should also include high-quality images and videos of the product, as well as customer reviews and ratings.", 0, "Iphone 14 pro max 256 gb ssd and 8 gb ram silver colour", 0, 0, new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"), null, 0, 0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ShopAvatars",
+                columns: new[] { "Id", "Public_id", "Url" },
+                values: new object[] { new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc"), "test", "https://www.hatchwise.com/wp-content/uploads/2022/05/amazon-logo-1024x683.png" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "Age", "Birthday", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "Gender", "Hobby", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "efbcf454-0125-41ff-ac91-75d1564af044", 0, 36, new DateTime(2024, 6, 24, 11, 59, 38, 839, DateTimeKind.Local).AddTicks(4150), "431c073a-fa73-4a30-a2da-cb71ece1121e", "oleitao@gmail.com", false, "oliveira leitao", "M", "netflix", false, null, null, null, null, null, false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "075b9c58-d296-40f1-9d2b-0b6087ed7d70", false, null });
+                values: new object[] { "efbcf454-0125-41ff-ac91-75d1564af044", 0, 36, new DateTime(2024, 7, 3, 17, 13, 28, 538, DateTimeKind.Local).AddTicks(5544), "152220df-70bc-4403-8e05-be4b3b394ed6", "cp5469@protonmail.com", false, "oliveira leitao", "M", "netflix", false, null, null, null, null, null, false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9acfe278-0a56-438e-8173-1720b81a2fce", false, "oleitao" });
+
+            migrationBuilder.InsertData(
+                table: "Reviews",
+                columns: new[] { "Id", "Comment", "ProductId", "Rating", "UserId", "UserId1" },
+                values: new object[] { new Guid("1024dcaa-2bc5-4bb8-8d09-a1459a64259a"), "comment", new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"), 5, new Guid("efbcf454-0125-41ff-ac91-75d1564af044"), null });
+
+            migrationBuilder.InsertData(
+                table: "Shops",
+                columns: new[] { "Id", "Name", "ProductId", "Ratings", "ShopAvatarId" },
+                values: new object[] { new Guid("c2264d48-6f36-4b1a-bf95-3c62f67f2ac0"), "Apple inc", new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"), 4.0, new Guid("41635d09-6c09-40cd-89c5-17f81ab497fc") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -445,6 +509,9 @@ namespace WebApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Emails");
 
             migrationBuilder.DropTable(
                 name: "ImageUrls");

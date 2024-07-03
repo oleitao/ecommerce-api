@@ -17,7 +17,8 @@ using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
 [ApiController]
-[Route("api/[controller]")]
+[ApiVersion(version: VersionHelper.ApiVersion)]
+[Route("api/v{version:apiVersion}/[controller]")]
 public class ImageUrlsController : ControllerBase
 {
     private readonly IServiceManager _service;
@@ -41,7 +42,7 @@ public class ImageUrlsController : ControllerBase
 
 
     [HttpGet]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
     //[Authorize]
@@ -74,7 +75,7 @@ public class ImageUrlsController : ControllerBase
     }
 
     [HttpGet("{id:guid}", Name = "GetImageUrlById")]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
     //[Authorize]
@@ -98,7 +99,7 @@ public class ImageUrlsController : ControllerBase
     }
 
     [HttpPost]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     [Consumes(typeof(ImageUrlForCreationDto), "application/json")]
@@ -120,7 +121,7 @@ public class ImageUrlsController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     public async Task<IActionResult> UpdateImageUrl(Guid id, ImageUrlForUpdateDto imageUrlUpdate)
@@ -158,7 +159,7 @@ public class ImageUrlsController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     public async Task<IActionResult> DeleteImageUrl(Guid id)

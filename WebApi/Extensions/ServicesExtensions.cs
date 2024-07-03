@@ -10,10 +10,12 @@ using Microsoft.OpenApi.Models;
 using Model;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using WebApi.Contracts;
 using WebApi.Entities.ConfigurationModels;
 using WebApi.Formaters;
+using WebApi.Helpers;
 using WebApi.Repository;
 using WebApi.Service.Contracts;
 using WebApi.Services;
@@ -108,9 +110,12 @@ namespace WebApi.Extensions
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(options =>
                 {
+                    options.SaveToken = true;
+                    options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
@@ -126,6 +131,12 @@ namespace WebApi.Extensions
                 });
         }
 
+        public static void AddEmailSettings(this IServiceCollection services, IConfiguration configuration) 
+        {
+            services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
+            services.AddTransient<IEmailSender, EmailSender>();
+        }
+            
         public static void AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration) =>
             services.Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
 
@@ -176,6 +187,18 @@ namespace WebApi.Extensions
                         new List<string>() 
                     } 
                 });
+            });
+        }
+
+        public static void UseForwardedHeaders(this IMvcBuilder builder)
+        {
+            string myPorxyServer = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("ProxyConfiguration")["ProxyServer"];
+
+            builder.Services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto;
+
+                options.KnownProxies.Add(IPAddress.Parse(myPorxyServer));
             });
         }
     }

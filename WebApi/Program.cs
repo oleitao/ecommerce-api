@@ -15,6 +15,7 @@ using WebApi.ActionFilters;
 using WebApi.Extensions;
 using WebApi.Helpers;
 using Serilog.Exceptions;
+using Microsoft.AspNetCore.Mvc.Versioning;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -80,14 +81,21 @@ var builder = WebApplication.CreateBuilder(args);
         x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     }).AddXmlDataContractSerializerFormatters()
       .AddCustomCSVFormatter();
-    
+
+
+    services.AddEmailSettings(builder.Configuration);
 
     services.AddAutoMapper(cfg => cfg.Internal().MethodMappingEnabled = false, typeof(MappingProfile).Assembly);
 
-    services.AddApiVersioning(opt => {
-        opt.ReportApiVersions = true;
-        opt.AssumeDefaultVersionWhenUnspecified= true;
-        opt.DefaultApiVersion = new ApiVersion(1, 1);
+    services.AddApiVersioning(options => 
+    {
+        options.AssumeDefaultVersionWhenUnspecified = true;
+        options.DefaultApiVersion = new ApiVersion(1, 1);
+        options.ReportApiVersions = true;
+        options.ApiVersionReader = ApiVersionReader.Combine(
+            new UrlSegmentApiVersionReader(),
+            new HeaderApiVersionReader("x-api-version"),
+            new MediaTypeApiVersionReader("x-api-version"));
     });
 
     services.AddMvc(options =>
@@ -170,6 +178,8 @@ var app = builder.Build();
 
     app.UseIpRateLimiting();
     app.UseCors("CorsPolicy");
+
+    app.UseForwardedHeaders();
 
     app.UseAuthentication();
     app.UseAuthorization();
