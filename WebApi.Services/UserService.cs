@@ -159,11 +159,11 @@ namespace WebApi.Services
             }
         }
 
-        public async Task<UserDto> FindByEmailAsync(string email)
+        public async Task<UserDto> FindByEmailAsync(string email, bool trackChanges)
         {
             try
             {
-                var userEntity = await _repository.User.FindByEmailAsync(email);
+                var userEntity = await _repository.User.FindByEmailAsync(email, trackChanges);
                 if (userEntity == null)
                     throw new UserNotFoundException(email);
 

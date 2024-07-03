@@ -11,8 +11,8 @@ namespace WebApi.Shared.DataTransferObjects
         [MaxLength(500, ErrorMessage = "Maximum length for the Name is 60 characters.")]
         string Name,
 
-        [Required(ErrorMessage = "Description name is a required field.")]
-        [MaxLength(5000, ErrorMessage = "Maximum length for the Description is 60 characters.")]
+        [Required(ErrorMessage = "Subject name is a required field.")]
+        [MaxLength(5000, ErrorMessage = "Maximum length for the Subject is 60 characters.")]
         string Description,
 
         [Required(ErrorMessage = "Price is a required field.")]

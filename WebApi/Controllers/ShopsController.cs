@@ -16,7 +16,7 @@ using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
 [ApiController]
-[ApiVersion("1.1")]
+[ApiVersion(version: VersionHelper.ApiVersion)]
 [Route("api/v{version:apiVersion}/[controller]")]
 public class ShopsController : ControllerBase
 {
@@ -40,7 +40,7 @@ public class ShopsController : ControllerBase
     }
 
     [HttpGet]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     [Produces("application/json")]
@@ -74,7 +74,7 @@ public class ShopsController : ControllerBase
 
 
     [HttpGet("{id:guid}", Name = "GetShopById")]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     [Produces("application/json")]
@@ -98,7 +98,7 @@ public class ShopsController : ControllerBase
     }
 
     [HttpPost]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     [Consumes(typeof(ShopForCreationDto), "application/json")]
@@ -156,7 +156,7 @@ public class ShopsController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     public async Task<IActionResult> DeleteShop(Guid id)

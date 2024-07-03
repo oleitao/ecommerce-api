@@ -17,7 +17,7 @@ namespace WebApi.Repository.Configuration
                     Age=36,
                     Gender="M",
                     Birthday= DateTime.Now,
-                    Email="oleitao@gmail.com",
+                    Email= "cp5469@protonmail.com",
                     Hobby="netflix",
                     UserName = "oleitao",                      
                 }

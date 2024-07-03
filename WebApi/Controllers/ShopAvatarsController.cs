@@ -16,7 +16,7 @@ using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
 [ApiController]
-[ApiVersion("1.1")]
+[ApiVersion(version: VersionHelper.ApiVersion)]
 [Route("api/v{version:apiVersion}/[controller]")]
 public class ShopAvatarsController : ControllerBase
 {
@@ -41,7 +41,7 @@ public class ShopAvatarsController : ControllerBase
 
 
     [HttpGet]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     [Produces("application/json")]
@@ -74,7 +74,7 @@ public class ShopAvatarsController : ControllerBase
     }
 
     [HttpGet("{id:guid}", Name = "GetShopAvatarById")]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     [Produces("application/json")]
@@ -98,7 +98,7 @@ public class ShopAvatarsController : ControllerBase
     }
 
     [HttpPost]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     [Consumes(typeof(ShopAvatarForCreationDto), "application/json")]
@@ -121,7 +121,7 @@ public class ShopAvatarsController : ControllerBase
 
     [HttpPut("{id:guid}")]
     //[Authorize]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     public async Task<IActionResult> UpdateShopAvatar(Guid id, ShopAvatarForUpdateDto shopAvatarUpdate)
     {
@@ -158,7 +158,7 @@ public class ShopAvatarsController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     public async Task<IActionResult> DeleteShopAvatar(Guid id)

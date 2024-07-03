@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebApi.Helpers;
 using WebApi.Service.Contracts;
 
 namespace WebApi.Controllers
 {
     [ApiController]
-    [ApiVersion("1.1")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [Route("api/token/v{version:apiVersion}/[controller]")]
     public class TokenController : ControllerBase
     {

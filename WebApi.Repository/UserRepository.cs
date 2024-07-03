@@ -56,9 +56,9 @@ namespace WebApi.Repository
             Delete(user);
         }
 
-        public async Task<User?> FindByEmailAsync(string email)
+        public async Task<User?> FindByEmailAsync(string email, bool trackChanges)
         {
-            return await FindByCondition(c => c.Email.ToLower().Equals(email.ToLower()), false).FirstOrDefaultAsync();
+            return await FindByCondition(x => !string.IsNullOrEmpty(x.Email) && x.Email.Equals(email), trackChanges).FirstOrDefaultAsync();
         }
 
 

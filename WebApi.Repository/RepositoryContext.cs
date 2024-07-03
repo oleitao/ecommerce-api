@@ -3,6 +3,7 @@ namespace WebApi.Repository;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Model;
+using System.Net.Mail;
 using WebApi.Repository.Configuration;
 
 public class RepositoryContext : IdentityDbContext<User>
@@ -67,6 +68,7 @@ public class RepositoryContext : IdentityDbContext<User>
         this.ReviewMapping(modelBuilder);
         this.ShopMapping(modelBuilder);
         this.ShopAvatarMapping(modelBuilder);
+        this.EmailMapping(modelBuilder);
 
         RelationshipsMapping(modelBuilder);
 
@@ -78,7 +80,7 @@ public class RepositoryContext : IdentityDbContext<User>
         modelBuilder.ApplyConfiguration(new ShopConfiguration());
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         modelBuilder.ApplyConfiguration(new ReviewConfiguration());
-        
+        modelBuilder.ApplyConfiguration(new EmailConfiguration());
     }
 
     #region Category Mapping
@@ -116,7 +118,7 @@ public class RepositoryContext : IdentityDbContext<User>
         modelBuilder.Entity<Product>().ToTable(@"Products");
         modelBuilder.Entity<Product>().Property(x => x.Id).HasColumnName(@"Id").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Product>().Property(x => x.Name).HasColumnName(@"Name").IsRequired().ValueGeneratedNever();
-        modelBuilder.Entity<Product>().Property(x => x.Description).HasColumnName(@"Description").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<Product>().Property(x => x.Description).HasColumnName(@"Subject").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Product>().Property(x => x.Price).HasColumnName(@"Price").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Product>().Property(x => x.Discount_price).HasColumnName(@"Discount_price").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Product>().Property(x => x.Rating).HasColumnName(@"Rating").IsRequired().ValueGeneratedNever();
@@ -184,6 +186,17 @@ public class RepositoryContext : IdentityDbContext<User>
         modelBuilder.Entity<ShopAvatar>().Property(x => x.Public_id).HasColumnName(@"Public_id").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<ShopAvatar>().Property(x => x.Url).HasColumnName(@"Url").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<ShopAvatar>().HasKey(@"Id");
+    }
+
+    #endregion
+
+    #region Email Mapping
+
+    private void EmailMapping(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Email>().ToTable(@"Emails");
+        modelBuilder.Entity<Email>().Property(x => x.Id).HasColumnName(@"Id").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<Email>().HasKey(@"Id");
     }
 
     #endregion
