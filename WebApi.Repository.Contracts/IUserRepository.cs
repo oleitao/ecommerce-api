@@ -20,6 +20,7 @@ namespace WebApi.Contracts
         public Task<IEnumerable<User>> GetAllUsersAsync(UserParameters userParameters, bool trackChanges);
         void DeleteUser(User user);
         Task<User> FindByEmailAsync(string email, bool trackChanges);
+        Task<bool> ConfirmEmailAsync(User userEntity);
 
         #endregion
 

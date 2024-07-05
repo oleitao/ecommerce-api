@@ -7,7 +7,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using WebApi.Contracts;
 using WebApi.Entities.ConfigurationModels;
 using WebApi.Entities.Exceptions;
 using WebApi.Service.Contracts;
@@ -85,19 +84,22 @@ namespace WebApi.Services
         {
             var user = _mapper.Map<User>(userForRegistration);
 
-            if(user != null) 
+            var userCreated = await _userManager.CreateAsync(user, userForRegistration.Password);
+            if (userCreated.Succeeded)
             {
-                user.NormalizedEmail = userForRegistration.Email.ToUpper();
-                user.PasswordHash = userForRegistration.Password;
+                Uri uri = new Uri($"https://localhost:5000/api/v1.1/authentication/accountvalidationemail/?Email={user.Email}");
+                var client = new HttpClient { BaseAddress = uri };
+                await client.GetAsync(uri);
+
+                if (userForRegistration.Roles is null)
+                    await _userManager.AddToRolesAsync(user, new string[] { "User" });
+                else
+                    await _userManager.AddToRolesAsync(user, userForRegistration.Roles);
             }
 
-            var result = await _userManager.CreateAsync(user, userForRegistration.Password);
-
-            if (result.Succeeded)
-                await _userManager.AddToRolesAsync(user, userForRegistration.Roles);
-
-            return result;
+            return userCreated;
         }
+
 
         public async Task<bool> LoginUser(UserForAuthenticationDto userForAuth)
         {
@@ -182,6 +184,11 @@ namespace WebApi.Services
             _user = user;
 
             return await GenerateToken(populateExp: false);
+        }
+
+        public async Task<string> GenerateEmailConfirmationTokenAsync(User user)
+        { 
+            return await _userManager.GenerateEmailConfirmationTokenAsync(user);
         }
     }
 }

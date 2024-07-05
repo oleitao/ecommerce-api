@@ -10,7 +10,7 @@ using WebApi.Shared.DataTransferObjects;
 
 namespace WebApi.Services
 {
-    public class EmailSender : IEmailSender
+    public class EmailSenderService : IEmailSenderService
     {
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
@@ -21,7 +21,7 @@ namespace WebApi.Services
 
         public EmailSettings _emailSettings { get; }
 
-        public EmailSender(IRepositoryManager repository, AutoMapper.IMapper mapper, IOptions<EmailSettings> emailSettings)
+        public EmailSenderService(IRepositoryManager repository, AutoMapper.IMapper mapper, IOptions<EmailSettings> emailSettings)
         {
             _emailSettings = emailSettings.Value;
 
@@ -168,7 +168,7 @@ namespace WebApi.Services
             }
         }
 
-        public async Task<Email> GetContent(Guid accountValidation, User user, bool trackChanges)
+        public async Task<Email> GetContent(Guid accountValidation, User user, string arguments, bool trackChanges)
         {
             try
             {
@@ -176,8 +176,10 @@ namespace WebApi.Services
                 if (content == null)
                     throw new EmailContentNotFound(accountValidation);
 
-                content.Body = content.Body.Replace(TagSubject, content.Subject);
-                content.Body = content.Body.Replace(TagContent, content.Content);
+                if(string.IsNullOrEmpty(arguments))
+                    content.Body = content.Body.Replace(TagSubject, content.Subject);
+                else
+                    content.Body = content.Body.Replace(TagContent, content.Content + arguments);
 
                 return content;
             }

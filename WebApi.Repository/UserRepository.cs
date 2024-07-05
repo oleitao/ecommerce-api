@@ -61,6 +61,21 @@ namespace WebApi.Repository
             return await FindByCondition(x => !string.IsNullOrEmpty(x.Email) && x.Email.Equals(email), trackChanges).FirstOrDefaultAsync();
         }
 
+        public async Task<bool> ConfirmEmailAsync(User userEntity)
+        {
+            try
+            {
+                userEntity.EmailConfirmed = true;
+                Update(userEntity);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
 
         #endregion
     }
