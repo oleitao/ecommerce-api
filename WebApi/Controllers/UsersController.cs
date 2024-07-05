@@ -132,11 +132,6 @@ public class UsersController : ControllerBase
 
         CacheHelper.SetKey(createdUser, $"{key}:{createdUser.Id}", _cache);
 
-        Uri uri = new Uri($"https://localhost:5000/api/v{VersionHelper.ApiVersion}/email/accountvalidation/{createdUser.Id.ToString()}");
-        var client = new HttpClient { BaseAddress = uri };
-
-        await client.GetAsync(uri);
-
         return CreatedAtRoute("GetByUserId", new { id = createdUser.Id }, createdUser);
     }
 

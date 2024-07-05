@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Model;
 using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
@@ -174,6 +175,46 @@ namespace WebApi.Services
             catch (Exception ex)
             {
                 throw new Exception($"{nameof(GetUserAsync)} : {ex}");
+            }
+        }
+
+        public async Task<bool> ConfirmEmailAsync(UserDto user)
+        {
+            try
+            {
+                var userEntity = await _repository.User.GetUserAsync(user.Id, trackChanges: false);
+                if (userEntity == null)
+                    throw new UserNotFoundException(user.Id);
+
+                var result = await _repository.User.ConfirmEmailAsync(userEntity);
+                await _repository.SaveAsync();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{nameof(ConfirmEmailAsync)} : {ex}");
+            }
+        }
+
+        public async Task<User> MapToUser(UserDto userEntity)
+        {
+            try
+            {
+                return new User()
+                {
+                    Id = userEntity.Id.ToString(),
+                    Age = userEntity.Age,
+                    Birthday = userEntity.Birthday,
+                    FullName = userEntity.FullName,
+                    Email = userEntity.Email,
+                    Gender = userEntity.Gender,
+                    UserName = userEntity.UserName
+                };
+            }
+            catch(Exception ex)
+            {
+                return null;
             }
         }
 

@@ -13,9 +13,9 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using WebApi.Contracts;
+using WebApi.CustomTokenProviders;
 using WebApi.Entities.ConfigurationModels;
 using WebApi.Formaters;
-using WebApi.Helpers;
 using WebApi.Repository;
 using WebApi.Service.Contracts;
 using WebApi.Services;
@@ -86,17 +86,27 @@ namespace WebApi.Extensions
         }
 
         public static void ConfigureIdentity(this IServiceCollection services) 
-        { 
-            var builder = services.AddIdentity<User, IdentityRole>(o => 
-            { 
-                o.Password.RequireDigit = true; 
-                o.Password.RequireLowercase = false; 
-                o.Password.RequireUppercase = false; 
-                o.Password.RequireNonAlphanumeric = false; 
-                o.Password.RequiredLength = 10; 
+        {
+            var builder = services.AddIdentity<User, IdentityRole>(o =>
+            {
+                o.Password.RequireDigit = true;
+                o.Password.RequireLowercase = false;
+                o.Password.RequireUppercase = false;
+                o.Password.RequireNonAlphanumeric = false;
+                o.Password.RequiredLength = 10;
                 o.User.RequireUniqueEmail = true;
+
+                o.SignIn.RequireConfirmedEmail = true;
+                o.Tokens.EmailConfirmationTokenProvider = "emailconfirmation";
             }).AddEntityFrameworkStores<RepositoryContext>()
-            .AddDefaultTokenProviders(); 
+            .AddDefaultTokenProviders()
+            .AddTokenProvider<EmailConfirmationTokenProvider<User>>("emailconfirmation");
+
+            services.Configure<DataProtectionTokenProviderOptions>(options =>
+                options.TokenLifespan = TimeSpan.FromHours(2));
+
+            services.Configure<EmailConfirmationTokenProviderOptions>(options =>
+                options.TokenLifespan = TimeSpan.FromDays(3));
         }
 
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration) 
@@ -134,7 +144,7 @@ namespace WebApi.Extensions
         public static void AddEmailSettings(this IServiceCollection services, IConfiguration configuration) 
         {
             services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
-            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IEmailSenderService, EmailSenderService>();
         }
             
         public static void AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration) =>
