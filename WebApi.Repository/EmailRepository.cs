@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Model;
 using WebApi.Contracts;
-using WebApi.Entities.RequestFeatures;
 
 namespace WebApi.Repository
 {
@@ -15,7 +14,7 @@ namespace WebApi.Repository
 
         #region Async
 
-        public async Task<Email> GetEmailContent(Guid id, bool trackChanges)
+        public async Task<Email?> GetEmailContent(Guid id, bool trackChanges)
         {
             return await FindByCondition(c => c.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
         }

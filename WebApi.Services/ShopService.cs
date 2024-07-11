@@ -164,7 +164,7 @@ namespace WebApi.Services
                 throw new ShopNotFoundException(id);
 
             _mapper.Map(shopUpdate, shopEntity);
-            _repository.Shop.UpdateShop(shopEntity);
+            await _repository.Shop.UpdateShop(shopEntity);
             await _repository.SaveAsync();
         }
 
@@ -174,7 +174,7 @@ namespace WebApi.Services
             if (shopEntity is null)
                 throw new Exception();
 
-            _repository.Shop.DeleteShop(shopEntity);
+            await _repository.Shop.DeleteShop(shopEntity);
             await _repository.SaveAsync();
         }
 
@@ -185,7 +185,7 @@ namespace WebApi.Services
                 throw new ShopsNotFoundException();
 
 
-            _repository.Shop.DeleteShopsByProductIdAsync(shopsEntity);
+            await _repository.Shop.DeleteShopsByProductIdAsync(shopsEntity);
             await _repository.SaveAsync();
         }
 

@@ -16,7 +16,7 @@ namespace WebApi.Repository
         public IEnumerable<Shop> GetAllShops(bool trackChanges) =>
             FindAll(trackChanges).ToList();
 
-        public Shop GetShop(Guid shopId, bool trackChanges) =>
+        public Shop? GetShop(Guid shopId, bool trackChanges) =>
             FindByCondition(c => c.Id.Equals(shopId), trackChanges)
             .SingleOrDefault();
 
@@ -34,14 +34,16 @@ namespace WebApi.Repository
             return await FindAll(trackChanges).ToListAsync();
         }
 
-        public async Task<Shop> GetShopAsync(Guid shopId, bool trackChanges)
+        public async Task<Shop?> GetShopAsync(Guid shopId, bool trackChanges)
         {
             return await FindByCondition(c => c.Id.Equals(shopId), trackChanges).SingleOrDefaultAsync();            
         }
 
-        public void DeleteShop(Shop shop)
+        public async Task DeleteShop(Shop shop)
         {
             Delete(shop);
+
+            await Task.CompletedTask;
         }
 
         public async Task<IEnumerable<Shop>> GetShopByProductIdAsync(Guid productId, bool trackChanges)
@@ -49,17 +51,21 @@ namespace WebApi.Repository
             return await FindByCondition(c => c.ProductId.Equals(productId), trackChanges).ToListAsync();
         }
 
-        public void DeleteShopsByProductIdAsync(IEnumerable<Shop> shops)
+        public async Task DeleteShopsByProductIdAsync(IEnumerable<Shop> shops)
         {
             foreach (var shop in shops) 
             {
                 Delete(shop);
             }
+
+            await Task.CompletedTask;
         }
 
-        public void UpdateShop(Shop shopEntity)
+        public async Task UpdateShop(Shop shopEntity)
         {
             Update(shopEntity);
+
+            await Task.CompletedTask;
         }
 
         #endregion

@@ -174,7 +174,7 @@ namespace WebApi.Services
                 if (review == null)
                     throw new ReviewNotFoundException(id);
 
-                _repository.Review.DeleteAsync(review);
+                await _repository.Review.DeleteAsync(review);
                 await _repository.SaveAsync();
             }
             catch (Exception ex)
@@ -190,7 +190,7 @@ namespace WebApi.Services
                 throw new ReviewsNotFoundException();
 
 
-            _repository.Review.DeleteReviewByProductIdAsync(reviews);
+            await _repository.Review.DeleteReviewByProductIdAsync(reviews);
             await _repository.SaveAsync();
         }
 

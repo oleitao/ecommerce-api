@@ -18,7 +18,7 @@ namespace WebApi.Repository
         public IEnumerable<Category> GetAllCategories(bool trackChanges) =>
             FindAll(trackChanges).ToList();
 
-        public Category GetCategory(Guid categoryId, bool trackChanges) =>
+        public Category? GetCategory(Guid categoryId, bool trackChanges) =>
             FindByCondition(c => c.Id.Equals(categoryId), trackChanges)
             .SingleOrDefault();
 
@@ -38,10 +38,10 @@ namespace WebApi.Repository
 
         public async Task<IEnumerable<Category>> GetAllCategoriesAsync(bool trackChanges)
         {
-            return FindAll(trackChanges).ToList();
+            return await FindAll(trackChanges).ToListAsync();
         }
 
-        public async Task<Category> GetCategoryAsync(Guid categoryId, bool trackChanges)
+        public async Task<Category?> GetCategoryAsync(Guid categoryId, bool trackChanges)
         {
             return await FindByCondition(c => c.Id.Equals(categoryId), trackChanges).SingleOrDefaultAsync();            
         }
@@ -61,14 +61,19 @@ namespace WebApi.Repository
             return PagedList<Category>.ToPagedList(categories, categoryParameters.PageNumber, categoryParameters.PageSize);
         }
 
-        public void DeleteCategory(Category category)
+        public void DeleteCategory(Category? category)
         {
             Delete(category);
         }
 
-        public async Task<Category> GetCategoryByName(string category, bool trackChanges)
+        public async Task<Category?> GetCategoryByName(string category, bool trackChanges)
         {
             return await FindByCondition(c => c.Title.Equals(category), trackChanges).SingleOrDefaultAsync();
+        }
+
+        public async Task CreateCategoryAsync(Category category)
+        {
+            await CreateCategoryAsync(category).ConfigureAwait(false);
         }
 
         #endregion

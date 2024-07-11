@@ -137,7 +137,7 @@ namespace WebApi.Services
             if (shopAvatar is null)
                 throw new Exception();
 
-            _repository.ShopAvatar.DeleteShopAvatarAsync(shopAvatar);
+            await _repository.ShopAvatar.DeleteShopAvatarAsync(shopAvatar);
             await _repository.SaveAsync();
         }
 

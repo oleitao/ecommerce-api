@@ -115,6 +115,8 @@ namespace WebApi.Extensions
             configuration.Bind(jwtConfiguration.Section, jwtConfiguration);
 
             var secretKey = Environment.GetEnvironmentVariable("SECRET");
+            if (secretKey is null)
+                throw new Exception();
 
             services.AddAuthentication(opt =>
             {

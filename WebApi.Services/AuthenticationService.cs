@@ -43,7 +43,11 @@ namespace WebApi.Services
 
         private SigningCredentials GetSigningCredentials() 
         {
-            var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET"));
+            var secretKey = Environment.GetEnvironmentVariable("SECRET");
+            if (secretKey is null)
+                throw new Exception();
+
+            var key = Encoding.UTF8.GetBytes(secretKey);
             var secret = new SymmetricSecurityKey(key); 
             
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
@@ -64,7 +68,7 @@ namespace WebApi.Services
         }
 
         private async Task<List<Claim>> GetClaims() 
-        { 
+        {
             var claims = new List<Claim> 
             { 
                 new Claim(ClaimTypes.Name, _user.UserName) 
@@ -104,10 +108,11 @@ namespace WebApi.Services
         public async Task<bool> LoginUser(UserForAuthenticationDto userForAuth)
         {
             _user = await _userManager.FindByNameAsync(userForAuth.UserName); 
-            
-            var result = (_user != null && await _userManager.CheckPasswordAsync(_user, userForAuth.Password)); 
-            
-            if (!result) 
+            if(_user is null)
+                throw new UserNotFoundException(userForAuth.UserName);
+
+            var result = await _userManager.CheckPasswordAsync(_user, userForAuth.Password);             
+            if (result is bool check && check.Equals(true)) 
                 throw new Exception($"{nameof(LoginUser)}: Authentication failed. Wrong user name or password.");
 
             return result;
@@ -121,6 +126,9 @@ namespace WebApi.Services
             var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
 
             var refreshToken = GenerateRefreshToken();
+
+            if (_user is null)
+                throw new UserNotFoundException();
 
             if (populateExp)
             {
@@ -145,12 +153,16 @@ namespace WebApi.Services
 
         private ClaimsPrincipal GetPrincipalFromExpiredToken(string token) 
         {
+            var secretKey = Environment.GetEnvironmentVariable("SECRET");
+            if (secretKey is null)
+                throw new Exception();
+
             var tokenValidationParameters = new TokenValidationParameters 
             { 
                 ValidateAudience = true, 
                 ValidateIssuer = true, 
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET"))),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
                 ValidateLifetime = true, 
                 
                 ValidIssuer = _jwtConfiguration.ValidIssuer,

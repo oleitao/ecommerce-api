@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Model;
-using System;
 using WebApi.Contracts;
 
 namespace WebApi.Repository
@@ -17,7 +16,7 @@ namespace WebApi.Repository
         public IEnumerable<Review> GetAllReviews(bool trackChanges) =>
             FindAll(trackChanges).ToList();
 
-        public Review GetReview(Guid reviewId, bool trackChanges) =>
+        public Review? GetReview(Guid reviewId, bool trackChanges) =>
             FindByCondition(c => c.Id.Equals(reviewId), trackChanges)
             .SingleOrDefault();
 
@@ -36,14 +35,16 @@ namespace WebApi.Repository
             return await FindAll(trackChanges).ToListAsync();
         }
 
-        public async Task<Review> GetReviewAsync(Guid reviewId, bool trackChanges)
+        public async Task<Review?> GetReviewAsync(Guid reviewId, bool trackChanges)
         {
             return await FindByCondition(c => c.Id.Equals(reviewId), trackChanges).SingleOrDefaultAsync();            
         }
 
-        public void DeleteAsync(Review review)
+        public async Task DeleteAsync(Review review)
         {
             Delete(review);
+
+            await Task.CompletedTask;
         }
 
         public async Task<IEnumerable<Review>> GetReviewByUserAsync(Guid guid, bool trackChanges)
@@ -61,12 +62,14 @@ namespace WebApi.Repository
             return await FindByCondition(c => c.ProductId.Equals(productId), trackChanges).ToListAsync();
         }
 
-        public void DeleteReviewByProductIdAsync(IEnumerable<Review> reviews)
+        public async Task DeleteReviewByProductIdAsync(IEnumerable<Review> reviews)
         {
             foreach (var item in reviews)
             {
                 Delete(item);
             }
+
+            await Task.CompletedTask;
         }
 
         #endregion
