@@ -21,6 +21,7 @@ namespace WebApi.Contracts
         public void DeleteCategory(Category category);
         public Task<Category?> GetCategoryByName(string category, bool trackChanges);
         public Task CreateCategoryAsync(Category category);
+        public Task DeleteCategoryAsync(Category category);
 
         #endregion
     }

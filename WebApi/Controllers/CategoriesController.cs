@@ -225,9 +225,11 @@ public class CategoriesController : ControllerBase
             var returnCategory = await _service.CategoryService.GetCategoryAsync(id, trackChanges: true);
 
             CacheHelper.SetKey<CategoryDto>(returnCategory, $"{key}:{id.ToString()}", _cache);
+
+            return Ok(returnCategory);
         }
 
-        return NoContent();
+        return Ok(categoryInCache);
     }
 
     
