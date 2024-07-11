@@ -25,7 +25,6 @@ using WebApi.Shared.DataTransferObjects;
 public class CategoriesController : ControllerBase
 {
     private readonly IServiceManager _service;
-    private readonly IEmailSenderService _emailSender;
     private readonly HttpClient _client;
     private readonly IDatabase _redis;
     private readonly IDistributedCache _cache;

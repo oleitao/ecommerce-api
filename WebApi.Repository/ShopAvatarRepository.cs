@@ -16,7 +16,7 @@ namespace WebApi.Repository
         public IEnumerable<ShopAvatar> GetAllShopAvatars(bool trackChanges) =>
             FindAll(trackChanges).ToList();
 
-        public ShopAvatar GetShopAvatar(Guid shopAvatarId, bool trackChanges) =>
+        public ShopAvatar? GetShopAvatar(Guid shopAvatarId, bool trackChanges) =>
             FindByCondition(c => c.Id.Equals(shopAvatarId), trackChanges)
             .SingleOrDefault();
 
@@ -34,14 +34,16 @@ namespace WebApi.Repository
             return await FindAll(trackChanges).ToListAsync();
         }
 
-        public async Task<ShopAvatar> GetShopAvatarAsync(Guid shopAvatarId, bool trackChanges)
+        public async Task<ShopAvatar?> GetShopAvatarAsync(Guid shopAvatarId, bool trackChanges)
         {
             return await FindByCondition(c => c.Id.Equals(shopAvatarId), trackChanges).SingleOrDefaultAsync();
         }
 
-        public void DeleteShopAvatarAsync(ShopAvatar shopAvatar)
+        public async Task DeleteShopAvatarAsync(ShopAvatar shopAvatar)
         {
             Delete(shopAvatar);
+
+            await Task.CompletedTask;
         }
 
         #endregion

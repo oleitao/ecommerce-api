@@ -76,9 +76,9 @@ namespace WebApi.Services
                     await smtp.SendMailAsync(mail);
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw new Exception();
             }
         }
 
@@ -162,9 +162,9 @@ namespace WebApi.Services
                     await smtp.SendMailAsync(mail);
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw new Exception();
             }
         }
 
@@ -232,9 +232,9 @@ namespace WebApi.Services
                     await smtp.SendMailAsync(mail);
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw new Exception();
             }
         }
     }

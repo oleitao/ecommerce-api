@@ -14,7 +14,7 @@ namespace WebApi.Repository
         }
 
         #region Sync
-        public ImageUrl GetImageUrl(Guid imageUrlId, bool trackChanges) =>
+        public ImageUrl? GetImageUrl(Guid imageUrlId, bool trackChanges) =>
             FindByCondition(c => c.Id.Equals(imageUrlId), trackChanges)
             .SingleOrDefault();
 
@@ -40,7 +40,7 @@ namespace WebApi.Repository
             return await FindAll(trackChanges).ToListAsync();
         }
 
-        public async Task<ImageUrl> GetImageUrlAsync(Guid imageUrlId, bool trackChanges)
+        public async Task<ImageUrl?> GetImageUrlAsync(Guid imageUrlId, bool trackChanges)
         {
             return await FindByCondition(c => c.Id.Equals(imageUrlId), trackChanges).SingleOrDefaultAsync();
         }

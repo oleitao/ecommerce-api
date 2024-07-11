@@ -27,12 +27,12 @@ namespace Model
         }
 
         public Guid Id { get; set; }
-        public string Body { get; set; }
+        public string Body { get; set; } = null!;
         //public ICollection<Attachment>? attachments { get; set; }
         public bool IsBodyHtml { get; set; }
         public MailPriority Priority { get; set; }
-        public string Content { get; set; }
-        public string Subject { get; set; }
+        public string Content { get; set; } = null!;
+        public string Subject { get; set; } = null!;
 
         #region Extensibility Method Definitions
 

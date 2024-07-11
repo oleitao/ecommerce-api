@@ -105,7 +105,7 @@ namespace WebApi.Services
             var categoryCollectionToReturn = _mapper.Map<IEnumerable<CategoryDto>>(categoriyEntities);
             var ids = string.Join(",", categoryCollectionToReturn.Select(c => c.Id));
 
-            return (category: categoryCollectionToReturn, ids: ids);
+            return (categoryCollectionToReturn, ids);
 
         }
 
@@ -179,7 +179,7 @@ namespace WebApi.Services
             if (ids is null)
                 throw new IdParametersBadException();
 
-            var categoryEntities = _repository.Category.GetByIds(ids, trackChanges);
+            var categoryEntities = await _repository.Category.GetByIdsAsync(ids, trackChanges);
             if (ids.Count() != categoryEntities.Count())
                 throw new CollectionByIdsBadRequestException();
 
@@ -204,7 +204,7 @@ namespace WebApi.Services
             var categoryCollectionToReturn = _mapper.Map<IEnumerable<CategoryDto>>(categoriyEntities);
             var ids = string.Join(",", categoryCollectionToReturn.Select(c => c.Id));
 
-            return (category: categoryCollectionToReturn, ids: ids);
+            return (categoryCollectionToReturn, ids);
         }
 
         public async Task DeleteCategoryAsync(Guid id, bool trackChanges)

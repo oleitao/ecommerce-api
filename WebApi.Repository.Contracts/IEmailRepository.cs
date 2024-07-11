@@ -6,7 +6,7 @@ namespace WebApi.Contracts
     {
         #region Async
 
-        Task<Email> GetEmailContent(Guid id, bool trackChanges);
+        Task<Email?> GetEmailContent(Guid id, bool trackChanges);
 
         #endregion
     }

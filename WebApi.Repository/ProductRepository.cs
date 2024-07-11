@@ -19,7 +19,7 @@ namespace WebApi.Repository
         public IEnumerable<Product> GetAllProducts(bool trackChanges) =>
             FindAll(trackChanges).ToList();
 
-        public Product GetProduct(Guid productId, bool trackChanges) =>
+        public Product? GetProduct(Guid productId, bool trackChanges) =>
             FindByCondition(c => c.Id.Equals(productId), trackChanges)
             .SingleOrDefault();
 
@@ -44,16 +44,16 @@ namespace WebApi.Repository
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync(bool trackChanges)
         {
-            return FindAll(trackChanges).ToList();
+            return await FindAll(trackChanges).ToListAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(Guid categoryId, bool trackChanges)
+        public async Task<IEnumerable<Product?>> GetProductsByCategoryAsync(Guid categoryId, bool trackChanges)
         {
             return FindByCondition(p => p.CategoryId.Equals(categoryId), trackChanges)
             .OrderBy(p => p.Name).ToImmutableList<Product>();
         }
 
-        public async Task<Product> GetProductAsync(Guid productId, bool trackChanges)
+        public async Task<Product?> GetProductAsync(Guid productId, bool trackChanges)
         {
             return await FindByCondition(c => c.Id.Equals(productId), trackChanges).SingleOrDefaultAsync();
         }
@@ -83,44 +83,52 @@ namespace WebApi.Repository
 
         }
 
-        public async Task<IEnumerable<Product>> FilterProductsSortedAsync(ProductParameters productParameters, bool trackChanges)
+        public async Task<IEnumerable<Product?>> FilterProductsSortedAsync(ProductParameters productParameters, bool trackChanges)
         {
-            return FindAll(trackChanges)
+            return await FindAll(trackChanges)
                 .Sort(productParameters.OrderBy)
                 .Search(productParameters.SearchTerm)
-                .ToList();
+                .ToListAsync();
         }
 
-        public async void DeleteCategoryProducts(IEnumerable<Product> productCatogory)
+        public async Task DeleteCategoryProducts(IEnumerable<Product> productCatogory)
         {
             foreach (var item in productCatogory)
             {
                 Delete(item);
             }
+
+            await Task.CompletedTask;
         }
 
-        public async void DeleteProduct(Product product)
+        public async Task DeleteProduct(Product product)
         {
             Delete(product);
+
+            await Task.CompletedTask;
         }
 
-        public void UpdateProductAsync(Product productEntity)
+        public async Task UpdateProductAsync(Product productEntity)
         {
             Update(productEntity);
+
+            await Task.CompletedTask;
         }
 
-        public async Task<IEnumerable<Product>> GetProductsByShopAsync(Guid shopId, bool trackChanges)
+        public async Task<IEnumerable<Product?>> GetProductsByShopAsync(Guid shopId, bool trackChanges)
         {
             return FindByCondition(p => p.ShopId.Equals(shopId), trackChanges)
             .ToImmutableList<Product>();
         }
 
-        public void DeleteShopProducts(IEnumerable<Product> productShop)
+        public async Task DeleteShopProducts(IEnumerable<Product> productShop)
         {
             foreach(var item in productShop)
             { 
                 Delete(item);
             }
+
+            await Task.CompletedTask;
         }
 
 

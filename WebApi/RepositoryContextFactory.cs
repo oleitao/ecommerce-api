@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 using WebApi.Repository;
-using Microsoft.Extensions.Configuration;
 
 namespace WebApi
 {

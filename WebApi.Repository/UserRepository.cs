@@ -19,7 +19,7 @@ namespace WebApi.Repository
         public IEnumerable<User> GetAllUsers(bool trackChanges) =>
             FindAll(trackChanges).ToList();
 
-        public User GetUser(Guid userId, bool trackChanges) =>
+        public User? GetUser(Guid userId, bool trackChanges) =>
             FindByCondition(c => c.Id.Equals(userId), trackChanges)
             .SingleOrDefault();
 
@@ -34,7 +34,7 @@ namespace WebApi.Repository
         
         public async Task<IEnumerable<User>> GetAllUsersAsync(bool trackChanges)
         {
-            return FindAll(trackChanges);
+            return await FindAll(trackChanges).ToListAsync();
         }
 
         public async Task<User?> GetUserAsync(Guid userId, bool trackChanges)
@@ -44,16 +44,18 @@ namespace WebApi.Repository
 
         public async Task<IEnumerable<User>> GetAllUsersAsync(UserParameters userParameters, bool trackChanges)
         {
-            return FindByCondition(c => c.Age >= userParameters.MinAge && c.Age <= userParameters.MaxAge, trackChanges)
+            return await FindByCondition(c => c.Age >= userParameters.MinAge && c.Age <= userParameters.MaxAge, trackChanges)
                 .FilterUsers(userParameters.MinAge, userParameters.MaxAge)
                 .Search(userParameters.SearchTerm)
                 .Sort(userParameters.OrderBy)
-                .ToList();
+                .ToListAsync();
         }
 
-        public void DeleteUser(User user)
+        public async Task DeleteUser(User user)
         {
             Delete(user);
+
+            await Task.CompletedTask;
         }
 
         public async Task<User?> FindByEmailAsync(string email, bool trackChanges)
