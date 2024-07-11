@@ -76,6 +76,11 @@ namespace WebApi.Repository
             await CreateCategoryAsync(category).ConfigureAwait(false);
         }
 
+        public async Task DeleteCategoryAsync(Category category)
+        {
+            Delete(category);
+        }
+
         #endregion
     }
 }
