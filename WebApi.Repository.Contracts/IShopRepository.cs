@@ -5,21 +5,20 @@ namespace WebApi.Contracts
     public interface IShopRepository
     {
         #region Sync
-        IEnumerable<Shop> GetAllShops(bool trackChanges);
+        public IEnumerable<Shop> GetAllShops(bool trackChanges);
 
-        Shop GetShop(Guid shopId, bool trackChanges);
-        void CreateShop(Shop shop);
+        public Shop? GetShop(Guid shopId, bool trackChanges);
+        public void CreateShop(Shop shop);
         #endregion
 
         #region Async
 
-        Task<IEnumerable<Shop>> GetAllShopsAsync(bool trackChanges);
-
-        Task<Shop> GetShopAsync(Guid shopId, bool trackChanges);
-        void DeleteShop(Shop shop);
-        Task<IEnumerable<Shop>> GetShopByProductIdAsync(Guid productId, bool trackChanges);
-        void DeleteShopsByProductIdAsync(IEnumerable<Shop> shops);
-        void UpdateShop(Shop shopEntity);
+        public Task<IEnumerable<Shop>> GetAllShopsAsync(bool trackChanges);
+        public Task<Shop?> GetShopAsync(Guid shopId, bool trackChanges);
+        public Task DeleteShop(Shop shop);
+        public Task<IEnumerable<Shop>> GetShopByProductIdAsync(Guid productId, bool trackChanges);
+        public Task DeleteShopsByProductIdAsync(IEnumerable<Shop> shops);
+        public Task UpdateShop(Shop shopEntity);
 
         #endregion
     }

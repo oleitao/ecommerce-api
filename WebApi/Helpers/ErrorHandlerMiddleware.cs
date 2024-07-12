@@ -58,7 +58,7 @@ public class ErrorHandlerMiddleware
     #endregion
     public class CustomResponse
     {
-        public string? Error { get; set; }
-        public string? Message { get; set; }
+        public string Error { get; set; }
+        public string Message { get; set; }
     }
 }

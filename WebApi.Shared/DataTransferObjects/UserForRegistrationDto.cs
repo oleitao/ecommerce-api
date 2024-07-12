@@ -11,9 +11,9 @@ namespace WebApi.Shared.DataTransferObjects
         public string? Email { get; init; }
         public string? PhoneNumber { get; init; }
         public ICollection<string>? Roles { get; init; }
-        public string FullName { get; set; }
-        public string Gender { get; set; }
-        public string Hobby { get; set; }
+        public string FullName { get; set; } = null!;
+        public string Gender { get; set; } = null!;
+        public string Hobby { get; set; } = null!;
         public string? Role { get; set; }
     }
 }

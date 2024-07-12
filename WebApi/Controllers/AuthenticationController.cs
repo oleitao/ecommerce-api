@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Threading.Tasks;
 using WebApi.ActionFilters;
+using WebApi.Entities.Exceptions;
 using WebApi.Helpers;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
@@ -15,12 +17,14 @@ namespace WebApi.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IServiceManager _service;
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
+        private readonly IEmailSenderService _emailSender;
 
-        public AuthenticationController(IServiceManager service, IConfiguration configuration)
+        public AuthenticationController(IServiceManager service, IConfiguration configuration, IEmailSenderService emailSender)
         {
             _service = service;
             _configuration = configuration;
+            _emailSender = emailSender;
         }
 
 
@@ -46,8 +50,57 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState); 
             }
 
-
             return StatusCode(201);
+        }
+
+        [HttpGet("accountvalidationemail")]
+        [ApiVersion(version: VersionHelper.ApiVersion)]
+        [ApiExplorerSettings(GroupName = "v1")]
+        [Produces("application/json")]
+        [AllowAnonymous]
+        public async Task AccountValidationEmail(string email)
+        {
+            var userEntity = await _service.UserService.FindByEmailAsync(email, trackChanges: false);
+            if (userEntity is null)
+                throw new UserNotFoundException(email);
+
+            var user = await _service.UserService.MapToUser(userEntity);
+            if (user is not null)
+            {
+                var token = await _service.AuthenticationService.GenerateEmailConfirmationTokenAsync(user);
+                var confirmationLink = $"https://localhost:5000/api/v1.1/authentication/confirmemail/?UserId={user.Id}&Token={token}";
+                string args = $"Please confirm your account by <a href='{confirmationLink}'>clicking here to validate</a>;.";
+
+                var content = await _emailSender.GetContent(EmailHelper.AccountValidation, user, args, trackChanges: false);
+                if (content is null)
+                    throw new EmailContentNotFound(EmailHelper.AccountValidation);
+
+                await _emailSender.SendEmailAsync(user.Email, content);
+            }
+            else
+                throw new AccountValidationEmailErrorException("Error on AccountValidationEmail method");
+        }
+
+        [HttpGet("confirmemail")]
+        [ApiVersion(version: VersionHelper.ApiVersion)]
+        [ApiExplorerSettings(GroupName = "v1")]
+        [Produces("application/json")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            var user = await _service.UserService.GetUserAsync(Guid.Parse(userId), trackChanges: false);
+            if (user is null || token is null)
+                throw new UserNotFoundException("Link expired");
+            else if(user is null)
+                throw new UserNotFoundException("User not found");
+            else
+            {
+                var result = await _service.UserService.ConfirmEmailAsync(user);
+                if (result.Equals(true))
+                    return Ok(result);
+                else
+                    return BadRequest("Error");
+            }
         }
 
         [HttpPost("login")]
@@ -57,6 +110,11 @@ namespace WebApi.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto user) 
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             IActionResult response = Unauthorized();
             if (!await _service.AuthenticationService.LoginUser(user))
                 return response; 

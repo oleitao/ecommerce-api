@@ -6,15 +6,15 @@ namespace WebApi.Contracts
     {
         #region Sync
         IEnumerable<ShopAvatar> GetAllShopAvatars(bool trackChanges);
-        ShopAvatar GetShopAvatar(Guid shopAvatarId, bool trackChanges);
+        ShopAvatar? GetShopAvatar(Guid shopAvatarId, bool trackChanges);
         void CreateShopAvatar(ShopAvatar shopAvatar);
         #endregion
 
         #region Async
 
-        Task<IEnumerable<ShopAvatar>> GetAllShopAvatarsAsync(bool trackChanges);
-        Task<ShopAvatar> GetShopAvatarAsync(Guid shopAvatarId, bool trackChanges);
-        void DeleteShopAvatarAsync(ShopAvatar shopAvatar);
+        public Task<IEnumerable<ShopAvatar>> GetAllShopAvatarsAsync(bool trackChanges);
+        public Task<ShopAvatar?> GetShopAvatarAsync(Guid shopAvatarId, bool trackChanges);
+        public Task DeleteShopAvatarAsync(ShopAvatar shopAvatar);
 
         #endregion
     }

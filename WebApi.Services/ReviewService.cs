@@ -128,7 +128,7 @@ namespace WebApi.Services
         {
             try
             {
-                var userEntity = _repository.User.GetUserAsync(reviewCreate.User.Id, trackChanges: false);
+                var userEntity = _repository.User.GetUserAsync(reviewCreate.UserId, trackChanges: false);
                 if (userEntity == null && reviewCreate.User is null)
                     throw new UserNotFoundException(reviewCreate.User.Id);
 
@@ -138,8 +138,7 @@ namespace WebApi.Services
                     Comment = reviewCreate.Comment,
                     ProductId = reviewCreate.ProductId,
                     Rating = reviewCreate.Rating,
-                    UserId = Guid.Parse(userEntity.Result.Id),
-                    User = userEntity.Result
+                    UserId = Guid.Parse(userEntity.Result.Id)
                 };
 
 
@@ -174,7 +173,7 @@ namespace WebApi.Services
                 if (review == null)
                     throw new ReviewNotFoundException(id);
 
-                _repository.Review.DeleteAsync(review);
+                await _repository.Review.DeleteAsync(review);
                 await _repository.SaveAsync();
             }
             catch (Exception ex)
@@ -190,7 +189,7 @@ namespace WebApi.Services
                 throw new ReviewsNotFoundException();
 
 
-            _repository.Review.DeleteReviewByProductIdAsync(reviews);
+            await _repository.Review.DeleteReviewByProductIdAsync(reviews);
             await _repository.SaveAsync();
         }
 

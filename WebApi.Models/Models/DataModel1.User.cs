@@ -29,13 +29,13 @@ namespace Model
 
         //public Guid Id { get; set; }
 
-        public string FullName { get; set; }
+        public string FullName { get; set; } = null!;
 
         public DateTime Birthday { get; set; }
 
-        public string Hobby { get; set; }
+        public string Hobby { get; set; } = null!;
 
-        public string Gender { get; set; }
+        public string Gender { get; set; } = null!;
 
         public int Age { get; set; }
 

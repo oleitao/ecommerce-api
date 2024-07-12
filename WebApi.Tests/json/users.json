@@ -1,0 +1,22 @@
+[
+  {
+    "id": "efbcf454-0125-41ff-ac91-75d1564af044",
+    "fullName": "oliveira leitao",
+    "gender": "M",
+    "userName": "oleitao",
+    "age": 36,
+    "birthday": "2024-07-03T17:13:28",
+    "hobby": "netflix",
+    "email": "cp5469@protonmail.com"
+  },
+  {
+    "id": "efbcf454-0125-41ff-ac91-75d1564af045",
+    "fullName": "luis figo",
+    "gender": "M",
+    "userName": "figolu",
+    "age": 51,
+    "birthday": "2024-07-03T17:13:29",
+    "hobby": "cinema",
+    "email": "olivleitao@gmail.com"
+  }
+]

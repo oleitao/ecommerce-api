@@ -1,0 +1,17 @@
+{
+  "id": "a1c922f3-95a9-45aa-a45c-d573166852ce",
+  "comment": "comment",
+  "rating": 5,
+  "userId": "efbcf454-0125-41ff-ac91-75d1564af044",
+  "productId": "398e76bb-70f0-4712-af76-10726bb6dd92",
+  "user": {
+    "id": "efbcf454-0125-41ff-ac91-75d1564af044",
+    "fullName": "oliveira leitao",
+    "gender": "M",
+    "userName": "oleitao",
+    "age": 36,
+    "birthday": "2024-07-11T19:12:38",
+    "hobby": "netflix",
+    "email": "cp5469@protonmail.com"
+  }
+}

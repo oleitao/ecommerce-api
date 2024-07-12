@@ -46,8 +46,8 @@ public class UsersController : ControllerBase
     [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<UserDto>), StatusCodes.Status200OK)]
-    [Authorize(Roles = "Administrator")]
-    [Authorize(Roles = "Manager")]
+    //[Authorize(Roles = "Administrator")]
+    //[Authorize(Roles = "Manager")]
     public async Task<IActionResult> GetAllUsers()
     {
         List<UserDto> users = new List<UserDto>();
@@ -132,11 +132,6 @@ public class UsersController : ControllerBase
 
         CacheHelper.SetKey(createdUser, $"{key}:{createdUser.Id}", _cache);
 
-        Uri uri = new Uri($"https://localhost:5000/api/v{VersionHelper.ApiVersion}/email/accountvalidation/{createdUser.Id.ToString()}");
-        var client = new HttpClient { BaseAddress = uri };
-
-        await client.GetAsync(uri);
-
         return CreatedAtRoute("GetByUserId", new { id = createdUser.Id }, createdUser);
     }
 
@@ -178,9 +173,11 @@ public class UsersController : ControllerBase
             var returnUser = await _service.UserService.GetUserAsync(id, trackChanges: true);
 
             CacheHelper.SetKey<UserDto>(returnUser, key, _cache);
-        }        
-        
-        return NoContent();
+
+            return Ok(returnUser);
+        }
+
+        return Ok(userInCache);
     }
 
     [HttpDelete("{id}")]

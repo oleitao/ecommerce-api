@@ -31,6 +31,10 @@ https://code-maze.com/aspnetcore-pass-parameters-to-http-get-action/
 
 TESTS
 https://docs.specflow.org/projects/getting-started/en/latest/GettingStarted/Step6.html
+https://github.com/tonysneed/Demo.SpecFlowWebApi
+https://github.com/SpecFlowOSS/SpecFlow-Examples/blob/master/.NET%206/ASP.NET%20Core%20API/README.md
+https://github.com/ravindersirohi/WebAPI-with-SpecFlow/blob/master/Specflow.Tests/Feature/Product/ProductSteps.cs
+https://github.com/Jinu1994/dotnetcore_specflow_sample
 
 DOCKER
 docker-compose -f docker-compose.yml up
