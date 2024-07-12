@@ -153,9 +153,11 @@ public class ImageUrlsController : ControllerBase
             var returnImageUrl = await _service.ImageUrlService.GetImageUrlAsync(id, trackChanges: true);
 
             CacheHelper.SetKey<ImageUrlDto>(returnImageUrl, key, _cache);
+
+            return Ok(returnImageUrl);
         }
 
-        return NoContent();
+        return Ok(imageUrlInCache);
     }
 
     [HttpDelete("{id:guid}")]

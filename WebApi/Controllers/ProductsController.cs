@@ -185,9 +185,11 @@ public class ProductsController : ControllerBase
             var returnProduct = await _service.ProductService.GetProductAsync(id, trackChanges: true);
 
             CacheHelper.SetKey<ProductDto>(returnProduct, key, _cache);
+
+            return Ok(returnProduct);
         }
 
-        return NoContent();
+        return Ok(productInCache);
     }
 
     [HttpDelete("{id:guid}")]

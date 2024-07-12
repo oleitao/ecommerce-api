@@ -20,6 +20,17 @@ namespace WebApi.Repository.Configuration
                     Email= "cp5469@protonmail.com",
                     Hobby="netflix",
                     UserName = "oleitao",                      
+                },
+                new User
+                {
+                    Id = "efbcf454-0125-41ff-ac91-75d1564af045",
+                    FullName = "luis figo",
+                    Age = 51,
+                    Gender = "M",
+                    Birthday = DateTime.Now,
+                    Email = "olivleitao@gmail.com",
+                    Hobby = "cinema",
+                    UserName = "figolu",
                 }
             );
         }    

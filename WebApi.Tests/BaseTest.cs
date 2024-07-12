@@ -25,5 +25,10 @@ namespace WebApi.Tests
             var result = JsonConvert.DeserializeObject<T>(json);
             return result;
         }
+
+        public string GetJson(string file)
+        {
+            return File.ReadAllText(Directory.GetCurrentDirectory() + @"\json\" + file);
+        }
     }
 }
