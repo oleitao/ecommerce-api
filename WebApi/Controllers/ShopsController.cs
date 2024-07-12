@@ -149,10 +149,15 @@ public class ShopsController : ControllerBase
             await _service.ShopService.UpdateShopAsync(id, shopUpdate, trackChanges: true);
             await _cache.RemoveAsync(key);
 
+            var returnShop = await _service.ShopService.GetShopAsync(id, trackChanges: true);
+
             CacheHelper.SetKey<ShopDto>(shop, key, _cache);
+
+
+            return Ok(returnShop);
         }
 
-        return NoContent();
+        return Ok(shopInCache);
     }
 
     [HttpDelete("{id:guid}")]

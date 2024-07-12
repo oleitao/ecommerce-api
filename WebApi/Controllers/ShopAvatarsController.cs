@@ -152,9 +152,11 @@ public class ShopAvatarsController : ControllerBase
             var returnShopAvatar = await _service.ShopAvatarService.GetShopAvatarAsync(id, trackChanges: true);
 
             CacheHelper.SetKey<ShopAvatarDto>(returnShopAvatar, key, _cache);
+
+            return Ok(returnShopAvatar);
         }
 
-        return NoContent();
+        return Ok(shopAvatarInCache);
     }
 
     [HttpDelete("{id:guid}")]

@@ -12,9 +12,9 @@ namespace WebApi.Contracts
 
         #region Async
 
-        Task<IEnumerable<ShopAvatar>> GetAllShopAvatarsAsync(bool trackChanges);
-        Task<ShopAvatar?> GetShopAvatarAsync(Guid shopAvatarId, bool trackChanges);
-        Task DeleteShopAvatarAsync(ShopAvatar shopAvatar);
+        public Task<IEnumerable<ShopAvatar>> GetAllShopAvatarsAsync(bool trackChanges);
+        public Task<ShopAvatar?> GetShopAvatarAsync(Guid shopAvatarId, bool trackChanges);
+        public Task DeleteShopAvatarAsync(ShopAvatar shopAvatar);
 
         #endregion
     }

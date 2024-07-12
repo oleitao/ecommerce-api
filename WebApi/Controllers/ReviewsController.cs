@@ -98,7 +98,7 @@ public class ReviewsController : ControllerBase
     }
 
     [HttpPost]
-    [ApiVersion("1.0")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     [Consumes(typeof(ReviewForCreationDto), "application/json")]
@@ -120,7 +120,7 @@ public class ReviewsController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    [ApiVersion("1.0")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     //[Authorize]
     public async Task<IActionResult> UpdateReview(Guid id, [FromBody]ReviewForUpdateDto reviewUpdate)
@@ -149,10 +149,14 @@ public class ReviewsController : ControllerBase
             await _service.ReviewService.UpdateReviewAsync(id, reviewUpdate, trackChanges: false);
             await _cache.RemoveAsync(key);
 
+            var returnReview = await _service.ReviewService.GetReviewAsync(id, trackChanges: true);
+
             CacheHelper.SetKey<ReviewDto>(review, key, _cache);
+
+            return Ok(returnReview);
         }
 
-        return NoContent();
+        return Ok(reviewInCache);
     }
 
     [HttpDelete("{id:guid}")]

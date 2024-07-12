@@ -11,7 +11,7 @@ using WebApi.Repository;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240703161328_InitialMigration")]
+    [Migration("20240711181238_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -50,19 +50,19 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e0c197b2-e489-48ea-9576-e87c283761c5",
+                            Id = "c538e741-669e-4e9a-9c49-42f12883603c",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "4a3418bd-a89b-4174-9248-1ba17a1e5dc9",
+                            Id = "c7e4b83a-4e72-45bd-a89c-3d87f2067fbc",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "9390e41f-5eae-44dc-85ec-fef55a7962ba",
+                            Id = "68f4b448-d1a0-4a93-a8c0-ef72d7de073e",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -263,7 +263,7 @@ namespace WebApi.Migrations
                         {
                             Id = new Guid("06d36b5b-d52e-4328-9a8a-2db972b119a1"),
                             Body = "<body style=\"font-family: 'Poppins', Arial, sans-serif\">\r\n    <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n        <tr>\r\n            <td align=\"center\" style=\"padding: 20px;\">\r\n                <table class=\"content\" width=\"600\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse: collapse; border: 1px solid #cccccc;\">\r\n                    <!-- Header -->\r\n                    <tr>\r\n                        <td class=\"header\" style=\"background-color: #345C72; padding: 40px; text-align: center; color: white; font-size: 24px;\">\r\n                        [TITLE]\r\n                        </td>\r\n                    </tr>\r\n\r\n                    <!-- Body -->\r\n                    <tr>\r\n                        <td class=\"body\" style=\"padding: 40px; text-align: left; font-size: 16px; line-height: 1.6;\">\r\n                        Hello, All! <br>\r\n                        [CONTENT]\r\n                        <br><br>\r\n                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam corporis sint eum nemo animi velit exercitationem impedit. Incidunt, officia facilis  atque? Ipsam voluptas fugiat distinctio blanditiis veritatis.            \r\n                        </td>\r\n                    </tr>\r\n\r\n                    <!-- Call to action Button -->\r\n                    <tr>\r\n                        <td style=\"padding: 0px 40px 0px 40px; text-align: center;\">\r\n                            <!-- CTA Button -->\r\n                            <table cellspacing=\"0\" cellpadding=\"0\" style=\"margin: auto;\">\r\n                                <tr>\r\n                                    <td align=\"center\" style=\"background-color: #345C72; padding: 10px 20px; border-radius: 5px;\">\r\n                                        <a href=\"https://www.yourwebsite.com\" target=\"_blank\" style=\"color: #ffffff; text-decoration: none; font-weight: bold;\">Book a Free Consulatation</a>\r\n                                    </td>\r\n                                </tr>\r\n                            </table>\r\n                        </td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td class=\"body\" style=\"padding: 40px; text-align: left; font-size: 16px; line-height: 1.6;\">\r\n                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam corporis sint eum nemo animi velit exercitationem impedit.             \r\n                        </td>\r\n                    </tr>\r\n                    <!-- Footer -->\r\n                    <tr>\r\n                        <td class=\"footer\" style=\"background-color: #333333; padding: 40px; text-align: center; color: white; font-size: 14px;\">\r\n                        Copyright &copy; 2024 | Your brand name\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n            </td>\r\n        </tr>\r\n    </table>\r\n</body>",
-                            Content = "Newsletter email 1",
+                            Content = "newsletter email 1",
                             IsBodyHtml = true,
                             Priority = 0,
                             Subject = "Newslatter email 1"
@@ -295,6 +295,22 @@ namespace WebApi.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ImageUrls", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("1b129a29-08a4-4597-8708-092f202bd123"),
+                            ProductId = new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"),
+                            Publicid = "test1",
+                            Url = "https://www.istorebangladesh.com/images/thumbs/0000286_macbook-pro-m1_550.png"
+                        },
+                        new
+                        {
+                            Id = new Guid("48366c80-fd5f-421e-8a43-9f2fa65c0ba2"),
+                            ProductId = new Guid("398e76bb-70f0-4712-af76-10726bb6dd93"),
+                            Publicid = "test2",
+                            Url = "https://www.custommacbd.com/cdn/shop/products/AppleMacBookProwithM2chip2022model_8GB_256GB_CustomMacBD_540x.jpg?v=1659438499"
+                        });
                 });
 
             modelBuilder.Entity("Model.Product", b =>
@@ -416,7 +432,7 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1024dcaa-2bc5-4bb8-8d09-a1459a64259a"),
+                            Id = new Guid("a1c922f3-95a9-45aa-a45c-d573166852ce"),
                             Comment = "comment",
                             ProductId = new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"),
                             Rating = 5,
@@ -593,8 +609,8 @@ namespace WebApi.Migrations
                             Id = "efbcf454-0125-41ff-ac91-75d1564af044",
                             AccessFailedCount = 0,
                             Age = 36,
-                            Birthday = new DateTime(2024, 7, 3, 17, 13, 28, 538, DateTimeKind.Local).AddTicks(5544),
-                            ConcurrencyStamp = "152220df-70bc-4403-8e05-be4b3b394ed6",
+                            Birthday = new DateTime(2024, 7, 11, 19, 12, 38, 416, DateTimeKind.Local).AddTicks(2569),
+                            ConcurrencyStamp = "90657188-d507-4708-a7c2-26ce7d780325",
                             Email = "cp5469@protonmail.com",
                             EmailConfirmed = false,
                             FullName = "oliveira leitao",
@@ -603,9 +619,28 @@ namespace WebApi.Migrations
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "9acfe278-0a56-438e-8173-1720b81a2fce",
+                            SecurityStamp = "e31ec530-bace-4ce6-989e-776bbeef479b",
                             TwoFactorEnabled = false,
                             UserName = "oleitao"
+                        },
+                        new
+                        {
+                            Id = "efbcf454-0125-41ff-ac91-75d1564af045",
+                            AccessFailedCount = 0,
+                            Age = 51,
+                            Birthday = new DateTime(2024, 7, 11, 19, 12, 38, 416, DateTimeKind.Local).AddTicks(2640),
+                            ConcurrencyStamp = "b475672b-985a-4d03-9f6d-f873b66452e4",
+                            Email = "olivleitao@gmail.com",
+                            EmailConfirmed = false,
+                            FullName = "luis figo",
+                            Gender = "M",
+                            Hobby = "cinema",
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SecurityStamp = "a0847929-4d9d-4997-9502-94be2f84833b",
+                            TwoFactorEnabled = false,
+                            UserName = "figolu"
                         });
                 });
 
