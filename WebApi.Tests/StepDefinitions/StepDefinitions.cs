@@ -22,7 +22,7 @@ public class StepDefinitions : BaseTest
 
     public StepDefinitions(ScenarioContext scenarioContext, ISpecFlowOutputHelper outputHelper)
     {
-        BaseAddress = "https://localhost:5000/api/v1.1/";
+        BaseAddress = "https://localhost:8080/api/v1.1/";
 
         _scenarioContext = scenarioContext;
         _outputHelper = outputHelper;
@@ -131,7 +131,7 @@ public class StepDefinitions : BaseTest
         if (item is null)
             throw new Exception();
 
-        
+
 
         var data = JsonData(item);
 

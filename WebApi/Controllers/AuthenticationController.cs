@@ -42,12 +42,12 @@ namespace WebApi.Controllers
 
             var user = await _service.AuthenticationService.RegisterUser(userForRegistration);
             if (!user.Succeeded)
-            { 
-                foreach (var error in user.Errors) 
-                { 
-                    ModelState.TryAddModelError(error.Code, error.Description); 
-                } 
-                return BadRequest(ModelState); 
+            {
+                foreach (var error in user.Errors)
+                {
+                    ModelState.TryAddModelError(error.Code, error.Description);
+                }
+                return BadRequest(ModelState);
             }
 
             return StatusCode(201);
@@ -68,7 +68,7 @@ namespace WebApi.Controllers
             if (user is not null)
             {
                 var token = await _service.AuthenticationService.GenerateEmailConfirmationTokenAsync(user);
-                var confirmationLink = $"https://localhost:5000/api/v1.1/authentication/confirmemail/?UserId={user.Id}&Token={token}";
+                var confirmationLink = $"https://localhost:8080/api/v1.1/authentication/confirmemail/?UserId={user.Id}&Token={token}";
                 string args = $"Please confirm your account by <a href='{confirmationLink}'>clicking here to validate</a>;.";
 
                 var content = await _emailSender.GetContent(EmailHelper.AccountValidation, user, args, trackChanges: false);
@@ -108,7 +108,7 @@ namespace WebApi.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ApiVersion(version: VersionHelper.ApiVersion)]
         [AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto user) 
+        public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto user)
         {
             if(!ModelState.IsValid)
             {
@@ -117,12 +117,12 @@ namespace WebApi.Controllers
 
             IActionResult response = Unauthorized();
             if (!await _service.AuthenticationService.LoginUser(user))
-                return response; 
+                return response;
 
             var tokenString = await _service.AuthenticationService.GenerateToken(populateExp: true);
             response = Ok(new { token = tokenString });
 
-            return response; 
+            return response;
         }
 
         [HttpPost("refresh")]

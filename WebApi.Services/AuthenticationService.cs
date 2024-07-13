@@ -16,8 +16,8 @@ namespace WebApi.Services
 {
     internal sealed class AuthenticationService : IAuthenticationService
     {
-        private readonly IMapper _mapper; 
-        private readonly UserManager<User> _userManager; 
+        private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
         private readonly IOptions<JwtConfiguration> _configuration;
         private readonly JwtConfiguration _jwtConfiguration;
 
@@ -25,8 +25,8 @@ namespace WebApi.Services
 
         public AuthenticationService(IMapper mapper, UserManager<User> userManager, IOptions<JwtConfiguration> configuration)
         {
-            _mapper = mapper; 
-            _userManager = userManager; 
+            _mapper = mapper;
+            _userManager = userManager;
             _configuration = configuration;
 
             _jwtConfiguration = _configuration.Value;
@@ -34,52 +34,52 @@ namespace WebApi.Services
 
         public async Task<string> CreateToken()
         {
-            var signingCredentials = GetSigningCredentials(); 
-            var claims = await GetClaims(); 
-            var tokenOptions = GenerateTokenOptions(signingCredentials, claims); 
-            
+            var signingCredentials = GetSigningCredentials();
+            var claims = await GetClaims();
+            var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
+
             return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
         }
 
-        private SigningCredentials GetSigningCredentials() 
+        private SigningCredentials GetSigningCredentials()
         {
             var secretKey = Environment.GetEnvironmentVariable("SECRET");
             if (secretKey is null)
                 throw new Exception();
 
             var key = Encoding.UTF8.GetBytes(secretKey);
-            var secret = new SymmetricSecurityKey(key); 
-            
+            var secret = new SymmetricSecurityKey(key);
+
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
 
-        private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims) 
-        { 
+        private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
+        {
             var tokenOptions = new JwtSecurityToken
                 (
                     issuer: _jwtConfiguration.ValidIssuer,
                     audience: _jwtConfiguration.ValidAudience,
-                    claims: claims, 
-                    expires: DateTime.Now.AddMinutes(Convert.ToDouble(_jwtConfiguration.Expires)), 
+                    claims: claims,
+                    expires: DateTime.Now.AddMinutes(Convert.ToDouble(_jwtConfiguration.Expires)),
                     signingCredentials: signingCredentials
-                ); 
-            
-            return tokenOptions; 
+                );
+
+            return tokenOptions;
         }
 
-        private async Task<List<Claim>> GetClaims() 
+        private async Task<List<Claim>> GetClaims()
         {
-            var claims = new List<Claim> 
-            { 
-                new Claim(ClaimTypes.Name, _user.UserName) 
-            }; 
-            
-            var roles = await _userManager.GetRolesAsync(_user); 
-            foreach (var role in roles) 
-            { 
-                claims.Add(new Claim(ClaimTypes.Role, role)); 
-            } 
-            
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, _user.UserName)
+            };
+
+            var roles = await _userManager.GetRolesAsync(_user);
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
             return claims;
         }
 
@@ -91,7 +91,7 @@ namespace WebApi.Services
             var userCreated = await _userManager.CreateAsync(user, userForRegistration.Password);
             if (userCreated.Succeeded)
             {
-                Uri uri = new Uri($"https://localhost:5000/api/v1.1/authentication/accountvalidationemail/?Email={user.Email}");
+                Uri uri = new Uri($"https://localhost:8080/api/v1.1/authentication/accountvalidationemail/?Email={user.Email}");
                 var client = new HttpClient { BaseAddress = uri };
                 await client.GetAsync(uri);
 
@@ -107,12 +107,12 @@ namespace WebApi.Services
 
         public async Task<bool> LoginUser(UserForAuthenticationDto userForAuth)
         {
-            _user = await _userManager.FindByNameAsync(userForAuth.UserName); 
+            _user = await _userManager.FindByNameAsync(userForAuth.UserName);
             if(_user is null)
                 throw new UserNotFoundException(userForAuth.UserName);
 
-            var result = await _userManager.CheckPasswordAsync(_user, userForAuth.Password);             
-            if (result is bool check && check.Equals(true)) 
+            var result = await _userManager.CheckPasswordAsync(_user, userForAuth.Password);
+            if (result is bool check && check.Equals(true))
                 throw new Exception($"{nameof(LoginUser)}: Authentication failed. Wrong user name or password.");
 
             return result;
@@ -151,36 +151,36 @@ namespace WebApi.Services
             }
         }
 
-        private ClaimsPrincipal GetPrincipalFromExpiredToken(string token) 
+        private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
         {
             var secretKey = Environment.GetEnvironmentVariable("SECRET");
             if (secretKey is null)
                 throw new Exception();
 
-            var tokenValidationParameters = new TokenValidationParameters 
-            { 
-                ValidateAudience = true, 
-                ValidateIssuer = true, 
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = true,
+                ValidateIssuer = true,
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
-                ValidateLifetime = true, 
-                
+                ValidateLifetime = true,
+
                 ValidIssuer = _jwtConfiguration.ValidIssuer,
                 ValidAudience = _jwtConfiguration.ValidAudience
-            }; 
-            
-            var tokenHandler = new JwtSecurityTokenHandler();             
-            SecurityToken securityToken; 
-            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken); 
+            };
 
-            var jwtSecurityToken = securityToken as JwtSecurityToken;             
-            if (jwtSecurityToken == null || 
-                !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase)) 
+            var tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken securityToken;
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
+
+            var jwtSecurityToken = securityToken as JwtSecurityToken;
+            if (jwtSecurityToken == null ||
+                !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
             {
-                throw new SecurityTokenException("Invalid token"); 
-            } 
+                throw new SecurityTokenException("Invalid token");
+            }
 
-            return principal; 
+            return principal;
         }
 
         public async Task<TokenDto> RefreshToken(TokenDto token)
@@ -199,7 +199,7 @@ namespace WebApi.Services
         }
 
         public async Task<string> GenerateEmailConfirmationTokenAsync(User user)
-        { 
+        {
             return await _userManager.GenerateEmailConfirmationTokenAsync(user);
         }
     }
