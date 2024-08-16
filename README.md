@@ -1,6 +1,6 @@
 # ecommerce-api
 
-This project is based on a [multi vendor e-commerce  website](https://github.com/Asfak00/multi-vendor-ecommerce) to load data throw a WebApi .NET Core API 7.
+This project is based on a [multi vendor e-commerce  website](https://github.com/Asfak00/multi-vendor-ecommerce) to load data through a WebApi .NET Core API 7.
 
 ## How to run e-commerce website
 
