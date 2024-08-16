@@ -114,7 +114,7 @@ http://localhost:3000/dashboards
 `http://localhost:3000/d/xfpJB9FGz/server-status-dashboard?orgId=1`
 
 
-## How to Logging with WebApi
+## How to Log WebApi
 
 Check if you ElasticSearch and Kibana host containers are running.
 
