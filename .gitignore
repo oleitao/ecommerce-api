@@ -46,3 +46,4 @@
 /WebApi.Models/bin/Release/net7.0
 /WebApi.LoggerServices/bin/Release/net7.0
 /WebApi/bin/Release/net7.0
+/WebSite/node_modules
