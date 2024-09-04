@@ -30,10 +30,9 @@ const CreateEvent = () => {
 
   const [categoriesData, setCategoriesData] = useState('');
   useEffect(() => {
-    axios.get('https://localhost:64403/api/categories')
+    axios.get('https://localhost:8080/api/v1.1/categories')
       .then(response => {
         setCategoriesData(response.data);
-        console.log(response.data);
       })
       .catch(error => {
         console.log(error);
