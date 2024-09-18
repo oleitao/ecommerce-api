@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from "../Styles/Style";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,16 +7,40 @@ import { RxAvatar } from "react-icons/rx";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Signup = () => {
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [avatar, setAvatar] = useState(null);
-  const [password, setPassword] = useState("");
-  const [visible, setVisible] = useState(false);
-  const [url, setUrl] = useState(null);
+import axios from 'axios';
 
-  // get the user email fro localstorage
-  const userEmailFromLocalstorage = JSON.parse(localStorage.getItem("email"));
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
+
+const Signup = () => {
+  const [visible, setVisible] = useState(false);
+
+  // const [url, setUrl] = useState(null);
+  // const [avatar, setAvatar] = useState(null);
+
+  const [data, setData] = useState({
+    firstName: "",
+    lastName: "",
+    userName: "",
+    fullName: "",
+    password: "",
+    passwordReType: "",
+    email: "",
+    phoneNumber: "",
+    gender: "",
+    role:"USER",
+    hobby: ""
+    // avatar: null,
+    // url:null,
+  });
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setData({
+      ...data,
+      [e.target.name]: value
+    });
+  };
 
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
@@ -28,19 +52,88 @@ const Signup = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    if (email === userEmailFromLocalstorage) {
-      toast.error(
-        `The "${email}" already registered, Please try to different email!`
-      );
-    } else {
-      toast.success("Your account successfully created, Now login!");
+    const userData = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      userName: data.userName,
+      fullName: data.firstName + " " + data.lastName,
+      password: data.password,
+      passwordReType: data.passwordReType,
+      email: data.email,
+      phoneNumber: data.phoneNumber,
+      gender: data.gender,
+      // avatar: data.avatar,
+      // url: data.url,
+      role:"USER",
+      hobby: ""
+    };
 
-      // local storage data
-      localStorage.setItem("email", JSON.stringify(email));
-      localStorage.setItem("password", JSON.stringify(password));
-      localStorage.setItem("userName", JSON.stringify(name));
-      localStorage.setItem("PhotoUrl", JSON.stringify(url));
-      localStorage.setItem("isAuthenticated", true);
+
+    if(data.password != data.passwordReType)
+    {
+      toast.error(`Password-s doesn-t match!`);      
+    }
+    else
+    {
+      axios.get('https://localhost:8080/api/v1.1/authentication/email?email=' + userData.email)
+      .then(response => {
+          
+          if(response.data === true)
+          {
+            toast.error(`The "${userData.email}" already registered, Please try to different email!`);
+          }
+          else
+          {
+            console.log(userData);
+            axios.post('https://localhost:8080/api/v1.1/authentication/register', userData)
+            .then(response => {  
+  
+              toast.success("Your account successfully created, Now login!");
+  
+              // local storage data
+              localStorage.setItem("firstName", JSON.stringify(userData.firstName));
+              localStorage.setItem("lastName", JSON.stringify(userData.lastName));
+              localStorage.setItem("userName", JSON.stringify(userData.userName));
+              localStorage.setItem("fullName", JSON.stringify(userData.fullName));
+              localStorage.setItem("password", JSON.stringify(userData.password));
+              localStorage.setItem("passwordReType", JSON.stringify(userData.passwordReType));
+              localStorage.setItem("email", JSON.stringify(userData.email));
+              localStorage.setItem("phoneNumber", JSON.stringify(userData.phoneNumber));
+              localStorage.setItem("gender", JSON.stringify(userData.gender));
+              localStorage.setItem("role", JSON.stringify(userData.role));
+              localStorage.setItem("hobby", JSON.stringify(userData.hobby));
+
+              // localStorage.setItem("avatar", JSON.stringify(avatar));
+              // localStorage.setItem("url", JSON.stringify(url));
+
+
+              //clean all fields
+              setData({
+                firstName: "",
+                lastName: "",
+                userName: "",
+                fullName: "",
+                password: "",
+                passwordReType: "",
+                email: "",
+                phoneNumber: "",
+                gender: "",
+                role:"USER",
+                hobby: ""
+                // avatar: null,
+                // url:null,
+              });
+
+
+            })
+            .catch(error => {
+              console.log(error);
+            });
+          }
+      })
+      .catch(error => {
+        console.log(error);
+      });
     }
   };
 
@@ -54,6 +147,45 @@ const Signup = () => {
       <div className="mt-8 mx-auto w-[90%] 800px:w-[45%]">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleFormSubmit}>
+
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700">
+                First Name
+              </label>
+              <div className="mt-1">
+                <input
+                  type="text"
+                  name="firstName"
+                  autoComplete="firstName"
+                  required
+                  value={data.firstName}
+                  onChange={handleChange}
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700">
+                Last Name
+              </label>
+              <div className="mt-1">
+                <input
+                  type="text"
+                  name="lastName"
+                  autoComplete="lastName"
+                  required
+                  value={data.lastName}
+                  onChange={handleChange}
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
+              </div>
+            </div>
+
             <div>
               <label
                 htmlFor="email"
@@ -63,33 +195,35 @@ const Signup = () => {
               <div className="mt-1">
                 <input
                   type="text"
-                  name="text"
+                  name="fullName"
                   autoComplete="name"
                   required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={data.firstName + " " + data.lastName}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  disabled
                 />
               </div>
             </div>
+
             <div>
               <label
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700">
-                Email address
+                UserName
               </label>
               <div className="mt-1">
                 <input
-                  type="email"
-                  name="email"
-                  autoComplete="email"
+                  type="text"
+                  name="userName"
+                  autoComplete="userName"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={data.userName}
+                  onChange={handleChange}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
               </div>
             </div>
+
             <div>
               <label
                 htmlFor="password"
@@ -102,8 +236,8 @@ const Signup = () => {
                   name="password"
                   autoComplete="current-password"
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={data.password}
+                  onChange={handleChange}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
                 {visible ? (
@@ -121,9 +255,95 @@ const Signup = () => {
                 )}
               </div>
             </div>
-            <div className={`${styles.noramlFlex}`}>
+
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700">
+                Re-type Password
+              </label>
+              <div className="mt-1 relative">
+                <input
+                  type={visible ? "text" : "password"}
+                  name="passwordReType"
+                  autoComplete="current-password"
+                  required
+                  value={data.passwordReType}
+                  onChange={handleChange}
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
+                {visible ? (
+                  <AiOutlineEye
+                    className="absolute right-2 top-2 cursor-pointer"
+                    size={25}
+                    onClick={() => setVisible(false)}
+                  />
+                ) : (
+                  <AiOutlineEyeInvisible
+                    className="absolute right-2 top-2 cursor-pointer"
+                    size={25}
+                    onClick={() => setVisible(true)}
+                  />
+                )}
+              </div>
+            </div>
+
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700">
+                Email address
+              </label>
+              <div className="mt-1">
+                <input
+                  type="email"
+                  name="email"
+                  autoComplete="email"
+                  required
+                  value={data.email}
+                  onChange={handleChange}
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700">
+                Phone Number
+              </label>
+              <div className="mt-1">
+                <input
+                  type="tel"
+                  name="phoneNumber"
+                  required
+                  value={data.phoneNumber}
+                  onChange={handleChange}
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700">
+                Gender
+              </label>
+              <div className="mt-1">
+                <select name="gender" id="gender" required onChange={handleChange} className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                  <option value="">-Select Gender-</option>
+                  <option value="M">Male</option>
+                  <option value="F">Female</option>
+                  <option value="O">Other</option>
+                </select>
+              </div>
+            </div>
+
+            {/* <div className={`${styles.noramlFlex}`}>
               <span className="inline-block h-10 w-10 rounded-full overflow-hidden">
-                {avatar ? (
+                {data.avatar ? (
                   <img
                     src={URL.createObjectURL(avatar)}
                     alt="avatar"
@@ -147,7 +367,8 @@ const Signup = () => {
                   className="sr-only"
                 />
               </label>
-            </div>
+            </div> */}
+
             <div>
               <button
                 type="submit"

@@ -27,6 +27,19 @@ namespace WebApi.Controllers
             _emailSender = emailSender;
         }
 
+        [HttpGet("email")]
+        [ApiVersion(version: VersionHelper.ApiVersion)]
+        [ApiExplorerSettings(GroupName = "v1")]
+        [Produces("application/json")]
+        [AllowAnonymous]
+        public async Task<IActionResult> VerifyEmail(string email)
+        {
+            var user = await _service.UserService.FindByEmailAsync(email, trackChanges: false);
+            if (user is not null)
+                return Ok(true);
+
+            return Ok(false);
+        }
 
         [HttpPost("register")]
         [ApiExplorerSettings(GroupName = "v1")]
