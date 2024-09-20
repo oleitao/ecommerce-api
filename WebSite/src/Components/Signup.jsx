@@ -84,47 +84,36 @@ const Signup = () => {
           }
           else
           {
-            console.log(userData);
             axios.post('https://localhost:8080/api/v1.1/authentication/register', userData)
             .then(response => {  
   
-              toast.success("Your account successfully created, Now login!");
+              console.log(response);
+              if(response.status === 201)
+              {
+                toast.success("Your account successfully created, Now login!");
+    
+                //clean all fields
+                setData({
+                  firstName: "",
+                  lastName: "",
+                  userName: "",
+                  fullName: "",
+                  password: "",
+                  passwordReType: "",
+                  email: "",
+                  phoneNumber: "",
+                  gender: "",
+                  role:"USER",
+                  hobby: ""
+                  // avatar: null,
+                  // url:null,
+                });
   
-              // local storage data
-              localStorage.setItem("firstName", JSON.stringify(userData.firstName));
-              localStorage.setItem("lastName", JSON.stringify(userData.lastName));
-              localStorage.setItem("userName", JSON.stringify(userData.userName));
-              localStorage.setItem("fullName", JSON.stringify(userData.fullName));
-              localStorage.setItem("password", JSON.stringify(userData.password));
-              localStorage.setItem("passwordReType", JSON.stringify(userData.passwordReType));
-              localStorage.setItem("email", JSON.stringify(userData.email));
-              localStorage.setItem("phoneNumber", JSON.stringify(userData.phoneNumber));
-              localStorage.setItem("gender", JSON.stringify(userData.gender));
-              localStorage.setItem("role", JSON.stringify(userData.role));
-              localStorage.setItem("hobby", JSON.stringify(userData.hobby));
-
-              // localStorage.setItem("avatar", JSON.stringify(avatar));
-              // localStorage.setItem("url", JSON.stringify(url));
-
-
-              //clean all fields
-              setData({
-                firstName: "",
-                lastName: "",
-                userName: "",
-                fullName: "",
-                password: "",
-                passwordReType: "",
-                email: "",
-                phoneNumber: "",
-                gender: "",
-                role:"USER",
-                hobby: ""
-                // avatar: null,
-                // url:null,
-              });
-
-
+              }
+              else
+              {
+                toast.error(`Error:"${response.data}"`);
+              }
             })
             .catch(error => {
               console.log(error);

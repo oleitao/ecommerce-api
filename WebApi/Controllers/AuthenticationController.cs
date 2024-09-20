@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Elasticsearch.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.ActionFilters;
 using WebApi.Entities.Exceptions;
@@ -56,11 +58,13 @@ namespace WebApi.Controllers
             var user = await _service.AuthenticationService.RegisterUser(userForRegistration);
             if (!user.Succeeded)
             {
+                List<string> errors = new List<string>();
                 foreach (var error in user.Errors)
                 {
                     ModelState.TryAddModelError(error.Code, error.Description);
+                    errors.Add(error.Code + ": " +error.Description);
                 }
-                return BadRequest(ModelState);
+                return Ok(errors.ToArray());
             }
 
             return StatusCode(201);
