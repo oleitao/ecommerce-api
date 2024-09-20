@@ -14,12 +14,14 @@
 		<PrivateAssets>all</PrivateAssets>
 	</PackageReference>
 	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.2" />
+	<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
+	<PackageReference Include="System.Linq.Dynamic.Core" Version="1.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebApi.Contracts\WebApi.Contracts.csproj" />
     <ProjectReference Include="..\WebApi.LoggerServices\WebApi.LoggerServices.csproj" />
     <ProjectReference Include="..\WebApi.Models\WebApi.Entities.csproj" />
+    <ProjectReference Include="..\WebApi.Repository.Contracts\WebApi.Repository.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

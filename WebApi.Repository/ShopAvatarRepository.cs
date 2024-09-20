@@ -1,5 +1,6 @@
-﻿using WebApi.Contracts;
-using WebApi.Entities.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Model;
+using WebApi.Contracts;
 
 namespace WebApi.Repository
 {
@@ -11,10 +12,11 @@ namespace WebApi.Repository
             
         }
 
+        #region Sync
         public IEnumerable<ShopAvatar> GetAllShopAvatars(bool trackChanges) =>
             FindAll(trackChanges).ToList();
 
-        public ShopAvatar GetShopAvatar(Guid shopAvatarId, bool trackChanges) =>
+        public ShopAvatar? GetShopAvatar(Guid shopAvatarId, bool trackChanges) =>
             FindByCondition(c => c.Id.Equals(shopAvatarId), trackChanges)
             .SingleOrDefault();
 
@@ -22,5 +24,28 @@ namespace WebApi.Repository
         {
             Create(shopAvatar);
         }
+
+        #endregion
+
+        #region Async
+
+        public async Task<IEnumerable<ShopAvatar>> GetAllShopAvatarsAsync(bool trackChanges)
+        {
+            return await FindAll(trackChanges).ToListAsync();
+        }
+
+        public async Task<ShopAvatar?> GetShopAvatarAsync(Guid shopAvatarId, bool trackChanges)
+        {
+            return await FindByCondition(c => c.Id.Equals(shopAvatarId), trackChanges).SingleOrDefaultAsync();
+        }
+
+        public async Task DeleteShopAvatarAsync(ShopAvatar shopAvatar)
+        {
+            Delete(shopAvatar);
+
+            await Task.CompletedTask;
+        }
+
+        #endregion
     }
 }

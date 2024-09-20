@@ -6,6 +6,12 @@
     <DockerfileContext>..\..</DockerfileContext>
     <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
 	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	</PropertyGroup>
 	<ItemGroup>
 	  <Content Remove="nlog.config" />
 	</ItemGroup>
@@ -23,20 +29,38 @@
   </ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AspNetCoreRateLimit" Version="5.0.0" />
 		<PackageReference Include="AutoMapper" Version="11.0.1" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
 		<PackageReference Include="EFCore.NamingConventions" Version="7.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="7.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		  <PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.2" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.6" />
+		<PackageReference Include="prometheus-net.AspNetCore" Version="7.0.0" />
+		<PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
+		<PackageReference Include="Serilog.Enrichers.Environment" Version="2.3.0" />
+		<PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
+		<PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
+		<PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
+		<PackageReference Include="StackExchange.Redis" Version="2.7.33" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
+		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.6.2" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.6.2" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.6.2" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -50,6 +74,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\WebApi.LoggerServices\WebApi.LoggerServices.csproj" />
 	  <ProjectReference Include="..\WebApi.Models\WebApi.Entities.csproj" />
+	  <ProjectReference Include="..\WebApi.Repository.Contracts\WebApi.Repository.Contracts.csproj" />
 	  <ProjectReference Include="..\WebApi.Repository\WebApi.Repository.csproj" />
 	  <ProjectReference Include="..\WebApi.Services\WebApi.Services.csproj" />
 	</ItemGroup>

@@ -8,11 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebApi.Contracts\WebApi.Contracts.csproj" />
     <ProjectReference Include="..\WebApi.Models\WebApi.Entities.csproj" />
+    <ProjectReference Include="..\WebApi.Repository.Contracts\WebApi.Repository.Contracts.csproj" />
+    <ProjectReference Include="..\WebApi.Repository\WebApi.Repository.csproj" />
     <ProjectReference Include="..\WebApi.Service.Contracts\WebApi.Service.Contracts.csproj" />
     <ProjectReference Include="..\WebApi.Shared\WebApi.Shared.csproj" />
   </ItemGroup>
