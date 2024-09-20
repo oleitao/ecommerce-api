@@ -8,6 +8,7 @@ import {
   EventsPage,
   FaqPage,
   LoginPage,
+  ErrorPage,
   SignUpPage,
   ProductDetailsPage,
   ProfilePage,
@@ -41,6 +42,7 @@ const App = () => {
       <Routes>
         {/* basic user interface routes */}
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/error" element={<ErrorPage />} />        
         <Route path="/sign-up" element={<SignUpPage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<ProductPage />} />

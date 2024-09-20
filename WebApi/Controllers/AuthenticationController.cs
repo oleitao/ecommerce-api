@@ -110,9 +110,12 @@ namespace WebApi.Controllers
             {
                 var result = await _service.UserService.ConfirmEmailAsync(user);
                 if (result.Equals(true))
-                    return Ok(result);
+                {
+
+                    return Redirect("http://localhost:5173/");
+                }
                 else
-                    return BadRequest("Error");
+                    return Redirect("http://localhost:5173/error");
             }
         }
 
