@@ -7,6 +7,8 @@ namespace WebApi.Contracts
     {
         ICategoryRepository Category { get; }
 
+        IInboxRepository Inbox { get; }
+
         IImageUrlRepository ImageUrl { get; }
 
         IProductRepository Product { get; }
