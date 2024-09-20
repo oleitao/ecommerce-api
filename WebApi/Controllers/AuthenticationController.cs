@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Model;
 using System;
+using System.Linq.Dynamic.Core.Tokenizer;
 using System.Threading.Tasks;
 using WebApi.ActionFilters;
 using WebApi.Entities.Exceptions;
@@ -124,22 +126,27 @@ namespace WebApi.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ApiVersion(version: VersionHelper.ApiVersion)]
         [AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto user)
+        public async Task<IActionResult> Login([FromBody] UserForLoginAuthenticationDto user)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             IActionResult response = Unauthorized();
             if (!await _service.AuthenticationService.LoginUser(user))
-                return response;
+                return StatusCode(401);
+
+            var userData = await _service.UserService.FindUserByEmailAsync(user.Email, trackChanges: false);
+            if (userData is null)
+                throw new UserNotFoundException("User not found");
 
             var tokenString = await _service.AuthenticationService.GenerateToken(populateExp: true);
-            response = Ok(new { token = tokenString });
+            response = Ok(new { user = userData, token = tokenString });
 
             return response;
         }
+        
 
         [HttpPost("refresh")]
         [ApiExplorerSettings(GroupName = "v1")]

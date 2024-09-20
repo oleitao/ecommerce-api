@@ -105,17 +105,17 @@ namespace WebApi.Services
         }
 
 
-        public async Task<bool> LoginUser(UserForAuthenticationDto userForAuth)
+        public async Task<bool> LoginUser(UserForLoginAuthenticationDto userForAuth)
         {
-            _user = await _userManager.FindByNameAsync(userForAuth.UserName);
-            if(_user is null)
-                throw new UserNotFoundException(userForAuth.UserName);
+            _user = await _userManager.FindByEmailAsync(userForAuth.Email);
+            if (_user is null)
+                return false;
 
             var result = await _userManager.CheckPasswordAsync(_user, userForAuth.Password);
-            if (result is bool check && check.Equals(true))
-                throw new Exception($"{nameof(LoginUser)}: Authentication failed. Wrong user name or password.");
+            if (result is bool check && check.Equals(false))
+                return false;
 
-            return result;
+            return true;
         }
 
         public async Task<TokenDto> GenerateToken(bool populateExp)

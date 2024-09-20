@@ -5,25 +5,64 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import axios from 'axios';
+
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
+
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+
   const [visible, setVisible] = useState(false);
+
+  const [data, setData] = useState({
+    email: "",
+    password: ""
+  });
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setData({
+      ...data,
+      [e.target.name]: value
+    });
+  };
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
 
-    // local storage data
-    const localStorageEmail = JSON.parse(localStorage.getItem("email"));
-    const localStoragePassword = JSON.parse(localStorage.getItem("password"));
+    const userData = {
+      email: data.email,
+      password: data.password
+    };
 
-    if (email === localStorageEmail && password === localStoragePassword) {
-      toast.success("login success");
-      navigate("/");
-    } else {
+    axios.post('https://localhost:8080/api/v1.1/authentication/login', userData)
+    .then(response => {
+      
+      console.log(response,data);
+      if(response.status === 200)
+      {
+        toast.success("login success");
+
+        localStorage.setItem("age", JSON.stringify(response.data.user.age));
+        localStorage.setItem("birthday", JSON.stringify(response.data.user.birthday));
+        localStorage.setItem("email", JSON.stringify(response.data.user.email));
+        localStorage.setItem("fullName", JSON.stringify(response.data.user.fullName));
+        localStorage.setItem("gender", JSON.stringify(response.data.user.gender));
+        localStorage.setItem("hobby", JSON.stringify(response.data.user.hobby));
+        localStorage.setItem("id", JSON.stringify(response.data.user.id));
+        localStorage.setItem("userName", JSON.stringify(response.data.user.userName));        
+        localStorage.setItem("phoneNumber", JSON.stringify(response.data.user.phoneNumber));   
+
+        localStorage.setItem("accessToken", JSON.stringify(response.data.token.accessToken));
+        localStorage.setItem("refreshToken", JSON.stringify(response.data.token.refreshToken));
+
+        navigate("/");
+      }
+    })
+    .catch(error => {
       toast.error("Please provide the correct information");
-    }
+    });
   };
 
   return (
@@ -48,8 +87,8 @@ const Login = () => {
                   name="email"
                   autoComplete="email"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={data.email}
+                  onChange={handleChange}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
               </div>
@@ -66,8 +105,8 @@ const Login = () => {
                   name="password"
                   autoComplete="current-password"
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={data.password}
+                  onChange={handleChange}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
                 {visible ? (
