@@ -186,21 +186,21 @@ GetAllProducts
 HEAD(https://localhost:8080/api/v1.1/products)
 ------------------------------------------------------------------------------------------------------------------------------------
 RegisterUser
-POST(https://localhost:8080/api/v1.1/authentication)
+POST(https://localhost:8080/api/v1.1/authentication/register)
 {
     "firstname": "oliveira",
     "lastname": "leitao",
     "fullname": "oliveira leitao",
-    "username": "oleitao",
+    "username": "admin",
     "password": "Password1000",
     "email": "oleitao@gmail.com",
     "phonenumber": "589-654",
     "gender": "M",
-    "hobby": "netflix",
+    "hobby": "",
     "roles": [
-        "Manager"
+        "ADMINISTRATOR"
     ]
-}}
+}
 ------------------------------------------------------------------------------------------------------------------------------------
 Authenticate
 POST(https://localhost:8080/api/v1.1/authentication/login)

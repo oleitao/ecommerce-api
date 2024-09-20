@@ -165,12 +165,10 @@ namespace WebApi.Services
             try
             {
                 var userEntity = await _repository.User.FindByEmailAsync(email, trackChanges);
-                if (userEntity == null)
-                    throw new UserNotFoundException(email);
+                if (userEntity is not null)
+                    return _mapper.Map<UserDto>(userEntity);
 
-                var userReturn = _mapper.Map<UserDto>(userEntity);
-
-                return userReturn;
+                return null;
             }
             catch (Exception ex)
             {
