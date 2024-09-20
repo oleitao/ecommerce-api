@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Model;
 using System;
 using System.Collections.Generic;
+using System.Linq.Dynamic.Core.Tokenizer;
 using System.Threading.Tasks;
 using WebApi.ActionFilters;
 using WebApi.Entities.Exceptions;
@@ -50,7 +52,7 @@ namespace WebApi.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] UserForRegistrationDto userForRegistration)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
@@ -62,7 +64,7 @@ namespace WebApi.Controllers
                 foreach (var error in user.Errors)
                 {
                     ModelState.TryAddModelError(error.Code, error.Description);
-                    errors.Add(error.Code + ": " +error.Description);
+                    errors.Add(error.Code + ": " + error.Description);
                 }
                 return Ok(errors.ToArray());
             }
@@ -108,15 +110,18 @@ namespace WebApi.Controllers
             var user = await _service.UserService.GetUserAsync(Guid.Parse(userId), trackChanges: false);
             if (user is null || token is null)
                 throw new UserNotFoundException("Link expired");
-            else if(user is null)
+            else if (user is null)
                 throw new UserNotFoundException("User not found");
             else
             {
                 var result = await _service.UserService.ConfirmEmailAsync(user);
                 if (result.Equals(true))
-                    return Ok(result);
+                {
+
+                    return Redirect("http://localhost:5173/");
+                }
                 else
-                    return BadRequest("Error");
+                    return Redirect("http://localhost:5173/error");
             }
         }
 
@@ -125,22 +130,27 @@ namespace WebApi.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ApiVersion(version: VersionHelper.ApiVersion)]
         [AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto user)
+        public async Task<IActionResult> Login([FromBody] UserForLoginAuthenticationDto user)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             IActionResult response = Unauthorized();
             if (!await _service.AuthenticationService.LoginUser(user))
-                return response;
+                return StatusCode(401);
+
+            var userData = await _service.UserService.FindUserByEmailAsync(user.Email, trackChanges: false);
+            if (userData is null)
+                throw new UserNotFoundException("User not found");
 
             var tokenString = await _service.AuthenticationService.GenerateToken(populateExp: true);
-            response = Ok(new { token = tokenString });
+            response = Ok(new { user = userData, token = tokenString });
 
             return response;
         }
+
 
         [HttpPost("refresh")]
         [ApiExplorerSettings(GroupName = "v1")]

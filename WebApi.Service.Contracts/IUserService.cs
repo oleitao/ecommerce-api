@@ -20,6 +20,7 @@ namespace WebApi.Service.Contracts
         public Task UpdateUserAsync(Guid id, UserForUpdateDto category, bool trackChanges);
         public Task DeleteUserAsync(Guid id, bool trackChanges);
         public Task<UserDto> FindByEmailAsync(string email, bool trackChanges);
+        public Task<User> FindUserByEmailAsync(string email, bool trackChanges);
         public Task<bool> ConfirmEmailAsync(UserDto user);
         public Task<Model.User> MapToUser(UserDto userEntity);
         #endregion

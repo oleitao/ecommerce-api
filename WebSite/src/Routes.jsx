@@ -1,4 +1,5 @@
 import LoginPage from "./Pages/LoginPage";
+import ErrorPage from "./Pages/ErrorPage";
 import SignUpPage from "./Pages/SignUpPage";
 import HomePage from "./Pages/HomePage";
 import ProductPage from "./Pages/ProductPage";
@@ -48,6 +49,7 @@ export {
   FaqPage,
   SignUpPage,
   LoginPage,
+  ErrorPage,
   ProductDetailsPage,
   ProfilePage,
   MessagePage,

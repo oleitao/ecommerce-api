@@ -18,6 +18,7 @@ namespace WebApi.Services
         private readonly Lazy<IShopService> _shopService;
         private readonly Lazy<IUserService> _userService;
         private readonly Lazy<IAuthenticationService> _authenticationService;
+        private readonly Lazy<IInboxService> _inboxService;
         public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, UserManager<User> userManager, IOptions<JwtConfiguration> configuration)
         {
             _categoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager, mapper));
@@ -28,6 +29,7 @@ namespace WebApi.Services
             _shopAvatarService = new Lazy<IShopAvatarService>(() => new ShopAvatarService(repositoryManager, mapper));
             _userService = new Lazy<IUserService>(() => new UserService(repositoryManager, mapper));
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(mapper, userManager, configuration));
+            _inboxService = new Lazy<IInboxService>(() => new InboxService(repositoryManager, mapper));
         }
 
         public ICategoryService CategoryService => _categoryService.Value;
@@ -38,5 +40,6 @@ namespace WebApi.Services
         public IShopService ShopService => _shopService.Value;
         public IUserService UserService => _userService.Value;
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
+        public IInboxService InboxService => _inboxService.Value;
     }
 }
