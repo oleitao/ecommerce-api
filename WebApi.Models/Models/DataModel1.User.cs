@@ -29,18 +29,19 @@ namespace Model
 
         //public Guid Id { get; set; }
 
-        public string FullName { get; set; } = null!;
+        public string? FullName { get; set; } = null!;
+        public DateTime? Birthday { get; set; }
+        public string? Hobby { get; set; } = null!;
+        public string? Gender { get; set; } = null!;
 
-        public DateTime Birthday { get; set; }
+        public int? Age { get; set; }
 
-        public string Hobby { get; set; } = null!;
-
-        public string Gender { get; set; } = null!;
-
-        public int Age { get; set; }
+        public int? ZipCode { get; set; }
+        public string? Address { get; set; }
+        public string? ShopDescription { get; set; }
 
         public string? RefreshToken { get; set; }
-        public DateTime RefreshTokenExpiryTime { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
 
         #region Extensibility Method Definitions
 

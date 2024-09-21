@@ -104,9 +104,14 @@ namespace WebApi.Migrations
                     Gender = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Age = table.Column<int>(type: "int", nullable: false),
+                    ZipCode = table.Column<int>(type: "int", nullable: true),
+                    Address = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ShopDescription = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     RefreshToken = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
@@ -373,9 +378,9 @@ namespace WebApi.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "68f4b448-d1a0-4a93-a8c0-ef72d7de073e", null, "Administrator", "ADMINISTRATOR" },
-                    { "c538e741-669e-4e9a-9c49-42f12883603c", null, "User", "USER" },
-                    { "c7e4b83a-4e72-45bd-a89c-3d87f2067fbc", null, "Manager", "MANAGER" }
+                    { "01caf2cc-0c90-4fb7-b399-a2b4c0a5b5f7", null, "Manager", "MANAGER" },
+                    { "4c60bea7-0b45-4e89-a4fb-6a51c1aa7a7d", null, "Administrator", "ADMINISTRATOR" },
+                    { "a678cddb-fc8f-4c58-a8b3-5563cb8e619e", null, "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -413,11 +418,11 @@ namespace WebApi.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "AccessFailedCount", "Age", "Birthday", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "Gender", "Hobby", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "Address", "Age", "Birthday", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "Gender", "Hobby", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "ShopDescription", "TwoFactorEnabled", "UserName", "ZipCode" },
                 values: new object[,]
                 {
-                    { "efbcf454-0125-41ff-ac91-75d1564af044", 0, 36, new DateTime(2024, 7, 11, 19, 12, 38, 416, DateTimeKind.Local).AddTicks(2569), "90657188-d507-4708-a7c2-26ce7d780325", "cp5469@protonmail.com", false, "oliveira leitao", "M", "netflix", false, null, null, null, null, null, false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "e31ec530-bace-4ce6-989e-776bbeef479b", false, "oleitao" },
-                    { "efbcf454-0125-41ff-ac91-75d1564af045", 0, 51, new DateTime(2024, 7, 11, 19, 12, 38, 416, DateTimeKind.Local).AddTicks(2640), "b475672b-985a-4d03-9f6d-f873b66452e4", "olivleitao@gmail.com", false, "luis figo", "M", "cinema", false, null, null, null, null, null, false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "a0847929-4d9d-4997-9502-94be2f84833b", false, "figolu" }
+                    { "efbcf454-0125-41ff-ac91-75d1564af044", 0, null, 36, new DateTime(2024, 9, 21, 12, 23, 24, 896, DateTimeKind.Local).AddTicks(1452), "9d99522b-f5c7-4f00-bf0f-ca8a43f692cc", "cp5469@protonmail.com", false, "oliveira leitao", "M", "netflix", false, null, null, null, null, null, false, null, null, "7a38301a-8043-4f85-88b1-7324494afb3b", null, false, "oleitao", null },
+                    { "efbcf454-0125-41ff-ac91-75d1564af045", 0, null, 51, new DateTime(2024, 9, 21, 12, 23, 24, 896, DateTimeKind.Local).AddTicks(1536), "f7f32dc5-60b4-46bf-9deb-290f9e31ebce", "olivleitao@gmail.com", false, "luis figo", "M", "cinema", false, null, null, null, null, null, false, null, null, "434d446c-40c4-4373-9dcd-eb76da12a456", null, false, "figolu", null }
                 });
 
             migrationBuilder.InsertData(
@@ -425,14 +430,14 @@ namespace WebApi.Migrations
                 columns: new[] { "Id", "ProductId", "Public_id", "Url" },
                 values: new object[,]
                 {
-                    { new Guid("1b129a29-08a4-4597-8708-092f202bd123"), new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"), "test1", "https://www.istorebangladesh.com/images/thumbs/0000286_macbook-pro-m1_550.png" },
-                    { new Guid("48366c80-fd5f-421e-8a43-9f2fa65c0ba2"), new Guid("398e76bb-70f0-4712-af76-10726bb6dd93"), "test2", "https://www.custommacbd.com/cdn/shop/products/AppleMacBookProwithM2chip2022model_8GB_256GB_CustomMacBD_540x.jpg?v=1659438499" }
+                    { new Guid("2c316ca3-979d-4c87-b7f6-e4b91de40786"), new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"), "test1", "https://www.istorebangladesh.com/images/thumbs/0000286_macbook-pro-m1_550.png" },
+                    { new Guid("714aed35-687d-4847-8305-8b00061b603a"), new Guid("398e76bb-70f0-4712-af76-10726bb6dd93"), "test2", "https://www.custommacbd.com/cdn/shop/products/AppleMacBookProwithM2chip2022model_8GB_256GB_CustomMacBD_540x.jpg?v=1659438499" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Reviews",
                 columns: new[] { "Id", "Comment", "ProductId", "Rating", "UserId", "UserId1" },
-                values: new object[] { new Guid("a1c922f3-95a9-45aa-a45c-d573166852ce"), "comment", new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"), 5, new Guid("efbcf454-0125-41ff-ac91-75d1564af044"), null });
+                values: new object[] { new Guid("14c8e190-161c-4174-bbff-f45f76f830dc"), "comment", new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"), 5, new Guid("efbcf454-0125-41ff-ac91-75d1564af044"), null });
 
             migrationBuilder.InsertData(
                 table: "Shops",

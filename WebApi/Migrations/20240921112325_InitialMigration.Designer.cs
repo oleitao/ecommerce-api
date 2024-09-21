@@ -11,7 +11,7 @@ using WebApi.Repository;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240711181238_InitialMigration")]
+    [Migration("20240921112325_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -50,19 +50,19 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c538e741-669e-4e9a-9c49-42f12883603c",
+                            Id = "a678cddb-fc8f-4c58-a8b3-5563cb8e619e",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "c7e4b83a-4e72-45bd-a89c-3d87f2067fbc",
+                            Id = "01caf2cc-0c90-4fb7-b399-a2b4c0a5b5f7",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "68f4b448-d1a0-4a93-a8c0-ef72d7de073e",
+                            Id = "4c60bea7-0b45-4e89-a4fb-6a51c1aa7a7d",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -299,14 +299,14 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1b129a29-08a4-4597-8708-092f202bd123"),
+                            Id = new Guid("2c316ca3-979d-4c87-b7f6-e4b91de40786"),
                             ProductId = new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"),
                             Publicid = "test1",
                             Url = "https://www.istorebangladesh.com/images/thumbs/0000286_macbook-pro-m1_550.png"
                         },
                         new
                         {
-                            Id = new Guid("48366c80-fd5f-421e-8a43-9f2fa65c0ba2"),
+                            Id = new Guid("714aed35-687d-4847-8305-8b00061b603a"),
                             ProductId = new Guid("398e76bb-70f0-4712-af76-10726bb6dd93"),
                             Publicid = "test2",
                             Url = "https://www.custommacbd.com/cdn/shop/products/AppleMacBookProwithM2chip2022model_8GB_256GB_CustomMacBD_540x.jpg?v=1659438499"
@@ -432,7 +432,7 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a1c922f3-95a9-45aa-a45c-d573166852ce"),
+                            Id = new Guid("14c8e190-161c-4174-bbff-f45f76f830dc"),
                             Comment = "comment",
                             ProductId = new Guid("398e76bb-70f0-4712-af76-10726bb6dd92"),
                             Rating = 5,
@@ -517,11 +517,16 @@ namespace WebApi.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("Age")
+                    b.Property<string>("Address")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("Age")
+                        .IsRequired()
                         .HasColumnType("int")
                         .HasColumnName("Age");
 
-                    b.Property<DateTime>("Birthday")
+                    b.Property<DateTime?>("Birthday")
+                        .IsRequired()
                         .HasColumnType("datetime(6)")
                         .HasColumnName("Birthday");
 
@@ -579,10 +584,13 @@ namespace WebApi.Migrations
                     b.Property<string>("RefreshToken")
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("RefreshTokenExpiryTime")
+                    b.Property<DateTime?>("RefreshTokenExpiryTime")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("SecurityStamp")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ShopDescription")
                         .HasColumnType("longtext");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -591,6 +599,9 @@ namespace WebApi.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
+
+                    b.Property<int?>("ZipCode")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -609,8 +620,8 @@ namespace WebApi.Migrations
                             Id = "efbcf454-0125-41ff-ac91-75d1564af044",
                             AccessFailedCount = 0,
                             Age = 36,
-                            Birthday = new DateTime(2024, 7, 11, 19, 12, 38, 416, DateTimeKind.Local).AddTicks(2569),
-                            ConcurrencyStamp = "90657188-d507-4708-a7c2-26ce7d780325",
+                            Birthday = new DateTime(2024, 9, 21, 12, 23, 24, 896, DateTimeKind.Local).AddTicks(1452),
+                            ConcurrencyStamp = "9d99522b-f5c7-4f00-bf0f-ca8a43f692cc",
                             Email = "cp5469@protonmail.com",
                             EmailConfirmed = false,
                             FullName = "oliveira leitao",
@@ -618,8 +629,7 @@ namespace WebApi.Migrations
                             Hobby = "netflix",
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "e31ec530-bace-4ce6-989e-776bbeef479b",
+                            SecurityStamp = "7a38301a-8043-4f85-88b1-7324494afb3b",
                             TwoFactorEnabled = false,
                             UserName = "oleitao"
                         },
@@ -628,8 +638,8 @@ namespace WebApi.Migrations
                             Id = "efbcf454-0125-41ff-ac91-75d1564af045",
                             AccessFailedCount = 0,
                             Age = 51,
-                            Birthday = new DateTime(2024, 7, 11, 19, 12, 38, 416, DateTimeKind.Local).AddTicks(2640),
-                            ConcurrencyStamp = "b475672b-985a-4d03-9f6d-f873b66452e4",
+                            Birthday = new DateTime(2024, 9, 21, 12, 23, 24, 896, DateTimeKind.Local).AddTicks(1536),
+                            ConcurrencyStamp = "f7f32dc5-60b4-46bf-9deb-290f9e31ebce",
                             Email = "olivleitao@gmail.com",
                             EmailConfirmed = false,
                             FullName = "luis figo",
@@ -637,8 +647,7 @@ namespace WebApi.Migrations
                             Hobby = "cinema",
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "a0847929-4d9d-4997-9502-94be2f84833b",
+                            SecurityStamp = "434d446c-40c4-4373-9dcd-eb76da12a456",
                             TwoFactorEnabled = false,
                             UserName = "figolu"
                         });

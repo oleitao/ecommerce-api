@@ -105,6 +105,62 @@ namespace WebApi.Services
         }
 
 
+        private string GenerateName(int len)
+        {
+            Random r = new Random();
+            string[] consonants = { "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "l", "n", "p", "q", "r", "s", "sh", "zh", "t", "v", "w", "x" };
+            string[] vowels = { "a", "e", "i", "o", "u", "ae", "y" };
+            string Name = "";
+            Name += consonants[r.Next(consonants.Length)].ToUpper();
+            Name += vowels[r.Next(vowels.Length)];
+            int b = 2;
+            while (b < len)
+            {
+                Name += consonants[r.Next(consonants.Length)];
+                b++;
+                Name += vowels[r.Next(vowels.Length)];
+                b++;
+            }
+
+            return Name;
+
+
+        }
+
+        public async Task<IdentityResult> RegisterSeller(SellerForRegistrationDto sellerForRegistration)
+        {
+            var seller = new User()
+            {
+                PhoneNumber = string.Empty,
+                ShopDescription = sellerForRegistration.ShopDescription,
+                ZipCode = sellerForRegistration.ZipCode,
+                Address = sellerForRegistration.Address,
+                Email = sellerForRegistration.Email,
+                UserName = GenerateName(15),
+                Age = 0,
+                Birthday = DateTime.Now,
+                Gender = "O",
+                FullName = "",
+                Hobby = ""
+            };
+
+
+            var userCreated = await _userManager.CreateAsync(seller, sellerForRegistration.Password);
+            if (userCreated.Succeeded)
+            {
+                Uri uri = new Uri($"https://localhost:8080/api/v1.1/authentication/accountvalidationemail/?Email={seller.Email}");
+                var client = new HttpClient { BaseAddress = uri };
+                await client.GetAsync(uri);
+
+                if (sellerForRegistration.Roles is null)
+                    await _userManager.AddToRolesAsync(seller, new string[] { "MANAGER" });
+                else
+                    await _userManager.AddToRolesAsync(seller, sellerForRegistration.Roles);
+            }
+
+            return userCreated;
+        }
+
         public async Task<bool> LoginUser(UserForLoginAuthenticationDto userForAuth)
         {
             _user = await _userManager.FindByEmailAsync(userForAuth.Email);

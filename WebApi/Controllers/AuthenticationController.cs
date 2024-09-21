@@ -50,7 +50,7 @@ namespace WebApi.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ApiVersion(version: VersionHelper.ApiVersion)]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody] UserForRegistrationDto userForRegistration)
+        public async Task<IActionResult> ClientRegister([FromBody] UserForRegistrationDto userForRegistration)
         {
             if (!ModelState.IsValid)
             {
@@ -62,6 +62,33 @@ namespace WebApi.Controllers
             {
                 List<string> errors = new List<string>();
                 foreach (var error in user.Errors)
+                {
+                    ModelState.TryAddModelError(error.Code, error.Description);
+                    errors.Add(error.Code + ": " + error.Description);
+                }
+                return Ok(errors.ToArray());
+            }
+
+            return StatusCode(201);
+        }
+
+        [HttpPost("sellerregister")]
+        [ApiExplorerSettings(GroupName = "v1")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ApiVersion(version: VersionHelper.ApiVersion)]
+        [AllowAnonymous]
+        public async Task<IActionResult> SelletRegister([FromBody] SellerForRegistrationDto sellerForRegistration)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var seller = await _service.AuthenticationService.RegisterSeller(sellerForRegistration);
+            if (!seller.Succeeded)
+            {
+                List<string> errors = new List<string>();
+                foreach (var error in seller.Errors)
                 {
                     ModelState.TryAddModelError(error.Code, error.Description);
                     errors.Add(error.Code + ": " + error.Description);

@@ -16,4 +16,15 @@ namespace WebApi.Shared.DataTransferObjects
         public string Hobby { get; set; } = null!;
         public string? Role { get; set; }
     }
+
+    public record SellerForRegistrationDto
+    {
+        public string Name { get; init; }
+        public string Email { get; init; }
+        [Required(ErrorMessage = "Password is required")] public string? Password { get; init; }
+        public int ZipCode { get; set; }
+        public string Address { get; set; } = null!;
+        public string ShopDescription { get; set; } = null!;
+        public ICollection<string>? Roles { get; init; }
+    }
 }

@@ -9,25 +9,51 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { motion } from "framer-motion";
 
+import axios from 'axios';
+
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
+
 const SignupNewSeller = () => {
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState();
-  const [address, setAddress] = useState("");
-  const [zipCode, setZipCode] = useState();
-  const [shopDescription, setShopDescription] = useState("");
-  const [avatar, setAvatar] = useState(null);
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
   const [visible, setVisible] = useState(false);
-  const [url, setUrl] = useState(null);
-  const [sellerId, setSellerId] = useState("");
+
+  //const [avatar, setAvatar] = useState(null);
+  //const [visible, setVisible] = useState(false);
+  //const [url, setUrl] = useState(null);
+
+  const [data, setData] = useState({
+    userName:"",
+    email: "",
+    name:"",
+    phoneNumber: "",
+    address: "",
+    zipCode: "",
+    shopDescription:"",
+    // avatar: null,
+    // url:null,
+    password: "",
+    passwordReType: "",    
+    email:"",
+    role:"Manager"
+  });
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setData({
+      ...data,
+      [e.target.name]: value
+    });
+  };
 
   // seller id
+/*
   useEffect(() => {
     const id = v4();
     setSellerId(id);
   }, []);
-
+*/
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
     const url = URL.createObjectURL(file);
@@ -46,7 +72,7 @@ const SignupNewSeller = () => {
   const year = fullDate.getFullYear();
 
   const todayDate = `${date}-${month}-${year}`;
-
+/*
   const sellerAuth = {
     email,
     password,
@@ -60,23 +86,63 @@ const SignupNewSeller = () => {
     zipCode,
     photoUrl: url,
   };
-
+*/
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    if (email === userEmailFromLocalstorage) {
-      toast.error(
-        `The "${email}" already registered, Please try to different email!`
-      );
-    } else {
-      toast.success("Your account successfully created, Now login!");
 
-      // local storage
-      localStorage.setItem("sellerAuth", JSON.stringify(sellerAuth));
-      localStorage.setItem("sellerInfo", JSON.stringify(sellerInfo));
-      localStorage.setItem("seller_id", JSON.stringify(sellerId));
-      localStorage.setItem("sellerJoinDate", JSON.stringify(todayDate));
-      localStorage.setItem("isSeller", true);
+    const userData = {
+      userName:data.userName,
+      email: data.email,
+      name:data.name,
+      phoneNumber: data.phoneNumber,
+      address: data.address,
+      zipCode: data.zipCode,
+      shopDescription:data.shopDescription,
+      // avatar: null,
+      // url:null,
+      password: data.password,        
+      role:"Manager"
+    };
+
+    if(data.password != data.passwordReType)
+    {
+      toast.error(`Password-s doesn-t match!`);      
+    }
+    else
+    {
+      axios.get('https://localhost:8080/api/v1.1/authentication/email?email=' + userData.email)
+      .then(response => {
+          
+          if(response.data === true)
+          {
+            toast.error(`The "${userData.email}" already registered, Please try to different email!`);
+          }
+          else
+          {
+            axios.post('https://localhost:8080/api/v1.1/authentication/sellerregister', userData)
+            .then(response => {  
+  
+              console.log(response);
+              if(response.status === 201)
+              {
+                toast.success("Your account successfully created, Now login!");
+    
+                navigate("/");  
+              }
+              else
+              {
+                toast.error(`Error:"${response.data}"`);
+              }
+            })
+            .catch(error => {
+              console.log(error);
+            });
+          }
+      })
+      .catch(error => {
+        console.log(error);
+      });
     }
   };
 
@@ -102,6 +168,7 @@ const SignupNewSeller = () => {
           <form
             className="space-y-6 800px:flex flex-wrap items-center justify-between "
             onSubmit={handleFormSubmit}>
+
             <div className="800px:w-[47%] mb-6 800px:mb-0">
               <label
                 htmlFor="email"
@@ -111,10 +178,28 @@ const SignupNewSeller = () => {
               <div className="mt-1">
                 <input
                   type="text"
-                  name="text"
+                  name="name"
                   required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={data.name}
+                  onChange={handleChange}
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
+              </div>
+            </div>
+
+            <div className="800px:w-[47%] mb-6 800px:mb-0">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700">
+                UserName
+              </label>
+              <div className="mt-1">
+                <input
+                  type="text"
+                  name="userName"
+                  required
+                  value={data.userName}
+                  onChange={handleChange}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
               </div>
@@ -131,8 +216,8 @@ const SignupNewSeller = () => {
                   type="number"
                   name="phoneNumber"
                   required
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  value={data.phoneNumber}
+                  onChange={handleChange}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
               </div>
@@ -149,8 +234,8 @@ const SignupNewSeller = () => {
                   type="email"
                   name="email"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={data.email}
+                  onChange={handleChange}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
               </div>
@@ -167,26 +252,8 @@ const SignupNewSeller = () => {
                   type="text"
                   name="address"
                   required
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                />
-              </div>
-            </div>
-
-            <div className="800px:w-[47%]">
-              <label
-                htmlFor="zipCode"
-                className="block text-sm font-medium text-gray-700">
-                Zip Code
-              </label>
-              <div className="mt-1">
-                <input
-                  type="number"
-                  name="zipCode"
-                  required
-                  value={zipCode}
-                  onChange={(e) => setZipCode(e.target.value)}
+                  value={data.address}
+                  onChange={handleChange}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
               </div>
@@ -203,8 +270,8 @@ const SignupNewSeller = () => {
                   type={visible ? "text" : "password"}
                   name="password"
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={data.password}
+                  onChange={handleChange}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
                 {visible ? (
@@ -223,6 +290,56 @@ const SignupNewSeller = () => {
               </div>
             </div>
 
+            <div className="800px:w-[47%]">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700">
+                Re-type Password
+              </label>
+              <div className="mt-1 relative">
+                <input
+                  type={visible ? "text" : "password"}
+                  name="passwordReType"
+                  autoComplete="current-password"
+                  required
+                  value={data.passwordReType}
+                  onChange={handleChange}
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
+                {visible ? (
+                  <AiOutlineEye
+                    className="absolute right-2 top-2 cursor-pointer"
+                    size={25}
+                    onClick={() => setVisible(false)}
+                  />
+                ) : (
+                  <AiOutlineEyeInvisible
+                    className="absolute right-2 top-2 cursor-pointer"
+                    size={25}
+                    onClick={() => setVisible(true)}
+                  />
+                )}
+              </div>
+            </div>
+
+            <div className="800px:w-[47%]">
+              <label
+                htmlFor="zipCode"
+                className="block text-sm font-medium text-gray-700">
+                Zip Code
+              </label>
+              <div className="mt-1">
+                <input
+                  type="number"
+                  name="zipCode"
+                  required
+                  value={data.zipCode}
+                  onChange={handleChange}
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
+              </div>
+            </div>
+
             <div className="800px:w-[100%]  800px:mb-3">
               <label
                 htmlFor="description"
@@ -233,13 +350,13 @@ const SignupNewSeller = () => {
                 <textarea
                   name="description"
                   maxLength={300}
-                  value={shopDescription}
-                  onChange={(e) => setShopDescription(e.target.value)}
+                  value={data.shopDescription}
+                  onChange={handleChange}
                   className="appearance-none block w-full h-[100px] px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
               </div>
             </div>
 
-            <div className={`${styles.noramlFlex}`}>
+            {/* <div className={`${styles.noramlFlex}`}>
               <span className="inline-block h-10 w-10 rounded-full overflow-hidden">
                 {avatar ? (
                   <img
@@ -265,7 +382,8 @@ const SignupNewSeller = () => {
                   className="sr-only"
                 />
               </label>
-            </div>
+            </div> */}
+
             <div className="w-full">
               <button
                 type="submit"

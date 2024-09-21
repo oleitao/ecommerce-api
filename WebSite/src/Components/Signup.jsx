@@ -13,26 +13,27 @@ axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
 
   // const [url, setUrl] = useState(null);
   // const [avatar, setAvatar] = useState(null);
 
-  const [data, setData] = useState({
-    firstName: "",
-    lastName: "",
-    userName: "",
-    fullName: "",
-    password: "",
-    passwordReType: "",
-    email: "",
-    phoneNumber: "",
-    gender: "",
-    role:"USER",
-    hobby: ""
-    // avatar: null,
-    // url:null,
-  });
+    const [data, setData] = useState({
+        firstName: "",
+        lastName: "",
+        userName: "",
+        fullName: "",
+        password: "",
+        passwordReType: "",
+        email: "",
+        phoneNumber: "",
+        gender: "",
+        role:"USER",
+        hobby: ""
+        // avatar: null,
+        // url:null,
+    });
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -68,7 +69,6 @@ const Signup = () => {
       hobby: ""
     };
 
-
     if(data.password != data.passwordReType)
     {
       toast.error(`Password-s doesn-t match!`);      
@@ -91,24 +91,25 @@ const Signup = () => {
               if(response.status === 201)
               {
                 toast.success("Your account successfully created, Now login!");
-    
-                //clean all fields
-                setData({
-                  firstName: "",
-                  lastName: "",
-                  userName: "",
-                  fullName: "",
-                  password: "",
-                  passwordReType: "",
-                  email: "",
-                  phoneNumber: "",
-                  gender: "",
-                  role:"USER",
-                  hobby: ""
-                  // avatar: null,
-                  // url:null,
-                });
-  
+
+                  //clean all fields
+                  setData({
+                      firstName: "",
+                      lastName: "",
+                      userName: "",
+                      fullName: "",
+                      password: "",
+                      passwordReType: "",
+                      email: "",
+                      phoneNumber: "",
+                      gender: "",
+                      role: "USER",
+                      hobby: ""
+                      // avatar: null,
+                      // url:null,
+                  });
+
+                navigate("/");  
               }
               else
               {
