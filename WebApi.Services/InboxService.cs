@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using Model;
-using System.Dynamic;
 using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
-using WebApi.Entities.RequestFeatures;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
 
@@ -26,9 +24,6 @@ namespace WebApi.Services
             _repository = repository;
             _mapper = mapper;
         }
-
-
-        #region Async
 
 
         public async Task<List<InboxDto>> GetInboxAsync(Guid to, bool trackChanges)
@@ -63,7 +58,5 @@ namespace WebApi.Services
 
             return inboxReturn;
         }
-
-        #endregion
     }
 }

@@ -6,8 +6,8 @@ namespace WebApi.Repository.Extensions
 {
     public static class RepositoryUserExtensions
     {
-        public static IQueryable<User> FilterUsers(this IQueryable<User> users, uint minAge, uint maxAge) =>
-            users.Where(e => (e.Age >= minAge && e.Age <= maxAge));
+        public static IQueryable<User> FilterUsers(this IQueryable<User> users, DateTime minAge, DateTime maxAge) =>
+            users.Where(e => (e.Birthday >= minAge && e.Birthday <= maxAge));
 
         public static IQueryable<User> Search(this IQueryable<User> users, string searchTerm)
         {

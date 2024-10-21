@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
@@ -83,20 +84,13 @@ public class UsersController : ControllerBase
     [ProducesResponseType(typeof(UserDto), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetByUserId(Guid id)
     {
-        var userInCache = await CacheHelper.GetKey<UserDto>($"{key}:{id.ToString()}", _cache);        
-        if (userInCache is null)
-        {
-            var userInDatabase = await _service.UserService.GetUserAsync(id, trackChanges: false);
-            if (userInDatabase is null)
-                throw new UserNotFoundException(id);
+        var userInDb = await _service.UserService.GetUserAsync(id, trackChanges: false);
+        if (userInDb is null)
+            throw new UserNotFoundException(id);
 
-            CacheHelper.SetKey<UserDto>(userInDatabase, $"{key}:{userInDatabase.Id}", _cache);
-
-            return Ok(userInDatabase);
-        }
-
-        return Ok(userInCache);
+        return Ok(userInDb);
     }
+
 
     /*
     [HttpGet(Name = "FilterUserMinAgeSort")]
@@ -141,43 +135,28 @@ public class UsersController : ControllerBase
     [Consumes(typeof(UserForUpdateDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [Authorize(Roles = "Administrator")]
-    [Authorize(Roles = "Manager")]
-    [Authorize(Roles = "User")]
     public async Task<IActionResult> UpdateUser(Guid id, UserForUpdateDto userUpdate)
     {
-        var key = $"{nameof(UserDto)}:{id.ToString()}";
-
-        var user = await _service.UserService.GetUserAsync(id, trackChanges: true);
-        if (user is null)
-            return BadRequest("UserDto object is null");
-
-        if (userUpdate is null)
-            return BadRequest("UserForUpdateDto object is null");
-
-        if (!ModelState.IsValid)
-            return UnprocessableEntity(ModelState);
-
-        var userInCache = await CacheHelper.GetKey<UserDto>(key, _cache);
-        if (userInCache is null)
+        try
         {
+            var user = await _service.UserService.GetUserAsync(id, trackChanges: true);
+            if (user is null)
+                return BadRequest("UserDto object is null");
+
+            if (userUpdate is null)
+                return BadRequest("UserForUpdateDto object is null");
+
+            if (!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+
             await _service.UserService.UpdateUserAsync(id, userUpdate, trackChanges: true);
 
-            CacheHelper.SetKey<UserDto>(user, key, _cache);
+            return Ok();
         }
-        else
+        catch
         {
-            await _service.UserService.UpdateUserAsync(id, userUpdate, trackChanges: true);
-            await _cache.RemoveAsync(key);
-
-            var returnUser = await _service.UserService.GetUserAsync(id, trackChanges: true);
-
-            CacheHelper.SetKey<UserDto>(returnUser, key, _cache);
-
-            return Ok(returnUser);
+            return NotFound();
         }
-
-        return Ok(userInCache);
     }
 
     [HttpDelete("{id}")]
@@ -189,16 +168,7 @@ public class UsersController : ControllerBase
     {
         var key = $"{nameof(UserDto)}:{id.ToString()}";
 
-        var userInCache = await CacheHelper.GetKey<UserDto>(key, _cache);
-        if (userInCache is null)
-        {
-            await _service.UserService.DeleteUserAsync(id, trackChanges: false);
-        }
-        else
-        {
-            await _service.UserService.DeleteUserAsync(id, trackChanges: false);            
-            await _cache.RemoveAsync(key);            
-        }
+        await _service.UserService.DeleteUserAsync(id, trackChanges: false);
 
         return NoContent();
     }

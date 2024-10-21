@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
@@ -30,10 +31,13 @@ namespace Model
         public string Name { get; set; } = null!;
 
         public double Ratings { get; set; }
-
-        public Guid ShopAvatarId { get; set; }
         public Guid ProductId { get; set; }
+
+
+        [ForeignKey(nameof(ShopAvatar))]
+        public Guid Shop_avatarId { get; set; }
         public ShopAvatar? Shop_avatar { get; set; }
+
 
         #region Extensibility Method Definitions
 

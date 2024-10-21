@@ -3,7 +3,7 @@
 namespace WebApi.Shared.DataTransferObjects
 {
     [Serializable]
-    public record UserDto(Guid Id, string FullName, string Gender, string UserName, int Age, DateTime Birthday, string Hobby, string Email);
+    public record UserDto(Guid Id, string FullName, string Gender, string UserName, DateTime Birthday, string Email);
 
     public record UserForReviewCreationDto(Guid Id);
 
@@ -19,14 +19,7 @@ namespace WebApi.Shared.DataTransferObjects
 
         string UserName,
 
-        [Required(ErrorMessage = "Age is a required field.")]
-        int Age,
-
         DateTime Birthday,
-
-        [Required(ErrorMessage = "Hobby name is a required field.")]
-        [MaxLength(80, ErrorMessage = "Maximum length for the Hobby is 60 characters.")]
-        string Hobby,
 
         [Display(Name = "Email address")]
         [Required(ErrorMessage = "The email address is required")]
@@ -34,7 +27,7 @@ namespace WebApi.Shared.DataTransferObjects
         string Email
     );
 
-    public record UserForUpdateDto(string FullName, string Gender, string UserName, int Age, DateTime Birthday, string Hobby, string Email);
+    public record UserForUpdateDto(Guid Id, string Gender, string Address, int ZipCode, string Email, string PhoneNumber, string ShopDescription, string role);
 
     public record UserForDeleteDto(Guid Id);
 }

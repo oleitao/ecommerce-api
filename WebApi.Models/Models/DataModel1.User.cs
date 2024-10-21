@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
@@ -27,21 +28,17 @@ namespace Model
             OnCreated();
         }
 
-        //public Guid Id { get; set; }
-
         public string? FullName { get; set; } = null!;
         public DateTime? Birthday { get; set; }
-        public string? Hobby { get; set; } = null!;
         public string? Gender { get; set; } = null!;
-
-        public int? Age { get; set; }
-
+        
         public int? ZipCode { get; set; }
         public string? Address { get; set; }
         public string? ShopDescription { get; set; }
 
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
+
 
         #region Extensibility Method Definitions
 

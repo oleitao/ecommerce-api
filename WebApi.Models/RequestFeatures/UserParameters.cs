@@ -2,9 +2,9 @@
 {
     public class UserParameters : RequestFeatures.RequestParameters
     {
-        public uint MinAge { get; set; }
+        public DateTime MinAge { get; set; }
 
-        public uint MaxAge { get; set; } = int.MaxValue;
+        public DateTime MaxAge { get; set; } = DateTime.MaxValue;
 
         public bool ValidAgeRange => MaxAge > MinAge;
 

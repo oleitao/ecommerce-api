@@ -19,53 +19,6 @@ namespace WebApi.Services
             _mapper = mapper;
         }
 
-        #region Sync
-
-        public IEnumerable<User> GetAllUsers(bool trackChanges)
-        {
-            try
-            {
-                var users = _repository.User.GetAllUsers(trackChanges);
-                return users;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{nameof(GetAllUsers)} : {ex}");
-            }
-        }
-
-        public User GetUser(Guid id, bool trackChanges)
-        {
-            try
-            {
-                var user = _repository.User.GetUser(id, trackChanges);
-                if (user == null)
-                    throw new UserNotFoundException(id);
-
-                return user;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{nameof(GetUser)} : {ex}");
-            }
-        }
-
-        public UserDto CreateUser(UserForCreationDto user)
-        {
-            var userEntity = _mapper.Map<User>(user);
-
-            _repository.User.CreateUser(userEntity);
-            _repository.Save();
-
-            var userReturn = _mapper.Map<UserDto>(userEntity);
-
-            return userReturn;
-        }
-
-        #endregion
-
-        #region Async
-
         public async Task<IEnumerable<UserDto>> GetAllUsersAsync(bool trackChanges)
         {
             try
@@ -218,7 +171,6 @@ namespace WebApi.Services
                 return new User()
                 {
                     Id = userEntity.Id.ToString(),
-                    Age = userEntity.Age,
                     Birthday = userEntity.Birthday,
                     FullName = userEntity.FullName,
                     Email = userEntity.Email,
@@ -232,6 +184,5 @@ namespace WebApi.Services
             }
         }
 
-        #endregion
     }
 }

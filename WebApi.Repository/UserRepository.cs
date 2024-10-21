@@ -44,7 +44,7 @@ namespace WebApi.Repository
 
         public async Task<IEnumerable<User>> GetAllUsersAsync(UserParameters userParameters, bool trackChanges)
         {
-            return await FindByCondition(c => c.Age >= userParameters.MinAge && c.Age <= userParameters.MaxAge, trackChanges)
+            return await FindByCondition(c => c.Birthday >= userParameters.MinAge && c.Birthday <= userParameters.MaxAge, trackChanges)
                 .FilterUsers(userParameters.MinAge, userParameters.MaxAge)
                 .Search(userParameters.SearchTerm)
                 .Sort(userParameters.OrderBy)
@@ -63,12 +63,12 @@ namespace WebApi.Repository
             return await FindByCondition(x => !string.IsNullOrEmpty(x.Email) && x.Email.Equals(email), trackChanges).FirstOrDefaultAsync();
         }
 
-        public async Task<bool> ConfirmEmailAsync(User userEntity)
+        public async Task<bool> ConfirmEmailAsync(User user)
         {
             try
             {
-                userEntity.EmailConfirmed = true;
-                Update(userEntity);
+                if(!user.EmailConfirmed);
+                    Update(user);
 
                 return true;
             }
@@ -76,6 +76,13 @@ namespace WebApi.Repository
             {
                 return false;
             }
+        }
+
+        public async Task<User?> FindUserRoleByUserNameAsync(string userName, bool trackChanges)
+        {
+            return await FindAll(trackChanges)
+                .Where(x => x.UserName == userName)
+                .FirstOrDefaultAsync();
         }
 
 

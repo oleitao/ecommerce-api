@@ -17,53 +17,6 @@ namespace WebApi.Services
             _mapper = mapper;
         }
 
-        #region Sync
-
-        public IEnumerable<Shop> GetAllShops(bool trackChanges)
-        {
-            try
-            {
-                var shops = _repository.Shop.GetAllShops(trackChanges);
-                return shops;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{nameof(GetAllShops)} : {ex}");
-            }
-        }
-
-        public Shop GetShop(Guid id, bool trackChanges)
-        {
-            try
-            {
-                var shop = _repository.Shop.GetShop(id, trackChanges);
-                if (shop == null)
-                    throw new ShopNotFoundException(id);
-
-                return shop;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{nameof(GetShop)} : {ex}");
-            }
-        }
-
-        public ShopDto CreateShop(ShopForCreationDto shop)
-        {
-            var shopEntity = _mapper.Map<Shop>(shop);
-
-            _repository.Shop.CreateShop(shopEntity);
-            _repository.Save();
-
-            var shopReturn = _mapper.Map<ShopDto>(shopEntity);
-
-            return shopReturn;
-        }
-
-        #endregion
-
-        #region Async
-
         public async Task<IEnumerable<ShopDto>> GetAllShopsAsync(bool trackChanges)
         {
             try
@@ -109,9 +62,9 @@ namespace WebApi.Services
             if(shop is null)
                 throw new ShopNotFoundException(id);
 
-            var shopAvatar = await _repository.ShopAvatar.GetShopAvatarAsync(shop.ShopAvatarId, trackChanges);
+            var shopAvatar = await _repository.ShopAvatar.GetShopAvatarAsync(shop.Shop_avatarId, trackChanges);
             if (shopAvatar is null)
-                throw new ShopNotFoundException(shop.ShopAvatarId);
+                throw new ShopNotFoundException(shop.Shop_avatarId);
 
             var returnShop = _mapper.Map<ShopDto>(shop);
 
@@ -141,7 +94,7 @@ namespace WebApi.Services
                     Url = shopCreation.Shop_avatar.Url
                 };
 
-                shopEntity.ShopAvatarId = shopEntity.Shop_avatar.Id;
+                shopEntity.Shop_avatarId = shopEntity.Shop_avatar.Id;
 
                 _repository.ShopAvatar.CreateShopAvatar(shopEntity.Shop_avatar);
             }
@@ -179,16 +132,14 @@ namespace WebApi.Services
         }
 
         public async Task DeleteShopByProductIdAsync(Guid productId, bool trackChanges)
-        {
+        { 
             var shopsEntity = await _repository.Shop.GetShopByProductIdAsync(productId, trackChanges);
             if (shopsEntity is null)
                 throw new ShopsNotFoundException();
 
 
-            await _repository.Shop.DeleteShopsByProductIdAsync(shopsEntity);
-            await _repository.SaveAsync();
-        }
-
-        #endregion
+        await _repository.Shop.DeleteShopsByProductIdAsync(shopsEntity);
+        await _repository.SaveAsync();
     }
+}
 }

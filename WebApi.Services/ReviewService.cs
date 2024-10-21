@@ -16,51 +16,6 @@ namespace WebApi.Services
             _repository = repository;
             _mapper = mapper;
         }
-        #region Sync
-        public IEnumerable<Review> GetAllReviews(bool trackChanges)
-        {
-            try
-            {
-                var reviews = _repository.Review.GetAllReviews(trackChanges);
-                return reviews;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{nameof(GetAllReviews)} : {ex}");
-            }
-        }
-
-        public Review GetReview(Guid id, bool trackChanges)
-        {
-            try
-            {
-                var review = _repository.Review.GetReview(id, trackChanges);
-                if (review == null)
-                    throw new ReviewNotFoundException(id);
-
-                return review;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{nameof(GetReview)} : {ex}");
-            }
-        }
-
-        public ReviewDto CreateReview(ReviewForCreationDto review)
-        {
-            var reviewEntity = _mapper.Map<Review>(review);
-
-            _repository.Review.CreateReview(reviewEntity);
-            _repository.Save();
-
-            var reviewReturn = _mapper.Map<ReviewDto>(reviewEntity);
-
-            return reviewReturn;
-        }
-
-        #endregion
-
-        #region Async
 
         public async Task<IEnumerable<ReviewDto>> GetAllReviewsAsync(bool trackChanges)
         {
@@ -81,7 +36,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                throw new Exception($"{nameof(GetAllReviews)} : {ex}");
+                throw new Exception($"{nameof(GetAllReviewsAsync)} : {ex}");
             }
         }
 
@@ -192,7 +147,5 @@ namespace WebApi.Services
             await _repository.Review.DeleteReviewByProductIdAsync(reviews);
             await _repository.SaveAsync();
         }
-
-        #endregion
     }
 }

@@ -20,6 +20,7 @@ namespace WebApi.Contracts
         public Task DeleteUser(User user);
         public Task<User?> FindByEmailAsync(string email, bool trackChanges);
         public Task<bool> ConfirmEmailAsync(User userEntity);
+        public Task<User?> FindUserRoleByUserNameAsync(string userName, bool trackChanges);
 
         #endregion
 

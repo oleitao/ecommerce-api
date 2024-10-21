@@ -6,11 +6,11 @@ namespace WebApi.Service.Contracts
 {
     public interface IAuthenticationService
     {
-        Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration);
-        Task<IdentityResult> RegisterSeller(SellerForRegistrationDto userForRegistration);
-        Task<bool> LoginUser(UserForLoginAuthenticationDto userForAuth); 
-        Task<TokenDto> GenerateToken(bool populateExp);
-        Task<TokenDto> RefreshToken(TokenDto token);
-        Task<string> GenerateEmailConfirmationTokenAsync(User user);
+        public Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration);
+        public Task<IdentityResult> RegisterSeller(SellerForRegistrationDto userForRegistration);
+        public Task<bool> LoginUser(UserForLoginAuthenticationDto userForAuth);
+        public Task<TokenDto> GenerateToken(bool populateExp);
+        public Task<TokenDto> RefreshToken(TokenDto token);
+        public Task<string> GenerateEmailConfirmationTokenAsync(User user);
     }
 }

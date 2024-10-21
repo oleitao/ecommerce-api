@@ -19,89 +19,6 @@ namespace WebApi.Services
             _mapper = mapper;
         }
 
-        #region Sync
-
-        public IEnumerable<Product> GetAllProducts(bool trackChanges)
-        {
-            try
-            {
-                var products = _repository.Product.GetAllProducts(trackChanges);
-                return products;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{nameof(GetAllProducts)} : {ex}");
-            }
-        }
-
-        public Product GetProduct(Guid id, bool trackChanges)
-        {
-            try
-            {
-                var product = _repository.Product.GetProduct(id, trackChanges);
-                if (product == null)
-                    throw new ProductNotFoundException(id);
-
-                return product;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{nameof(GetProduct)} : {ex}");
-            }
-        }
-
-        public IEnumerable<Product> GetProductsByCategory(Guid categoryId, bool trackChanges)
-        {
-            try
-            {
-                var products = _repository.Product.GetProductsByCategory(categoryId, trackChanges);
-                return products;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{nameof(GetProductsByCategory)} : {ex}");
-            }
-        }
-
-        public ProductDto CreateProduct(ProductForCreationDto product)
-        {
-            var productEntity = _mapper.Map<Product>(product);
-
-            _repository.Product.CreateProduct(productEntity);
-            _repository.Save();
-
-            var productReturn = _mapper.Map<ProductDto>(productEntity);
-
-            return productReturn;
-        }
-
-
-        public void SaveChangesForPatch(ProductForUpdateDto productToPatch, Product productEntity)
-        {
-            _mapper.Map(productToPatch, productEntity);
-            _repository.Save();
-        }
-
-        public (ProductForUpdateDto productToPatch, Product productEntity) GetProductForPatch(Guid categoryId, Guid id, bool catTrackChanges, bool prodTrackChanges)
-        {
-            var category = _repository.Category.GetCategory(categoryId, catTrackChanges);
-            if (category == null)
-                throw new CategoryNotFoundException(categoryId);
-
-            var productEntity = _repository.Product.GetProduct(categoryId, prodTrackChanges);
-            if (productEntity is null)
-                throw new ProductNotFoundException(categoryId);
-
-            var productToPatch = _mapper.Map<ProductForUpdateDto>(productEntity);
-
-            return (productToPatch, productEntity);
-        }
-
-
-        #endregion
-
-        #region Async
-
         public async Task<IEnumerable<ProductDto>> GetAllProductsAsync(bool trackChanges)
         {
             try
@@ -122,7 +39,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                throw new Exception($"{nameof(GetAllProducts)} : {ex}");
+                throw new Exception($"{nameof(GetAllProductsAsync)} : {ex}");
             }
         }
 
@@ -140,7 +57,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                throw new Exception($"{nameof(GetProduct)} : {ex}");
+                throw new Exception($"{nameof(GetProductAsync)} : {ex}");
             }
         }
 
@@ -200,7 +117,7 @@ namespace WebApi.Services
                 product.Shop = shop;
 
                 //shop avatar
-                var shopAvatar = await _repository.ShopAvatar.GetShopAvatarAsync(shop.ShopAvatarId, trackChanges);
+                var shopAvatar = await _repository.ShopAvatar.GetShopAvatarAsync(shop.Shop_avatarId, trackChanges);
                 if (shopAvatar is null)
                     throw new ShopAvatarNotFoundException(product.ShopId);
 
@@ -235,7 +152,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                throw new Exception($"{nameof(GetProductsByCategory)} : {ex}");
+                throw new Exception($"{nameof(GetProductsByCategoryAsync)} : {ex}");
             }
         }
 
@@ -268,13 +185,12 @@ namespace WebApi.Services
                 {
                     Name = productForCreationDto.Shop.Name,
                     Ratings = productForCreationDto.Shop.Ratings,
-                    ShopAvatarId = shopAvatar.Id,
+                    Shop_avatarId = shopAvatar.Id,
                     Id = Guid.NewGuid()
                 };
 
                 productEntity.Shop = shop;
                 productEntity.ShopId = shop.Id;
-                shop.ProductId = productEntity.Id;
                 shop.Shop_avatar = shopAvatar;
 
                 _repository.Shop.CreateShop(shop);
@@ -379,7 +295,7 @@ namespace WebApi.Services
                         {
                             Name = productForUpdateDto.Shop.Name,
                             Ratings = productForUpdateDto.Shop.Ratings,
-                            ShopAvatarId = shopAvatar.Id,
+                            Shop_avatarId = shopAvatar.Id,
                             Id = Guid.NewGuid()
                         };
 
@@ -527,7 +443,6 @@ namespace WebApi.Services
                 throw new Exception($"{nameof(FilterProductsSortedAsync)} : {ex}");
             }
         }
-        #endregion
 
         private async Task CheckIfCategoryExists(Guid categoryId, bool trackChanges)
         {

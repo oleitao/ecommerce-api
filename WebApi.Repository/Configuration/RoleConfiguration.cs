@@ -4,26 +4,28 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace WebApi.Repository.Configuration
 {
-    public class RoleConfiguration : IEntityTypeConfiguration<IdentityRole>
+    internal class RoleConfiguration : IEntityTypeConfiguration<IdentityRole>
     {
         public void Configure(EntityTypeBuilder<IdentityRole> builder)
         {
-            builder.HasData(
+            builder.HasData
+            (
                 new IdentityRole
                 {
                     Name = "User",
                     NormalizedName = "USER"
                 },
-                new IdentityRole
-                {
-                    Name = "Manager",
-                    NormalizedName = "MANAGER"
-                },
-                new IdentityRole
-                {
-                    Name = "Administrator",
-                    NormalizedName = "ADMINISTRATOR"
-                });
+                new IdentityRole 
+                { 
+                    Name = "Manager", 
+                    NormalizedName = "MANAGER" 
+                }, 
+                new IdentityRole 
+                { 
+                    Name = "Administrator", 
+                    NormalizedName = "ADMINISTRATOR" 
+                }
+            );
         }
     }
 }

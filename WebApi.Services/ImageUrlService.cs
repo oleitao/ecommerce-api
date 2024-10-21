@@ -17,63 +17,6 @@ namespace WebApi.Services
             _mapper = mapper;
         }
 
-        #region Sync
-
-        public IEnumerable<ImageUrl> GetAllImageUrls(bool trackChanges)
-        {
-            try
-            {
-                var images = _repository.ImageUrl.GetImageUrls(trackChanges);
-                return images;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{nameof(GetAllImageUrls)} : {ex}");
-            }
-        }
-
-        public ImageUrl GetImageUrl(Guid id, bool trackChanges)
-        {
-            try
-            {
-                var image = _repository.ImageUrl.GetImageUrl(id, trackChanges);
-                if (image == null)
-                    throw new ImageUrlNotFoundException(id);
-
-                return image;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{nameof(GetImageUrl)} : {ex}");
-            }
-        }
-
-        public ImageUrlDto CreateImageUrl(ImageUrlForCreationDto imageUrl)
-        {
-            var imageUrlEntity = _mapper.Map<ImageUrl>(imageUrl);
-
-            _repository.ImageUrl.CreateImageUrl(imageUrlEntity);
-            _repository.Save();
-
-            var imageUrlReturn = _mapper.Map<ImageUrlDto>(imageUrlEntity);
-
-            return imageUrlReturn;
-        }
-
-        public void DeleteImageUrl(Guid id, bool trackChanges)
-        {
-            var imageUrl = _repository.ImageUrl.GetImageUrl(id, trackChanges: false);
-            if (imageUrl is null)
-                throw new Exception();
-
-            _repository.ImageUrl.DeleteImageUrl(imageUrl);
-            _repository.Save();
-        }
-
-        #endregion
-
-        #region Async
-
         public async Task<IEnumerable<ImageUrlDto>> GetAllImageUrlsAsync(bool trackChanges)
         {
             try
@@ -158,7 +101,5 @@ namespace WebApi.Services
             _repository.ImageUrl.DeleteImageUrlProducts(imageUrls);
             await _repository.SaveAsync();
         }
-
-        #endregion
     }
 }

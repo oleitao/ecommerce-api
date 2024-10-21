@@ -1,11 +1,8 @@
-﻿using Elasticsearch.Net;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Model;
 using System;
 using System.Collections.Generic;
-using System.Linq.Dynamic.Core.Tokenizer;
 using System.Threading.Tasks;
 using WebApi.ActionFilters;
 using WebApi.Entities.Exceptions;
@@ -106,11 +103,11 @@ namespace WebApi.Controllers
         [AllowAnonymous]
         public async Task AccountValidationEmail(string email)
         {
-            var userEntity = await _service.UserService.FindByEmailAsync(email, trackChanges: false);
-            if (userEntity is null)
+            var userDto = await _service.UserService.FindByEmailAsync(email, trackChanges: false);
+            if (userDto is null)
                 throw new UserNotFoundException(email);
 
-            var user = await _service.UserService.MapToUser(userEntity);
+            var user = await _service.UserService.MapToUser(userDto);
             if (user is not null)
             {
                 var token = await _service.AuthenticationService.GenerateEmailConfirmationTokenAsync(user);
@@ -134,14 +131,14 @@ namespace WebApi.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
-            var user = await _service.UserService.GetUserAsync(Guid.Parse(userId), trackChanges: false);
-            if (user is null || token is null)
+            var userDto = await _service.UserService.GetUserAsync(Guid.Parse(userId), trackChanges: false);
+            if (userDto is null || token is null)
                 throw new UserNotFoundException("Link expired");
-            else if (user is null)
+            else if (userDto is null)
                 throw new UserNotFoundException("User not found");
             else
             {
-                var result = await _service.UserService.ConfirmEmailAsync(user);
+                var result = await _service.UserService.ConfirmEmailAsync(userDto);
                 if (result.Equals(true))
                 {
 

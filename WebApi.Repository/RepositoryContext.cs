@@ -72,7 +72,6 @@ public class RepositoryContext : IdentityDbContext<User>
 
         RelationshipsMapping(modelBuilder);
 
-        modelBuilder.ApplyConfiguration(new RoleConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new CategoryConfiguration());
         modelBuilder.ApplyConfiguration(new ShopAvatarConfiguration());
@@ -81,6 +80,7 @@ public class RepositoryContext : IdentityDbContext<User>
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         modelBuilder.ApplyConfiguration(new ReviewConfiguration());
         modelBuilder.ApplyConfiguration(new EmailConfiguration());
+        modelBuilder.ApplyConfiguration(new RoleConfiguration());
     }
 
     #region Category Mapping
@@ -139,10 +139,8 @@ public class RepositoryContext : IdentityDbContext<User>
         modelBuilder.Entity<User>().Property(x => x.Id).HasColumnName(@"Id").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<User>().Property(x => x.FullName).HasColumnName(@"FullName").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<User>().Property(x => x.Birthday).HasColumnName(@"Birthday").IsRequired().ValueGeneratedNever();
-        modelBuilder.Entity<User>().Property(x => x.Hobby).HasColumnName(@"Hobby").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<User>().Property(x => x.Email).HasColumnName(@"Email").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<User>().Property(x => x.Gender).HasColumnName(@"Gender").IsRequired().ValueGeneratedNever();
-        modelBuilder.Entity<User>().Property(x => x.Age).HasColumnName(@"Age").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<User>().HasKey(@"Id");
     }
 
@@ -171,7 +169,7 @@ public class RepositoryContext : IdentityDbContext<User>
         modelBuilder.Entity<Shop>().Property(x => x.Id).HasColumnName(@"Id").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Shop>().Property(x => x.Name).HasColumnName(@"Name").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Shop>().Property(x => x.Ratings).HasColumnName(@"Ratings").IsRequired().ValueGeneratedNever();
-        modelBuilder.Entity<Shop>().Property(x => x.ShopAvatarId).HasColumnName(@"ShopAvatarId").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<Shop>().Property(x => x.Shop_avatarId).HasColumnName(@"Shop_avatarId").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Shop>().HasKey(@"Id");
     }
 

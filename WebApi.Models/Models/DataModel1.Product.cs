@@ -40,15 +40,21 @@ namespace Model
 
         public int Total_sell { get; set; }
 
-        public int Stock { get; set; }
+        public int Stock { get; set; }        
 
-        public Guid CategoryId { get; set; }
-
-        public Guid ShopId { get; set; }
 
         public ICollection<ImageUrl>? Image_Url{ get; set; }
         public ICollection<Review>? Reviews { get; set; }
+
+
+        [ForeignKey(nameof(Shop))]
+        public Guid ShopId { get; set; }
         public Shop? Shop { get; set; }
+
+
+        [ForeignKey(nameof(Category))]
+        public Guid CategoryId { get; set; }
+        public Category? Category { get; set; }
 
         #region Extensibility Method Definitions
 

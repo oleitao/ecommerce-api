@@ -137,11 +137,9 @@ namespace WebApi.Services
                 Address = sellerForRegistration.Address,
                 Email = sellerForRegistration.Email,
                 UserName = GenerateName(15),
-                Age = 0,
                 Birthday = DateTime.Now,
                 Gender = "O",
-                FullName = "",
-                Hobby = ""
+                FullName = string.Empty
             };
 
 
@@ -201,9 +199,11 @@ namespace WebApi.Services
 
         private string GenerateRefreshToken()
         {
-            var randomNumber = new byte[32]; using (var rng = RandomNumberGenerator.Create())
+            var randomNumber = new byte[32]; 
+            using (var rng = RandomNumberGenerator.Create())
             {
-                rng.GetBytes(randomNumber); return Convert.ToBase64String(randomNumber);
+                rng.GetBytes(randomNumber); 
+                return Convert.ToBase64String(randomNumber);
             }
         }
 
