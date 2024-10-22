@@ -5,15 +5,6 @@ namespace WebApi.Contracts
 {
     public interface IProductRepository
     {
-        #region Sync
-        public IEnumerable<Product> GetAllProducts(bool trackChanges);
-        public IEnumerable<Product> GetProductsByCategory(Guid categoryId, bool trackChanges);
-        public Product? GetProduct(Guid productId, bool trackChanges);
-        public void CreateProduct(Product product);
-        public void CreateGetProductsByCategory(Guid categoryId, Product product);
-        #endregion
-
-        #region Async
         public Task<IEnumerable<Product>> GetAllProductsAsync(bool trackChanges);
         public Task<IEnumerable<Product?>> GetProductsByCategoryAsync(Guid categoryId, bool trackChanges);
         public Task<Product?> GetProductAsync(Guid productId, bool trackChanges);
@@ -25,7 +16,7 @@ namespace WebApi.Contracts
         public Task UpdateProductAsync(Product productEntity);
         public Task<IEnumerable<Product?>> GetProductsByShopAsync(Guid shopId, bool trackChanges);
         public Task DeleteShopProducts(IEnumerable<Product> productShop);
-
-        #endregion
+        public void CreateProductAsync(Product productEntity);
+        public void CreateGetProductsByCategory(Guid categoryId, Product productEntity);
     }
 }

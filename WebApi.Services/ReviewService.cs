@@ -99,7 +99,7 @@ namespace WebApi.Services
 
                 var returnReview = _mapper.Map<ReviewDto>(reviewEntity);
 
-                _repository.Review.CreateReview(reviewEntity);
+                _repository.Review.CreateReviewAsync(reviewEntity);
                 await _repository.SaveAsync();
 
                 return returnReview;

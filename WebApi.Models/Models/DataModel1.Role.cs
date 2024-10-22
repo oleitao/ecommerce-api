@@ -20,29 +20,13 @@ using System.Linq.Expressions;
 
 namespace Model
 {
-    public partial class User : IdentityUser
+    public partial class Role : IdentityRole
     {
 
-        public User()
+        public Role()
         {
             OnCreated();
         }
-
-        public string? FullName { get; set; } = null!;
-        public DateTime? Birthday { get; set; }
-        public string? Gender { get; set; } = null!;
-        
-        public int? ZipCode { get; set; }
-        public string? Address { get; set; }
-        public string? ShopDescription { get; set; }
-
-        public string? RefreshToken { get; set; }
-        public DateTime? RefreshTokenExpiryTime { get; set; }
-
-        
-        public string RoleId { get; set; }
-        public ICollection<Role>? Role { get; set; }
-
 
         #region Extensibility Method Definitions
 

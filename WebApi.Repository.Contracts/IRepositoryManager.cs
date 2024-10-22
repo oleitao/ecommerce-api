@@ -22,6 +22,8 @@ namespace WebApi.Contracts
         IUserRepository User { get; }
 
         IEmailRepository Email { get; }
+
+        IRoleRepository Role { get; }
         void Save();
         Task SaveAsync();
     }

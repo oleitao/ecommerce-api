@@ -15,6 +15,7 @@ namespace WebApi.Repository
         private readonly Lazy<IShopRepository> _shopRepository;
         private readonly Lazy<IUserRepository> _userRepository;
         private readonly Lazy<IEmailRepository> _emailRepository;
+        private readonly Lazy<IRoleRepository> _roleRepository;
 
         public RepositoryManager(RepositoryContext repositoryContext) 
         { 
@@ -29,6 +30,7 @@ namespace WebApi.Repository
             _shopRepository = new Lazy<IShopRepository>(() => new ShopRepository(repositoryContext));
             _userRepository = new Lazy<IUserRepository>(() => new UserRepository(repositoryContext));
             _emailRepository = new Lazy<IEmailRepository>(() => new EmailRepository(repositoryContext));
+            _roleRepository = new Lazy<IRoleRepository>(() => new RoleRepository(repositoryContext));
         } 
         
         public ICategoryRepository Category => _categoryRepository.Value;
@@ -48,6 +50,8 @@ namespace WebApi.Repository
         public IEmailRepository Email => _emailRepository.Value;
 
         public IInboxRepository Inbox => _inboxRepository.Value;
+
+        public IRoleRepository Role => _roleRepository.Value;
 
         public void Save() => _repositoryContext.SaveChanges();
 

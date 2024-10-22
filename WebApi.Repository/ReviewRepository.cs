@@ -12,24 +12,6 @@ namespace WebApi.Repository
             
         }
 
-        #region Sync
-        public IEnumerable<Review> GetAllReviews(bool trackChanges) =>
-            FindAll(trackChanges).ToList();
-
-        public Review? GetReview(Guid reviewId, bool trackChanges) =>
-            FindByCondition(c => c.Id.Equals(reviewId), trackChanges)
-            .SingleOrDefault();
-
-
-        public void CreateReview(Review review)
-        {
-            Create(review);
-        }
-
-        #endregion
-
-        #region Async
-
         public async Task<IEnumerable<Review>> GetAllReviewsAsync(bool trackChanges)
         {
             return await FindAll(trackChanges).ToListAsync();
@@ -72,6 +54,9 @@ namespace WebApi.Repository
             await Task.CompletedTask;
         }
 
-        #endregion
+        public void CreateReviewAsync(Review reviewEntity)
+        {
+            Create(reviewEntity);
+        }
     }
 }

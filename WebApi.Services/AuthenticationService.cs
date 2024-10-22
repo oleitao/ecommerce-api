@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using WebApi.Entities;
 using WebApi.Entities.ConfigurationModels;
 using WebApi.Entities.Exceptions;
 using WebApi.Service.Contracts;
@@ -88,6 +89,8 @@ namespace WebApi.Services
         {
             var user = _mapper.Map<User>(userForRegistration);
 
+            user.RoleId = RolesHelper.RoleIdUser;
+
             var userCreated = await _userManager.CreateAsync(user, userForRegistration.Password);
             if (userCreated.Succeeded)
             {
@@ -96,7 +99,7 @@ namespace WebApi.Services
                 await client.GetAsync(uri);
 
                 if (userForRegistration.Roles is null)
-                    await _userManager.AddToRolesAsync(user, new string[] { "User" });
+                    await _userManager.AddToRolesAsync(user, new string[] { RolesHelper.User });
                 else
                     await _userManager.AddToRolesAsync(user, userForRegistration.Roles);
             }
@@ -105,58 +108,36 @@ namespace WebApi.Services
         }
 
 
-        private string GenerateName(int len)
-        {
-            Random r = new Random();
-            string[] consonants = { "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "l", "n", "p", "q", "r", "s", "sh", "zh", "t", "v", "w", "x" };
-            string[] vowels = { "a", "e", "i", "o", "u", "ae", "y" };
-            string Name = "";
-            Name += consonants[r.Next(consonants.Length)].ToUpper();
-            Name += vowels[r.Next(vowels.Length)];
-            int b = 2;
-            while (b < len)
-            {
-                Name += consonants[r.Next(consonants.Length)];
-                b++;
-                Name += vowels[r.Next(vowels.Length)];
-                b++;
-            }
-
-            return Name;
-
-
-        }
-
-        public async Task<IdentityResult> RegisterSeller(SellerForRegistrationDto sellerForRegistration)
+        public async Task<IdentityResult> RegisterSeller(SellerForRegistrationDto sellForRegistration)
         {
             var seller = new User()
             {
-                PhoneNumber = string.Empty,
-                ShopDescription = sellerForRegistration.ShopDescription,
-                ZipCode = sellerForRegistration.ZipCode,
-                Address = sellerForRegistration.Address,
-                Email = sellerForRegistration.Email,
-                UserName = GenerateName(15),
-                Birthday = DateTime.Now,
-                Gender = "O",
-                FullName = string.Empty
+                PhoneNumber = sellForRegistration.PhoneNumber,
+                ShopDescription = sellForRegistration.ShopDescription,
+                ZipCode = sellForRegistration.ZipCode,
+                Address = sellForRegistration.Address,
+                Email = sellForRegistration.Email,
+                UserName = sellForRegistration.UserName,
+                Birthday = sellForRegistration.Birthday,                
+                FullName = sellForRegistration.Name,
+                RoleId = RolesHelper.RoleIdSeller,
+                Gender = "O"
             };
 
-
-            var userCreated = await _userManager.CreateAsync(seller, sellerForRegistration.Password);
-            if (userCreated.Succeeded)
+            var sellerCreated = await _userManager.CreateAsync(seller, sellForRegistration.Password);
+            if (sellerCreated.Succeeded)
             {
                 Uri uri = new Uri($"https://localhost:8080/api/v1.1/authentication/accountvalidationemail/?Email={seller.Email}");
                 var client = new HttpClient { BaseAddress = uri };
                 await client.GetAsync(uri);
 
-                if (sellerForRegistration.Roles is null)
-                    await _userManager.AddToRolesAsync(seller, new string[] { "MANAGER" });
+                if (sellForRegistration.Roles is null)
+                    await _userManager.AddToRolesAsync(seller, new string[] { RolesHelper.Seller });
                 else
-                    await _userManager.AddToRolesAsync(seller, sellerForRegistration.Roles);
+                    await _userManager.AddToRolesAsync(seller, sellForRegistration.Roles);
             }
 
-            return userCreated;
+            return sellerCreated;
         }
 
         public async Task<bool> LoginUser(UserForLoginAuthenticationDto userForAuth)

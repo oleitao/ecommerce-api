@@ -23,20 +23,20 @@ const SignupNewSeller = () => {
   //const [visible, setVisible] = useState(false);
   //const [url, setUrl] = useState(null);
 
-  const [data, setData] = useState({
-    userName:"",
-    email: "",
-    name:"",
-    phoneNumber: "",
-    address: "",
-    zipCode: "",
-    shopDescription:"",
-    // avatar: null,
-    // url:null,
-    password: "",
-    passwordReType: "",    
-    email:"",
-    role:"Manager"
+  const [data, setData] = useState({ userName:"",
+                                    email: "",
+                                    name:"",
+                                    phoneNumber: "",
+                                    address: "",
+                                    zipCode: "",
+                                    shopDescription:"",
+                                    birthday: "",
+                                    // avatar: null,
+                                    // url:null,
+                                    password: "",
+                                    passwordReType: "",    
+                                    email:"",
+                                    role:"Manager"
   });
 
   const handleChange = (e) => {
@@ -47,13 +47,6 @@ const SignupNewSeller = () => {
     });
   };
 
-  // seller id
-/*
-  useEffect(() => {
-    const id = v4();
-    setSellerId(id);
-  }, []);
-*/
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
     const url = URL.createObjectURL(file);
@@ -61,38 +54,12 @@ const SignupNewSeller = () => {
     setAvatar(file);
   };
 
-  // get the user email from local storage
-  const getSellerAuth = JSON.parse(localStorage.getItem("sellerAuth"));
-  const userEmailFromLocalstorage = getSellerAuth?.email;
-
-  // get current date when creating seller account
-  const fullDate = new Date();
-  const date = String(fullDate.getDate()).padStart(2, "0");
-  const month = String(fullDate.getMonth() + 1).padStart(2, "0");
-  const year = fullDate.getFullYear();
-
-  const todayDate = `${date}-${month}-${year}`;
-/*
-  const sellerAuth = {
-    email,
-    password,
-  };
-
-  const sellerInfo = {
-    name,
-    phoneNumber,
-    address,
-    shopDescription,
-    zipCode,
-    photoUrl: url,
-  };
-*/
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-
     const userData = {
       userName:data.userName,
+      birthday: data.birthday,
       email: data.email,
       name:data.name,
       phoneNumber: data.phoneNumber,
@@ -111,34 +78,36 @@ const SignupNewSeller = () => {
     }
     else
     {
-      axios.get('https://localhost:8080/api/v1.1/authentication/email?email=' + userData.email)
-      .then(response => {
-          
-          if(response.data === true)
-          {
-            toast.error(`The "${userData.email}" already registered, Please try to different email!`);
-          }
-          else
-          {
-            axios.post('https://localhost:8080/api/v1.1/authentication/sellerregister', userData)
-            .then(response => {  
-  
-              console.log(response);
-              if(response.status === 201)
-              {
-                toast.success("Your account successfully created, Now login!");
-    
-                navigate("/");  
-              }
-              else
-              {
-                toast.error(`Error:"${response.data}"`);
-              }
-            })
-            .catch(error => {
-              console.log(error);
+      axios.post('https://localhost:8080/api/v1.1/authentication/sellregister', userData)
+      .then(response => {  
+
+        if(response.status === 201)
+        {
+          toast.success("Your account successfully created, Now login!");
+
+            //clean all fields
+            setData({ userName:"",
+					    email: "",
+					    name:"",
+					    phoneNumber: "",
+					    address: "",
+					    zipCode: "",
+					    shopDescription:"",
+					    birthday: "",
+					    // avatar: null,
+					    // url:null,
+					    password: "",
+					    passwordReType: "",    
+					    email:"",
+					    role:"Manager"
             });
-          }
+
+          navigate("/");  
+        }
+        else if(response.status == 0)
+        {
+          toast.error(`Seller is already registed`);
+        }
       })
       .catch(error => {
         console.log(error);
@@ -340,7 +309,25 @@ const SignupNewSeller = () => {
               </div>
             </div>
 
-            <div className="800px:w-[100%]  800px:mb-3">
+            <div>
+              <label
+                htmlFor="birthday"
+                className="block text-sm font-medium text-gray-700">
+                Business Start Date
+              </label>
+              <div className="mt-1">
+                <input
+                  type="date"
+                  name="birthday"
+                  required
+                  value={data.birthday}
+                  onChange={handleChange}
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
+              </div>
+            </div>
+
+            <div className="800px:w-[100%]">
               <label
                 htmlFor="description"
                 className="block text-sm font-medium text-gray-700">
@@ -348,8 +335,10 @@ const SignupNewSeller = () => {
               </label>
               <div className="mt-1 w-full h-full">
                 <textarea
-                  name="description"
-                  maxLength={300}
+                  placeholder="Company description..."
+                  type="text"
+                  name="shopDescription"
+                  required
                   value={data.shopDescription}
                   onChange={handleChange}
                   className="appearance-none block w-full h-[100px] px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>

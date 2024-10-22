@@ -12,6 +12,9 @@ import {
   SignUpPage,
   ProductDetailsPage,
   ProfilePage,
+
+  ProfileAdminPage,
+
   MessagePage,
   SellerSignUpPage,
   SellerLoginPage,
@@ -51,6 +54,9 @@ const App = () => {
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/product/:name" element={<ProductDetailsPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+
+        <Route path="/profile-admin" element={<ProfileAdminPage />} />
+        
         <Route path="/inbox" element={<MessagePage />} />
 
         {/* seller account routes */}

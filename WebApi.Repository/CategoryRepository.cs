@@ -13,28 +13,6 @@ namespace WebApi.Repository
             
         }
 
-        #region Sync
-
-        public IEnumerable<Category> GetAllCategories(bool trackChanges) =>
-            FindAll(trackChanges).ToList();
-
-        public Category? GetCategory(Guid categoryId, bool trackChanges) =>
-            FindByCondition(c => c.Id.Equals(categoryId), trackChanges)
-            .SingleOrDefault();
-
-        public void CreateCategory(Category category)
-        {
-            Create(category);
-        }
-
-        public IEnumerable<Category> GetByIds(IEnumerable<Guid> ids, bool trackChanges)
-        {
-            return FindByCondition(x => ids.Contains(x.Id), trackChanges).ToList();
-        }
-
-        #endregion
-
-        #region Async
 
         public async Task<IEnumerable<Category>> GetAllCategoriesAsync(bool trackChanges)
         {
@@ -80,7 +58,5 @@ namespace WebApi.Repository
         {
             Delete(category);
         }
-
-        #endregion
     }
 }

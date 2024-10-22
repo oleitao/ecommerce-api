@@ -5,14 +5,6 @@ namespace WebApi.Contracts
 {
     public interface IUserRepository
     {
-        #region Sync
-        public IEnumerable<User> GetAllUsers(bool trackChanges);
-        public User? GetUser(Guid userId, bool trackChanges);
-        public void CreateUser(User user);
-        #endregion
-
-        #region Async
-
         public Task<IEnumerable<User>> GetAllUsersAsync(bool trackChanges);
 
         public Task<User?> GetUserAsync(Guid userId, bool trackChanges);
@@ -21,8 +13,6 @@ namespace WebApi.Contracts
         public Task<User?> FindByEmailAsync(string email, bool trackChanges);
         public Task<bool> ConfirmEmailAsync(User userEntity);
         public Task<User?> FindUserRoleByUserNameAsync(string userName, bool trackChanges);
-
-        #endregion
-
+        public void CreateUserAsync(User userEntity);
     }
 }

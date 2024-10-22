@@ -68,7 +68,7 @@ namespace WebApi.Services
             if(categoryEntity.Id == Guid.Empty)
                 categoryEntity.Id = Guid.NewGuid();
 
-            _repository.Category.CreateCategory(categoryEntity);
+            _repository.Category.CreateCategoryAsync(categoryEntity);
             await _repository.SaveAsync();
 
             var categoryReturn = _mapper.Map<CategoryDto>(categoryEntity);
@@ -98,7 +98,7 @@ namespace WebApi.Services
             var categoriyEntities = _mapper.Map<IEnumerable<Category>>(categories);
             foreach (var category in categoriyEntities)
             {
-                _repository.Category.CreateCategory(category);
+                _repository.Category.CreateCategoryAsync(category);
             }
 
             await _repository.SaveAsync();
@@ -121,7 +121,7 @@ namespace WebApi.Services
 
         public async Task UpdateCategoryAsync(Guid id, CategoryForUpdateDto category, bool trackChanges)
         {
-            var categoryEntities = _repository.Category.GetCategory(id, trackChanges);
+            var categoryEntities = _repository.Category.GetCategoryAsync(id, trackChanges);
             if (categoryEntities is null)
                 throw new CategoryNotFoundException(id);
 

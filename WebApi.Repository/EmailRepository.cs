@@ -12,13 +12,9 @@ namespace WebApi.Repository
             
         }
 
-        #region Async
-
         public async Task<Email?> GetEmailContent(Guid id, bool trackChanges)
         {
             return await FindByCondition(c => c.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
         }
-
-        #endregion
     }
 }

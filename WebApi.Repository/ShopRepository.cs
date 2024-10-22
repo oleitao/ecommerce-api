@@ -12,23 +12,6 @@ namespace WebApi.Repository
             
         }
 
-        #region Sync
-        public IEnumerable<Shop> GetAllShops(bool trackChanges) =>
-            FindAll(trackChanges).ToList();
-
-        public Shop? GetShop(Guid shopId, bool trackChanges) =>
-            FindByCondition(c => c.Id.Equals(shopId), trackChanges)
-            .SingleOrDefault();
-
-        public void CreateShop(Shop shop)
-        {
-            Create(shop);
-        }
-
-        #endregion
-
-        #region Async
-
         public async Task<IEnumerable<Shop>> GetAllShopsAsync(bool trackChanges)
         {
             return await FindAll(trackChanges).ToListAsync();
@@ -68,6 +51,9 @@ namespace WebApi.Repository
             await Task.CompletedTask;
         }
 
-        #endregion
+        public void CreateShopAsync(Shop shop)
+        {
+            Create(shop);
+        }
     }
 }

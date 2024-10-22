@@ -96,12 +96,12 @@ namespace WebApi.Services
 
                 shopEntity.Shop_avatarId = shopEntity.Shop_avatar.Id;
 
-                _repository.ShopAvatar.CreateShopAvatar(shopEntity.Shop_avatar);
+                _repository.ShopAvatar.CreateShopAvatarAsync(shopEntity.Shop_avatar);
             }
 
             _mapper.Map(shopCreation, shopEntity);
 
-            _repository.Shop.CreateShop(shopEntity);
+            _repository.Shop.CreateShopAsync(shopEntity);
 
             var returnShop = _mapper.Map<ShopDto>(shopEntity);
 

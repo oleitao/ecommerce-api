@@ -13,25 +13,7 @@ namespace WebApi.Repository
         {
             
         }
-
-        #region Sync
-
-        public IEnumerable<User> GetAllUsers(bool trackChanges) =>
-            FindAll(trackChanges).ToList();
-
-        public User? GetUser(Guid userId, bool trackChanges) =>
-            FindByCondition(c => c.Id.Equals(userId), trackChanges)
-            .SingleOrDefault();
-
-        public void CreateUser(User user)
-        {
-            Create(user);
-        }
-
-        #endregion
-
-        #region Async
-        
+       
         public async Task<IEnumerable<User>> GetAllUsersAsync(bool trackChanges)
         {
             return await FindAll(trackChanges).ToListAsync();
@@ -85,7 +67,9 @@ namespace WebApi.Repository
                 .FirstOrDefaultAsync();
         }
 
-
-        #endregion
+        public void CreateUserAsync(User userEntity)
+        {
+            Create(userEntity);
+        }
     }
 }

@@ -15,33 +15,6 @@ namespace WebApi.Repository
             
         }
 
-        #region Sync
-        public IEnumerable<Product> GetAllProducts(bool trackChanges) =>
-            FindAll(trackChanges).ToList();
-
-        public Product? GetProduct(Guid productId, bool trackChanges) =>
-            FindByCondition(c => c.Id.Equals(productId), trackChanges)
-            .SingleOrDefault();
-
-        public IEnumerable<Product> GetProductsByCategory(Guid categoryId, bool trackChanges) => 
-            FindByCondition(p => p.CategoryId.Equals(categoryId), trackChanges)
-            .OrderBy(p => p.Name).ToList();
-
-        public void CreateProduct(Product product)
-        {
-            Create(product);
-        }
-
-        public void CreateGetProductsByCategory(Guid categoryId, Product product)
-        {
-            product.CategoryId = categoryId;
-            Create(product);
-        }
-
-        #endregion
-
-        #region Async
-
         public async Task<IEnumerable<Product>> GetAllProductsAsync(bool trackChanges)
         {
             return await FindAll(trackChanges).ToListAsync();
@@ -131,7 +104,15 @@ namespace WebApi.Repository
             await Task.CompletedTask;
         }
 
+        public void CreateProductAsync(Product productEntity)
+        {
+            Create(productEntity);
+        }
 
-        #endregion
+        public void CreateGetProductsByCategory(Guid categoryId, Product productEntity)
+        {
+            productEntity.CategoryId = categoryId;
+            Create(productEntity);
+        }
     }
 }

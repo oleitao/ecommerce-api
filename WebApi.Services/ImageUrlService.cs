@@ -64,7 +64,7 @@ namespace WebApi.Services
             if(imageUrlEntity.Id == Guid.Empty)
                 imageUrlEntity.Id = Guid.NewGuid();
 
-            _repository.ImageUrl.CreateImageUrl(imageUrlEntity);
+            _repository.ImageUrl.CreateImageUrlAsync(imageUrlEntity);
             await _repository.SaveAsync();
 
             var imageUrlReturn = _mapper.Map<ImageUrlDto>(imageUrlEntity);
@@ -78,7 +78,7 @@ namespace WebApi.Services
             if (imageUrl is null)
                 throw new Exception();
 
-            _repository.ImageUrl.DeleteImageUrl(imageUrl);
+            _repository.ImageUrl.DeleteImageUrlAsync(imageUrl);
             await _repository.SaveAsync();
         }
 

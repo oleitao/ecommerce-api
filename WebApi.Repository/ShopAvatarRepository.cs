@@ -12,23 +12,6 @@ namespace WebApi.Repository
             
         }
 
-        #region Sync
-        public IEnumerable<ShopAvatar> GetAllShopAvatars(bool trackChanges) =>
-            FindAll(trackChanges).ToList();
-
-        public ShopAvatar? GetShopAvatar(Guid shopAvatarId, bool trackChanges) =>
-            FindByCondition(c => c.Id.Equals(shopAvatarId), trackChanges)
-            .SingleOrDefault();
-
-        public void CreateShopAvatar(ShopAvatar shopAvatar)
-        {
-            Create(shopAvatar);
-        }
-
-        #endregion
-
-        #region Async
-
         public async Task<IEnumerable<ShopAvatar>> GetAllShopAvatarsAsync(bool trackChanges)
         {
             return await FindAll(trackChanges).ToListAsync();
@@ -46,6 +29,9 @@ namespace WebApi.Repository
             await Task.CompletedTask;
         }
 
-        #endregion
+        public void CreateShopAvatarAsync(ShopAvatar shopAvatar)
+        {
+            Create(shopAvatar);
+        }
     }
 }

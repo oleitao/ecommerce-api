@@ -72,6 +72,7 @@ public class RepositoryContext : IdentityDbContext<User>
 
         RelationshipsMapping(modelBuilder);
 
+        modelBuilder.ApplyConfiguration(new RoleConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new CategoryConfiguration());
         modelBuilder.ApplyConfiguration(new ShopAvatarConfiguration());
@@ -80,7 +81,6 @@ public class RepositoryContext : IdentityDbContext<User>
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         modelBuilder.ApplyConfiguration(new ReviewConfiguration());
         modelBuilder.ApplyConfiguration(new EmailConfiguration());
-        modelBuilder.ApplyConfiguration(new RoleConfiguration());
     }
 
     #region Category Mapping

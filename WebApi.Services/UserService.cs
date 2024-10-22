@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
 using Model;
 using WebApi.Contracts;
 using WebApi.Entities.Exceptions;
@@ -62,7 +61,7 @@ namespace WebApi.Services
         {
             var userEntity = _mapper.Map<User>(user);
 
-            _repository.User.CreateUser(userEntity);
+            _repository.User.CreateUserAsync(userEntity);
             await _repository.SaveAsync();
 
             var userReturn = _mapper.Map<UserDto>(userEntity);
@@ -184,5 +183,17 @@ namespace WebApi.Services
             }
         }
 
+        public async Task<string> GetUserRolesById(Guid id)
+        {
+            var userRolesEntity = await _repository.User.GetUserAsync(id, false);
+            if (userRolesEntity == null)
+                throw new UserNotFoundException(id);
+
+            var roleEntity = await _repository.Role.GetUserRoleByIdAsync(userRolesEntity.RoleId, false);
+            if (roleEntity == null)
+                throw new RoleNotFoundException(id);
+
+            return roleEntity.NormalizedName;
+        }
     }
 }

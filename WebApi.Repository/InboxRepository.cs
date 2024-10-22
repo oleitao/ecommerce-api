@@ -18,13 +18,9 @@ namespace WebApi.Repository
         }
 
 
-        #region Async
-
         public async Task<List<Inbox>?> GetInboxFromAsync(Guid to, bool trackChanges)
         {
             return await FindByCondition(c => c.To.Equals(to), trackChanges).ToListAsync<Inbox>();
         }
-
-        #endregion
     }
 }

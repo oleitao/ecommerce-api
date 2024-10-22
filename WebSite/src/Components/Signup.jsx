@@ -19,21 +19,21 @@ const Signup = () => {
   // const [url, setUrl] = useState(null);
   // const [avatar, setAvatar] = useState(null);
 
-    const [data, setData] = useState({
-        firstName: "",
-        lastName: "",
-        userName: "",
-        fullName: "",
-        password: "",
-        passwordReType: "",
-        email: "",
-        phoneNumber: "",
-        gender: "",
-        role:"USER",
-        hobby: ""
-        // avatar: null,
-        // url:null,
-    });
+  const [data, setData] = useState({ firstName: "",
+                                    lastName: "",
+                                    userName: "",
+                                    fullName: "",
+                                    password: "",
+                                    passwordReType: "",
+                                    birthday: "",
+                                    email: "",
+                                    phoneNumber: "",
+                                    gender: "",
+                                    role:"",
+                                    hobby: ""
+                                    // avatar: null,
+                                    // url:null,
+  });
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -60,12 +60,13 @@ const Signup = () => {
       fullName: data.firstName + " " + data.lastName,
       password: data.password,
       passwordReType: data.passwordReType,
+      birthday: data.birthday,
       email: data.email,
       phoneNumber: data.phoneNumber,
       gender: data.gender,
       // avatar: data.avatar,
       // url: data.url,
-      role:"USER",
+      role: null,
       hobby: ""
     };
 
@@ -75,51 +76,37 @@ const Signup = () => {
     }
     else
     {
-      axios.get('https://localhost:8080/api/v1.1/authentication/email?email=' + userData.email)
-      .then(response => {
-          
-          if(response.data === true)
-          {
-            toast.error(`The "${userData.email}" already registered, Please try to different email!`);
-          }
-          else
-          {
-            axios.post('https://localhost:8080/api/v1.1/authentication/register', userData)
-            .then(response => {  
-  
-              console.log(response);
-              if(response.status === 201)
-              {
-                toast.success("Your account successfully created, Now login!");
+      axios.post('https://localhost:8080/api/v1.1/authentication/userregister', userData)
+      .then(response => {  
 
-                  //clean all fields
-                  setData({
-                      firstName: "",
-                      lastName: "",
-                      userName: "",
-                      fullName: "",
-                      password: "",
-                      passwordReType: "",
-                      email: "",
-                      phoneNumber: "",
-                      gender: "",
-                      role: "USER",
-                      hobby: ""
-                      // avatar: null,
-                      // url:null,
-                  });
+        if(response.status === 201)
+        {
+          toast.success("Your account successfully created, Now login!");
 
-                navigate("/");  
-              }
-              else
-              {
-                toast.error(`Error:"${response.data}"`);
-              }
-            })
-            .catch(error => {
-              console.log(error);
+            //clean all fields
+            setData({
+                firstName: "",
+                lastName: "",
+                userName: "",
+                fullName: "",
+                password: "",
+                passwordReType: "",
+                birthday: null,
+                email: "",
+                phoneNumber: "",
+                gender: "",
+                role: "USER",
+                hobby: ""
+                // avatar: null,
+                // url:null,
             });
-          }
+
+          navigate("/");  
+        }
+        else if(response.status == 0)
+        {
+          toast.error(`User is already registed`);
+        }
       })
       .catch(error => {
         console.log(error);
@@ -309,6 +296,24 @@ const Signup = () => {
                   name="phoneNumber"
                   required
                   value={data.phoneNumber}
+                  onChange={handleChange}
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label
+                htmlFor="birthday"
+                className="block text-sm font-medium text-gray-700">
+                Birthday date
+              </label>
+              <div className="mt-1">
+                <input
+                  type="date"
+                  name="birthday"
+                  required
+                  value={data.birthday}
                   onChange={handleChange}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />

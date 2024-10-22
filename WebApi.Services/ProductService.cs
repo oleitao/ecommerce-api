@@ -179,7 +179,7 @@ namespace WebApi.Services
                     Url = productForCreationDto.Shop.Shop_avatar.Url
                 };
 
-                _repository.ShopAvatar.CreateShopAvatar(shopAvatar);
+                _repository.ShopAvatar.CreateShopAvatarAsync(shopAvatar);
 
                 Shop shop = new Shop()
                 {
@@ -193,9 +193,9 @@ namespace WebApi.Services
                 productEntity.ShopId = shop.Id;
                 shop.Shop_avatar = shopAvatar;
 
-                _repository.Shop.CreateShop(shop);
+                _repository.Shop.CreateShopAsync(shop);
 
-                _repository.Product.CreateProduct(productEntity);
+                _repository.Product.CreateProductAsync(productEntity);
 
                 await _repository.SaveAsync();
 
@@ -289,7 +289,7 @@ namespace WebApi.Services
                             Url = productForUpdateDto.Shop.Shop_avatar.Url
                         };
 
-                        _repository.ShopAvatar.CreateShopAvatar(shopAvatar);
+                        _repository.ShopAvatar.CreateShopAvatarAsync(shopAvatar);
 
                         Shop shop = new Shop()
                         {
@@ -299,7 +299,7 @@ namespace WebApi.Services
                             Id = Guid.NewGuid()
                         };
 
-                        _repository.Shop.CreateShop(shop);
+                        _repository.Shop.CreateShopAsync(shop);
                     }
 
                     await _repository.SaveAsync();

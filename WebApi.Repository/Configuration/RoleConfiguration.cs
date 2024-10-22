@@ -1,31 +1,37 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Model;
+using WebApi.Entities;
 
 namespace WebApi.Repository.Configuration
 {
-    internal class RoleConfiguration : IEntityTypeConfiguration<IdentityRole>
+    internal class RoleConfiguration : IEntityTypeConfiguration<Role>
     {
-        public void Configure(EntityTypeBuilder<IdentityRole> builder)
+        public void Configure(EntityTypeBuilder<Role> builder)
         {
+
             builder.HasData
             (
-                new IdentityRole
+                new Role
                 {
-                    Name = "User",
-                    NormalizedName = "USER"
+                    Id = RolesHelper.RoleIdUser,
+                    Name = RolesHelper.User,
+                    NormalizedName = RolesHelper.User.ToUpper()
                 },
-                new IdentityRole 
-                { 
-                    Name = "Manager", 
-                    NormalizedName = "MANAGER" 
-                }, 
-                new IdentityRole 
-                { 
-                    Name = "Administrator", 
-                    NormalizedName = "ADMINISTRATOR" 
+                new Role
+                {
+                    Id = RolesHelper.RoleIdSeller,
+                    Name = RolesHelper.Seller,
+                    NormalizedName = RolesHelper.Seller.ToUpper()
+                },
+                new Role
+                {
+                    Id = RolesHelper.RoleIdAdmin,
+                    Name = RolesHelper.Admin,
+                    NormalizedName = RolesHelper.Admin.ToUpper()
                 }
             );
+
         }
     }
 }

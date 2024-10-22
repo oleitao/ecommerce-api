@@ -42,7 +42,7 @@ namespace WebApi.Controllers
             return Ok(false);
         }
 
-        [HttpPost("register")]
+        [HttpPost("userregister")]
         [ApiExplorerSettings(GroupName = "v1")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ApiVersion(version: VersionHelper.ApiVersion)]
@@ -50,9 +50,7 @@ namespace WebApi.Controllers
         public async Task<IActionResult> ClientRegister([FromBody] UserForRegistrationDto userForRegistration)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
             var user = await _service.AuthenticationService.RegisterUser(userForRegistration);
             if (!user.Succeeded)
@@ -69,17 +67,15 @@ namespace WebApi.Controllers
             return StatusCode(201);
         }
 
-        [HttpPost("sellerregister")]
+        [HttpPost("sellregister")]
         [ApiExplorerSettings(GroupName = "v1")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ApiVersion(version: VersionHelper.ApiVersion)]
         [AllowAnonymous]
-        public async Task<IActionResult> SelletRegister([FromBody] SellerForRegistrationDto sellerForRegistration)
+        public async Task<IActionResult> SellRegister([FromBody] SellerForRegistrationDto sellerForRegistration)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
             var seller = await _service.AuthenticationService.RegisterSeller(sellerForRegistration);
             if (!seller.Succeeded)
@@ -168,6 +164,9 @@ namespace WebApi.Controllers
             var userData = await _service.UserService.FindUserByEmailAsync(user.Email, trackChanges: false);
             if (userData is null)
                 throw new UserNotFoundException("User not found");
+
+            if(!userData.EmailConfirmed)
+                throw new UserNotFoundException("Account not confirmed");
 
             var tokenString = await _service.AuthenticationService.GenerateToken(populateExp: true);
             response = Ok(new { user = userData, token = tokenString });

@@ -13,28 +13,6 @@ namespace WebApi.Repository
             
         }
 
-        #region Sync
-        public ImageUrl? GetImageUrl(Guid imageUrlId, bool trackChanges) =>
-            FindByCondition(c => c.Id.Equals(imageUrlId), trackChanges)
-            .SingleOrDefault();
-
-        public IEnumerable<ImageUrl> GetImageUrls(bool trackChnages) =>
-            FindAll(trackChnages).ToList();
-
-        public void CreateImageUrl(ImageUrl imageUrl)
-        {
-            Create(imageUrl);
-        }
-
-        public void DeleteImageUrl(ImageUrl imageUrl)
-        {
-            Delete(imageUrl);
-        }
-
-        #endregion
-
-        #region Async
-
         public async Task<IEnumerable<ImageUrl>> GetImageUrlsAsync(bool trackChanges)
         {
             return await FindAll(trackChanges).ToListAsync();
@@ -72,6 +50,14 @@ namespace WebApi.Repository
             }
         }
 
-        #endregion
+        public void DeleteImageUrlAsync(ImageUrl imageUrl)
+        {
+            Delete(imageUrl);
+        }
+
+        public void CreateImageUrlAsync(ImageUrl imageUrlEntity)
+        {
+            Create(imageUrlEntity);
+        }
     }
 }

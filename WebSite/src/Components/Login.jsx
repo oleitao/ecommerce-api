@@ -42,20 +42,7 @@ const Login = () => {
       console.log(response,data);
       if(response.status === 200)
       {
-        toast.success("login success");
-
-        localStorage.setItem("age", JSON.stringify(response.data.user.age));
-        localStorage.setItem("birthday", JSON.stringify(response.data.user.birthday));
-        localStorage.setItem("email", JSON.stringify(response.data.user.email));
-        localStorage.setItem("fullName", JSON.stringify(response.data.user.fullName));
-        localStorage.setItem("gender", JSON.stringify(response.data.user.gender));
-        localStorage.setItem("hobby", JSON.stringify(response.data.user.hobby));
-        localStorage.setItem("id", JSON.stringify(response.data.user.id));
-        localStorage.setItem("userName", JSON.stringify(response.data.user.userName));        
-        localStorage.setItem("phoneNumber", JSON.stringify(response.data.user.phoneNumber));   
-
-        localStorage.setItem("accessToken", JSON.stringify(response.data.token.accessToken));
-        localStorage.setItem("refreshToken", JSON.stringify(response.data.token.refreshToken));
+        localStorage.setItem("user", JSON.stringify(response.data.user));   
 
         navigate("/");
       }

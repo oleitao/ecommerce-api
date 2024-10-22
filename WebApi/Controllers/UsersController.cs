@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using WebApi.Entities;
 using WebApi.Entities.Exceptions;
 using WebApi.Helpers;
 using WebApi.Service.Contracts;
@@ -48,7 +49,7 @@ public class UsersController : ControllerBase
     [Produces("application/json")]
     [ProducesResponseType(typeof(IEnumerable<UserDto>), StatusCodes.Status200OK)]
     //[Authorize(Roles = "Administrator")]
-    //[Authorize(Roles = "Manager")]
+    //[Authorize(Roles = "Seller")]
     public async Task<IActionResult> GetAllUsers()
     {
         List<UserDto> users = new List<UserDto>();
@@ -111,9 +112,9 @@ public class UsersController : ControllerBase
     [Consumes(typeof(UserForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    [Authorize(Roles = "Administrator")]
-    [Authorize(Roles = "Manager")]
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = RolesHelper.Admin)]
+    [Authorize(Roles = RolesHelper.Seller)]
+    [Authorize(Roles = RolesHelper.User)]
     public async Task<IActionResult> CreateUser([FromBody] UserForCreationDto user)
     {
         if (user is null)
@@ -163,7 +164,7 @@ public class UsersController : ControllerBase
     [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     [Authorize(Roles = "Administrator")]
-    [Authorize(Roles = "Manager")]
+    [Authorize(Roles = "Seller")]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
         var key = $"{nameof(UserDto)}:{id.ToString()}";

@@ -8,6 +8,9 @@ import EventsPage from "./Pages/EventsPage";
 import FaqPage from "./Pages/FaqPage";
 import ProductDetailsPage from "./Pages/ProductDetailsPage";
 import ProfilePage from "./Pages/ProfilePage";
+
+import ProfileAdminPage from "./Pages/ProfileAdminPage";
+
 import MessagePage from "./Pages/MessagePage";
 
 // seller pages
@@ -52,6 +55,7 @@ export {
   ErrorPage,
   ProductDetailsPage,
   ProfilePage,
+  ProfileAdminPage,
   MessagePage,
   SellerSignUpPage,
   SellerLoginPage,

@@ -35,21 +35,42 @@ const Header = ({ activeHeading }) => {
 
   // local storage
   const photoUrl = JSON.parse(localStorage.getItem("PhotoUrl"));
-  const isUser = JSON.parse(localStorage.getItem("email"));
 
   // use selector
   const { cart } = useSelector((state) => state.cart);
   const { wishlist } = useSelector((state) => state.wishlist);
 
   const [categoriesData, setCategoriesData] = useState('');
+  const [profileData, setProfileData] = useState('');
+
+  // localStorage user data
+  const isUser = localStorage.getItem("user");
+
   useEffect(() => {
+
     axios.get('https://localhost:8080/api/v1.1/categories')
+    .then(response => {
+      setCategoriesData(response.data);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+
+    if(isUser !== null)
+    {
+      axios.get('https://localhost:8080/api/v1.1/roles/' + JSON.parse(isUser).id)
       .then(response => {
-        setCategoriesData(response.data);
+  
+        setProfileData(response.data);
+        
+        console.log(profileData);
+  
       })
       .catch(error => {
         console.log(error);
       });
+    }
+
   }, []);
 
   const handleSearch = (e) => {
@@ -79,9 +100,6 @@ const Header = ({ activeHeading }) => {
       setActive(false);
     }
   });
-
-  // localStorage user data
-  const isSeller = localStorage.getItem("isSeller");
 
   return (
     <>
@@ -135,12 +153,13 @@ const Header = ({ activeHeading }) => {
           </div>
 
           <div className={`${styles.button}`}>
-            <Link to={isSeller ? "/shop/:id" : "/signup-seller"}>
+            <Link to={isUser ? "/shop/:id" : "/signup-seller"}>
               <h1 className=" text-white flex items-center justify-center">
-                {isSeller ? "Go Dashboard" : "Become Seller"}
+                {isUser ? "Go Dashboard" : "Become Seller"}
                 <IoIosArrowForward className="ml-1" />
               </h1>
             </Link>
+
           </div>
         </div>
       </div>
@@ -221,17 +240,18 @@ const Header = ({ activeHeading }) => {
 
             <div className={`${styles.noramlFlex}`}>
               <div className="relative cursor-pointer mr-[15px]">
-                <Link to={isUser ? "/profile" : "/sign-up"}>
-                  {isUser ? (
-                    <img
-                      src={photoUrl ? photoUrl : avatar}
-                      alt="avatar"
-                      className="w-[33px] h-[33px] rounded-full object-cover"
-                    />
-                  ) : (
-                    <CgProfile size={30} color="rgb(255 255 255/83%)" />
-                  )}
-                </Link>
+
+                  <Link to={isUser ? profileData : "/login"}>
+                    {isUser ? (
+                        <img
+                          src={photoUrl ? photoUrl : avatar}
+                          alt="avatar"
+                          className="w-[33px] h-[33px] rounded-full object-cover"
+                        />
+                      ) : (
+                        <CgProfile size={30} color="rgb(255 255 255/83%)" />
+                      )}
+                  </Link>
               </div>
             </div>
           </div>

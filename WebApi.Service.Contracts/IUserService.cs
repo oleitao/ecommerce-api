@@ -16,5 +16,6 @@ namespace WebApi.Service.Contracts
         public Task<User> FindUserByEmailAsync(string email, bool trackChanges);
         public Task<bool> ConfirmEmailAsync(UserDto user);
         public Task<Model.User> MapToUser(UserDto userEntity);
+        public Task<string> GetUserRolesById(Guid id);
     }
 }
