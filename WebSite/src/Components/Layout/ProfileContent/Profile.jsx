@@ -8,23 +8,36 @@ import { motion } from "framer-motion";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from 'axios';
+
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
 
 const Profile = ({ setViewProfile }) => {
-  // local storage data
-  const Email = JSON.parse(localStorage.getItem("email"));
-  const Name = JSON.parse(localStorage.getItem("userName"));
-  const Password = JSON.parse(localStorage.getItem("password"));
-  const Number = JSON.parse(localStorage.getItem("number"));
 
-  // email
-  const [email, setEmail] = useState(Email);
-  const [password, setPassword] = useState(Password);
-  const [name, setName] = useState(Name);
-  const [number, setNumber] = useState(Number ? Number : null);
+  // localStorage user data
+  const user = JSON.parse(localStorage.getItem("user"));
+
   const [photoUrl, setPhotoUrl] = useState(Number ? Number : null);
-
   // photo url
   const profileLogo = JSON.parse(localStorage.getItem("PhotoUrl"));
+
+  const [data, setData] = useState({
+    fullName: user.fullName,
+    userName: user.userName,
+    email: user.email,
+    phoneNumber: user.phoneNumber,
+    gender: user.gender,
+    birthday: user.birthday
+  });
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setData({
+      ...data,
+      [e.target.name]: value
+    });
+  };
 
   // handleImageChange
   const handleImageChange = (e) => {
@@ -45,16 +58,49 @@ const Profile = ({ setViewProfile }) => {
 
   // handle form onSubmit
   const handleSubmit = (e) => {
-    e.preventDefault();
-    localStorage.setItem("email", JSON.stringify(email));
-    localStorage.setItem("userName", JSON.stringify(name));
-    localStorage.setItem("password", JSON.stringify(password));
-    localStorage.setItem("number", JSON.stringify(number));
-    localStorage.setItem("PhotoUrl", JSON.stringify(photoUrl));
+  e.preventDefault();
 
-    toast.success("Your information update successful!");
-    window.location.reload();
+    console.log(user);
+
+    const userUpdate = {
+      id: user.id,
+      gender: data.gender,
+      birthday: data.birthday,
+      phoneNumber: data.phoneNumber
+    };
+
+    console.log(userUpdate);
+
+    axios.put('https://localhost:8080/api/v1.1/users/' + user.id, userUpdate)
+    .then(response => {
+
+      console.log(response.data);
+
+      localStorage.setItem("user", JSON.stringify(user));
+
+      toast.success("Your information update successful!");
+
+      //window.location.reload();
+    })
+    .catch(error => {
+      console.log(error);
+    });
+    
   };
+
+  function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
 
   return (
     <motion.div
@@ -89,20 +135,39 @@ const Profile = ({ setViewProfile }) => {
       <br />
       <br />
       <div className="w-full px-5">
-        <form onSubmit={handleSubmit} aria-={true}>
+        <form onSubmit={handleSubmit}>
           <div className="flex w-full flex-wrap pb-3">
-            {/* name input */}
+
+            {/* fullName input */}
             <div className="w-full 800px:w-[50%] pb-4">
-              <label htmlFor="name" className="block pb-2">
+              <label htmlFor="fullName" className="block pb-2">
                 Full Name
               </label>
               <input
                 type="text"
-                name="name"
-                id="name"
+                name="fullName"
+                id="fullName"
+                disabled
                 required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={data.fullName}
+                onChange={handleChange}
+                className={`${styles.input} !w-[95%] focus:border-[#3957db]`}
+              />
+            </div>
+
+            {/* username input */}
+            <div className="w-full 800px:w-[50%] pb-4">
+              <label htmlFor="userName" className="block pb-2">
+                User Name
+              </label>
+              <input
+                type="text"
+                name="userName"
+                id="userName"
+                disabled
+                required
+                value={data.userName}
+                onChange={handleChange}
                 className={`${styles.input} !w-[95%] focus:border-[#3957db]`}
               />
             </div>
@@ -116,9 +181,10 @@ const Profile = ({ setViewProfile }) => {
                 type="email"
                 name="email"
                 id="email"
-                value={email}
+                value={data.email}
                 required
-                onChange={(e) => setEmail(e.target.value)}
+                disabled
+                onChange={handleChange}
                 className={`${styles.input} !w-[95%] focus:border-[#3957db]`}
               />
             </div>
@@ -131,33 +197,45 @@ const Profile = ({ setViewProfile }) => {
               <input
                 type="number"
                 name="phoneNumber"
-                id="number"
+                id="phoneNumber"
                 required
-                value={number}
-                onChange={(e) => setNumber(e.target.value)}
+                value={data.phoneNumber}
+                onChange={handleChange}
                 className={`${styles.input} !w-[95%] focus:border-[#3957db]`}
               />
             </div>
 
-            {/* phone number input */}
+              <div className="w-full 800px:w-[50%] 800px:pb-4 pb-6">
+              <label htmlFor="gender" className="block pb-2">
+                Gender
+              </label>
+                <select className={`${styles.input} !w-[95%] focus:border-[#3957db]`} value={data.gender} onChange={handleChange} name="gender" id="gender" required>
+                <option value="">-Select Gender-</option>
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                    <option value="O">Other</option>
+                </select>
+            </div>
+            
+            {/* birthday input */}
             <div className="w-full 800px:w-[50%] 800px:pb-4 pb-6">
-              <label htmlFor="password" className="block pb-2">
-                Update Password
+              <label htmlFor="birthday" className="block pb-2">
+                Birthday
               </label>
               <input
-                type="password"
-                name="password"
-                id="password"
+                type="date"
+                name="birthday"
+                id="birthday"
                 required
-                value={password}
-                onChange={handlePasswordChange}
+                value={ formatDate(data.birthday) }
+                onChange={handleChange}
                 className={`${styles.input} !w-[95%] focus:border-[#3957db]`}
               />
             </div>
 
             {/* button */}
             <div
-              className={`${styles.button} hover:text-white !rounded-[5px] w-[30%] transition !h-11 border bg-transparent border-[#3957db] hover:bg-[#3957db]`}>
+                className={`${styles.button} hover:text-white !rounded-[5px] w-[30%] transition !h-11 border bg-transparent border-[#3957db] hover:bg-[#3957db]`}>
               <button type="submit">Update</button>
             </div>
           </div>

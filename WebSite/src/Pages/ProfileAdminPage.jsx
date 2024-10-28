@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Header from "../Components/Layout/Header";
-import ProfileSideBar from "../Components/Layout/ProfileSideBar";
+import ProfileAdminSideBar from "../Components/Layout/ProfileAdminSideBar";
 import ProfileContent from "../Components/Layout/ProfileContent";
 import styles from "../Styles/Style";
 import ViewProfile from "../Components/Layout/ProfileContent/ViewProfile";
@@ -22,7 +22,7 @@ const ProfileAdminPage = () => {
         transition={{ duration: 0.5 }}
         className={`${styles.section} flex bg-[#f5f5f5] py-10`}>
         <div className="w-[50px] 800px:w-[335px] flex items-center justify-center">
-          <ProfileSideBar active={active} setActive={setActive} />
+          <ProfileAdminSideBar active={active} setActive={setActive} />
         </div>
         <ProfileContent active={active} setViewProfile={setViewProfile} />
       </motion.div>

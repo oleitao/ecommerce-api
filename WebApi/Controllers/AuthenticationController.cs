@@ -174,6 +174,36 @@ namespace WebApi.Controllers
             return response;
         }
 
+        [HttpPost("changepassword")]
+        [ApiExplorerSettings(GroupName = "v1")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ApiVersion(version: VersionHelper.ApiVersion)]
+        [AllowAnonymous]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangeUserPasswordDto changePassword)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            IActionResult response = Unauthorized();
+
+            var user = await _service.UserService.FindUserByEmailAsync(changePassword.Email, trackChanges: false);
+            if (user is null)
+                throw new UserNotFoundException("User not found");
+
+            var oldPasswordChecked = await _service.AuthenticationService.CheckOldPassword(changePassword.Email, changePassword);
+            if (!oldPasswordChecked)
+                return response;
+
+            var isReplaced = await _service.AuthenticationService.ChangePassword(changePassword.Email, changePassword.OldPassword, changePassword.NewPassword);
+            if (isReplaced)
+                return StatusCode(201);
+
+            return response;
+        }
+
+
 
         [HttpPost("refresh")]
         [ApiExplorerSettings(GroupName = "v1")]

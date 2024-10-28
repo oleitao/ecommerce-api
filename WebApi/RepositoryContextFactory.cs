@@ -20,6 +20,8 @@ namespace WebApi
                 .UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr),
                 b => b.MigrationsAssembly("WebApi"));
 
+            builder.EnableSensitiveDataLogging();
+
             return new RepositoryContext(builder.Options);
         }
     }

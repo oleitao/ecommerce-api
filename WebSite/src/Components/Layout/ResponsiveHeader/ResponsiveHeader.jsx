@@ -139,7 +139,7 @@ const ResponsiveHeader = ({
               </div>
 
               <div className={`${styles.button} !h-11 !rounded-[4px] ml-6`}>
-                <Link to={isSeller ? "/shop/:id" : "/signup-seller"}>
+                <Link to={isSeller ? "/shop" : "/signup-seller"}>
                   <h1 className=" text-white flex items-center justify-center">
                     {isSeller ? "Go Dashboard" : "Become Seller"}
                     <IoIosArrowForward className="ml-1" />

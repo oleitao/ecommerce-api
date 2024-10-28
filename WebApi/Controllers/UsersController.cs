@@ -133,7 +133,7 @@ public class UsersController : ControllerBase
     [HttpPut("{id:guid}")]
     [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
-    [Consumes(typeof(UserForUpdateDto), "application/json")]
+    [Consumes(typeof(SellerForUpdateDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateUser(Guid id, UserForUpdateDto userUpdate)

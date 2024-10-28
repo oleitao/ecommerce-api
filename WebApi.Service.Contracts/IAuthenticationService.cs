@@ -12,5 +12,7 @@ namespace WebApi.Service.Contracts
         public Task<TokenDto> GenerateToken(bool populateExp);
         public Task<TokenDto> RefreshToken(TokenDto token);
         public Task<string> GenerateEmailConfirmationTokenAsync(User user);
+        public Task<bool> CheckOldPassword(string email, ChangeUserPasswordDto userForAuth);
+        public Task<bool> ChangePassword(string email, string password, string passwordConfirmation);
     }
 }

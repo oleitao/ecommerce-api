@@ -146,7 +146,8 @@ namespace WebApi.Helpers
 
             CreateMap<User, UserDto>();
             CreateMap<UserForCreationDto, User>();
-            CreateMap<UserForUpdateDto, User>();
+            CreateMap<SellerForUpdateDto, User>();
+            CreateMap<AdminForUpdateDto, User>();
 
             #endregion
 

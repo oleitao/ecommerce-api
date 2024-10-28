@@ -56,19 +56,28 @@ const Header = ({ activeHeading }) => {
       console.log(error);
     });
 
-    if(isUser !== null)
-    {
-      axios.get('https://localhost:8080/api/v1.1/roles/' + JSON.parse(isUser).id)
-      .then(response => {
-  
-        setProfileData(response.data);
-        
-        console.log(profileData);
-  
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    if (isUser) {
+        const user = JSON.parse(isUser);
+        if (user !== null) {
+            const id = JSON.parse(isUser).id;
+
+            if (id) {
+                const data = {
+                    id: id,
+                    tag: 'profile'
+                };
+
+                axios.post('https://localhost:8080/api/v1.1/roles', data)
+                    .then(response => {
+
+                        setProfileData(response.data);
+
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        }
     }
 
   }, []);
@@ -152,15 +161,24 @@ const Header = ({ activeHeading }) => {
               ) : null)}
           </div>
 
-          <div className={`${styles.button}`}>
-            <Link to={isUser ? "/shop/:id" : "/signup-seller"}>
+          {/* <div className={`${styles.button}`}>
+            <Link to={isUser ? "/shop" : "/signup-seller"}>
               <h1 className=" text-white flex items-center justify-center">
                 {isUser ? "Go Dashboard" : "Become Seller"}
                 <IoIosArrowForward className="ml-1" />
               </h1>
-            </Link>
-
-          </div>
+            </Link> */}
+            
+            { isUser ? "" : 
+              <div className={`${styles.button}`}>
+                <Link to="/signup-seller">
+                    <h1 className=" text-white flex items-center justify-center">
+                      Become Seller
+                      <IoIosArrowForward className="ml-1" />
+                    </h1>
+                </Link> 
+              </div> }
+                        
         </div>
       </div>
 
@@ -239,7 +257,7 @@ const Header = ({ activeHeading }) => {
             </div>
 
             <div className={`${styles.noramlFlex}`}>
-              <div className="relative cursor-pointer mr-[15px]">
+                <div className="relative cursor-pointer mr-[15px]">
 
                   <Link to={isUser ? profileData : "/login"}>
                     {isUser ? (

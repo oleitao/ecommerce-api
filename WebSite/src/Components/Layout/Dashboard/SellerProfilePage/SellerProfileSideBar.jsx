@@ -7,8 +7,8 @@ import { Link } from "react-router-dom";
 import { productData } from "../../../../Static/data";
 
 const SellerProfileSideBar = ({ isOwner }) => {
-  const sellerInfo = JSON.parse(localStorage.getItem("sellerInfo"));
-  const sellerJoinDate = JSON.parse(localStorage.getItem("sellerJoinDate"));
+  const sellerInfo = JSON.parse(localStorage.getItem("user"));
+  const sellerJoinDate = sellerInfo.birthday;
   const photoUrl = sellerInfo?.photoUrl;
 
   return (

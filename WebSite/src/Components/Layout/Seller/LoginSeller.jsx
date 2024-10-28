@@ -24,7 +24,7 @@ const LoginSeller = () => {
 
     if (email === localStorageEmail && password === localStoragePassword) {
       toast.success("login success");
-      navigate(`/shop/:id`);
+      navigate(`/shop`);
     } else {
       toast.error("Please provide the correct information");
     }

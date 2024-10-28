@@ -6,10 +6,14 @@ import { AiOutlineCamera } from "react-icons/ai";
 import { motion } from "framer-motion";
 
 import avatar from "../../../../Assets/avatar.jpg";
+import axios from 'axios';
+
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
 
 const Settings = () => {
   // getting seller old info form local storage
-  const oldInfo = JSON.parse(localStorage.getItem("sellerInfo"));
+  const oldInfo = JSON.parse(localStorage.getItem("user"));
 
   // all uses states
   const [shopAddress, setShopAddress] = useState(
@@ -21,7 +25,7 @@ const Settings = () => {
   const [shopZipCode, setShopZipCode] = useState(
     oldInfo ? oldInfo.zipCode : null
   );
-  const [name, setName] = useState(oldInfo ? oldInfo.name : "");
+  const [fullName, setFullName] = useState(oldInfo ? oldInfo.fullName : "");
   const [number, setNumber] = useState(oldInfo ? oldInfo.phoneNumber : null);
   const [photoUrl, setPhotoUrl] = useState();
 
@@ -35,20 +39,36 @@ const Settings = () => {
     setPhotoUrl(url);
   };
 
-  const updatedData = {
-    name,
-    phoneNumber: number,
-    zipCode: shopZipCode,
-    shopDescription,
-    address: shopAddress,
-    photoUrl,
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const sellerUpdated = {
+      id: oldInfo.id,
+      phoneNumber: number,
+      address: shopAddress,
+      zipCode: shopZipCode,
+      shopDescription
+      
+      //photoUrl,
+    };
+
+    console.log(sellerUpdated);
+
+    axios.put('https://localhost:8080/api/v1.1/sellers/' + oldInfo.id, sellerUpdated)
+    .then(response => {
+
+      console.log(response.data);
+
+      //localStorage.setItem("user", JSON.stringify(user));
+
+      toast.success("Your information update successful!");
+    })
+    .catch(error => {
+      console.log(error);
+    });
+
     toast.success("Your account information updated!");
-    localStorage.setItem("sellerInfo", JSON.stringify(updatedData));
+    localStorage.setItem("sellerInfo", JSON.stringify(sellerUpdated));
   };
 
   return (
@@ -87,16 +107,17 @@ const Settings = () => {
           <div className="flex w-full flex-wrap pb-3">
             {/* shop name */}
             <div className="w-full 800px:w-[50%] pb-4">
-              <label htmlFor="name" className="block pb-2">
+              <label htmlFor="fullName" className="block pb-2">
                 Shop Name
               </label>
               <input
                 type="text"
-                name="name"
-                id="name"
+                name="fullName"
+                id="fullName"
                 required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                disabled
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
                 className={`${styles.input} py-2 !w-[95%] focus:border-[#3957db]`}
               />
             </div>

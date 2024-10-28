@@ -10,7 +10,9 @@ namespace WebApi.Service.Contracts
         public Task<IEnumerable<UserDto>> GetAllUsersAsync(bool trackChanges);
         public Task<UserDto> GetUserAsync(Guid id, bool trackChanges);
         public Task<UserDto> CreateUserAsync(UserForCreationDto user);
-        public Task UpdateUserAsync(Guid id, UserForUpdateDto category, bool trackChanges);
+        public Task UpdateUserAsync(Guid id, UserForUpdateDto userForUpdate, bool trackChanges);
+        public Task UpdateSellerAsync(Guid id, SellerForUpdateDto sellerForUpdate, bool trackChanges);
+        public Task UpdateAdminAsync(Guid id, AdminForUpdateDto adminForUpdate, bool trackChanges);
         public Task DeleteUserAsync(Guid id, bool trackChanges);
         public Task<UserDto> FindByEmailAsync(string email, bool trackChanges);
         public Task<User> FindUserByEmailAsync(string email, bool trackChanges);

@@ -69,14 +69,41 @@ namespace WebApi.Services
             return userReturn;
         }
 
-        public async Task UpdateUserAsync(Guid id, UserForUpdateDto user, bool trackChanges)
+        public async Task UpdateSellerAsync(Guid id, SellerForUpdateDto sellerForUpdate, bool trackChanges)
+        {
+            var sellerEntities = await _repository.User.GetUserAsync(id, trackChanges);
+            if (sellerEntities is null)
+                throw new UserNotFoundException(id);
+
+
+            _mapper.Map(sellerForUpdate, sellerEntities);
+            await _repository.SaveAsync();
+        }
+
+        public async Task UpdateUserAsync(Guid id, UserForUpdateDto userForUpdate, bool trackChanges)
         {
             var userEntities = await _repository.User.GetUserAsync(id, trackChanges);
             if (userEntities is null)
                 throw new UserNotFoundException(id);
 
 
-            _mapper.Map(user, userEntities);
+            //_mapper.Map(userForUpdate, adminEntities);
+
+            userEntities.PhoneNumber = userForUpdate.PhoneNumber;
+            userEntities.Gender = userForUpdate.Gender;
+            userEntities.Birthday = userForUpdate.Birthday;
+
+            await _repository.SaveAsync();
+        }
+
+        public async Task UpdateAdminAsync(Guid id, AdminForUpdateDto adminForUpdate, bool trackChanges)
+        {
+            var adminEntities = await _repository.User.GetUserAsync(id, trackChanges);
+            if (adminEntities is null)
+                throw new UserNotFoundException(id);
+
+
+            _mapper.Map(adminForUpdate, adminEntities);
             await _repository.SaveAsync();
         }
 

@@ -27,7 +27,10 @@ namespace WebApi.Shared.DataTransferObjects
         string Email
     );
 
-    public record UserForUpdateDto(Guid Id, string Gender, string Address, int ZipCode, string Email, string PhoneNumber, string ShopDescription, string role);
+    public record SellerForUpdateDto(Guid Id, string PhoneNumber, string Address, int ZipCode, string ShopDescription);
+    public record UserForUpdateDto(Guid Id, string Gender, DateTime Birthday, string PhoneNumber);
+    public record AdminForUpdateDto(Guid Id, string Gender, DateTime Birthday, string PhoneNumber);
+
 
     public record UserForDeleteDto(Guid Id);
 }

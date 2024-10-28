@@ -1,4 +1,8 @@
 ﻿namespace WebApi.Controllers;
+
+using AutoMapper;
+using Azure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using StackExchange.Redis;
@@ -35,30 +39,39 @@ public class RolesController : ControllerBase
         _muxer = muxer;
     }
 
-    [HttpGet("{id:guid}", Name = "GetRoleByUserId")]
+    [HttpPost]
     [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
-    public async Task<IActionResult> GetProfileRole(Guid id)
+    [Consumes(typeof(RoleDto), "application/json")]
+    public async Task<IActionResult> UserMapByRole([FromBody] RoleDto request)
     {
-        var userRole = await _service.UserService.GetUserRolesById(id);
-        if (string.IsNullOrEmpty(userRole))
-            throw new RoleNotFoundException(id);
-
-
         string response = string.Empty;
 
-        switch (userRole)
-        {
-            case RolesHelper.AdminNormalzed:
-                response = "/profile-admin";
-                break;
-            case RolesHelper.SellerNormalzed:
-                response = "/shop/:";
-                break;
-            default:
-                response = "/profile";
-                break;
+        if (request.Id.HasValue) {
+
+            var userRole = await _service.UserService.GetUserRolesById(request.Id.Value);
+            if (string.IsNullOrEmpty(userRole))
+                throw new RoleNotFoundException(request.Id.Value);
+
+            if (request is not null)
+            {
+                switch (userRole)
+                {
+                    case RolesHelper.AdminNormalzed:
+                        RolesHelper.Admins.TryGetValue(request.Tag, out response);
+                        break;
+                    case RolesHelper.SellerNormalzed:
+                        RolesHelper.Sellers.TryGetValue(request.Tag, out response);
+                        break;
+                    case RolesHelper.UserNormalzed:
+                        RolesHelper.Users.TryGetValue(request.Tag, out response);
+                        break;
+                    default:
+                        response = string.Empty;
+                        break;
+                }
+            }
         }
 
         return Ok(response);

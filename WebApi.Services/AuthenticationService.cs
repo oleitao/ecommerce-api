@@ -153,6 +153,33 @@ namespace WebApi.Services
             return true;
         }
 
+        public async Task<bool> CheckOldPassword(string email, ChangeUserPasswordDto userForAuth)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user is null)
+                return false;
+
+            var result = await _userManager.CheckPasswordAsync(user, userForAuth.OldPassword);
+            if (result is bool check && check.Equals(true))
+                return true;
+
+            return false;
+        }
+
+        public async Task<bool> ChangePassword(string email, string oldPassword, string newPassword)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user is null)
+                return false;
+
+            var result = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+
+            if (result.Succeeded)
+                return true;
+
+            return false;
+        }
+
         public async Task<TokenDto> GenerateToken(bool populateExp)
         {
             var signingCredentials = GetSigningCredentials();

@@ -6,6 +6,11 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { motion } from "framer-motion";
 
+import axios from 'axios';
+
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
+
 const ChangePassword = () => {
   const [oldPasswordVisible, setOldPasswordVisible] = useState(false);
   const [oldPassword, setOldPassword] = useState("");
@@ -14,28 +19,44 @@ const ChangePassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
-  // getting the old email & password from local storage
-  const oldPasswordFromLocalstorage = JSON.parse(
-    localStorage.getItem("password")
-  );
+  const isUser = localStorage.getItem("user");
 
   // handle submit form
   const handleOnSubmit = (e) => {
     e.preventDefault();
 
-    if (oldPassword === oldPasswordFromLocalstorage) {
       if (newPassword === confirmPassword) {
-        localStorage.setItem("password", JSON.stringify(newPassword));
-        toast.success("Your password updated");
-        setOldPassword("");
-        setNewPassword("");
-        setConfirmPassword("");
+
+        const email = JSON.parse(isUser).email;
+
+        const changePassword = {
+          email: email,
+          oldPassword: oldPassword,
+          newPassword: newPassword,
+          confirmPassword: confirmPassword
+        };
+  
+        axios.post('https://localhost:8080/api/v1.1/authentication/changepassword', changePassword)
+        .then(response => {
+          
+          if(response.status === 201)
+          {
+            setOldPassword("");
+            setNewPassword("");
+            setConfirmPassword("");
+
+            toast.success("Your password updated");
+          }
+          else {
+            toast.error("Please inter correct password!");
+          }
+        })
+        .catch(error => {
+          toast.error("Please provide the correct information");
+        });
       } else {
         toast.error("Please inter the correct confirm password!");
       }
-    } else {
-      toast.error("Please inter correct password!");
-    }
   };
 
   return (
