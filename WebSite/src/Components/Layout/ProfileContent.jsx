@@ -3,6 +3,7 @@ import React from "react";
 import Profile from "./ProfileContent/Profile";
 import Order from "./ProfileContent/Order";
 import Refund from "./ProfileContent/Refund";
+import Inbox from "./ProfileContent/Inbox";
 import TrackOrder from "./ProfileContent/TrackOrder";
 import ChangePassword from "./ProfileContent/ChangePassword";
 import Address from "./ProfileContent/Address";
@@ -16,6 +17,7 @@ const ProfileContent = ({ active, setViewProfile }) => {
       {active === 1 && <Profile setViewProfile={setViewProfile} />}
       {active === 2 && <Order />}
       {active === 3 && <Refund />}
+      {active === 4 && <Inbox />}
       {active === 5 && <TrackOrder />}
       {active === 6 && <ChangePassword />}
       {active === 7 && <Address addresses={addresses} />}

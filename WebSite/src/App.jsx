@@ -57,12 +57,12 @@ const App = () => {
 
         <Route path="/profile-admin" element={<ProfileAdminPage />} />
         
-        <Route path="/inbox" element={<MessagePage />} />
+        {/* <Route path="/inbox" element={<MessagePage />} /> */}
 
         {/* seller account routes */}
         <Route path="/signup-seller" element={<SellerSignUpPage />} />
         <Route path="/login-seller" element={<SellerLoginPage />} />
-        <Route path="/shop/:id" element={<SellerProfilePage />} />
+        <Route path="/shop" element={<SellerProfilePage />} />
 
         {/* dashboard routes */}
         <Route path="/dashboard" element={<DashboardPage />} />

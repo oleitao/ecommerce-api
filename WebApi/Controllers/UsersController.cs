@@ -173,4 +173,20 @@ public class UsersController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpGet]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
+    [ApiExplorerSettings(GroupName = "v1")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(InboxDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(InboxDto), StatusCodes.Status404NotFound)]
+    //[Authorize]
+    public async Task<IActionResult> InboxFrom(Guid from)
+    {
+        var inboxDb = await _service.InboxService.GetInboxAsync(from, trackChanges: false);
+        if (inboxDb is null)
+            throw new InboxNotFoundException(from);
+
+        return Ok(inboxDb);
+    }
 }

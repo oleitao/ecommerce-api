@@ -47,20 +47,9 @@ const Profile = ({ setViewProfile }) => {
     setPhotoUrl(url);
   };
 
-  // handle password change
-  const handlePasswordChange = (e) => {
-    const value = e.target.value;
-    console.log(value.length);
-    if (value.legnth !== 0) {
-      setPassword(value);
-    }
-  };
-
   // handle form onSubmit
   const handleSubmit = (e) => {
   e.preventDefault();
-
-    console.log(user);
 
     const userUpdate = {
       id: user.id,

@@ -1,5 +1,7 @@
 import React from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import avatar from "../../../../Assets/avatar.jpg";
 import styles from "../../../../Styles/Style";
 import { Link } from "react-router-dom";
@@ -7,9 +9,19 @@ import { Link } from "react-router-dom";
 import { productData } from "../../../../Static/data";
 
 const SellerProfileSideBar = ({ isOwner }) => {
-  const sellerInfo = JSON.parse(localStorage.getItem("user"));
+  const sellerInfo = JSON.parse(localStorage.getItem("user"));  
   const sellerJoinDate = sellerInfo.birthday;
   const photoUrl = sellerInfo?.photoUrl;
+
+  const navigate = useNavigate();
+
+  const logoutChange = (e) => {   
+
+    localStorage.clear();
+
+    navigate("/login");
+  };
+
 
   return (
     <>
@@ -64,8 +76,8 @@ const SellerProfileSideBar = ({ isOwner }) => {
             </button>
           </Link>
 
-          <Link to="/login-seller">
-            <button
+          <Link>
+            <button onClick={logoutChange}
               className={`${styles.button} !bg-red-600 !h-11 !rounded-[4px] text-white !w-full`}>
               Log Out
             </button>

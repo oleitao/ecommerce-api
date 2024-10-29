@@ -26,22 +26,23 @@ namespace WebApi.Services
         }
 
 
-        public async Task<List<InboxDto>> GetInboxAsync(Guid to, bool trackChanges)
+        public async Task<List<InboxMessageDto>> GetInboxAsync(Guid to, bool trackChanges)
         {
-            try
-            {
-                var inbox = await _repository.Inbox.GetInboxFromAsync(to, trackChanges);
-                if (inbox == null)
-                    throw new InboxNotFoundException(to);
+            var inboxMessages = await _repository.Inbox.GetInboxFromAsync(to, trackChanges);
+            if (inboxMessages == null)
+                throw new InboxNotFoundException(to);
 
 
-                var inboxDto = _mapper.Map<List<InboxDto>>(inbox);
-                return inboxDto;
-            }
-            catch (Exception ex)
+            List<InboxMessageDto> result = new List<InboxMessageDto>();
+            foreach (var message in inboxMessages)
             {
-                throw new Exception($"{nameof(GetInboxAsync)} : {ex}");
+                var from = await _repository.User.GetUserAsync(message.From, false);
+
+                if(from != null && to != null)
+                    result.Add(new InboxMessageDto(message.Id, message.Message, from.UserName, message.Stamp));
             }
+
+            return result;
         }
 
         public async Task<InboxDto> CreateInboxAsync(InboxForCreationDto inbox)

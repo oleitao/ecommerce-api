@@ -247,7 +247,7 @@ const ProductDetailsInfo = ({ data }) => {
                 Total Reviews: <span className="font-[500]">486</span>
               </h5>
 
-              <Link to="/shop/:id">
+              <Link to="/shop">
                 <button
                   className={`${styles.button} !h-11 !rounded text-white !mt-3`}>
                   Visit Shop

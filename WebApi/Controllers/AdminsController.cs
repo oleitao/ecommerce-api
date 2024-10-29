@@ -8,6 +8,7 @@ using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using WebApi.Entities.Exceptions;
 using WebApi.Helpers;
 using WebApi.Service.Contracts;
 using WebApi.Shared.DataTransferObjects;
@@ -64,5 +65,47 @@ public class AdminsController : ControllerBase
         {
             return NotFound();
         }
+    }
+
+    [HttpGet]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
+    [ApiExplorerSettings(GroupName = "v1")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(InboxDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(InboxDto), StatusCodes.Status404NotFound)]
+    [Route("inbox/")]
+    //[Authorize]
+    public async Task<IActionResult> InboxFrom(Guid from)
+    {
+        var inboxDb = await _service.InboxService.GetInboxAsync(from, trackChanges: false);
+        if (inboxDb is null)
+            throw new InboxNotFoundException(from);
+
+        return Ok(inboxDb);
+    }
+
+    [HttpPost]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
+    [ApiExplorerSettings(GroupName = "v1")]
+    [Consumes(typeof(InboxForCreationDto), "application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    //[Authorize]
+    public async Task<IActionResult> CreateInbox([FromBody] InboxForCreationDto inbox)
+    {
+        if (inbox is null)
+            return BadRequest("InboxForCreationDto is null");
+
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
+
+
+        var createdInbox = await _service.InboxService.CreateInboxAsync(inbox);
+
+        CacheHelper.SetKey(createdInbox, $"{key}:{createdInbox.Id}", _cache);
+
+
+        return Ok();
+        //return CreatedAtRoute("CategoryById", new { id = createdInbox.Id }, createdInbox);
     }
 }

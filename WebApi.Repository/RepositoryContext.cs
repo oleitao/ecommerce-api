@@ -61,6 +61,7 @@ public class RepositoryContext : IdentityDbContext<User>
     {
         base.OnModelCreating(modelBuilder);
 
+        this.InboxMapping(modelBuilder);
         this.CategoryMapping(modelBuilder);
         this.ImageUrlMapping(modelBuilder);
         this.ProductMapping(modelBuilder);
@@ -72,6 +73,7 @@ public class RepositoryContext : IdentityDbContext<User>
 
         RelationshipsMapping(modelBuilder);
 
+        modelBuilder.ApplyConfiguration(new InboxConfiguration());
         modelBuilder.ApplyConfiguration(new RoleConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new CategoryConfiguration());
@@ -82,6 +84,21 @@ public class RepositoryContext : IdentityDbContext<User>
         modelBuilder.ApplyConfiguration(new ReviewConfiguration());
         modelBuilder.ApplyConfiguration(new EmailConfiguration());
     }
+
+    #region Inbox Mapping
+
+    private void InboxMapping(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Inbox>().ToTable(@"Inboxs");
+        modelBuilder.Entity<Inbox>().Property(x => x.Id).HasColumnName(@"Id").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<Inbox>().Property(x => x.From).HasColumnName(@"From").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<Inbox>().Property(x => x.To).HasColumnName(@"To").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<Inbox>().Property(x => x.Message).HasColumnName(@"Message").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<Inbox>().Property(x => x.Stamp).HasColumnName(@"Stamp").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<Inbox>().HasKey(@"Id");
+    }
+
+    #endregion
 
     #region Category Mapping
 

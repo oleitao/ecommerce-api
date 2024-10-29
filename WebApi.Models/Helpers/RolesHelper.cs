@@ -26,7 +26,7 @@ namespace WebApi.Entities
         public readonly static Dictionary<string, string> Sellers = new Dictionary<string, string>()
         {
             { RoleIdSeller, SellerNormalzed},
-            { "profile","/shop/:" },
+            { "profile","/shop" },
             { "profileSideBar","profile,orders,refunds,inbox,trackOrders,changePassword,address,logout"}
         };
 
