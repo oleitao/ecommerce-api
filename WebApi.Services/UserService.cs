@@ -18,127 +18,6 @@ namespace WebApi.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<UserDto>> GetAllUsersAsync(bool trackChanges)
-        {
-            try
-            {
-                var usersEntity = await _repository.User.GetAllUsersAsync(trackChanges);
-
-                List<UserDto> returnList = new List<UserDto>();
-                foreach (var user in usersEntity)
-                {
-                    var returnUser = _mapper.Map<UserDto>(user);
-                    returnList.Add(returnUser);
-                }
-
-                return returnList;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{nameof(GetAllUsersAsync)} : {ex}");
-            }
-        }
-
-        public async Task<UserDto> GetUserAsync(Guid id, bool trackChanges)
-        {
-            try
-            {
-                var userEntity = await _repository.User.GetUserAsync(id, trackChanges);
-                if (userEntity == null)
-                    throw new UserNotFoundException(id);
-
-                var userReturn = _mapper.Map<UserDto>(userEntity);
-
-                return userReturn;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{nameof(GetUserAsync)} : {ex}");
-            }
-        }
-
-        public async Task<UserDto> CreateUserAsync(UserForCreationDto user)
-        {
-            var userEntity = _mapper.Map<User>(user);
-
-            _repository.User.CreateUserAsync(userEntity);
-            await _repository.SaveAsync();
-
-            var userReturn = _mapper.Map<UserDto>(userEntity);
-
-            return userReturn;
-        }
-
-        public async Task UpdateSellerAsync(Guid id, SellerForUpdateDto sellerForUpdate, bool trackChanges)
-        {
-            var sellerEntities = await _repository.User.GetUserAsync(id, trackChanges);
-            if (sellerEntities is null)
-                throw new UserNotFoundException(id);
-
-
-            _mapper.Map(sellerForUpdate, sellerEntities);
-            await _repository.SaveAsync();
-        }
-
-        public async Task UpdateUserAsync(Guid id, UserForUpdateDto userForUpdate, bool trackChanges)
-        {
-            var userEntities = await _repository.User.GetUserAsync(id, trackChanges);
-            if (userEntities is null)
-                throw new UserNotFoundException(id);
-
-
-            //_mapper.Map(userForUpdate, adminEntities);
-
-            userEntities.PhoneNumber = userForUpdate.PhoneNumber;
-            userEntities.Gender = userForUpdate.Gender;
-            userEntities.Birthday = userForUpdate.Birthday;
-
-            await _repository.SaveAsync();
-        }
-
-        public async Task UpdateAdminAsync(Guid id, AdminForUpdateDto adminForUpdate, bool trackChanges)
-        {
-            var adminEntities = await _repository.User.GetUserAsync(id, trackChanges);
-            if (adminEntities is null)
-                throw new UserNotFoundException(id);
-
-
-            _mapper.Map(adminForUpdate, adminEntities);
-            await _repository.SaveAsync();
-        }
-
-        public async Task DeleteUserAsync(Guid id, bool trackChanges)
-        {
-            var user = await _repository.User.GetUserAsync(id, trackChanges: false);
-            if (user is null)
-                throw new Exception();
-
-            _repository.User.DeleteUser(user);
-            await _repository.SaveAsync();
-        }
-
-        public async Task<IEnumerable<UserDto>> GetAllUsersAsync(UserParameters userParameters, bool trackChanges)
-        {
-            try
-            {
-                var usersEntity = await _repository.User.GetAllUsersAsync(userParameters, trackChanges);
-
-                List<UserDto> returnList = new List<UserDto>();
-
-                foreach (var userEntity in usersEntity)
-                {
-                    var returnUser = _mapper.Map<UserDto>(userEntity);
-                    returnList.Add(returnUser);
-                }
-
-                return returnList;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{nameof(GetAllUsersAsync)} : {ex}");
-            }
-        }
-
         public async Task<UserDto> FindByEmailAsync(string email, bool trackChanges)
         {
             try
@@ -222,5 +101,181 @@ namespace WebApi.Services
 
             return roleEntity.NormalizedName;
         }
+
+
+
+        #region Users
+
+        public async Task UpdateUserAddressAsync(Guid id, UserForAddressUpdateDto userAddressForUpdate, bool trackChanges)
+        {
+            var userEntities = await _repository.User.GetUserAsync(id, trackChanges);
+            if (userEntities is null)
+                throw new UserNotFoundException(id);
+
+            userEntities.Address1 = userAddressForUpdate.Address1;
+            userEntities.Address2 = userAddressForUpdate.Address2;
+            userEntities.City = userAddressForUpdate.City;
+            userEntities.ZipCode = userAddressForUpdate.ZipCode;
+            userEntities.Country = userAddressForUpdate.Country;
+
+            await _repository.SaveAsync();
+        }
+
+        public async Task UpdateUserAsync(Guid id, UserForUpdateDto userForUpdate, bool trackChanges)
+        {
+            var userEntities = await _repository.User.GetUserAsync(id, trackChanges);
+            if (userEntities is null)
+                throw new UserNotFoundException(id);
+
+
+            //_mapper.Map(userForUpdate, adminEntities);
+
+            userEntities.PhoneNumber = userForUpdate.PhoneNumber;
+            userEntities.Gender = userForUpdate.Gender;
+            userEntities.Birthday = userForUpdate.Birthday;
+
+            await _repository.SaveAsync();
+        }
+
+
+
+        public async Task DeleteUserAsync(Guid id, bool trackChanges)
+        {
+            var user = await _repository.User.GetUserAsync(id, trackChanges: false);
+            if (user is null)
+                throw new Exception();
+
+            _repository.User.DeleteUser(user);
+            await _repository.SaveAsync();
+        }
+
+        public async Task<IEnumerable<UserDto>> GetAllUsersAsync(UserParameters userParameters, bool trackChanges)
+        {
+            try
+            {
+                var usersEntity = await _repository.User.GetAllUsersAsync(userParameters, trackChanges);
+
+                List<UserDto> returnList = new List<UserDto>();
+
+                foreach (var userEntity in usersEntity)
+                {
+                    var returnUser = _mapper.Map<UserDto>(userEntity);
+                    returnList.Add(returnUser);
+                }
+
+                return returnList;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{nameof(GetAllUsersAsync)} : {ex}");
+            }
+        }
+
+        public async Task<IEnumerable<UserDto>> GetAllUsersAsync(bool trackChanges)
+        {
+            try
+            {
+                var usersEntity = await _repository.User.GetAllUsersAsync(trackChanges);
+
+                List<UserDto> returnList = new List<UserDto>();
+                foreach (var user in usersEntity)
+                {
+                    var returnUser = _mapper.Map<UserDto>(user);
+                    returnList.Add(returnUser);
+                }
+
+                return returnList;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{nameof(GetAllUsersAsync)} : {ex}");
+            }
+        }
+
+        public async Task<UserDto> GetUserAsync(Guid id, bool trackChanges)
+        {
+            try
+            {
+                var userEntity = await _repository.User.GetUserAsync(id, trackChanges);
+                if (userEntity == null)
+                    throw new UserNotFoundException(id);
+
+                var userReturn = _mapper.Map<UserDto>(userEntity);
+
+                return userReturn;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{nameof(GetUserAsync)} : {ex}");
+            }
+        }
+
+        public async Task<User> GetUserDetailsAsync(Guid id, bool trackChanges)
+        {
+            try
+            {
+                var userEntity = await _repository.User.GetUserAsync(id, trackChanges);
+                if (userEntity == null)
+                    throw new UserNotFoundException(id);
+
+                return userEntity;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{nameof(GetUserDetailsAsync)} : {ex}");
+            }
+        }
+
+        public async Task<UserDto> CreateUserAsync(UserForCreationDto user)
+        {
+            var userEntity = _mapper.Map<User>(user);
+
+            _repository.User.CreateUserAsync(userEntity);
+            await _repository.SaveAsync();
+
+            var userReturn = _mapper.Map<UserDto>(userEntity);
+
+            return userReturn;
+        }
+
+        #endregion
+
+        #region Sellers
+
+        public async Task UpdateSellerAsync(Guid id, SellerForUpdateDto sellerForUpdate, bool trackChanges)
+        {
+            var sellerEntities = await _repository.User.GetUserAsync(id, trackChanges);
+            if (sellerEntities is null)
+                throw new UserNotFoundException(id);
+
+
+            _mapper.Map(sellerForUpdate, sellerEntities);
+            await _repository.SaveAsync();
+        }
+
+
+        #endregion
+
+        #region Admins
+
+        public async Task UpdateAdminAsync(Guid id, AdminForUpdateDto adminForUpdate, bool trackChanges)
+        {
+            var adminEntities = await _repository.User.GetUserAsync(id, trackChanges);
+            if (adminEntities is null)
+                throw new UserNotFoundException(id);
+
+
+            _mapper.Map(adminForUpdate, adminEntities);
+            await _repository.SaveAsync();
+        }
+
+        public async Task UpdateAdminAddressAsync(Guid id, AdminForAddressUpdateDto adminAddressForUpdate, bool trackChanges)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+        #endregion
     }
 }

@@ -67,6 +67,36 @@ public class AdminsController : ControllerBase
         }
     }
 
+    [HttpPut("{id:guid}")]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
+    [ApiExplorerSettings(GroupName = "v1")]
+    [Consumes(typeof(SellerForUpdateDto), "application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateAdminAddress(Guid id, AdminForAddressUpdateDto adminAddressUpdate)
+    {
+        try
+        {
+            var user = await _service.UserService.GetUserAsync(id, trackChanges: true);
+            if (user is null)
+                return BadRequest("UserDto object is null");
+
+            if (adminAddressUpdate is null)
+                return BadRequest("AdminForUpdateDto object is null");
+
+            if (!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+
+            await _service.UserService.UpdateAdminAddressAsync(id, adminAddressUpdate, trackChanges: true);
+
+            return Ok();
+        }
+        catch
+        {
+            return NotFound();
+        }
+    }
+
     [HttpGet]
     [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]

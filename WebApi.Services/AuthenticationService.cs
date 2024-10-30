@@ -115,7 +115,7 @@ namespace WebApi.Services
                 PhoneNumber = sellForRegistration.PhoneNumber,
                 ShopDescription = sellForRegistration.ShopDescription,
                 ZipCode = sellForRegistration.ZipCode,
-                Address = sellForRegistration.Address,
+                Address1 = sellForRegistration.Address,
                 Email = sellForRegistration.Email,
                 UserName = sellForRegistration.UserName,
                 Birthday = sellForRegistration.Birthday,                

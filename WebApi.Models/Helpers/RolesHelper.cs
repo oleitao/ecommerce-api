@@ -20,21 +20,24 @@ namespace WebApi.Entities
         {
             { RoleIdUser, UserNormalzed},
             { "profile","/profile" },
-            { "profileSideBar","profile,orders,refunds,inbox,trackOrders,changePassword,address,logout"}
+            { "profileSideBar","profile,orders,refunds,inbox,trackOrders,changePassword,address,logout"},
+            { "url", "users" }
         };
 
         public readonly static Dictionary<string, string> Sellers = new Dictionary<string, string>()
         {
             { RoleIdSeller, SellerNormalzed},
             { "profile","/shop" },
-            { "profileSideBar","profile,orders,refunds,inbox,trackOrders,changePassword,address,logout"}
+            { "profileSideBar","profile,orders,refunds,inbox,trackOrders,changePassword,address,logout"},
+            { "url", "sellers" }
         };
 
         public readonly static Dictionary<string, string> Admins = new Dictionary<string, string>()
         {
             { RoleIdAdmin, AdminNormalzed},
             { "profile","/profile-admin" },
-            { "profileSideBar","profile,orders,refunds,inbox,changePassword,logout"}
+            { "profileSideBar","profile,orders,refunds,inbox,changePassword,logout"},
+            { "url", "admins" }
         };
     }
 }

@@ -2,6 +2,8 @@
 
 namespace WebApi.Shared.DataTransferObjects
 {
+    #region Users
+
     [Serializable]
     public record UserDto(Guid Id, string FullName, string Gender, string UserName, DateTime Birthday, string Email);
 
@@ -27,10 +29,23 @@ namespace WebApi.Shared.DataTransferObjects
         string Email
     );
 
-    public record SellerForUpdateDto(Guid Id, string PhoneNumber, string Address, int ZipCode, string ShopDescription);
+    public record UserForAddressUpdateDto(string Country, string City, string Address1, string Address2, int ZipCode);
     public record UserForUpdateDto(Guid Id, string Gender, DateTime Birthday, string PhoneNumber);
+    public record UserForDeleteDto(Guid Id);
+
+    #endregion
+
+    #region Admins
+
     public record AdminForUpdateDto(Guid Id, string Gender, DateTime Birthday, string PhoneNumber);
 
+    public record AdminForAddressUpdateDto(string Country, string City, string Address1, string Address2, int ZipCode);
 
-    public record UserForDeleteDto(Guid Id);
+    #endregion
+
+    #region Sellers
+
+    public record SellerForUpdateDto(Guid Id, string PhoneNumber, string Address, int ZipCode, string ShopDescription);
+
+    #endregion
 }

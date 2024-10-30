@@ -31,9 +31,15 @@ namespace Model
         public string? FullName { get; set; } = null!;
         public DateTime? Birthday { get; set; }
         public string? Gender { get; set; } = null!;
-        
-        public int? ZipCode { get; set; }
-        public string? Address { get; set; }
+
+
+        public string? Country { get; set; }
+        public string? City { get; set; }
+        public string? Address1 { get; set; }
+        public string? Address2 { get; set; }
+        public int? ZipCode { get; set; }        
+
+
         public string? ShopDescription { get; set; }
 
         public string? RefreshToken { get; set; }

@@ -83,7 +83,7 @@ public class UsersController : ControllerBase
     [Produces("application/json")]
     [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(UserDto), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetByUserId(Guid id)
+    public async Task<IActionResult> GetUserById(Guid id)
     {
         var userInDb = await _service.UserService.GetUserAsync(id, trackChanges: false);
         if (userInDb is null)
@@ -92,6 +92,52 @@ public class UsersController : ControllerBase
         return Ok(userInDb);
     }
 
+    [HttpGet]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
+    [ApiExplorerSettings(GroupName = "v1")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(UserDto), StatusCodes.Status404NotFound)]
+    [Route("details/")]
+    public async Task<IActionResult> GetUserDetailsById(Guid id)
+    {
+        var userInDb = await _service.UserService.GetUserDetailsAsync(id, trackChanges: false);
+        if (userInDb is null)
+            throw new UserNotFoundException(id);
+
+        return Ok(userInDb);
+    }
+
+    [HttpPut]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
+    [ApiExplorerSettings(GroupName = "v1")]
+    [Consumes(typeof(SellerForUpdateDto), "application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Route("address/")]
+    public async Task<IActionResult> UpdateUserAddress(Guid id, UserForAddressUpdateDto userAddressUpdate)
+    {
+        try
+        {
+            var user = await _service.UserService.GetUserAsync(id, trackChanges: true);
+            if (user is null)
+                return BadRequest("UserDto object is null");
+
+            if (userAddressUpdate is null)
+                return BadRequest("UserForAddressUpdateDto object is null");
+
+            if (!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+
+            await _service.UserService.UpdateUserAddressAsync(id, userAddressUpdate, trackChanges: true);
+
+            return Ok();
+        }
+        catch
+        {
+            return NotFound();
+        }
+    }
 
     /*
     [HttpGet(Name = "FilterUserMinAgeSort")]
