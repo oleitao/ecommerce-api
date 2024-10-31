@@ -108,6 +108,22 @@ public class UsersController : ControllerBase
         return Ok(userInDb);
     }
 
+    [HttpGet]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
+    [ApiExplorerSettings(GroupName = "v1")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(UserDto), StatusCodes.Status404NotFound)]
+    [Route("orders/")]
+    public async Task<IActionResult> GetUserOrdersById(Guid userId)
+    {
+        var orders = await _service.OrderService.GetOrderByBuyerIdAsync(userId, trackChanges: false);
+        if (orders is null)
+            throw new OrderNotFoundException(userId);
+
+        return Ok(orders);
+    }
+
     [HttpPut]
     [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]

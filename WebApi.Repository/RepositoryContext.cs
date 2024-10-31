@@ -3,6 +3,7 @@ namespace WebApi.Repository;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Model;
+using StackExchange.Redis;
 using System.Net.Mail;
 using WebApi.Repository.Configuration;
 
@@ -61,6 +62,8 @@ public class RepositoryContext : IdentityDbContext<User>
     {
         base.OnModelCreating(modelBuilder);
 
+        this.OrderStatusMapping(modelBuilder);
+        this.OrderMapping(modelBuilder);
         this.InboxMapping(modelBuilder);
         this.CategoryMapping(modelBuilder);
         this.ImageUrlMapping(modelBuilder);
@@ -73,6 +76,7 @@ public class RepositoryContext : IdentityDbContext<User>
 
         RelationshipsMapping(modelBuilder);
 
+        modelBuilder.ApplyConfiguration(new OrderStatusConfiguration());        
         modelBuilder.ApplyConfiguration(new InboxConfiguration());
         modelBuilder.ApplyConfiguration(new RoleConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
@@ -83,7 +87,33 @@ public class RepositoryContext : IdentityDbContext<User>
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         modelBuilder.ApplyConfiguration(new ReviewConfiguration());
         modelBuilder.ApplyConfiguration(new EmailConfiguration());
+        modelBuilder.ApplyConfiguration(new OrderConfiguration());
     }
+
+    #region OrderStatus Mapping
+
+    private void OrderStatusMapping(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<OrderStatus>().ToTable(@"OrderStatus");
+        modelBuilder.Entity<OrderStatus>().Property(x => x.Id).HasColumnName(@"Id").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<OrderStatus>().Property(x => x.Status).HasColumnName(@"Status").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<OrderStatus>().HasKey(@"Id");
+    }
+
+    #endregion
+
+    #region Order Mapping
+
+    private void OrderMapping(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Model.Order>().ToTable(@"Orders");
+        modelBuilder.Entity<Model.Order>().Property(x => x.Id).HasColumnName(@"Id").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<Model.Order>().Property(x => x.StatusId).HasColumnName(@"StatusId").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<Model.Order>().Property(x => x.Quantity).HasColumnName(@"Quantity").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<Model.Order>().HasKey(@"Id");
+    }
+
+    #endregion
 
     #region Inbox Mapping
 

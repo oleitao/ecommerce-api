@@ -19,6 +19,9 @@ namespace WebApi.Services
         private readonly Lazy<IUserService> _userService;
         private readonly Lazy<IAuthenticationService> _authenticationService;
         private readonly Lazy<IInboxService> _inboxService;
+        private readonly Lazy<IOrderStatusService> _orderStatusService;
+        private readonly Lazy<IOrderService> _orderService;
+
         public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, UserManager<User> userManager, IOptions<JwtConfiguration> configuration)
         {
             _categoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager, mapper));
@@ -30,6 +33,8 @@ namespace WebApi.Services
             _userService = new Lazy<IUserService>(() => new UserService(repositoryManager, mapper));
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(mapper, userManager, configuration));
             _inboxService = new Lazy<IInboxService>(() => new InboxService(repositoryManager, mapper));
+            _orderService = new Lazy<IOrderService>(() => new OrderService(repositoryManager, mapper));
+            _orderStatusService = new Lazy<IOrderStatusService>(() => new OrderStatusService(repositoryManager, mapper));
         }
 
         public ICategoryService CategoryService => _categoryService.Value;
@@ -41,5 +46,7 @@ namespace WebApi.Services
         public IUserService UserService => _userService.Value;
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
         public IInboxService InboxService => _inboxService.Value;
+        public IOrderService OrderService => _orderService.Value;
+        public IOrderStatusService OrderStatusService => _orderStatusService.Value;
     }
 }

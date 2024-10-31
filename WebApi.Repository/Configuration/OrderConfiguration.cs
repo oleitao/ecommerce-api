@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Model;
-using WebApi.Entities;
 
 namespace WebApi.Repository.Configuration
 {
-    internal class UserConfiguration : IEntityTypeConfiguration<User>
+    internal class OrderConfiguration : IEntityTypeConfiguration<Order>
     {
-        public void Configure(EntityTypeBuilder<User> builder) 
+        public void Configure(EntityTypeBuilder<Order> builder) 
         {
-        }
+
+        }    
     }
 }
