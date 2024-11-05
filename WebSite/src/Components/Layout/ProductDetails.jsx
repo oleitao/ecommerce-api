@@ -11,13 +11,21 @@ import { addToWishlist, removeFromWishlist } from "../../Redux/WishlistAction";
 import { useDispatch, useSelector } from "react-redux";
 import { addTocart } from "../../Redux/CartAction";
 import { toast, ToastContainer } from "react-toastify";
-
+import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 
 // hove to zoom image, react magnifiy library
 import ReactImageMagnify from "react-image-magnify";
+import axios from 'axios';
 
-const ProductDetails = ({ data }) => {
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
+
+const ProductDetails = (props) => {
+
+  const { id } = useParams();
+  const [data, setData] = useState(null);
+
   const dispatch = useDispatch();
   const { wishlist } = useSelector((state) => state.wishlist);
   const { cart } = useSelector((state) => state.cart);
@@ -52,6 +60,15 @@ const ProductDetails = ({ data }) => {
   };
 
   useEffect(() => {
+    
+    axios.get('https://localhost:8080/api/v1.1/products/details?id=' + id)
+    .then(response => {
+      setData(response.data); 
+    })
+    .catch(error => {
+      console.log(error);
+    });
+
     if (wishlist && wishlist.find((item) => item?.id === data?.id)) {
       setClick(true);
     } else {
@@ -134,7 +151,7 @@ const ProductDetails = ({ data }) => {
                       select === 1 ? "border" : null
                     } cursor-pointer`}>
                     <img
-                      src={data?.image_Url[1].url}
+                      src={data?.image_Url[0].url}
                       alt="product/image"
                       className="h-[200px]"
                       onClick={() => setSelect(1)}

@@ -57,6 +57,17 @@ namespace WebApi.Services
             }
         }
 
+        public async Task<List<ImageUrlDto>> GetImageUrlByProductIdAsync(Guid productId, bool trackChanges)
+        {
+            var imageUrlsEntity = await _repository.ImageUrl.GetImageUrlByPublicIdAsync(productId.ToString(), trackChanges);
+            if (imageUrlsEntity == null)
+                throw new ImageUrlNotFoundException(productId);
+
+            var returnImageUrl = _mapper.Map<List<ImageUrlDto>>(imageUrlsEntity);
+
+            return returnImageUrl;
+        }
+
         public async Task<ImageUrlDto> CreateImageUrlAsync(ImageUrlForCreationDto imageUrlDto)
         {
             var imageUrlEntity = _mapper.Map<ImageUrl>(imageUrlDto);

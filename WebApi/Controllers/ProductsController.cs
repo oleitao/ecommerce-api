@@ -77,6 +77,27 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
+    [HttpHead]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
+    [ApiExplorerSettings(GroupName = "v1")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(IEnumerable<Product>), StatusCodes.Status200OK)]
+    [Route("top/")]
+    public async Task<IActionResult> GetTopTwentyProducts()
+    {
+        var products = await _service.ProductService.GetTopProductsAsync(trackChanges: false);
+        if (products is null)
+            return ProductNotFoundException();
+
+        return Ok(products);
+    }
+
+    private IActionResult ProductNotFoundException()
+    {
+        throw new NotImplementedException();
+    }
+
+    [HttpGet]
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "v1")]
     [Authorize]
@@ -97,28 +118,21 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet("{id:guid}", Name = "GetProductById")]
+    [HttpGet]
     [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
-    //[Authorize]
     [Produces("application/json")]
     [ProducesResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProductDto), StatusCodes.Status404NotFound)]
+    [Route("details")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetProductById(Guid id)
     {
-        var productsInCache = await CacheHelper.GetKey<ProductDto>($"{key}:{id.ToString()}", _cache);
-        if (productsInCache is null)
-        {
-            var productsInDatabase = await _service.ProductService.GetProductAsync(id, trackChanges: false);
-            if (productsInDatabase is null)
-                throw new ProductNotFoundException(id);
+        var products = await _service.ProductService.GetProductAsync(id, trackChanges: false);
+        if (products is null)
+            throw new ProductNotFoundException(id);
 
-            CacheHelper.SetKey<ProductDto>(productsInDatabase, $"{key}:{productsInDatabase.Id}", _cache);
-
-            return Ok(productsInDatabase);
-        }
-
-        return Ok(productsInCache);
+        return Ok(products);
     }
 
     [HttpPost]

@@ -5,16 +5,36 @@ import Header from "../Components/Layout/Header";
 import Footer from "../Components/Layout/Footer";
 import ProductDetails from "../Components/Layout/ProductDetails";
 import SuggestedProduct from "../Components/Layout/SuggestedProduct";
-import { productData } from "../Static/data";
+
+import axios from 'axios';
+
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
 
 const ProductDetailsPage = () => {
-  const { name } = useParams();
+  const { id } = useParams();
   const [data, setData] = useState(null);
-  const productName = name.replace(/-/g, " ");
+  const [productData, setProductData] = useState(null);
+  
+  const productId = id;
+
+
 
   useEffect(() => {
-    const data = productData.find((item) => item.name === productName);
-    setData(data && data);
+
+      if(productData === null)
+      {
+        axios.get('https://localhost:8080/api/v1.1/products/details?id=' + productId)
+        .then(response => {
+          setProductData(response.data);
+  
+          setData(data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      }     
+      
   });
 
   useEffect(() => {

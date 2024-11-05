@@ -17,7 +17,7 @@ namespace WebApi.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ShopDto>> GetAllShopsAsync(bool trackChanges)
+        public async Task<IEnumerable<Shop>> GetAllShopsAsync(bool trackChanges)
         {
             try
             {
@@ -25,14 +25,7 @@ namespace WebApi.Services
                 if (shops is null)
                     throw new ShopsNotFoundException();
 
-                List<ShopDto> shopsList = new List<ShopDto>();
-                foreach (var shop in shops)
-                {
-                    var shopReturn = await GetShopByIdAsync(shop.Id, trackChanges);
-                    shopsList.Add(shopReturn);
-                }
-
-                return shopsList;
+                return shops;
             }
             catch (Exception ex)
             {
@@ -40,7 +33,7 @@ namespace WebApi.Services
             }
         }
 
-        public async Task<ShopDto> GetShopAsync(Guid id, bool trackChanges)
+        public async Task<Shop> GetShopAsync(Guid id, bool trackChanges)
         {
             try
             {
@@ -56,7 +49,30 @@ namespace WebApi.Services
             }
         }
 
-        public async Task<ShopDto> GetShopByIdAsync(Guid id, bool trackChanges)
+
+        public async Task<List<ShopDto>> GetShopByProductIdAsync(Guid productId, bool trackChanges)
+        {
+            try
+            {
+                var shops = await _repository.Shop.GetShopByProductIdAsync(productId, trackChanges);
+                if (shops == null)
+                    throw new ShopNotFoundException(productId);
+
+                List<ShopDto> shopsList = new List<ShopDto>();
+                foreach (var shop in shops)
+                {
+                    shopsList.Add(new ShopDto(shop.Id, shop.ProductId, shop.Name, shop.Shop_avatar, (int)shop.Ratings, shop.Shop_avatarId));
+                }
+
+                return shopsList;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{nameof(GetShopByProductIdAsync)} : {ex}");
+            }
+        }
+
+        public async Task<Shop> GetShopByIdAsync(Guid id, bool trackChanges)
         {
             var shop = await _repository.Shop.GetShopAsync(id, trackChanges);
             if(shop is null)
@@ -66,48 +82,44 @@ namespace WebApi.Services
             if (shopAvatar is null)
                 throw new ShopNotFoundException(shop.Shop_avatarId);
 
-            var returnShop = _mapper.Map<ShopDto>(shop);
+            if (shop.Shop_avatar is null)
+                shop.Shop_avatar = new ShopAvatar();
 
-            return returnShop;
+            shop.Shop_avatar = shopAvatar;
+
+            return shop;
         }
 
-        public async Task<ShopDto> CreateShopAsync(ShopForCreationDto shopCreation)
+        public async Task<ShopDto> CreateShopAsync(SellerShopCreationDto shopCreation)
         {
-            var shopEntity = _mapper.Map<Shop>(shopCreation);
-            if(shopEntity.Id.Equals(Guid.Empty))
-                shopEntity.Id = Guid.NewGuid();
-
-            if (shopCreation.ShopAvatarId != Guid.Empty && shopCreation.Shop_avatar is null)
+            Shop shop = new Shop()
             {
-                var shopAvatarEntity = await _repository.ShopAvatar.GetShopAvatarAsync(shopCreation.ShopAvatarId, trackChanges: false);
-                if(shopAvatarEntity  is null)
-                    throw new ShopAvatarNotFoundException(shopCreation.ShopAvatarId);
-
-                shopEntity.Shop_avatar = shopAvatarEntity;
-            }
-            else if (shopCreation.ShopAvatarId == Guid.Empty && shopCreation.Shop_avatar is not null)
-            {
-                shopEntity.Shop_avatar = new ShopAvatar()
-                {
+                Id = Guid.NewGuid(),
+                Name = shopCreation.Name,
+                ProductId = Guid.NewGuid(),
+                Ratings = 0,
+                UserId = shopCreation.UserId,
+                Shop_avatar = new ShopAvatar() {
                     Id = Guid.NewGuid(),
-                    Public_id = shopCreation.Shop_avatar.Public_id,
-                    Url = shopCreation.Shop_avatar.Url
-                };
+                    Public_id = "test",
+                    Url= string.Empty
+                },
+                IsValid = false
+            };
 
-                shopEntity.Shop_avatarId = shopEntity.Shop_avatar.Id;
+            try
+            {
+                _repository.Shop.CreateShopAsync(shop);
+                await _repository.SaveAsync();
 
-                _repository.ShopAvatar.CreateShopAvatarAsync(shopEntity.Shop_avatar);
+                return new ShopDto(shop.Id, shop.ProductId, shop.Name, shop.Shop_avatar, (int)shop.Ratings, shop.Shop_avatar.Id);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
             }
 
-            _mapper.Map(shopCreation, shopEntity);
-
-            _repository.Shop.CreateShopAsync(shopEntity);
-
-            var returnShop = _mapper.Map<ShopDto>(shopEntity);
-
-            await _repository.SaveAsync();            
-
-            return returnShop;
         }
 
         public async Task UpdateShopAsync(Guid id, ShopForUpdateDto shopUpdate, bool trackChanges)
@@ -138,8 +150,8 @@ namespace WebApi.Services
                 throw new ShopsNotFoundException();
 
 
-        await _repository.Shop.DeleteShopsByProductIdAsync(shopsEntity);
-        await _repository.SaveAsync();
+            await _repository.Shop.DeleteShopsByProductIdAsync(shopsEntity);
+            await _repository.SaveAsync();
+        }
     }
-}
 }

@@ -30,7 +30,7 @@ namespace WebApi.Services
                 List<ProductDto> returnList = new List<ProductDto>();
                 foreach (var productEntity in productsEntity)
                 {
-                    //var productEntity = await GetProductByIdAsync(productEntity.Id, trackChanges);
+                    //var product = await GetProductByIdAsync(product.Id, trackChanges);
                     var returnProduct = _mapper.Map<ProductDto>(productEntity);
                     returnList.Add(returnProduct);
                 }
@@ -40,6 +40,43 @@ namespace WebApi.Services
             catch (Exception ex)
             {
                 throw new Exception($"{nameof(GetAllProductsAsync)} : {ex}");
+            }
+        }
+
+        public async Task<IEnumerable<Product>> GetTopProductsAsync(bool trackChanges)
+        {
+            try
+            {
+                var products = await _repository.Product.GetTopProductsAsync(trackChanges);
+                if (products is null)
+                    throw new ProductsNotFoundException();
+
+                foreach (var product in products)
+                {
+                    if(product.Image_Url is null)
+                        product.Image_Url = new List<ImageUrl>();
+
+                    var images = await _repository.ImageUrl.GetImageUrlByPublicIdAsync(product.Id.ToString(), false);
+                    if (images is null)
+                        throw new ImageUrlsNotFoundException();
+
+                    product.Image_Url = images.ToList();
+
+                    if (product.Shop is null)
+                        product.Shop = new Shop();
+
+                    var shop = await _repository.Shop.GetShopByProductIdAsync(product.Id, false);
+                    if (shop is null)
+                        throw new ShopNotFoundException();
+
+                    product.Shop = shop.FirstOrDefault();
+                }
+
+                return products;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{nameof(GetTopProductsAsync)} : {ex}");
             }
         }
 
@@ -225,7 +262,7 @@ namespace WebApi.Services
 
         public async Task UpdateProductAsync(Guid id, ProductForUpdateDto productForUpdateDto, bool trackChanges)
         {
-            //var productEntity = _mapper.Map<Product>(productForUpdateDto);
+            //var product = _mapper.Map<Product>(productForUpdateDto);
 
             try
             {
@@ -238,7 +275,7 @@ namespace WebApi.Services
                 var productEntity = await _repository.Product.GetProductAsync(id, trackChanges);
 
 
-                //_mapper.Map(productForUpdateDto, productEntity);
+                //_mapper.Map(productForUpdateDto, product);
 
                 if (productEntity is not null)
                 {
@@ -334,7 +371,7 @@ namespace WebApi.Services
                         Id = Guid.NewGuid(),
                         Public_id = image.Public_id,
                         Url = image.Url,
-                        ProductId = productEntity.Id
+                        ProductId = product.Id
                     });
                 }
                 */
@@ -351,7 +388,7 @@ namespace WebApi.Services
                             Id = Guid.NewGuid(),
                             Public_id = image.Public_id,
                             Url = image.Url,
-                            ProductId = productEntity.Id
+                            ProductId = product.Id
                         });
                     }
                 }
@@ -472,6 +509,24 @@ namespace WebApi.Services
 
             _repository.Product.DeleteShopProducts(productShops);
             await _repository.SaveAsync();
+        }
+
+
+        public async Task<IEnumerable<Product>> GetShopProductsByShopIdAsync(Guid shopId, bool trackChanges)
+        {
+            var shop = await _repository.Shop.GetAllShopsAsync(trackChanges);
+            if(shop is null)
+                throw new Exception();
+
+            var shopItem = shop.Where(c => c.UserId == shopId).FirstOrDefault();
+            if(shopItem is null)
+                throw new Exception();
+
+            var productShops = await _repository.Product.GetAllProductsAsync(trackChanges);
+            if (productShops is null)
+                throw new Exception();
+
+            return productShops.Where(c => c.ShopId == shopItem.Id).ToList();
         }
     }
 }

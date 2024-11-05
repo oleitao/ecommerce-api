@@ -235,6 +235,7 @@ export const brandingData = [
 // ];
 
 // product Data
+/*
 export const productData = [
   {
     id: 1,
@@ -1124,7 +1125,7 @@ export const productData = [
     stock: 7,
   },
 ];
-
+*/
 export const footerProductLinks = [
   {
     name: "About us",

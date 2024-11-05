@@ -6,6 +6,7 @@ namespace WebApi.Contracts
     public interface IProductRepository
     {
         public Task<IEnumerable<Product>> GetAllProductsAsync(bool trackChanges);
+        public Task<IEnumerable<Product>> GetTopProductsAsync(bool trackChanges);
         public Task<IEnumerable<Product?>> GetProductsByCategoryAsync(Guid categoryId, bool trackChanges);
         public Task<Product?> GetProductAsync(Guid productId, bool trackChanges);
         public Task<IEnumerable<Product>> GetPagingProductsAsync(Guid companyId, ProductParameters productParameters, bool trackChanges);

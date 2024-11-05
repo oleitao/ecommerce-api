@@ -30,8 +30,7 @@ const Product = ({ data }) => {
   const [click, setClick] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const d = data.name;
-  const product_name = d.replace(/\s+/g, "-");
+  const product_id = data.id;
 
   useEffect(() => {
     if (wishlist && wishlist.find((item) => item.id === data.id)) {
@@ -66,7 +65,7 @@ const Product = ({ data }) => {
     <div className="bg-white rounded-lg shadow-sm w-full h-[330px] relative p-3 cursor-pointer">
       <div className="flex justify-end"></div>
 
-      <Link to={`/product/${product_name}`}>
+      <Link to={`/product/${product_id}`}>
         <img
           src={data.image_Url[0].url}
           alt="product/image"
@@ -80,7 +79,7 @@ const Product = ({ data }) => {
         </h5>
       </Link>
 
-      <Link to={`/product/${product_name}`}>
+      <Link to={`/product/${product_id}`}>
         <h4 className="pb-3 font-[500]">
           {data.name.length > 40 ? data.name.slice(0, 40) + "..." : data.name}
         </h4>

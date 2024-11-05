@@ -111,12 +111,10 @@ const ResponsiveHeader = ({
                     <div className="absolute min-h-[30vh] shadow-sm-2 bg-slate-50 z-[9] p-4">
                       {serachData &&
                         serachData.map((product, i) => {
-                          const data = product.name;
-
-                          const product_name = data.replace(/\s+/g, "-");
+                          const product_id = product.id;
 
                           return (
-                            <Link to={`/product/${product_name}`}>
+                              <Link to={`/product/${product_id}`}>
                               <div
                                 className="w-full flex items-center py-3"
                                 key={i}>

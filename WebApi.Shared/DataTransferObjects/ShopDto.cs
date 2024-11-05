@@ -3,8 +3,10 @@
 namespace WebApi.Shared.DataTransferObjects
 {
     [Serializable]
-    public record ShopDto(Guid Id, Guid ProductId, string Name, ShopAvatar? Shop_avatar, int Ratings, Guid ShopAvatarId);
+    public record ShopDto(Guid Id, Guid ProductId, string Name, ShopAvatar? Shop_avatar, int Ratings, Guid ShopAvatarId)
+    {
 
+    }
 
     public record ShopForCreationDto
     (
@@ -13,6 +15,12 @@ namespace WebApi.Shared.DataTransferObjects
         double Ratings,
         Guid ProductId,
         Guid ShopAvatarId
+    );
+
+    public record SellerShopCreationDto
+    (
+        string Name,
+        Guid UserId
     );
 
     public record ShopForUpdateDto(Guid ProductId, string Name, ShopAvatar? Shop_avatar, double Ratings, Guid ShopAvatarId);

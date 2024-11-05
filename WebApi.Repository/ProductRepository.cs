@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Model;
 using System.Collections.Immutable;
+using System.Linq.Dynamic.Core;
 using WebApi.Contracts;
 using WebApi.Entities.RequestFeatures;
 using WebApi.Repository.Extensions;
@@ -18,6 +19,13 @@ namespace WebApi.Repository
         public async Task<IEnumerable<Product>> GetAllProductsAsync(bool trackChanges)
         {
             return await FindAll(trackChanges).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetTopProductsAsync(bool trackChanges)
+        {
+            return await FindAll(trackChanges)
+                .Take(20)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Product?>> GetProductsByCategoryAsync(Guid categoryId, bool trackChanges)

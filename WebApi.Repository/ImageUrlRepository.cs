@@ -35,7 +35,10 @@ namespace WebApi.Repository
 
         public async Task<IEnumerable<ImageUrl>> GetImageUrlByPublicIdAsync(string public_id, bool trackChanges)
         {
-            return await FindByCondition(c => c.Public_id.Equals(public_id), trackChanges).ToListAsync();
+            //return await FindByCondition(c => c.Public_id.Equals(public_id), trackChanges).ToListAsync();
+            return await FindAll(trackChanges)
+                .Where(c => c.ProductId.ToString().Equals(public_id))
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<ImageUrl>> GetImageUrlByPoductIdAsync(Guid productId, bool trackChanges)

@@ -97,6 +97,22 @@ public class ReviewsController : ControllerBase
         return Ok(reviewInCache);
     }
 
+    [HttpGet]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
+    [ApiExplorerSettings(GroupName = "v1")]    
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(ReviewDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ReviewDto), StatusCodes.Status404NotFound)]
+    [Route("product")]
+    public async Task<IActionResult> GetReviewsByProductId(Guid id)
+    {
+        var reviews = await _service.ReviewService.GetReviewsByProductIdAsync(id, trackChanges: false);
+        if (reviews is null)
+            throw new ReviewsNotFoundException();
+
+        return Ok(reviews);
+    }
+
     [HttpPost]
     [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]

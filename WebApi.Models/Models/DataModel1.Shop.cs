@@ -38,6 +38,9 @@ namespace Model
         public Guid Shop_avatarId { get; set; }
         public ShopAvatar? Shop_avatar { get; set; }
 
+        public Guid UserId { get; set; }
+        public bool IsValid { get; set; }
+
 
         #region Extensibility Method Definitions
 

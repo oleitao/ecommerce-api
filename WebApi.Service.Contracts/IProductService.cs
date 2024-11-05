@@ -7,6 +7,7 @@ namespace WebApi.Service.Contracts
     public interface IProductService
     {
         public Task<IEnumerable<ProductDto>> GetAllProductsAsync(bool trackChanges);
+        public Task<IEnumerable<Product>> GetTopProductsAsync(bool trackChanges);
         public Task<IEnumerable<ProductDto>> FilterProductsSortedAsync(ProductParameters productParameters, bool trackChanges);
         public Task<ProductDto> GetProductAsync(Guid id, bool trackChanges);
         public Task<IEnumerable<ProductDto>> GetProductsByCategoryAsync(Guid categoryId, bool trackChanges);
@@ -20,5 +21,6 @@ namespace WebApi.Service.Contracts
         public Task<(IEnumerable<ProductDto> products, MetaData metaData)> GetPagedProductsAsync(Guid categoryId, ProductParameters productParameters, bool trackChanges);
         public Task DeleteProductByCategoryAsync(Guid categoryId);
         public Task DeleteProductByShopAsync(Guid shopId);
+        public Task<IEnumerable<Product>> GetShopProductsByShopIdAsync(Guid shopId, bool trackChanges);
     }
 }

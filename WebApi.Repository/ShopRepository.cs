@@ -31,7 +31,9 @@ namespace WebApi.Repository
 
         public async Task<IEnumerable<Shop>> GetShopByProductIdAsync(Guid productId, bool trackChanges)
         {
-            return await FindByCondition(c => c.ProductId.Equals(productId), trackChanges).ToListAsync();
+            return await FindAll(trackChanges)
+                //.Where(c => c.ProductId.Equals(productId))
+                .ToListAsync();
         }
 
         public async Task DeleteShopsByProductIdAsync(IEnumerable<Shop> shops)

@@ -73,7 +73,7 @@ public class SellersController : ControllerBase
     [Produces("application/json")]
     [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(UserDto), StatusCodes.Status404NotFound)]
-    [Route("sellers/")]
+    [Route("seller/")]
     public async Task<IActionResult> GetUserOrdersById(Guid userId)
     {
         var orders = await _service.OrderService.GetOrderBySellerIdAsync(userId, trackChanges: false);
@@ -81,5 +81,21 @@ public class SellersController : ControllerBase
             throw new OrderNotFoundException(userId);
 
         return Ok(orders);
+    }
+
+    [HttpGet]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
+    [ApiExplorerSettings(GroupName = "v1")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(UserDto), StatusCodes.Status404NotFound)]
+    [Route("details/")]
+    public async Task<IActionResult> GetSellerDetailsById(Guid sellerId)
+    {
+        var seller = await _service.ShopService.GetShopByIdAsync(sellerId, trackChanges: false);
+        if (seller is null)
+            throw new UserNotFoundException(sellerId);
+        
+        return Ok(seller);
     }
 }

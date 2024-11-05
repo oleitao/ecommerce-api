@@ -98,6 +98,24 @@ public class ImageUrlsController : ControllerBase
         return Ok(imageUrlInCache);
     }
 
+    [HttpGet]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
+    [ApiExplorerSettings(GroupName = "v1")]
+    [Produces("application/json")]
+    //[Authorize]
+    [ProducesResponseType(typeof(ImageUrlDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ImageUrlDto), StatusCodes.Status404NotFound)]
+    [Route("product/")]
+    public async Task<IActionResult> GetImageUrlByProductId(Guid id)
+    {
+        var productImages = await _service.ImageUrlService.GetImageUrlByProductIdAsync(id, trackChanges: false);
+        if (productImages is null)
+            throw new ImageUrlNotFoundException(id);
+
+        return Ok(productImages);
+    }
+
+
     [HttpPost]
     [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]

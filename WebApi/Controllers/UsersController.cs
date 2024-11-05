@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -122,6 +123,22 @@ public class UsersController : ControllerBase
             throw new OrderNotFoundException(userId);
 
         return Ok(orders);
+    }
+
+    [HttpGet]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
+    [ApiExplorerSettings(GroupName = "v1")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(UserDto), StatusCodes.Status404NotFound)]
+    [Route("numberproducts/")]
+    public async Task<IActionResult> GetShopNumberProducts(Guid shopId)
+    {
+        var products = await _service.ProductService.GetShopProductsByShopIdAsync(shopId, trackChanges: false);
+        if(products is null)
+            throw new ShopNotFoundException(shopId);
+
+        return Ok(products.Count());
     }
 
     [HttpPut]

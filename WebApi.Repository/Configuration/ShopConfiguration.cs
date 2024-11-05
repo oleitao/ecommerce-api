@@ -15,7 +15,8 @@ namespace WebApi.Repository.Configuration
                     Name = "Apple inc",
                     Id = new Guid("C2264D48-6F36-4B1A-BF95-3C62F67F2AC0"),
                     Shop_avatarId = new Guid("41635D09-6C09-40CD-89C5-17F81AB497FC"),
-                    Ratings = 4
+                    Ratings = 4,                     
+                    IsValid = true,
                 }
             );
         }

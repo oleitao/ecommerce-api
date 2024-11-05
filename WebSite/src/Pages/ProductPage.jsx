@@ -1,30 +1,50 @@
 import React, { useEffect, useState } from "react";
 import Header from "../Components/Layout/Header";
-import { productData } from "../Static/data";
 import { useSearchParams } from "react-router-dom";
 import Product from "../Components/Layout/Product";
 import Footer from "../Components/Layout/Footer";
 import styles from "../Styles/Style";
 
 import { motion } from "framer-motion";
+import axios from 'axios';
+
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
 
 const ProductPage = () => {
   const [searchParams] = useSearchParams();
   const categoryData = searchParams.get("category");
   const [data, setData] = useState();
-
+  const [images, setImages] = useState();
+  const [shops, setShops] = useState();
+  
+  // localStorage user data
+  const isUser = localStorage.getItem("user");
+  
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
-    if (categoryData === null) {
-      const d = productData.sort((a, b) => a.total_sell - b.total_sell);
-      setData(d);
-    } else {
-      const d = productData.filter((data) => data.category === categoryData);
-      setData(d);
-    }
+
+    axios.get('https://localhost:8080/api/v1.1/products/top')
+    .then(response => {
+
+      const productData = JSON.parse(JSON.stringify(response.data));
+
+      if (categoryData === null) {
+        const d = productData.sort((a, b) => a.total_sell - b.total_sell);
+        setData(d);
+      } else {
+        const d = productData.filter((productData) => productData.category === categoryData);
+        setData(d);
+      }
+      
+    })
+    .catch(error => {
+      console.log(error);
+    });
+
   }, []);
 
   return (

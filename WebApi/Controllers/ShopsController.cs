@@ -1,7 +1,9 @@
 ﻿namespace WebApi.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using StackExchange.Redis;
@@ -72,39 +74,47 @@ public class ShopsController : ControllerBase
         return Ok(shops);
     }
 
-
-    [HttpGet("{id:guid}", Name = "GetShopById")]
+    [HttpGet]
     [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
-    //[Authorize]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(IEnumerable<ShopDto>), StatusCodes.Status200OK)]
+    [Route("product/")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetShopsByProductId(Guid id)
+    {
+        var productShops = await _service.ShopService.GetShopByProductIdAsync(id, trackChanges: false);
+        if(productShops is null)
+            throw new OrderNotFoundException();
+
+        return Ok(productShops);
+    }
+
+
+    [HttpGet]
+    [ApiVersion(version: VersionHelper.ApiVersion)]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(ShopDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ShopDto), StatusCodes.Status404NotFound)]
+    [Route("shop/")]
     public async Task<IActionResult> GetShopById(Guid id)
     {
-        var shopInCache = await CacheHelper.GetKey<ShopDto>($"{key}:{id.ToString()}", _cache);
-        if (shopInCache is null)
-        {
-            var shopInDatabase = await _service.ShopService.GetShopAsync(id, trackChanges: false);
-            if (shopInDatabase is null)
-                throw new ShopNotFoundException(id);
+        var shop = await _service.ShopService.GetShopAsync(id, trackChanges: false);
+        if (shop is null)
+            throw new ShopNotFoundException(id);
 
-            CacheHelper.SetKey<ShopDto>(shopInDatabase, $"{key}:{shopInDatabase.Id}", _cache);
-
-            return Ok(shopInDatabase);
-        }
-
-        return Ok(shopInCache);
+        return Ok(shop);
     }
 
     [HttpPost]
     [ApiVersion(version: VersionHelper.ApiVersion)]
     [ApiExplorerSettings(GroupName = "v1")]
-    //[Authorize]
     [Consumes(typeof(ShopForCreationDto), "application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<IActionResult> CreateShop([FromBody] ShopForCreationDto shop)
+    [Route("create/")]
+    public async Task<IActionResult> CreateShop([FromBody] SellerShopCreationDto shop)
     {
         if (shop is null)
             return BadRequest("ShopForCreationDto is null");
@@ -113,10 +123,13 @@ public class ShopsController : ControllerBase
             return UnprocessableEntity(shop);
 
         var createdShop = await _service.ShopService.CreateShopAsync(shop);
+        if (createdShop is null)
+            throw new ShopNotFoundException();
 
-        CacheHelper.SetKey(createdShop, $"{key}:{createdShop.Id}", _cache);
+        //CacheHelper.SetKey(createdShop, $"{key}:{createdShop.Id}", _cache);
 
-        return CreatedAtRoute("GetShopById", new { id = createdShop.Id }, createdShop);
+        //return CreatedAtRoute("GetShopById", new { id = createdShop.Id }, createdShop);
+        return Ok(createdShop);
     }
 
     [HttpPut("{id:guid}")]
@@ -125,7 +138,7 @@ public class ShopsController : ControllerBase
     //[Authorize]
     public async Task<IActionResult> UpdateShop(Guid id, ShopForUpdateDto shopUpdate)
     {
-        var key = $"{nameof(ShopDto)}:{id.ToString()}";
+        var key = $"{nameof(Model.Shop)}:{id.ToString()}";
 
         var shop = await _service.ShopService.GetShopAsync(id, trackChanges: true);
         if (shop is null)
@@ -137,12 +150,12 @@ public class ShopsController : ControllerBase
         if (!ModelState.IsValid)
             return UnprocessableEntity(ModelState);
 
-        var shopInCache = await CacheHelper.GetKey<ShopDto>(key, _cache);
+        var shopInCache = await CacheHelper.GetKey<Model.Shop>(key, _cache);
         if (shopInCache is null)
         {
             await _service.ShopService.UpdateShopAsync(id, shopUpdate, trackChanges: true);
 
-            CacheHelper.SetKey<ShopDto>(shop, key, _cache);
+            CacheHelper.SetKey<Model.Shop>(shop, key, _cache);
         }
         else
         {
@@ -151,7 +164,7 @@ public class ShopsController : ControllerBase
 
             var returnShop = await _service.ShopService.GetShopAsync(id, trackChanges: true);
 
-            CacheHelper.SetKey<ShopDto>(shop, key, _cache);
+            CacheHelper.SetKey<Model.Shop>(shop, key, _cache);
 
 
             return Ok(returnShop);
@@ -185,10 +198,10 @@ public class ShopsController : ControllerBase
         key = $"{nameof(ShopAvatarDto)}:{id.ToString()}";
         var shopAvatarInCache = await _cache.GetStringAsync(key);
         if (shopAvatarInCache is null)
-            await _service.ShopAvatarService.DeleteShopAvatarAsync(shop.ShopAvatarId, trackChanges: false);
+            await _service.ShopAvatarService.DeleteShopAvatarAsync(shop.Shop_avatarId, trackChanges: false);
         else
         {
-            await _service.ShopAvatarService.DeleteShopAvatarAsync(shop.ShopAvatarId, trackChanges: false);
+            await _service.ShopAvatarService.DeleteShopAvatarAsync(shop.Shop_avatarId, trackChanges: false);
             await _cache.RemoveAsync(key);
         }
 

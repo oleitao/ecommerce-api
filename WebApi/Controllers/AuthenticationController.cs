@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WebApi.ActionFilters;
 using WebApi.Entities.Exceptions;
@@ -87,6 +88,18 @@ namespace WebApi.Controllers
                     errors.Add(error.Code + ": " + error.Description);
                 }
                 return Ok(errors.ToArray());
+            }
+            else
+            {
+                var sellerShopId = await _service.UserService.GetAllUsersAsync(false);
+                if (sellerShopId is null)
+                    throw new UserNotFoundException();
+
+                var item = sellerShopId.Where(x => x.UserName == sellerForRegistration.Name).FirstOrDefault();
+                if(item != null)
+                    await _service.ShopService.CreateShopAsync(new SellerShopCreationDto(sellerForRegistration.Name, item.Id));
+                else
+                    throw new ShopNotFoundException();
             }
 
             return StatusCode(201);

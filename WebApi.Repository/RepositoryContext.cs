@@ -217,6 +217,7 @@ public class RepositoryContext : IdentityDbContext<User>
         modelBuilder.Entity<Shop>().Property(x => x.Name).HasColumnName(@"Name").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Shop>().Property(x => x.Ratings).HasColumnName(@"Ratings").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Shop>().Property(x => x.Shop_avatarId).HasColumnName(@"Shop_avatarId").IsRequired().ValueGeneratedNever();
+        modelBuilder.Entity<Shop>().Property(x => x.IsValid).HasColumnName(@"IsValid").IsRequired().ValueGeneratedNever();
         modelBuilder.Entity<Shop>().HasKey(@"Id");
     }
 

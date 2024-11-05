@@ -147,5 +147,14 @@ namespace WebApi.Services
             await _repository.Review.DeleteReviewByProductIdAsync(reviews);
             await _repository.SaveAsync();
         }
+
+        public async Task<IEnumerable<Review>> GetReviewsByProductIdAsync(Guid productId, bool trackChanges)
+        {
+            var reviews = await _repository.Review.GetReviewByProductIdAsync(productId, trackChanges);
+            if (reviews is null)
+                throw new ReviewsNotFoundException();
+
+            return reviews;
+        }
     }
 }
